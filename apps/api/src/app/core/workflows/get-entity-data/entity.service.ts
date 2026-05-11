@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
-import type { EntityResponse } from 'streaming-service/model';
+import type { EntityResponse } from '@streaming-service/model';
 
 @Injectable()
 export class EntityService {

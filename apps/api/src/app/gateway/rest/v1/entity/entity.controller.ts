@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { API_ENDPOINTS } from 'streaming-service/config';
-import { EntityResponse } from 'streaming-service/model';
+import { API_ENDPOINTS } from '@streaming-service/config';
+import { EntityResponse } from '@streaming-service/model';
 
 import { EntityService } from '../../../../core/workflows/get-entity-data/entity.service';
 
