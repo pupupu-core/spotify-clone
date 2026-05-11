@@ -78,6 +78,14 @@ export default [
         {
           alphabetize: { order: 'asc' },
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          pathGroups: [
+            {
+              pattern: 'streaming-service/**',
+              group: 'internal',
+              position: 'after',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',
         },
       ],
