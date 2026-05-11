@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
-import type { EntityResponse } from '@angular-nest-monorepo-starter/model';
+import type { EntityResponse } from '@streaming-service/model';
 
 @Injectable()
 export class EntityService {

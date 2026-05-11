@@ -73,14 +73,7 @@ export default [
           ],
         },
       ],
-      'import-x/order': [
-        'error',
-        {
-          alphabetize: { order: 'asc' },
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-          'newlines-between': 'always',
-        },
-      ],
+      'import-x/order': 'off',
       'import-x/no-cycle': ['error', { maxDepth: Infinity }],
       'import-x/first': 'error',
       '@typescript-eslint/consistent-type-imports': 'error',

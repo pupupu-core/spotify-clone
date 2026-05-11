@@ -1,5 +1,5 @@
 {
-  "name": "angular-nest-monorepo-starter",
+  "name": "streaming-service",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -16,7 +16,7 @@
     "lint:api:check": "nx run api:lint",
     "lint:api:fix": "nx run api:lint -- --fix",
     "lint:affected": "nx affected -t lint",
-    "lint:staged": "lint-staged",
+    "lint:staged": "lint-staged --allow-empty",
     "typecheck:web": "nx run web:typecheck",
     "typecheck:api": "nx run api:typecheck",
     "typecheck:packages": "tsc -p packages/shared/model/tsconfig.json --noEmit && tsc -p packages/shared/utils/tsconfig.json --noEmit && tsc -p packages/shared/config/tsconfig.json --noEmit",
@@ -31,7 +31,12 @@
     "stylelint:affected": "nx affected -t stylelint",
     "stylelint:affected:fix": "nx affected -t stylelint-fix",
     "commitlint": "commitlint --edit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build": "nx run-many -t build",
+    "build:backend": "nx run api:build",
+    "build:frontend": "nx run web:build",
+    "build:affected": "nx affected -t build",
+    "reset": "pnpm nx reset"
   },
   "private": true,
   "devDependencies": {
@@ -108,6 +113,7 @@
     "@nestjs/platform-express": "^11.0.0",
     "axios": "^1.6.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "zone.js": "^0.16.2"
   }
 }
