@@ -1,4 +1,20 @@
-# Angular Nest Monorepo Starter
+# Pupufy
+
+## About pupufy
+
+### Project description
+The Pupufy application is an implementation of [Jamendo API](https://developer.jamendo.com/v3.0/docs). It allows free access to stream and download more than 350,000 songs from the Jamendo catalog - all published under Creative Commons licences - without advertisements. With Jamendo's featured selections, the user can easily discover and listen to albums, songs and the most popular artists.
+
+### Team members
+
+| Name | Github |
+| ---- | ------ |
+| Anastasia Savrukhina |[savryna](https://github.com/savryna) |
+| Nikita Melnikov |[tryproxy](https://github.com/tryproxy) |
+| Vsevolod Timoshenko |[shoblinsky](https://github.com/shoblinsky) |
+| Hanna Surmach | [khasekai](https://github.com/khasekai) |
+
+## Angular Nest Monorepo Starter
 
 Nx monorepo with:
 
@@ -10,7 +26,7 @@ Nx monorepo with:
 
 More structure notes: [docs/architecture.md](./docs/architecture.md)
 
-## Run
+### Run
 
 Install dependencies:
 
@@ -36,7 +52,7 @@ Run only frontend:
 pnpm serve:frontend
 ```
 
-## Checks
+### Checks
 
 ```bash
 pnpm format:check
@@ -53,7 +69,7 @@ pnpm lint:fix
 pnpm stylelint:web:fix
 ```
 
-## Top Level Structure
+### Top Level Structure
 
 ```text
 apps/
@@ -67,7 +83,7 @@ packages/
     config/
 ```
 
-## Generate
+### Generate
 
 Angular:
 
