@@ -31,7 +31,12 @@
     "stylelint:affected": "nx affected -t stylelint",
     "stylelint:affected:fix": "nx affected -t stylelint-fix",
     "commitlint": "commitlint --edit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build": "nx run-many -t build",
+    "build:backend": "nx run api:build",
+    "build:frontend": "nx run web:build",
+    "build:affected": "nx affected -t build",
+    "reset": "pnpm nx reset"
   },
   "private": true,
   "devDependencies": {
