@@ -1,0 +1,16 @@
+# Build outputs
+/dist
+/coverage
+/out-tsc
+/tmp
+
+# Tool caches
+/.nx/cache
+/.nx/workspace-data
+.angular
+
+# Dependencies
+/node_modules
+
+# Generated lockfile
+pnpm-lock.yaml

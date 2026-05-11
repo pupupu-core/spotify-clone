@@ -1,0 +1,8 @@
+- [x] init nx angualr nestjs
+- [ ] add all necessary deps
+- [x] add specific lint rules, etc.
+- [ ] add formater
+- [ ] add requestet configurations
+- [ ] st up ci
+- [ ] set up deploy
+- [ ] specify unit test for backend app

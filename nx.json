@@ -1,0 +1,90 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "analytics": false,
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": [
+      "default",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.mjs",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json"
+    ],
+    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps",
+        "serveStaticTargetName": "serve-static"
+      }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/playwright/plugin",
+      "options": {
+        "targetName": "e2e"
+      }
+    },
+    {
+      "plugin": "@nx/vitest",
+      "options": {
+        "testTargetName": "test",
+        "ciTargetName": "test-ci",
+        "testMode": "watch"
+      }
+    }
+  ],
+  "targetDefaults": {
+    "@angular/build:application": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "@angular/build:unit-test": {
+      "cache": true,
+      "inputs": ["default", "^production"]
+    }
+  },
+  "generators": {
+    "@nx/angular:application": {
+      "e2eTestRunner": "playwright",
+      "linter": "eslint",
+      "style": "scss",
+      "unitTestRunner": "vitest-angular"
+    },
+    "@nx/angular:component": {
+      "style": "css",
+      "inlineStyle": false,
+      "inlineTemplate": false,
+      "skipTests": false,
+      "type": "component"
+    },
+    "@nx/angular:service": {
+      "type": "service"
+    },
+    "@nx/angular:directive": {
+      "type": "directive"
+    },
+    "@nx/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:resolver": {
+      "typeSeparator": "."
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "vitest-analog"
+    }
+  }
+}
