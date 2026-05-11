@@ -1,5 +1,5 @@
 {
-  "name": "angular-nest-monorepo-starter",
+  "name": "streaming-service",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -16,7 +16,7 @@
     "lint:api:check": "nx run api:lint",
     "lint:api:fix": "nx run api:lint -- --fix",
     "lint:affected": "nx affected -t lint",
-    "lint:staged": "lint-staged",
+    "lint:staged": "lint-staged --allow-empty",
     "typecheck:web": "nx run web:typecheck",
     "typecheck:api": "nx run api:typecheck",
     "typecheck:packages": "tsc -p packages/shared/model/tsconfig.json --noEmit && tsc -p packages/shared/utils/tsconfig.json --noEmit && tsc -p packages/shared/config/tsconfig.json --noEmit",

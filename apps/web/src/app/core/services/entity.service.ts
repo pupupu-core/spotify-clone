@@ -1,8 +1,8 @@
 import { httpResource } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { API_ENDPOINTS } from '@angular-nest-monorepo-starter/config';
-import type { EntityResponse } from '@angular-nest-monorepo-starter/model';
+import { API_ENDPOINTS } from 'streaming-service/config';
+import type { EntityResponse } from 'streaming-service/model';
 
 @Injectable({
   providedIn: 'root',
