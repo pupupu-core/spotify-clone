@@ -8,7 +8,7 @@ Nx monorepo with:
 - `packages/shared/utils` - shared pure utilities
 - `packages/shared/config` - shared constants/config
 
-More structure notes: [docs/architecture.md](/mnt/secure/@home/dashweb/dev/courses/rs/frontend/angular-2026q2/angular-spotify-v2/docs/architecture.md)
+More structure notes: [docs/architecture.md](./docs/architecture.md)
 
 ## Run
 
