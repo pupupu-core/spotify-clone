@@ -2,12 +2,8 @@
 
 -
 
-## Trello ticket number?
+## Trello ticket
 
 -
 
-## Checklist before merging
-
-- [ ] If this changes core behavior, I added tests.
-- [ ] I added or updated documentation if behavior changed.
-- [ ] I noted any release or rollout impact.
+## Screenshot (optional)

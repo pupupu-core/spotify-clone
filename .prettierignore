@@ -14,7 +14,3 @@
 
 # Generated lockfile
 pnpm-lock.yaml
-
-# readme and development notes folder
-README.md
-development-notes/

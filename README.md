@@ -3,16 +3,17 @@
 ## About pupufy
 
 ### Project description
+
 The Pupufy application is an implementation of [Jamendo API](https://developer.jamendo.com/v3.0/docs). It allows free access to stream and download more than 350,000 songs from the Jamendo catalog - all published under Creative Commons licences - without advertisements. With Jamendo's featured selections, the user can easily discover and listen to albums, songs and the most popular artists.
 
 ### Team members
 
-| Name | Github |
-| ---- | ------ |
-| Anastasia Savrukhina |[savryna](https://github.com/savryna) |
-| Nikita Melnikov |[tryproxy](https://github.com/tryproxy) |
-| Vsevolod Timoshenko |[shoblinsky](https://github.com/shoblinsky) |
-| Hanna Surmach | [khasekai](https://github.com/khasekai) |
+| Name                 | Github                                      |
+| -------------------- | ------------------------------------------- |
+| Anastasia Savrukhina | [savryna](https://github.com/savryna)       |
+| Nikita Melnikov      | [tryproxy](https://github.com/tryproxy)     |
+| Vsevolod Timoshenko  | [shoblinsky](https://github.com/shoblinsky) |
+| Hanna Surmach        | [khasekai](https://github.com/khasekai)     |
 
 ## Angular Nest Monorepo Starter
 
