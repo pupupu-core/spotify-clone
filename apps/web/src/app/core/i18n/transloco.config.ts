@@ -9,8 +9,6 @@ export const translocoConfig: ApplicationConfig['providers'] = [
     config: {
       availableLangs: [...SUPPORTED_LANGS],
       defaultLang: SUPPORTED_LANGS[0],
-      // Remove this option if your application doesn't support changing language in runtime.
-      reRenderOnLangChange: true,
       prodMode: !isDevMode(),
     },
     loader: TranslocoHttpLoader,
