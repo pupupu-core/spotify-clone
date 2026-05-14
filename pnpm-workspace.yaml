@@ -1,3 +1,6 @@
+allowBuilds:
+  '@nestjs/core': set this to true or false
+  nx: set this to true or false
 autoInstallPeers: true
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
