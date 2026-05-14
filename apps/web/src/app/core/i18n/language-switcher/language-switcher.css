@@ -1,0 +1,30 @@
+.lang-switcher {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.lang-switcher__btn {
+  background-color: black;
+  color: white;
+  border: 1px dashed gray;
+  padding: 20px;
+}
+
+.lang-switcher__btn:hover {
+  cursor: pointer;
+  border: 1px dashed rgb(56, 11, 11);
+  color: rgb(53, 8, 8);
+}
+
+.lang-switcher__btn_active {
+  color: rgb(22, 42, 107);
+}
+.lang-switcher__btn_active:hover {
+  color: rgb(22, 42, 107);
+  border: 1px dashed rgb(22, 42, 107);
+}
+
+.lang-switcher__divider {
+  opacity: 0.5;
+}
