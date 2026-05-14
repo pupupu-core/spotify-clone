@@ -1,2 +1,5 @@
 autoInstallPeers: true
 minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - '@angular/*'
+  - 'terser'
