@@ -1,8 +1,7 @@
-import { effect, inject, Injectable } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 
 export const STORAGE_KEY = 'pupufy_lang';
-
 export type SupportedLang = 'en' | 'ru';
 export const SUPPORTED_LANGS: SupportedLang[] = ['en', 'ru'];
 
@@ -11,26 +10,36 @@ export class LanguagePreferenceService {
   private readonly transloco = inject(TranslocoService);
   private readonly defaultLang: SupportedLang = SUPPORTED_LANGS[0];
 
-  constructor() {
-    effect(() => {
-      const savedLang = localStorage.getItem(STORAGE_KEY);
+  public readonly currentLanguage = signal<SupportedLang>(
+    this.loadFromLocalStorage() ?? this.getInitialLangFromTransloco(),
+  );
 
-      if (savedLang !== null && savedLang !== '') {
-        this.transloco.setActiveLang(savedLang);
-      }
-    });
-  }
+  private readonly persistLang = effect(() => {
+    const lang = this.currentLanguage();
 
-  public getLang(): string {
-    return this.transloco.getActiveLang();
-  }
+    this.transloco.setActiveLang(lang);
+    localStorage.setItem(STORAGE_KEY, lang);
+  });
 
   public setLang(lang: SupportedLang): void {
-    this.transloco.setActiveLang(lang);
-    this.saveToStorage(lang);
+    if (this.isSupportedLang(lang)) {
+      this.currentLanguage.set(lang);
+    }
   }
 
-  private saveToStorage(lang: SupportedLang): void {
-    localStorage.setItem(STORAGE_KEY, lang);
+  private isSupportedLang(lang: string | null): lang is SupportedLang {
+    return lang !== null && SUPPORTED_LANGS.includes(lang as SupportedLang);
+  }
+
+  private loadFromLocalStorage(): SupportedLang | null {
+    const savedLang = localStorage.getItem(STORAGE_KEY);
+
+    return this.isSupportedLang(savedLang) ? savedLang : null;
+  }
+
+  private getInitialLangFromTransloco(): SupportedLang {
+    const active = this.transloco.getActiveLang();
+
+    return this.isSupportedLang(active) ? active : this.defaultLang;
   }
 }

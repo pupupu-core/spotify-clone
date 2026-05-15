@@ -18,6 +18,6 @@ export class AppLangSwitcher {
   }
 
   public get activeLang(): string {
-    return this.langService.getLang();
+    return this.langService.currentLanguage();
   }
 }
