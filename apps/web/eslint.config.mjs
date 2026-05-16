@@ -13,7 +13,7 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'app',
+          prefix: 'ppf',
           style: 'camelCase',
         },
       ],
@@ -21,7 +21,7 @@ export default [
         'error',
         {
           type: 'element',
-          prefix: 'app',
+          prefix: 'ppf',
           style: 'kebab-case',
         },
       ],
