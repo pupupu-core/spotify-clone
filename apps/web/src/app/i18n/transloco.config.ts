@@ -1,6 +1,6 @@
 import type { ApplicationConfig } from '@angular/core';
 import { isDevMode } from '@angular/core';
-import { TranslocoHttpLoader } from '../../transloco-loader';
+import { TranslocoHttpLoader } from '../transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { SUPPORTED_LANGS } from './language.preferences.service';
 
