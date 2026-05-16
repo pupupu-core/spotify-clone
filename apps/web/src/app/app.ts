@@ -8,7 +8,7 @@ import { NxWelcome } from './nx-welcome';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NxWelcome, RouterModule, JsonPipe],
-  selector: 'app-root',
+  selector: 'ppf-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
