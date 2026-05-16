@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 
 import { appRoutes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { ppfTranslocoConfig } from './core/i18n/transloco.config';
+import { ppfTranslocoConfig } from './i18n/transloco.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [

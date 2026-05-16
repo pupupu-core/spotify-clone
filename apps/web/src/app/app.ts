@@ -2,7 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { EntityService } from './core/services/entity.service';
+import { EntityService } from './services/entity.service';
 import { NxWelcome } from './nx-welcome';
 
 @Component({
