@@ -4,7 +4,7 @@ import { TranslocoHttpLoader } from '../../transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { SUPPORTED_LANGS } from './language.preferences.service';
 
-export const translocoConfig: ApplicationConfig['providers'] = [
+export const ppfTranslocoConfig: ApplicationConfig['providers'] = [
   provideTransloco({
     config: {
       availableLangs: [...SUPPORTED_LANGS],

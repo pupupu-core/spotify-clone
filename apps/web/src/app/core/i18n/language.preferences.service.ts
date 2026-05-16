@@ -6,7 +6,7 @@ export type SupportedLang = 'en' | 'ru';
 export const SUPPORTED_LANGS: SupportedLang[] = ['en', 'ru'];
 
 @Injectable({ providedIn: 'root' })
-export class LanguagePreferenceService {
+export class PpfLanguagePreferenceService {
   private readonly transloco = inject(TranslocoService);
 
   public readonly currentLanguage = signal<SupportedLang>(this.getCurrentLanguage());
