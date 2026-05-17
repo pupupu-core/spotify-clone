@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { TrackListComponent } from './track-list/track-list.component';
+import { TrackCardComponent } from './track-card/track-card.component';
 
 @Component({
   selector: 'ppf-track',
-  imports: [],
+  imports: [TrackListComponent, TrackCardComponent],
   templateUrl: './track.html',
-  styleUrl: './track.css',
+  styleUrl: './track.scss',
+  standalone: true,
 })
-export class Track {}
+export class Track {
+  public readonly view = input<'list' | 'card'>('list');
+}

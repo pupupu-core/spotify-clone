@@ -3,11 +3,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { EntityService } from './services/entity.service';
-import { NxWelcome } from './nx-welcome';
+import { Track } from './components/track/track';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NxWelcome, RouterModule, JsonPipe],
+  imports: [RouterModule, JsonPipe, Track],
   selector: 'ppf-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',

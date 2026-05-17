@@ -1,0 +1,41 @@
+<div class="track-container" [class.isPlaying]="isPlaying()">
+  <div class="album-title-container">
+    <div class="album-img-container">
+      <img class="album-img" src="/img/album-bg-mock.png" alt="" />
+    </div>
+    <div class="title-container">
+      <h3 class="author-name">Author name</h3>
+      <h4 class="track-name">Track name</h4>
+    </div>
+  </div>
+  <div class="track-info">
+    <p class="play-count">
+      <mat-icon
+        inline
+        aria-hidden="false"
+        aria-label="headphones icon"
+        fontSet="material-icons-outlined"
+      >
+        headphones
+      </mat-icon>
+      1.2M
+    </p>
+    <p class="duration">
+      <mat-icon
+        inline
+        class="icon-md"
+        aria-hidden="false"
+        aria-label="timer icon"
+        fontSet="material-icons-outlined"
+      >
+        timer
+      </mat-icon>
+      3:45
+    </p>
+  </div>
+  <button matIconButton aria-label="Example icon button with a vertical three dot icon">
+    <mat-icon fontSet="material-icons-outlined">
+      {{ isPlaying() ? 'pause_circle' : 'play_circle' }}</mat-icon
+    >
+  </button>
+</div>

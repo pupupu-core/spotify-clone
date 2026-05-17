@@ -1,1 +1,5 @@
-<p>track works!</p>
+@if (view() === 'list') {
+  <ppf-track-list [isPlaying]="false" />
+} @else if (view() === 'card') {
+  <ppf-track-card />
+}

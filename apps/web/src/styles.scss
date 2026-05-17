@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'styles/variables';
 
 @import './styles/themes/dark.css';
 
@@ -24,12 +25,23 @@ html {
   box-sizing: border-box;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
 body {
   display: flex;
   flex-direction: column;
 
   min-height: 100vh;
   margin: 0;
+
+  font-family: 'Elms Sans', sans-serif;
 
   background-image: image-set(
     url('/img/background.avif') type('image/avif'),
