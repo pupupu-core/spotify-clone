@@ -25,7 +25,6 @@ export default [
           style: 'kebab-case',
         },
       ],
-      '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       '@angular-eslint/no-forward-ref': 'error',
       '@angular-eslint/no-pipe-impure': 'error',
       '@angular-eslint/no-lifecycle-call': 'error',
