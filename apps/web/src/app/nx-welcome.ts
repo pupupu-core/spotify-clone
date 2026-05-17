@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-nx-welcome',
+  selector: 'ppf-nx-welcome',
   imports: [CommonModule],
   template: `
     <!--
