@@ -1,5 +1,5 @@
 export interface JamendoHeader {
-  status: 'succeed' | 'failed';
+  status: 'success' | 'failed';
   code: number;
   error_message: string;
   warnings: string;

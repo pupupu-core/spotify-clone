@@ -1,7 +1,7 @@
 import type { JamendoHeader } from './common.model';
 
 export interface ArtistTracksResponse {
-  header: JamendoHeader;
+  headers: JamendoHeader;
   results: ArtistTracksResults[];
 }
 

@@ -1,11 +1,11 @@
 import type { JamendoHeader } from './common.model';
 
 export interface TracksResponse {
-  header: JamendoHeader;
-  results: Tracks[];
+  headers: JamendoHeader;
+  results: Track[];
 }
 
-export interface Tracks {
+export interface Track {
   id: string;
   name: string;
   duration: number;
@@ -23,15 +23,11 @@ export interface Tracks {
   prourl: string;
   shorturl: string;
   shareurl: string;
-  waveform: WaveformData;
+  waveform: string;
   image: string;
   musicinfo: MusicInfoData;
   audiodownload_allowed: boolean;
   content_id_free: boolean;
-}
-
-export interface WaveformData {
-  peaks: number[];
 }
 
 export interface MusicInfoData {
