@@ -17,3 +17,27 @@ html {
     )
   );
 }
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+  margin: 0;
+
+  background-image: image-set(
+    url('/img/background.avif') type('image/avif'),
+    url('/img/background.webp') type('image/webp'),
+    url('/img/background.png') type('image/png'),
+    url('/img/background.jpg') type('image/jpg')
+  );
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
