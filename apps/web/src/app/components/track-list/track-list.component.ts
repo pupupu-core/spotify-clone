@@ -13,7 +13,9 @@ import { TrackService } from '../../services/track/track.mock.service';
 })
 export class TrackListComponent {
   private readonly trackService = inject(TrackService);
+  public readonly title = input<string>('Tracks');
   public readonly trackList = input.required<TrackDataUI[]>();
   public readonly mode = input<TrackListMode>('list');
   public readonly currentTrack = this.trackService.track;
+  public readonly tracks = this.trackService.trackList;
 }

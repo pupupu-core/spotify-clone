@@ -1,7 +1,14 @@
-<ul>
-  @for (track of trackList(); track track.id) {
-    <li>
-      <ppf-track [isPlaying]="currentTrack()?.id === track.id" [track]="track" view="list" />
-    </li>
-  }
-</ul>
+<section class="track-list">
+  <h2 class="track-list__title">{{ title() }}</h2>
+
+  <ul class="track-list__items">
+    @for (track of trackList(); track track.id) {
+      <li
+        class="track-list__item"
+        [class.track-list__item--active]="currentTrack()?.id === track.id"
+      >
+        <ppf-track [isPlaying]="currentTrack()?.id === track.id" [track]="track" view="list" />
+      </li>
+    }
+  </ul>
+</section>

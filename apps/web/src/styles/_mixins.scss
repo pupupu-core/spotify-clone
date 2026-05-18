@@ -25,3 +25,21 @@
   font-size: variables.$font-size-xs;
   font-weight: 300;
 }
+
+@mixin scrollbar-thin($thumb-color) {
+  scrollbar-color: $thumb-color transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: variables.$space-8;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: $thumb-color;
+  }
+}
