@@ -3,4 +3,8 @@ export const API_ENDPOINTS = {
     serverPath: 'entity',
     clientUrl: '/api/entity',
   },
+  track: {
+    serverPath: 'track',
+    clientUrl: '/api/track',
+  },
 } as const;

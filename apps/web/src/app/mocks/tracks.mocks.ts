@@ -42,13 +42,20 @@ export const TRACK_MOCK: JamendoTrack = {
   content_id_free: false,
 };
 
+export const TRACKS_MOCK: JamendoTrack[] = Array.from({ length: 10 }, (_, index) => ({
+  ...TRACK_MOCK,
+  id: `${Number(TRACK_MOCK.id) + index}`,
+  name: `${TRACK_MOCK.name} ${index + 1}`,
+  position: index + 1,
+}));
+
 export const TRACKS_RESPONSE_MOCK: JamendoTracksResponse = {
   headers: {
     status: 'success',
     code: 0,
     error_message: '',
     warnings: '',
-    results_count: 2,
+    results_count: TRACKS_MOCK.length,
   },
-  results: [TRACK_MOCK],
+  results: TRACKS_MOCK,
 };

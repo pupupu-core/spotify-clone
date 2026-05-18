@@ -36,7 +36,8 @@
     "build:backend": "nx run api:build",
     "build:frontend": "nx run web:build",
     "build:affected": "nx affected -t build",
-    "reset": "pnpm nx reset"
+    "reset": "pnpm nx reset",
+    "deps": "pnpm install --frozen-lockfile"
   },
   "private": true,
   "devDependencies": {
