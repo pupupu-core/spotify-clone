@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { TrackRowComponent } from './track-row/track-row.component';
 import { TrackCardComponent } from './track-card/track-card.component';
-import type { TrackData } from '../../models/track-data-ui.model';
+import type { TrackDataUI } from '../../models/common.model';
 
 @Component({
   selector: 'ppf-track',
@@ -11,6 +11,6 @@ import type { TrackData } from '../../models/track-data-ui.model';
   standalone: true,
 })
 export class Track {
-  public readonly track = input.required<TrackData>();
+  public readonly track = input.required<TrackDataUI>();
   public readonly view = input.required<'list' | 'card'>();
 }

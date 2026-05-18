@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
-import type { TrackData } from '../../../models/track-data-ui.model';
+import type { TrackDataUI } from '../../../models/common.model';
 import { DurationPipe } from '../../../pipes/duration.pipe';
 
 @Component({
@@ -12,5 +12,5 @@ import { DurationPipe } from '../../../pipes/duration.pipe';
 })
 export class TrackRowComponent {
   public readonly isPlaying = input.required<boolean>();
-  public readonly track = input.required<TrackData>();
+  public readonly track = input.required<TrackDataUI>();
 }

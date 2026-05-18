@@ -5,3 +5,16 @@ export interface JamendoHeader {
   warnings: string;
   results_count: number;
 }
+
+export interface TrackDataUI {
+  id: string;
+  album_image: string;
+  image: string;
+  artist_name?: string;
+  name: string;
+  duration: string | number;
+  album_name: string;
+  //TODO:
+  // 1)добавить play count, когда узнаем что возвращается
+  // 2) добавить флаг для отображения кастомных треков
+}
