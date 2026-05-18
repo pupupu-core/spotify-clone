@@ -1,0 +1,46 @@
+<div class="track-card-container">
+  <div class="album-img-container">
+    <img [src]="track().album_image || track().image" alt="" class="album-img" />
+    <button
+      matIconButton
+      aria-label="control button"
+      class="control-button"
+      (click)="playClick.emit()"
+    >
+      <mat-icon fontSet="material-icons-outlined">
+        {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
+      </mat-icon>
+    </button>
+  </div>
+  <div class="description">
+    <div class="author-track-name">
+      <h3 class="author-name">{{ track().artist_name }}</h3>
+      <h4 class="track-name">{{ track().name }}</h4>
+    </div>
+    <div class="stats-container">
+      <p class="duration">
+        <mat-icon
+          inline
+          class="icon-md"
+          aria-hidden="false"
+          aria-label="timer icon"
+          fontSet="material-icons-outlined"
+        >
+          timer
+        </mat-icon>
+        {{ track().duration | duration }}
+      </p>
+      <p class="play-count">
+        <mat-icon
+          inline
+          aria-hidden="false"
+          aria-label="headphones icon"
+          fontSet="material-icons-outlined"
+        >
+          headphones
+        </mat-icon>
+        {{ 999949 | abbreviatedNumber }}
+      </p>
+    </div>
+  </div>
+</div>

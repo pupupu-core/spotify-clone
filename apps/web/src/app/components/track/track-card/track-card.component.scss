@@ -1,0 +1,67 @@
+@use '../../../../styles/variables';
+@use '../../../../styles/colors';
+@use '../../../../styles/mixins';
+
+.track-card-container {
+  display: flex;
+  gap: 5px;
+  align-items: stretch;
+
+  .album-img-container {
+    position: relative;
+    width: 130px;
+    height: 130px;
+
+    .album-img {
+      width: 100%;
+      height: 100%;
+      border-radius: variables.$radius-md;
+      object-fit: cover;
+    }
+
+    .control-button {
+      --mat-icon-button-container-shape: #{variables.$radius-sm};
+
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      backdrop-filter: blur(4px);
+    }
+  }
+
+  .description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px 0;
+
+    .author-track-name {
+      .author-name {
+        @include mixins.font-md;
+      }
+
+      .track-name {
+        @include mixins.font-sm;
+      }
+    }
+
+    .stats-container {
+      font-size: 12px;
+
+      .duration,
+      .play-count {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+
+        width: max-content;
+        padding: 1px 7px;
+      }
+
+      .play-count {
+        border-radius: variables.$radius-sm;
+        background-color: var(--mat-sys-primary-container);
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use 'styles/variables';
 
 @import './styles/themes/dark.css';
 
@@ -16,4 +17,44 @@ html {
       density: 0,
     )
   );
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+  margin: 0;
+
+  font-family: 'Elms Sans', sans-serif;
+  font-weight: 300;
+
+  background-image: image-set(
+    url('/img/background.avif') type('image/avif'),
+    url('/img/background.webp') type('image/webp'),
+    url('/img/background.png') type('image/png'),
+    url('/img/background.jpg') type('image/jpg')
+  );
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }

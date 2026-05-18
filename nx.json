@@ -68,7 +68,8 @@
       "inlineStyle": false,
       "inlineTemplate": false,
       "skipTests": false,
-      "type": "component"
+      "type": "component",
+      "changeDetection": "OnPush"
     },
     "@nx/angular:service": {
       "type": "service"
