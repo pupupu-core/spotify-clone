@@ -45,6 +45,7 @@ Thumbs.db
 .cache
 
 .angular
+.postcss-angular
 
 __screenshots__/
 

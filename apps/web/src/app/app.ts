@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -6,7 +5,7 @@ import { EntityService } from './services/entity.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterModule, JsonPipe],
+  imports: [RouterModule],
   selector: 'ppf-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
