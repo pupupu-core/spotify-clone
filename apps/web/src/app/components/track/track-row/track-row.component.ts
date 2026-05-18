@@ -3,10 +3,11 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import type { TrackDataUI } from '../../../models/common.model';
 import { DurationPipe } from '../../../pipes/duration.pipe';
+import { AbbreviatedNumberPipe } from '../../../pipes/abbreviatedNumber.pipe';
 
 @Component({
   selector: 'ppf-track-row',
-  imports: [MatIcon, MatIconButton, DurationPipe],
+  imports: [MatIcon, MatIconButton, DurationPipe, AbbreviatedNumberPipe],
   templateUrl: './track-row.component.html',
   styleUrl: './track-row.component.scss',
 })
