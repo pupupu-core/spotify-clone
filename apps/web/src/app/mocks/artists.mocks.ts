@@ -1,10 +1,10 @@
 import type {
-  ArtistTrack,
-  ArtistTracksResponse,
-  ArtistTracksResults,
+  JamendoArtistTrack,
+  JamendoArtistTracksResponse,
+  JamendoArtistTracksResults,
 } from '../models/artists.model';
 
-export const ARTIST_TRACK_MOCK: ArtistTrack = {
+export const ARTIST_TRACK_MOCK: JamendoArtistTrack = {
   album_id: '104336',
   album_name: 'Season One',
   id: '887211',
@@ -19,7 +19,7 @@ export const ARTIST_TRACK_MOCK: ArtistTrack = {
   audiodownload_allowed: true,
 };
 
-export const ARTISTS_TRACKS_RESULTS_MOCK: ArtistTracksResults = {
+export const ARTISTS_TRACKS_RESULTS_MOCK: JamendoArtistTracksResults = {
   id: '376782',
   name: 'WE ARE FM',
   website: 'https://www.facebook.com/wearefm',
@@ -28,7 +28,7 @@ export const ARTISTS_TRACKS_RESULTS_MOCK: ArtistTracksResults = {
   tracks: [ARTIST_TRACK_MOCK],
 };
 
-export const ARTIST_RESPONSE_MOCK: ArtistTracksResponse = {
+export const ARTIST_RESPONSE_MOCK: JamendoArtistTracksResponse = {
   headers: {
     status: 'success',
     code: 0,

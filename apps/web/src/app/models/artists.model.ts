@@ -1,20 +1,20 @@
 import type { JamendoHeader } from './common.model';
 
-export interface ArtistTracksResponse {
+export interface JamendoArtistTracksResponse {
   headers: JamendoHeader;
-  results: ArtistTracksResults[];
+  results: JamendoArtistTracksResults[];
 }
 
-export interface ArtistTracksResults {
+export interface JamendoArtistTracksResults {
   id: string;
   name: string;
   website: string;
   joindate: string;
   image: string;
-  tracks: ArtistTrack[];
+  tracks: JamendoArtistTrack[];
 }
 
-export interface ArtistTrack {
+export interface JamendoArtistTrack {
   album_id: string;
   album_name: string;
   id: string;

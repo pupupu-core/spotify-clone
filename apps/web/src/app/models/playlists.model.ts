@@ -1,6 +1,6 @@
 import type { JamendoHeader } from './common.model';
 
-export interface PlaylistTracksResponse {
+export interface JamendoPlaylistTracksResponse {
   headers: JamendoHeader;
   results: unknown[];
 }
