@@ -1,14 +1,1 @@
-<div>
-  @if (entity.isLoading()) {
-    <p>Loading...</p>
-  } @else if (entity.error()) {
-    <p>Failed to load data.</p>
-  } @else if (entity.value(); as value) {
-    <pre>{{ value | json }}</pre>
-  }
-</div>
-
-<ppf-track [track]="mockTrack" view="list" [isPlaying]="false" />
-<ppf-track [track]="mockTrack" view="card" [isPlaying]="true" />
-
 <router-outlet />
