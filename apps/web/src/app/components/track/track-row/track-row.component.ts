@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import type { TrackDataUI } from '../../../models/common.model';
@@ -10,6 +10,7 @@ import { AbbreviatedNumberPipe } from '../../../pipes/abbreviatedNumber.pipe';
   imports: [MatIcon, MatIconButton, DurationPipe, AbbreviatedNumberPipe],
   templateUrl: './track-row.component.html',
   styleUrl: './track-row.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackRowComponent {
   public readonly isPlaying = input.required<boolean>();

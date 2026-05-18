@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TrackRowComponent } from './track-row/track-row.component';
 import { TrackCardComponent } from './track-card/track-card.component';
 import type { TrackDataUI } from '../../models/common.model';
@@ -8,7 +8,7 @@ import type { TrackDataUI } from '../../models/common.model';
   imports: [TrackRowComponent, TrackCardComponent],
   templateUrl: './track.html',
   styleUrl: './track.scss',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Track {
   public readonly track = input.required<TrackDataUI>();

@@ -27,6 +27,7 @@ export default [
       ],
       '@angular-eslint/no-forward-ref': 'error',
       '@angular-eslint/no-pipe-impure': 'error',
+      '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       '@angular-eslint/no-lifecycle-call': 'error',
       '@angular-eslint/consistent-component-styles': 'warn',
       '@angular-eslint/prefer-signals': 'warn',
