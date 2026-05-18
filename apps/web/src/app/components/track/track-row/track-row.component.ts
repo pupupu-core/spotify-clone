@@ -2,10 +2,11 @@ import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import type { TrackData } from '../../../models/track-data-ui.model';
+import { DurationPipe } from '../../../pipes/duration.pipe';
 
 @Component({
   selector: 'ppf-track-row',
-  imports: [MatIcon, MatIconButton],
+  imports: [MatIcon, MatIconButton, DurationPipe],
   templateUrl: './track-row.component.html',
   styleUrl: './track-row.component.scss',
 })
