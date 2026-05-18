@@ -1,0 +1,27 @@
+@use 'variables';
+
+// F O N T S
+@mixin font-xl {
+  font-size: variables.$font-size-xl;
+  font-weight: 300;
+}
+
+@mixin font-lg {
+  font-size: variables.$font-size-lg;
+  font-weight: 300;
+}
+
+@mixin font-md {
+  font-size: variables.$font-size-md;
+  font-weight: 300;
+}
+
+@mixin font-sm {
+  font-size: variables.$font-size-sm;
+  font-weight: 300;
+}
+
+@mixin font-xs {
+  font-size: variables.$font-size-xs;
+  font-weight: 300;
+}

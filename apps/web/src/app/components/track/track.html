@@ -1,5 +1,5 @@
 @if (view() === 'list') {
   <ppf-track-row [isPlaying]="false" [track]="track()" />
 } @else if (view() === 'card') {
-  <ppf-track-card />
+  <ppf-track-card [isPlaying]="false" [track]="track()" />
 }
