@@ -25,7 +25,7 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "check:precommit": "pnpm run lint:staged",
-    "check:prepush": "pnpm run lint:affected && pnpm run stylelint:affected && pnpm run typecheck:affected",
+    "check:prepush": "pnpm run lint:affected && pnpm run stylelint:affected && pnpm run typecheck:affected && pnpm run format:check",
     "stylelint:web": "nx run web:stylelint",
     "stylelint:web:fix": "nx run web:stylelint-fix",
     "stylelint:affected": "nx affected -t stylelint",
