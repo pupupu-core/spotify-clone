@@ -1,0 +1,7 @@
+<ul>
+  @for (track of trackList(); track track.id) {
+    <li>
+      <ppf-track [isPlaying]="currentTrack()?.id === track.id" [track]="track" view="list" />
+    </li>
+  }
+</ul>
