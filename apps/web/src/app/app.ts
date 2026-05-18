@@ -24,4 +24,8 @@ export class App {
 
   public artistTrackEndpoint: JamendoArtistTrack = ARTIST_TRACK_MOCK;
   public trackEndpoint: JamendoTrack = TRACK_MOCK;
+
+  public hihik(id: string): void {
+    console.log('track id>>>', id);
+  }
 }

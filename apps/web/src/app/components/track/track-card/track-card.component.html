@@ -1,7 +1,12 @@
 <div class="track-card-container">
   <div class="album-img-container">
     <img [src]="track().album_image || track().image" alt="" class="album-img" />
-    <button matIconButton aria-label="control button" class="control-button">
+    <button
+      matIconButton
+      aria-label="control button"
+      class="control-button"
+      (click)="playClick.emit()"
+    >
       <mat-icon fontSet="material-icons-outlined">
         {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
       </mat-icon>

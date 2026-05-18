@@ -33,7 +33,11 @@
       {{ track().duration | duration }}
     </p>
   </div>
-  <button matIconButton aria-label="Example icon button with a vertical three dot icon">
+  <button
+    matIconButton
+    aria-label="Example icon button with a vertical three dot icon"
+    (click)="playClick.emit()"
+  >
     <mat-icon fontSet="material-icons-outlined">
       {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
     </mat-icon>

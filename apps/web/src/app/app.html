@@ -8,4 +8,5 @@
   }
 </div>
 
-<router-outlet />
+<!--<router-outlet />-->
+<ppf-track [view]="'list'" [track]="trackEndpoint" (playClick)="hihik(trackEndpoint.id)" />
