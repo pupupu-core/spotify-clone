@@ -1,7 +1,12 @@
 <section class="player__section">
   <div class="player-wrapper">
     <div class="player-track-info">
-      <div class="footer-player" (click)="onActivate()">
+      <div
+        class="footer-player"
+        (click)="onActivate()"
+        (keydown.enter)="onActivate()"
+        tabindex="10"
+      >
         @if (track().image) {
           <img [src]="track().image" alt="{{ track().name }}" class="player-cover" />
         }
