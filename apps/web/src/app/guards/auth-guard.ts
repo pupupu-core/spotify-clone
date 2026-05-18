@@ -7,5 +7,5 @@ import { IS_AUTHED } from './mock-flags';
 export const authGuard: CanMatchFn = () => {
   const router = inject(Router);
 
-  return IS_AUTHED ? router.createUrlTree([ROUTES.AUTH.to]) : true;
+  return !IS_AUTHED ? router.createUrlTree([ROUTES.AUTH.to]) : true;
 };
