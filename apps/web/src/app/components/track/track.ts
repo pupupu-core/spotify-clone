@@ -13,5 +13,6 @@ import type { TrackDataUI } from '../../models/common.model';
 export class Track {
   public readonly track = input.required<TrackDataUI>();
   public readonly view = input.required<'list' | 'card'>();
+  public readonly isPlaying = input.required<boolean>();
   public readonly playClick = output<void>();
 }
