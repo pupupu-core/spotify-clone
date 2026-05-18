@@ -1,17 +1,17 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-import { TrackListComponent } from './track-list.component';
+import { TrackRowComponent } from './track-row.component';
 
-describe('TrackListComponent', () => {
-  let component: TrackListComponent;
-  let fixture: ComponentFixture<TrackListComponent>;
+describe('TrackRowComponent', () => {
+  let component: TrackRowComponent;
+  let fixture: ComponentFixture<TrackRowComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TrackListComponent],
+      imports: [TrackRowComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TrackListComponent);
+    fixture = TestBed.createComponent(TrackRowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

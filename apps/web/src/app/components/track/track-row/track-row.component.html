@@ -1,11 +1,11 @@
 <div class="track-container" [class.isPlaying]="isPlaying()">
   <div class="album-title-container">
     <div class="album-img-container">
-      <img class="album-img" src="/img/album-bg-mock.png" alt="" />
+      <img class="album-img" [src]="track().album_image || track().image" alt="" />
     </div>
     <div class="title-container">
-      <h3 class="author-name">Author name</h3>
-      <h4 class="track-name">Track name</h4>
+      <h3 class="author-name">{{ track().artist_name }}</h3>
+      <h4 class="track-name">{{ track().name }}</h4>
     </div>
   </div>
   <div class="track-info">
@@ -30,12 +30,12 @@
       >
         timer
       </mat-icon>
-      3:45
+      {{ track().duration }}
     </p>
   </div>
   <button matIconButton aria-label="Example icon button with a vertical three dot icon">
     <mat-icon fontSet="material-icons-outlined">
-      {{ isPlaying() ? 'pause_circle' : 'play_circle' }}</mat-icon
-    >
+      {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
+    </mat-icon>
   </button>
 </div>

@@ -1,6 +1,10 @@
-import type { MusicInfoData, Track, TracksResponse } from '../models/tracks.model';
+import type {
+  JamendoMusicInfoData,
+  JamendoTrack,
+  JamendoTracksResponse,
+} from '../models/tracks.model';
 
-export const MUSIC_INFO_DATA: MusicInfoData = {
+export const MUSIC_INFO_DATA_MOCK: JamendoMusicInfoData = {
   vocalinstrumental: 'instrumental',
   lang: '',
   gender: '',
@@ -13,7 +17,7 @@ export const MUSIC_INFO_DATA: MusicInfoData = {
   },
 };
 
-export const TRACK: Track = {
+export const TRACK_MOCK: JamendoTrack = {
   id: '1848357',
   name: 'ma\u00f1ana ser\u00e1 tarde',
   duration: 272,
@@ -33,12 +37,12 @@ export const TRACK: Track = {
   shareurl: 'https://www.jamendo.com/track/1848357',
   waveform: "{'peaks':[0,0,0,0,30,39,33,90]}",
   image: 'https://usercontent.jamendo.com?type=album&id=368084&width=300&trackid=1848357',
-  musicinfo: MUSIC_INFO_DATA,
+  musicinfo: MUSIC_INFO_DATA_MOCK,
   audiodownload_allowed: true,
   content_id_free: false,
 };
 
-export const TRACKS_RESPONSE_MOCK: TracksResponse = {
+export const TRACKS_RESPONSE_MOCK: JamendoTracksResponse = {
   headers: {
     status: 'success',
     code: 0,
@@ -46,5 +50,5 @@ export const TRACKS_RESPONSE_MOCK: TracksResponse = {
     warnings: '',
     results_count: 2,
   },
-  results: [TRACK],
+  results: [TRACK_MOCK],
 };

@@ -11,10 +11,10 @@ export interface ArtistTracksResults {
   website: string;
   joindate: string;
   image: string;
-  tracks: ArtistTracks[];
+  tracks: ArtistTrack[];
 }
 
-export interface ArtistTracks {
+export interface ArtistTrack {
   album_id: string;
   album_name: string;
   id: string;
