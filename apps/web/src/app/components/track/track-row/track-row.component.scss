@@ -1,5 +1,6 @@
 @use '../../../../styles/variables';
 @use '../../../../styles/colors';
+@use '../../../../styles/mixins';
 
 .track-container {
   display: flex;
@@ -37,13 +38,11 @@
 
     .title-container {
       .author-name {
-        font-size: variables.$font-size-md;
-        font-weight: normal;
+        @include mixins.font-md;
       }
 
       .track-name {
-        font-size: variables.$font-size-sm;
-        font-weight: normal;
+        @include mixins.font-sm;
       }
     }
   }

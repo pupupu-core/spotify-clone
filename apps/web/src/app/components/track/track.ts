@@ -12,5 +12,5 @@ import type { TrackData } from '../../models/track-data-ui.model';
 })
 export class Track {
   public readonly track = input.required<TrackData>();
-  public readonly view = input<'list' | 'card'>('card');
+  public readonly view = input.required<'list' | 'card'>();
 }
