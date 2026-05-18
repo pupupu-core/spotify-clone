@@ -1,1 +1,28 @@
-<p>footer-player works!</p>
+<section class="player__section">
+  <div class="player-wrapper">
+    <div class="player-track-info">
+      <div class="footer-player" (click)="onActivate()">
+        @if (track().image) {
+          <img [src]="track().image" alt="{{ track().name }}" class="player-cover" />
+        }
+      </div>
+      <div class="player-names">
+        <div class="track-name">{{ track().name }}</div>
+        <div class="artist-name">{{ track().artist_name }}</div>
+      </div>
+    </div>
+    <div class="player-controls">
+      <button>perv</button>
+      <button class="play-btn" (click)="onActivate(); $event.stopPropagation()">play</button>
+      <button>next</button>
+    </div>
+    <div class="search__player-volume">
+      <span>volume</span>
+      <input type="range" name="" id="" />
+    </div>
+    <div class="search__player-time">
+      <span>timeline</span>
+      <input type="range" name="" id="" />
+    </div>
+  </div>
+</section>

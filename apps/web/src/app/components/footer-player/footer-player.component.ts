@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import type { JamendoTrack } from '../../models/tracks.model';
 
 @Component({
   selector: 'ppf-footer-player',
@@ -7,4 +8,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './footer-player.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FooterPlayerComponent {}
+export class PpfFooterPlayerComponent {
+  public readonly track = input.required<JamendoTrack>();
+  public readonly playTrack = output<void>();
+
+  protected onActivate(): void {
+    this.playTrack.emit();
+  }
+}
