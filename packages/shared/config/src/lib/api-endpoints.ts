@@ -7,4 +7,8 @@ export const API_ENDPOINTS = {
     serverPath: 'track',
     clientUrl: '/api/track',
   },
+  auth: {
+    serverPath: 'auth',
+    clientUrl: '/api/auth',
+  },
 } as const;
