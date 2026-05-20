@@ -50,3 +50,19 @@ Thumbs.db
 __screenshots__/
 
 vitest.config.*.timestamp*
+
+
+# Environment variables
+.env
+.env.*
+.env.development
+.env.production
+.env.test
+.env.local.*
+.env.development.*
+.env.production.*
+.env.test.*
+!.env.example
+
+# Local
+*.local
