@@ -1,14 +1,30 @@
 export const API_ENDPOINTS = {
-  entity: {
-    serverPath: 'entity',
-    clientUrl: '/api/entity',
-  },
   track: {
     serverPath: 'track',
-    clientUrl: '/api/track',
+    clientUrl: '/track',
   },
   auth: {
     serverPath: 'auth',
-    clientUrl: '/api/auth',
+    clientUrl: '/auth',
+  },
+  authLogin: {
+    serverPath: 'login',
+    clientUrl: '/auth/login',
+  },
+  authRegister: {
+    serverPath: 'register',
+    clientUrl: '/auth/register',
+  },
+  authRefresh: {
+    serverPath: 'refresh',
+    clientUrl: '/auth/refresh',
+  },
+  authMe: {
+    serverPath: 'me',
+    clientUrl: '/auth/me',
+  },
+  authLogout: {
+    serverPath: 'logout',
+    clientUrl: '/auth/logout',
   },
 } as const;
