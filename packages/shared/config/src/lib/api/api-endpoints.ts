@@ -5,7 +5,6 @@ export const API_ENDPOINTS = {
   },
   auth: {
     serverPath: 'auth',
-    clientUrl: '/auth',
   },
   authLogin: {
     serverPath: 'login',

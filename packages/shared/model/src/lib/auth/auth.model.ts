@@ -1,3 +1,4 @@
-export interface AuthResponse {
-  ping: string;
+export interface AuthTokenResponse {
+  accessToken: string;
+  refreshToken: string;
 }

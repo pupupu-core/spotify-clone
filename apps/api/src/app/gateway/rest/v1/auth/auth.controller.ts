@@ -1,7 +1,7 @@
 import { Controller, Get, Post } from '@nestjs/common';
 
 import { API_ENDPOINTS } from '@streaming-service/config';
-import { AuthResponse } from '@streaming-service/model';
+import { AuthTokenResponse } from '@streaming-service/model';
 
 import { OPENAPI_CONFIG } from '../../../../shared/config/openapi.config';
 import { ApiTags } from '@nestjs/swagger';
@@ -15,33 +15,28 @@ import { AuthService } from '../../../../core/workflows/auth/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get()
-  public ping(): AuthResponse {
-    return this.authService.ping();
-  }
-
   @Post(API_ENDPOINTS.authLogin.serverPath)
-  public login(): AuthResponse {
+  public login(): AuthTokenResponse {
     return this.authService.login();
   }
 
   @Post(API_ENDPOINTS.authLogout.serverPath)
-  public logout(): AuthResponse {
+  public logout(): AuthTokenResponse {
     return this.authService.logout();
   }
 
   @Post(API_ENDPOINTS.authRegister.serverPath)
-  public register(): AuthResponse {
+  public register(): AuthTokenResponse {
     return this.authService.register();
   }
 
   @Post(API_ENDPOINTS.authRefresh.serverPath)
-  public refresh(): AuthResponse {
+  public refresh(): AuthTokenResponse {
     return this.authService.refresh();
   }
 
   @Get(API_ENDPOINTS.authMe.serverPath)
-  public me(): AuthResponse {
+  public me(): AuthTokenResponse {
     return this.authService.me();
   }
 }
