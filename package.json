@@ -44,6 +44,7 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
+    "db:up": "docker compose up -d",
     "dev:up": "docker compose up -d && pnpm dev"
   },
   "private": true,
