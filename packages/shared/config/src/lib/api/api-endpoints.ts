@@ -1,29 +1,30 @@
 export const API_ENDPOINTS = {
-  track: {
+  TRACK: {
+    // not final
     serverPath: 'track',
     clientUrl: '/track',
   },
-  auth: {
-    serverPath: 'auth',
-  },
-  authLogin: {
-    serverPath: 'login',
-    clientUrl: '/auth/login',
-  },
-  authRegister: {
-    serverPath: 'register',
-    clientUrl: '/auth/register',
-  },
-  authRefresh: {
-    serverPath: 'refresh',
-    clientUrl: '/auth/refresh',
-  },
-  authMe: {
-    serverPath: 'me',
-    clientUrl: '/auth/me',
-  },
-  authLogout: {
-    serverPath: 'logout',
-    clientUrl: '/auth/logout',
+  AUTH: {
+    basePath: 'auth',
+    LOGIN: {
+      serverPath: 'login',
+      clientUrl: '/auth/login',
+    },
+    REGISTER: {
+      serverPath: 'register',
+      clientUrl: '/auth/register',
+    },
+    REFRESH: {
+      serverPath: 'refresh',
+      clientUrl: '/auth/refresh',
+    },
+    ME: {
+      serverPath: 'me',
+      clientUrl: '/auth/me',
+    },
+    LOGOUT: {
+      serverPath: 'logout',
+      clientUrl: '/auth/logout',
+    },
   },
 } as const;
