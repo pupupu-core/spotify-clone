@@ -3,7 +3,7 @@ import type { TrackDataUI } from '../../../models/common.model';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { DurationPipe } from '../../../pipes/duration.pipe';
-import { AbbreviatedNumberPipe } from '../../../pipes/abbreviatedNumber.pipe';
+import { AbbreviatedNumberPipe } from '../../../pipes/abbreviated-number.pipe';
 
 @Component({
   selector: 'ppf-track-card',
