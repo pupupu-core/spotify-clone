@@ -1,1 +1,1 @@
-export * from './lib/entity/entity.model';
+export * from './lib/auth/auth.model';
