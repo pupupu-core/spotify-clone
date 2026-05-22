@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post } from '@nestjs/common';
 
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { AuthTokenResponse } from '@streaming-service/model';
@@ -6,6 +6,7 @@ import { AuthTokenResponse } from '@streaming-service/model';
 import { OPENAPI_CONFIG } from '../../../../shared/config/openapi.config';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../../../../core/workflows/auth/auth.service';
+import { LoginDto } from './dtos/login.dto';
 
 @ApiTags(OPENAPI_CONFIG.tags.auth)
 @Controller({
@@ -15,13 +16,14 @@ import { AuthService } from '../../../../core/workflows/auth/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @HttpCode(HttpStatus.OK)
   @Post(API_ENDPOINTS.AUTH.LOGIN.serverPath)
-  public login(): AuthTokenResponse {
-    return this.authService.login();
+  public async login(@Body() dto: LoginDto): Promise<AuthTokenResponse> {
+    return this.authService.login(dto);
   }
 
   @Post(API_ENDPOINTS.AUTH.LOGOUT.serverPath)
-  public logout(): AuthTokenResponse {
+  public logout(): { message: string } {
     return this.authService.logout();
   }
 
