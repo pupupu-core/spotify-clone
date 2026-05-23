@@ -1,6 +1,6 @@
 import type { Route } from '@angular/router';
 import { ROUTES } from './shared/config/routes';
-import { AppLayoutComponent as AppLayout } from './components/layout/app-layout/app-layout.component';
+import { AppLayoutComponent as AppLayout } from './core/layouts/app-layout/app-layout.component';
 import { HomePageComponent as HomePage } from './pages/home/home-page.component';
 import { AuthPageComponent as AuthPage } from './pages/auth/auth-page.component';
 import { loadComponent } from './shared/lib/load-component';
