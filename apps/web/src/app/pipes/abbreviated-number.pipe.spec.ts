@@ -1,4 +1,4 @@
-import { AbbreviatedNumberPipe } from './abbreviatedNumber.pipe';
+import { AbbreviatedNumberPipe } from './abbreviated-number.pipe';
 
 describe('AbbreviatedNumberPipe', () => {
   it('create an instance', () => {
