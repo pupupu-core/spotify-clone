@@ -1,8 +1,8 @@
 import type { ApplicationConfig } from '@angular/core';
 import { isDevMode } from '@angular/core';
-import { TranslocoHttpLoader } from '../transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { SUPPORTED_LANGS } from './language.preferences.service';
+import { TranslocoHttpLoader } from '../../transloco-loader';
 
 export const ppfTranslocoConfig: ApplicationConfig['providers'] = [
   provideTransloco({
