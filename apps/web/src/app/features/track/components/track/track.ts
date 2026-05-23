@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TrackRowComponent } from './track-row/track-row.component';
 import { TrackCardComponent } from './track-card/track-card.component';
-import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
+import type { TrackDataUI } from '../../../../core/api/jamendo/models/common.model';
 
 @Component({
   selector: 'ppf-track',
