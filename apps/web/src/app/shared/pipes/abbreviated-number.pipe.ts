@@ -1,6 +1,6 @@
 import type { PipeTransform } from '@angular/core';
 import { Pipe } from '@angular/core';
-import { THOUSAND } from '../shared/constants';
+import { THOUSAND } from '../constants';
 
 const DIGITS_PER_GROUP = 3;
 

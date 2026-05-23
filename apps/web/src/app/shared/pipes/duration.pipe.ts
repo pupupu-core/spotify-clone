@@ -1,6 +1,6 @@
 import type { PipeTransform } from '@angular/core';
 import { Pipe } from '@angular/core';
-import { SECONDS_PER_MINUTE } from '../shared/constants';
+import { SECONDS_PER_MINUTE } from '../constants';
 
 @Pipe({
   name: 'duration',
