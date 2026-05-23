@@ -82,7 +82,7 @@ export class Playlist {
 ### `PlaylistTrack` (junction)
 
 ```typescript
-// playlist-track.entity.ts
+// playlist-tracks.entity.ts
 @Entity('playlist_tracks')
 @Unique(['playlist', 'track'])     // один трек — один раз в плейлисте
 export class PlaylistTrack {
@@ -109,7 +109,16 @@ export class PlaylistTrack {
 ### Добавить трек в плейлист
 
 ```typescript
-async addTrack(playlistId: string, trackId: string, userId: string): Promise<void> {
+async
+addTrack(playlistId
+:
+string, trackId
+:
+string, userId
+:
+string
+):
+Promise < void > {
   const playlist = await this.playlistRepo.findOneOrFail({
     where: { id: playlistId, owner: { id: userId } },
     relations: ['playlistTracks'],
@@ -128,10 +137,15 @@ async addTrack(playlistId: string, trackId: string, userId: string): Promise<voi
 ### Получить плейлист с треками
 
 ```typescript
-async getPlaylist(playlistId: string): Promise<Playlist> {
+async
+getPlaylist(playlistId
+:
+string
+):
+Promise < Playlist > {
   return this.playlistRepo.findOneOrFail({
     where: { id: playlistId },
-    relations: ['playlistTracks', 'playlistTracks.track'],
+    relations: ['playlistTracks', 'playlistTracks.tracks'],
     order: { playlistTracks: { position: 'ASC' } },
   });
 }
@@ -140,7 +154,16 @@ async getPlaylist(playlistId: string): Promise<Playlist> {
 ### Удалить трек из плейлиста
 
 ```typescript
-async removeTrack(playlistId: string, trackId: string, userId: string): Promise<void> {
+async
+removeTrack(playlistId
+:
+string, trackId
+:
+string, userId
+:
+string
+):
+Promise < void > {
   const pt = await this.playlistTrackRepo.findOneOrFail({
     where: {
       playlist: { id: playlistId, owner: { id: userId } },
@@ -159,16 +182,16 @@ async removeTrack(playlistId: string, trackId: string, userId: string): Promise<
 
 ## API Endpoints
 
-| Method | Path | Описание |
-|--------|------|----------|
-| `GET` | `/playlists` | Все плейлисты текущего пользователя |
-| `POST` | `/playlists` | Создать плейлист |
-| `GET` | `/playlists/:id` | Плейлист с треками (ordered by position) |
-| `PATCH` | `/playlists/:id` | Переименовать / сменить обложку |
-| `DELETE` | `/playlists/:id` | Удалить плейлист |
-| `POST` | `/playlists/:id/tracks` | Добавить трек (`{ trackId }` в body) |
-| `DELETE` | `/playlists/:id/tracks/:trackId` | Убрать трек |
-| `PATCH` | `/playlists/:id/tracks/reorder` | Изменить порядок (`{ positions: [{trackId, position}] }`) |
+| Method   | Path                             | Описание                                                  |
+|----------|----------------------------------|-----------------------------------------------------------|
+| `GET`    | `/playlists`                     | Все плейлисты текущего пользователя                       |
+| `POST`   | `/playlists`                     | Создать плейлист                                          |
+| `GET`    | `/playlists/:id`                 | Плейлист с треками (ordered by position)                  |
+| `PATCH`  | `/playlists/:id`                 | Переименовать / сменить обложку                           |
+| `DELETE` | `/playlists/:id`                 | Удалить плейлист                                          |
+| `POST`   | `/playlists/:id/tracks`          | Добавить трек (`{ trackId }` в body)                      |
+| `DELETE` | `/playlists/:id/tracks/:trackId` | Убрать трек                                               |
+| `PATCH`  | `/playlists/:id/tracks/reorder`  | Изменить порядок (`{ positions: [{trackId, position}] }`) |
 
 ---
 
@@ -233,6 +256,7 @@ User ──< Playlist ──< PlaylistTrack >── Track (STI, таблица t
 ## Чеклист реализации
 
 ### Backend
+
 - [ ] `PlaylistModule` с entity, service, controller
 - [ ] `PlaylistTrack` junction entity с полем `position`
 - [ ] `Unique` constraint на `(playlist_id, track_id)`
@@ -241,6 +265,7 @@ User ──< Playlist ──< PlaylistTrack >── Track (STI, таблица t
 - [ ] Маппер `toViewModel` с правильным `playbackUrl`
 
 ### Frontend
+
 - [ ] Страница плейлиста с drag & drop для reorder
 - [ ] Кнопка "Добавить в плейлист" в контекстном меню трека
 - [ ] Единый `TrackViewModel` в плеере (не зависит от source)

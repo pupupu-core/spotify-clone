@@ -3,19 +3,20 @@
 ## 👔 Взгляд Product Manager
 
 ### Проблема и ценность
+
 Jamendo предоставляет огромный каталог, но он read-only и ограничен лицензионным контентом.
 Пользователи хотят слушать **свою музыку** — демо-треки, подкасты, личные записи — в той же среде.
 Именно это создаёт "залипательность" (stickiness) продукта.
 
 ### User Stories
 
-| ID | As a... | I want to... | So that... |
-|----|---------|--------------|------------|
-| US-1 | Пользователь | Загрузить аудио-файл с названием и исполнителем | Слушать свои треки в общей библиотеке |
-| US-2 | Пользователь | Видеть загруженные треки в разделе "Библиотека" | Отличать свои треки от Jamendo |
-| US-3 | Пользователь | Удалить свой трек | Управлять своим контентом |
-| US-4 | Пользователь | Видеть прогресс загрузки | Понимать, что файл отправляется |
-| US-5 | Пользователь | Получить ошибку с понятным текстом | Знать, что пошло не так (формат, размер) |
+| ID   | As a...      | I want to...                                    | So that...                               |
+|------|--------------|-------------------------------------------------|------------------------------------------|
+| US-1 | Пользователь | Загрузить аудио-файл с названием и исполнителем | Слушать свои треки в общей библиотеке    |
+| US-2 | Пользователь | Видеть загруженные треки в разделе "Библиотека" | Отличать свои треки от Jamendo           |
+| US-3 | Пользователь | Удалить свой трек                               | Управлять своим контентом                |
+| US-4 | Пользователь | Видеть прогресс загрузки                        | Понимать, что файл отправляется          |
+| US-5 | Пользователь | Получить ошибку с понятным текстом              | Знать, что пошло не так (формат, размер) |
 
 ### UX Flow
 
@@ -73,7 +74,7 @@ tracks/
 **Базовый класс — общие поля:**
 
 ```typescript
-// track.entity.ts
+// tracks.entity.ts
 @Entity('tracks')
 @TableInheritance({ column: { type: 'varchar', name: 'source' } })
 export class Track {
@@ -103,7 +104,7 @@ export class Track {
 **Jamendo-трек — CDN URL, внешний ID:**
 
 ```typescript
-// jamendo-track.entity.ts
+// jamendo-tracks.entity.ts
 @ChildEntity('jamendo')
 export class JamendoTrack extends Track {
   @Column({ unique: true })
@@ -117,7 +118,7 @@ export class JamendoTrack extends Track {
 **Кастомный трек — файл пользователя:**
 
 ```typescript
-// custom-track.entity.ts
+// custom-tracks.entity.ts
 @ChildEntity('custom')
 export class CustomTrack extends Track {
   @Column()
@@ -191,22 +192,32 @@ const multerOptions: MulterOptions = {
 #### Service — ключевая логика
 
 ```typescript
-async deleteOwn(id: string, user: User): Promise<void> {
+async
+deleteOwn(id
+:
+string, user
+:
+User
+):
+Promise < void > {
   const track = await this.tracksRepo.findOne({
     where: { id },
     relations: ['owner'],
   });
 
-  if (!track) throw new NotFoundException();
+  if(!
+track
+)
+throw new NotFoundException();
 
-  // Проверка владельца — КРИТИЧЕСКИ ВАЖНО
-  if (track.owner.id !== user.id) {
-    throw new ForbiddenException('You can only delete your own tracks');
-  }
+// Проверка владельца — КРИТИЧЕСКИ ВАЖНО
+if (track.owner.id !== user.id) {
+  throw new ForbiddenException('You can only delete your own tracks');
+}
 
-  // Удаление файла с диска
-  await fs.unlink(track.filePath);
-  await this.tracksRepo.remove(track);
+// Удаление файла с диска
+await fs.unlink(track.filePath);
+await this.tracksRepo.remove(track);
 }
 ```
 
@@ -215,8 +226,9 @@ async deleteOwn(id: string, user: User): Promise<void> {
 #### Upload Flow
 
 ```typescript
-// upload-track.component.ts
-uploadTrack() {
+// upload-tracks.component.ts
+uploadTrack()
+{
   const formData = new FormData();
   formData.append('file', this.selectedFile);
   formData.append('title', this.form.value.title);
@@ -228,7 +240,7 @@ uploadTrack() {
     // Для прогресс-бара нужен HttpClient с reportProgress
   ).subscribe({
     next: (track) => this.library.add(track),
-    error: (err)  => this.handleError(err),
+    error: (err) => this.handleError(err),
   });
 }
 ```
@@ -251,13 +263,14 @@ upload(formData: FormData): Observable<HttpEvent<Track>> {
 
 **Нет, для базового функционала — не нужна.**
 
-| Сценарий | Решение |
-|---|---|
-| Загрузка треков | Любой авторизованный пользователь |
-| Удаление трека | Только **владелец** (проверка `owner.id === user.id`) |
-| Просмотр треков | Только свои (`GET /tracks/my`) |
+| Сценарий        | Решение                                               |
+|-----------------|-------------------------------------------------------|
+| Загрузка треков | Любой авторизованный пользователь                     |
+| Удаление трека  | Только **владелец** (проверка `owner.id === user.id`) |
+| Просмотр треков | Только свои (`GET /tracks/my`)                        |
 
 **Admin роль нужна если:**
+
 - Нужна **модерация** загружаемого контента (anti-abuse)
 - Нужен **глобальный каталог** пользовательских треков (public sharing)
 - Нужно **удалять чужие треки** (жалобы на контент / copyright takedown)
@@ -283,10 +296,12 @@ adminDelete(@Param('id') id: string) { ... }
 ## ⚠️ Важные вопросы и риски
 
 ### 1. Хранилище
+
 - **Локальный диск**: простой старт, но не масштабируется. Проблема при перезапуске Docker-контейнера.
 - **Рекомендация**: даже для MVP использовать **Cloudflare R2** (бесплатный egress) или **MinIO** (self-hosted S3-совместимый).
 
 ### 2. Авторские права (Copyright)
+
 > [!WARNING]
 > Загрузка чужой музыки — юридическая ответственность платформы. Если это публичный продукт, нужны:
 > - Terms of Service с запретом загрузки лицензионного контента
@@ -295,11 +310,13 @@ adminDelete(@Param('id') id: string) { ... }
 Для учебного проекта достаточно disclaimer в UI.
 
 ### 3. Квоты на хранение
+
 - Без ограничений один пользователь может залить 100 GB.
 - Решение: `MAX_TRACKS_PER_USER = 10`, `MAX_FILE_SIZE = 50MB`.
 - Можно хранить `storageUsed` в User entity.
 
 ### 4. Валидация на бэке
+
 - MIME-тип можно подделать через Content-Type header.
 - Решение: валидировать **magic bytes** файла с помощью библиотеки `file-type`.
 
@@ -314,10 +331,12 @@ if (!type || !allowed.includes(type.ext)) {
 ```
 
 ### 5. Статика / отдача файлов
+
 - В dev: NestJS `ServeStaticModule` из папки `uploads/`.
 - В prod: **Nginx** отдаёт файлы напрямую (без NestJS), или **CDN URL** из S3.
 
 ### 6. Длительность трека
+
 - Клиент не должен доверять этому полю.
 - Считать на бэке с помощью `music-metadata` npm пакета:
 
@@ -329,6 +348,7 @@ const duration = Math.round(meta.format.duration); // секунды
 ```
 
 ### 7. Интеграция в Library
+
 - Нужно объединить стримы Jamendo-треков и своих треков в единый список.
 - Вариант: единый интерфейс `Track` в Angular с полем `source: 'jamendo' | 'custom'`.
 - Плеер должен уметь играть как Jamendo URL, так и `/api/tracks/:id/stream`.
@@ -338,6 +358,7 @@ const duration = Math.round(meta.format.duration); // секунды
 ## 📋 Итоговый чеклист для реализации
 
 ### Backend
+
 - [ ] `TracksModule` с entity, service, controller
 - [ ] JWT Guard на все `/tracks` эндпоинты
 - [ ] Multer с валидацией типа и размера
@@ -348,6 +369,7 @@ const duration = Math.round(meta.format.duration); // секунды
 - [ ] Квота: max треков на пользователя
 
 ### Frontend
+
 - [ ] Upload modal с drag & drop зоной
 - [ ] Progress bar через `reportProgress`
 - [ ] Unified `Track` interface (`source` поле)
@@ -356,6 +378,7 @@ const duration = Math.round(meta.format.duration); // секунды
 - [ ] Error handling с user-friendly сообщениями
 
 ### Инфраструктура
+
 - [ ] Папка `uploads/` в `.gitignore`
 - [ ] Volume mount в Docker Compose для `uploads/`
 - [ ] Env variables: `MAX_FILE_SIZE`, `MAX_TRACKS_PER_USER`, `UPLOAD_DIR`

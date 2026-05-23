@@ -1,11 +1,11 @@
 import type { Route } from '@angular/router';
-import { ROUTES } from './shared/config/routes';
-import { AppLayoutComponent as AppLayout } from './components/layout/app-layout/app-layout.component';
+import { ROUTES } from './core/config/routes';
+import { AppLayoutComponent as AppLayout } from './core/layouts/app-layout/app-layout.component';
 import { HomePageComponent as HomePage } from './pages/home/home-page.component';
 import { AuthPageComponent as AuthPage } from './pages/auth/auth-page.component';
 import { loadComponent } from './shared/lib/load-component';
-import { authGuard } from './guards/auth-guard';
-import { guestGuard } from './guards/guest-guard';
+import { authGuard } from './core/guards/auth-guard';
+import { guestGuard } from './core/guards/guest-guard';
 
 const notFoundPage = loadComponent(() =>
   import('./pages/not-found/not-found-page.component').then(

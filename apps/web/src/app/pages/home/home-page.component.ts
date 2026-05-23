@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TrackListComponent } from '../../components/track-list/track-list.component';
-import { TrackService } from '../../services/track/track.mock.service';
+import { TrackListComponent } from '../../features/tracks/components/track-list/track-list.component';
+import { TrackService } from '../../features/tracks/services/track.mock.service';
 
 @Component({
   selector: 'ppf-home-page',
