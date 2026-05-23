@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AuthUser } from '../models/user';
+import { AuthUser } from '../models/user.model';
 
 type IssueAuthSessionInput = Pick<AuthUser, 'id'>;
 
