@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import type { CanActivateFn } from '@angular/router';
 import { Router } from '@angular/router';
-import { ROUTES } from '../shared/config/routes';
-import { IS_AUTHED } from './mock-flags';
+import { ROUTES } from '../../shared/config/routes';
+import { IS_AUTHED } from '../config/mock-flags';
 
 export const guestGuard: CanActivateFn = () => {
   const router = inject(Router);
