@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import type { JamendoTrack } from '../../core/api/jamendo/models/tracks.model';
+import type { JamendoTrack } from '../../../../core/api/jamendo/models/tracks.model';
 
 @Component({
   selector: 'ppf-footer-player',

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PpfFooterPlayerComponent } from '../../../components/footer-player/footer-player.component';
+import { PpfFooterPlayerComponent } from '../../../features/player/components/footer-player/footer-player.component';
 import { TRACK_MOCK } from '../../mocks/tracks.mocks';
 
 @Component({
