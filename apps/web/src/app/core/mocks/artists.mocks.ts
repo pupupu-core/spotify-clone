@@ -2,7 +2,7 @@ import type {
   JamendoArtistTrack,
   JamendoArtistTracksResponse,
   JamendoArtistTracksResults,
-} from '../models/artists.model';
+} from '../../models/artists.model';
 
 export const ARTIST_TRACK_MOCK: JamendoArtistTrack = {
   album_id: '104336',
