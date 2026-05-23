@@ -1,10 +1,6 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { Logger, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
 
 import { AppModule } from './app/app.module';
 import { APP_CONFIG } from './app/shared/config/app.config';
@@ -17,6 +13,7 @@ async function bootstrap(): Promise<void> {
   app.enableVersioning({
     type: VersioningType.URI,
   });
+  app.use(cookieParser());
 
   initSwagger(app);
 
