@@ -10,6 +10,9 @@ export class LoginDto implements LoginRequest {
   @IsEmail()
   public email: string;
 
+  @ApiProperty({
+    example: 'password',
+  })
   @IsNotEmpty()
   @MinLength(AUTH_CONSTRAINTS.password.minLength)
   public password: string;

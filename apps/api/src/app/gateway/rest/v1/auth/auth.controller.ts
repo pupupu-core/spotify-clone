@@ -7,6 +7,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dtos/login.dto';
 import { LoginUserWorkflow } from '../../../../core/workflows/auth/login-user.workflow';
 import { LogoutUserWorkflow } from '../../../../core/workflows/auth/logout-user.workflow';
+import { RegisterWorkflow } from '../../../../core/workflows/auth/register-user.workflow';
+import { RegisterDto } from './dtos/register.dto';
 
 @ApiTags(OPENAPI_CONFIG.tags.auth)
 @Controller({
@@ -17,6 +19,7 @@ export class AuthController {
   constructor(
     private readonly loginUserWorkflow: LoginUserWorkflow,
     private readonly logoutUserWorkflow: LogoutUserWorkflow,
+    private readonly registerWorkflow: RegisterWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -33,10 +36,11 @@ export class AuthController {
     return this.logoutUserWorkflow.execute(cookies.refreshToken);
   }
 
-  // @Post(API_ENDPOINTS.AUTH.REGISTER.serverPath)
-  // public register(): AuthTokenResponse {
-  //   return this.authService.register();
-  // }
+  @HttpCode(HttpStatus.CREATED)
+  @Post(API_ENDPOINTS.AUTH.REGISTER.serverPath)
+  public register(@Body() dto: RegisterDto): Promise<AuthTokenResponse> {
+    return this.registerWorkflow.execute(dto);
+  }
 
   // @Post(API_ENDPOINTS.AUTH.REFRESH.serverPath)
   // public refresh(): AuthTokenResponse {

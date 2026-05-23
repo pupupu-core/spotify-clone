@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsOptional, IsStrongPassword, MinLength } from 'class-validator';
 import { AUTH_CONSTRAINTS } from '@streaming-service/config';
 
 export class RegisterDto {
@@ -9,7 +9,23 @@ export class RegisterDto {
   @IsEmail()
   public email: string;
 
-  @IsNotEmpty()
-  @MinLength(AUTH_CONSTRAINTS.password.minLength)
+  @ApiProperty({
+    example: '1Qwe-rty',
+  })
+  @IsStrongPassword({
+    minLength: AUTH_CONSTRAINTS.password.minLength,
+    minLowercase: AUTH_CONSTRAINTS.password.minLowercase,
+    minUppercase: AUTH_CONSTRAINTS.password.minUppercase,
+    minNumbers: AUTH_CONSTRAINTS.password.minNumbers,
+    minSymbols: AUTH_CONSTRAINTS.password.minSymbols,
+  })
   public password: string;
+
+  @ApiProperty({
+    required: false,
+    example: 'notlogin',
+  })
+  @IsOptional()
+  @MinLength(AUTH_CONSTRAINTS.username.minLength)
+  public username?: string;
 }

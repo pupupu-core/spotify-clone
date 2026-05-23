@@ -20,7 +20,7 @@ async function bootstrap(): Promise<void> {
   await app.listen(APP_CONFIG.http.port, APP_CONFIG.http.host);
 
   Logger.log(
-    `Backend is online: http://localhost:${APP_CONFIG.http.port}/${APP_CONFIG.restGateway.pathPrefix}`,
+    `Backend is online: http://localhost:${APP_CONFIG.http.port}${APP_CONFIG.restGateway.pathPrefix}`,
   );
 }
 

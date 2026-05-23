@@ -8,6 +8,7 @@ import { IssueAuthSessionStep } from '../../../../core/steps/issue-auth-session.
 import { LoginUserWorkflow } from '../../../../core/workflows/auth/login-user.workflow';
 import { LogoutUserWorkflow } from '../../../../core/workflows/auth/logout-user.workflow';
 import { InvalidateUserSessionStep } from '../../../../core/steps/invalidate-user-session.step';
+import { RegisterWorkflow } from '../../../../core/workflows/auth/register-user.workflow';
 
 @Module({
   imports: [PrismaModule],
@@ -15,6 +16,7 @@ import { InvalidateUserSessionStep } from '../../../../core/steps/invalidate-use
   providers: [
     LoginUserWorkflow,
     LogoutUserWorkflow,
+    RegisterWorkflow,
     FindUserForLoginStep,
     VerifyLoginPasswordStep,
     IssueAuthSessionStep,
