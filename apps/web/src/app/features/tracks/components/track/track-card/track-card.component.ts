@@ -6,13 +6,13 @@ import { AbbreviatedNumberPipe } from '../../../../../shared/pipes/abbreviated-n
 import type { TrackDataUI } from '../../../../../core/api/jamendo/models/common.model';
 
 @Component({
-  selector: 'ppf-track-row',
+  selector: 'ppf-tracks-card',
   imports: [MatIcon, MatIconButton, DurationPipe, AbbreviatedNumberPipe],
-  templateUrl: './track-row.component.html',
-  styleUrl: './track-row.component.scss',
+  templateUrl: './track-card.component.html',
+  styleUrl: './track-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrackRowComponent {
+export class TrackCardComponent {
   public readonly isPlaying = input.required<boolean>();
   public readonly track = input.required<TrackDataUI>();
   public readonly playClick = output<void>();

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
+import type { TrackDataUI } from '../../../../core/api/jamendo/models/common.model';
 import type { TrackListMode } from './models/mode.model';
+import { TrackService } from '../../services/track.mock.service';
 import { Track } from '../track/track';
-import { TrackService } from '../../services/track/track.mock.service';
 
 @Component({
-  selector: 'ppf-track-list',
+  selector: 'ppf-tracks-list',
   imports: [Track],
   templateUrl: './track-list.component.html',
   styleUrl: './track-list.component.scss',

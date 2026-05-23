@@ -2,7 +2,7 @@ export const API_ENDPOINTS = {
   TRACK: {
     // not final
     serverPath: 'track',
-    clientUrl: '/track',
+    clientUrl: '/tracks',
   },
   AUTH: {
     basePath: 'auth',
