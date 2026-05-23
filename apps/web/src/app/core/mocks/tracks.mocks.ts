@@ -2,7 +2,7 @@ import type {
   JamendoMusicInfoData,
   JamendoTrack,
   JamendoTracksResponse,
-} from '../../models/tracks.model';
+} from '../api/jamendo/models/tracks.model';
 
 export const MUSIC_INFO_DATA_MOCK: JamendoMusicInfoData = {
   vocalinstrumental: 'instrumental',

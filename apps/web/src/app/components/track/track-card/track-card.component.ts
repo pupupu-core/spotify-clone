@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import type { TrackDataUI } from '../../../models/common.model';
+import type { TrackDataUI } from '../../../core/api/jamendo/models/common.model';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { DurationPipe } from '../../../pipes/duration.pipe';

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import type { JamendoTrack } from '../../models/tracks.model';
-import type { TrackDataUI } from '../../models/common.model';
+import type { JamendoTrack } from '../../core/api/jamendo/models/tracks.model';
+import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
 import { TRACK_MOCK, TRACKS_RESPONSE_MOCK } from '../../core/mocks/tracks.mocks';
 
 const mapTrackToUI = (track: JamendoTrack): TrackDataUI => ({
