@@ -7,7 +7,7 @@
         class="track-list__item"
         [class.track-list__item--active]="currentTrack()?.id === track.id"
       >
-        <ppf-track [isPlaying]="currentTrack()?.id === track.id" [track]="track" view="list" />
+        <ppf-tracks [isPlaying]="currentTrack()?.id === track.id" [track]="track" view="list" />
       </li>
     }
   </ul>
