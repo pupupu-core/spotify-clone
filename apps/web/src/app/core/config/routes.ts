@@ -15,6 +15,14 @@ export const ROUTES = {
       title: 'Home',
     },
   },
+  SEARCH: {
+    path: 'search',
+    to: 'search',
+    meta: {
+      label: 'Search page',
+      title: 'Search',
+    },
+  },
   NOT_FOUND: {
     path: '**',
     to: '/not-found',

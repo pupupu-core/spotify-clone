@@ -3,6 +3,7 @@ import { ROUTES } from './core/config/routes';
 import { AppLayoutComponent as AppLayout } from './core/layouts/app-layout/app-layout.component';
 import { HomePageComponent as HomePage } from './pages/home/home-page.component';
 import { AuthPageComponent as AuthPage } from './pages/auth/auth-page.component';
+import { PpfSearchPageComponent as SearchPage } from './pages/search-page/search-page.component';
 import { loadComponent } from './shared/lib/load-component';
 import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest-guard';
@@ -29,6 +30,11 @@ export const appRoutes: Route[] = [
         path: ROUTES.HOME.path,
         title: ROUTES.HOME.meta.title,
         component: HomePage,
+      },
+      {
+        path: ROUTES.SEARCH.path,
+        title: ROUTES.SEARCH.meta.title,
+        component: SearchPage,
       },
     ],
   },
