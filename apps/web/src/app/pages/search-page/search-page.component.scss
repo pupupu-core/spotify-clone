@@ -1,3 +1,18 @@
+@use '../../../.././src/styles/variables';
+@use '../../../.././src/styles/colors';
+@use '../../../.././src/styles/mixins';
+
+:host {
+  --mat-table-background-color: none;
+  --mat-paginator-container-background-color: none;
+}
+
+.mat-elevation-z8 {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 table {
   width: 100%;
 }
@@ -8,5 +23,14 @@ table {
 }
 
 th.mat-sort-header-sorted {
-  color: black;
+  color: transparent;
+}
+
+.album-img {
+  width: 90px;
+}
+
+.album-img {
+  border-radius: variables.$radius-sm;
+  object-fit: cover;
 }

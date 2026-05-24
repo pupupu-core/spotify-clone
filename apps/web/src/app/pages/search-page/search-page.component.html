@@ -1,48 +1,41 @@
 <div class="mat-elevation-z8">
   <mat-form-field>
     <mat-label>Start for search songs, albums, authors...</mat-label>
-    <input matInput (keyup)="applyFilter($event)" #input />
+    <input matInput (keyup)="applyFilter($event)" #input aria-label="Search tracks" />
   </mat-form-field>
 
-  <table
-    mat-table
-    [dataSource]="dataSource"
-    class="mat-elevation-z8"
-    matSort
-    (matSortChange)="announceSortChange($event)"
-  >
-    <ng-container matColumnDef="album_name">
-      <th mat-header-cell *matHeaderCellDef>name</th>
-      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
-    </ng-container>
-
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
     <ng-container matColumnDef="album_cover">
-      <th mat-header-cell *matHeaderCellDef>cover</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let track">
+        <img class="album-img" [src]="track.album_image" [alt]="track.album_name + ' cover'" />
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="artist_meta">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-        sortActionDescription="Sort by track name"
-      >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
         name
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <td mat-cell *matCellDef="let track">
+        <div class="album-title-container">
+          <div class="title-container">
+            <p class="track-name">{{ track.name }}</p>
+            <p class="album-name">{{ track.artist_name }}</p>
+          </div>
+        </div>
+      </td>
     </ng-container>
 
-    <ng-container matColumnDef="listen_count">
+    <ng-container matColumnDef="play_count">
       <th
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
         sortActionDescription="Sort by popularity"
       >
-        popularity
+        Duration
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <td mat-cell *matCellDef="let track">{{ 100000 | abbreviatedNumber }}</td>
     </ng-container>
 
     <ng-container matColumnDef="duration">
@@ -52,23 +45,27 @@
         mat-sort-header
         sortActionDescription="Sort by duration"
       >
-        duration
+        Duration
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+      <td mat-cell *matCellDef="let track">{{ track.duration | duration }}</td>
     </ng-container>
 
     <ng-container matColumnDef="play">
-      <th mat-header-cell *matHeaderCellDef>play</th>
-      <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let track">
+        <button mat-icon-button [attr.aria-label]="'Play ' + track.name">
+          <mat-icon fontSet="material-icons-outlined">play_circle</mat-icon>
+        </button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+      <td class="mat-cell" colspan="4">No tracks matching "{{ input.value }}"</td>
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[4]" showFirstLastButtons aria-label="tracks"> </mat-paginator>
+  <mat-paginator [pageSize]="[4]" showFirstLastButtons />
 </div>
