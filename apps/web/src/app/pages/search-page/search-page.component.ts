@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { TrackService } from '../../features/tracks/services/track.mock.service';
 import { MatFormField, MatInput, MatInputModule, MatLabel } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -10,6 +18,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { DurationPipe } from '../../shared/pipes/duration.pipe';
 import { AbbreviatedNumberPipe } from '../../shared/pipes/abbreviated-number.pipe';
+import { MatChipsModule } from '@angular/material/chips';
+import type { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 
 @Component({
   selector: 'ppf-search-page',
@@ -25,6 +39,10 @@ import { AbbreviatedNumberPipe } from '../../shared/pipes/abbreviated-number.pip
     MatButtonModule,
     DurationPipe,
     AbbreviatedNumberPipe,
+    MatInputModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
@@ -72,5 +90,33 @@ export class PpfSearchPageComponent {
     } else {
       // this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  protected readonly selectedGenres = signal<string[]>([]);
+
+  protected readonly tagInputControl = new FormControl('', { nonNullable: true });
+
+  protected readonly filteredGenres = computed(() => {
+    const input = this.tagInputControl.value.toLowerCase();
+    const selected = this.selectedGenres();
+
+    return ALL_GENRES.filter(
+      genre => genre.toLowerCase().includes(input) && !selected.includes(genre),
+    );
+  });
+
+  protected addGenre(event: MatAutocompleteSelectedEvent): void {
+    if (typeof event.option.value === 'string') {
+      const genre = event.option.value;
+
+      if (!this.selectedGenres().includes(genre) && typeof genre) {
+        this.selectedGenres.update(clicked => [...clicked, genre]);
+      }
+      this.tagInputControl.setValue('');
+    }
+  }
+
+  protected removeGenre(genre: string): void {
+    this.selectedGenres.update(g => g.filter(clicked => clicked !== genre));
   }
 }

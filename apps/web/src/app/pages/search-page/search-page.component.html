@@ -4,6 +4,34 @@
     <input matInput (keyup)="applyFilter($event)" #input aria-label="Search tracks" />
   </mat-form-field>
 
+  <section class="search-page__panel search-page__panel-genres">
+    <mat-form-field appearance="fill" class="search-page__genre-field">
+      <input
+        matInput
+        [formControl]="tagInputControl"
+        [matAutocomplete]="genreAuto"
+        [matChipInputFor]="chipGrid"
+        placeholder="Genre tags"
+      />
+      <mat-autocomplete #genreAuto="matAutocomplete" (optionSelected)="addGenre($event)">
+        @for (genre of filteredGenres(); track genre) {
+          <mat-option [value]="genre">{{ genre }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-chip-grid #chipGrid class="tesdt">
+      @for (genre of selectedGenres(); track genre) {
+        <mat-chip-row (removed)="removeGenre(genre)" [removable]="true">
+          {{ genre }}
+          <button matChipRemove>
+            <span>×</span>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+  </section>
+
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
     <ng-container matColumnDef="album_cover">
       <th mat-header-cell *matHeaderCellDef></th>
