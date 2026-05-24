@@ -7,14 +7,21 @@
   --mat-table-background-color: none;
   --mat-paginator-container-background-color: none;
   --mat-mdc-form-field-infix: 0;
-
-  display: block;
+  --row-item-outline-width: 0px;
 
   @include mat.chips-overrides(
     (
       elevated-container-color: var(--mat-sys-secondary-container),
     )
   );
+}
+
+.mat-mdc-header-cell {
+  border: 0;
+}
+
+.mat-mdc-cell {
+  border: 0;
 }
 
 .mat-elevation-z8 {
