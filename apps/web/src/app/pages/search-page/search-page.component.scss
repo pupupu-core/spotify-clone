@@ -1,10 +1,20 @@
 @use '../../../.././src/styles/variables';
 @use '../../../.././src/styles/colors';
 @use '../../../.././src/styles/mixins';
+@use '@angular/material' as mat;
 
 :host {
   --mat-table-background-color: none;
   --mat-paginator-container-background-color: none;
+  --mat-mdc-form-field-infix: 0;
+
+  display: block;
+
+  @include mat.chips-overrides(
+    (
+      elevated-container-color: var(--mat-sys-secondary-container),
+    )
+  );
 }
 
 .mat-elevation-z8 {
@@ -33,4 +43,42 @@ th.mat-sort-header-sorted {
 .album-img {
   border-radius: variables.$radius-sm;
   object-fit: cover;
+}
+
+.search-page__panels {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.search-page__panel {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-page__panel-durs {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-page__dur-row {
+  align-items: flex-start;
+}
+
+.search-page__panel-duration {
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+}
+
+.search-page__panel-dur-slider {
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+}
+
+.chip-grid-container {
+  width: 500px;
+  height: 60px;
 }

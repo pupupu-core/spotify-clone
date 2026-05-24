@@ -1,37 +1,111 @@
-<div class="mat-elevation-z8">
+<div class="search-page__wrapper mat-elevation-z8">
   <mat-form-field>
     <mat-label>Start for search songs, albums, authors...</mat-label>
     <input matInput (keyup)="applyFilter($event)" #input aria-label="Search tracks" />
   </mat-form-field>
+  <div class="search-page__panels">
+    <section class="search-page__panel search-page__panel-duration">
+      <div class="search-page__panel-durs">
+        <div class="search-page__dur-row">
+          <mat-form-field>
+            <mat-icon
+              inline
+              aria-hidden="false"
+              aria-label="schedule icon"
+              fontSet="material-icons-outlined"
+            >
+              schedule
+            </mat-icon>
+            <input
+              matInput
+              id="min-dur"
+              type="number"
+              class="search-page__dur-input"
+              min="0"
+              max="600"
+              step="10"
+              (change)="onMinDuration($event)"
+              placeholder="min seconds"
+            />
+            <mat-icon
+              inline
+              aria-hidden="false"
+              aria-label="cancel icon"
+              fontSet="material-icons-outlined"
+            >
+              cancel
+            </mat-icon>
+          </mat-form-field>
+        </div>
 
-  <section class="search-page__panel search-page__panel-genres">
-    <mat-form-field appearance="fill" class="search-page__genre-field">
-      <input
-        matInput
-        [formControl]="tagInputControl"
-        [matAutocomplete]="genreAuto"
-        [matChipInputFor]="chipGrid"
-        placeholder="Genre tags"
-      />
-      <mat-autocomplete #genreAuto="matAutocomplete" (optionSelected)="addGenre($event)">
-        @for (genre of filteredGenres(); track genre) {
-          <mat-option [value]="genre">{{ genre }}</mat-option>
+        <div class="search-page__dur-row">
+          <mat-form-field>
+            <mat-icon
+              inline
+              aria-hidden="false"
+              aria-label="schedule icon"
+              fontSet="material-icons-outlined"
+            >
+              schedule
+            </mat-icon>
+            <input
+              matInput
+              id="max-dur"
+              type="number"
+              class="search-page__dur-input"
+              min="0"
+              max="600"
+              step="10"
+              (change)="onMaxDuration($event)"
+              placeholder="max seconds"
+            />
+            <mat-icon
+              inline
+              aria-hidden="false"
+              aria-label="cancel icon"
+              fontSet="material-icons-outlined"
+            >
+              cancel
+            </mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="search-page__panel-dur-slider">
+        <mat-slider>
+          <input matSliderStartThumb />
+          <input matSliderEndThumb />
+        </mat-slider>
+      </div>
+    </section>
+
+    <section class="search-page__panel search-page__panel-genres">
+      <mat-form-field appearance="fill" class="search-page__genre-field">
+        <input
+          matInput
+          [formControl]="tagInputControl"
+          [matAutocomplete]="genreAuto"
+          [matChipInputFor]="chipGrid"
+          placeholder="Genre tags"
+        />
+        <mat-autocomplete #genreAuto="matAutocomplete" (optionSelected)="addGenre($event)">
+          @for (genre of filteredGenres(); track genre) {
+            <mat-option [value]="genre">{{ genre }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-chip-grid #chipGrid class="chip-grid-container">
+        @for (genre of selectedGenres(); track genre) {
+          <mat-chip-row (removed)="removeGenre(genre)" [removable]="true">
+            {{ genre }}
+            <button matChipRemove>
+              <span>×</span>
+            </button>
+          </mat-chip-row>
         }
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-chip-grid #chipGrid class="tesdt">
-      @for (genre of selectedGenres(); track genre) {
-        <mat-chip-row (removed)="removeGenre(genre)" [removable]="true">
-          {{ genre }}
-          <button matChipRemove>
-            <span>×</span>
-          </button>
-        </mat-chip-row>
-      }
-    </mat-chip-grid>
-  </section>
-
+      </mat-chip-grid>
+    </section>
+  </div>
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
     <ng-container matColumnDef="album_cover">
       <th mat-header-cell *matHeaderCellDef></th>

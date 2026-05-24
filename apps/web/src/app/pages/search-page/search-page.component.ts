@@ -22,6 +22,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import type { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatSliderModule } from '@angular/material/slider';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 
@@ -43,6 +44,7 @@ const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'h
     MatChipsModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    MatSliderModule,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
@@ -118,5 +120,16 @@ export class PpfSearchPageComponent {
 
   protected removeGenre(genre: string): void {
     this.selectedGenres.update(g => g.filter(clicked => clicked !== genre));
+  }
+
+  protected readonly minDuration = signal<number>(0);
+  protected readonly maxDuration = signal<number>(600);
+
+  protected onMinDuration(event: Event): void {
+    this.minDuration.set(Number((event.target as HTMLInputElement).value));
+  }
+
+  protected onMaxDuration(event: Event): void {
+    this.maxDuration.set(Number((event.target as HTMLInputElement).value));
   }
 }
