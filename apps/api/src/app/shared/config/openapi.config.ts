@@ -5,6 +5,7 @@ export const OPENAPI_CONFIG = {
   version: '1.0',
   tags: {
     auth: 'Authentication',
+    user: 'User',
     track: 'Track',
   },
 } as const;

@@ -11,7 +11,7 @@ export class LoginDto implements LoginRequest {
   public email: string;
 
   @ApiProperty({
-    example: 'password',
+    example: '1Qwe-rty',
   })
   @IsNotEmpty()
   @MinLength(AUTH_CONSTRAINTS.password.minLength)

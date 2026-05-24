@@ -12,6 +12,6 @@ export class RegisterWorkflow {
     //   -> hash-user-password
     //   -> create-user-account
     return await this.issueAuthSessionStep.execute(input);
-    //   -> issue-auth-session
+    //   -x issue-auth-session
   }
 }

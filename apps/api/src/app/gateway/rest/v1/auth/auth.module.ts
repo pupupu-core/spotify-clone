@@ -9,6 +9,7 @@ import { LoginUserWorkflow } from '../../../../core/workflows/auth/login-user.wo
 import { LogoutUserWorkflow } from '../../../../core/workflows/auth/logout-user.workflow';
 import { InvalidateUserSessionStep } from '../../../../core/steps/invalidate-user-session.step';
 import { RegisterWorkflow } from '../../../../core/workflows/auth/register-user.workflow';
+import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
 
 @Module({
   imports: [PrismaModule],
@@ -17,6 +18,7 @@ import { RegisterWorkflow } from '../../../../core/workflows/auth/register-user.
     LoginUserWorkflow,
     LogoutUserWorkflow,
     RegisterWorkflow,
+    RefreshUserSessionWorkflow,
     FindUserForLoginStep,
     VerifyLoginPasswordStep,
     IssueAuthSessionStep,

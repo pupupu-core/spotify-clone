@@ -1,9 +1,4 @@
 export const API_ENDPOINTS = {
-  TRACK: {
-    // not final
-    serverPath: 'track',
-    clientUrl: '/track',
-  },
   AUTH: {
     basePath: 'auth',
     LOGIN: {
@@ -18,13 +13,20 @@ export const API_ENDPOINTS = {
       serverPath: 'refresh',
       clientUrl: '/auth/refresh',
     },
-    ME: {
-      serverPath: 'me',
-      clientUrl: '/auth/me',
-    },
     LOGOUT: {
       serverPath: 'logout',
       clientUrl: '/auth/logout',
     },
+  },
+  USER: {
+    basePath: 'user',
+    ME: {
+      serverPath: 'me',
+      clientUrl: '/user/me',
+    },
+  },
+  TRACK: {
+    serverPath: 'track',
+    clientUrl: '/track/id',
   },
 } as const;

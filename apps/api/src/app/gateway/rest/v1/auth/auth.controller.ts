@@ -9,6 +9,7 @@ import { LoginUserWorkflow } from '../../../../core/workflows/auth/login-user.wo
 import { LogoutUserWorkflow } from '../../../../core/workflows/auth/logout-user.workflow';
 import { RegisterWorkflow } from '../../../../core/workflows/auth/register-user.workflow';
 import { RegisterDto } from './dtos/register.dto';
+import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.auth)
 @Controller({
@@ -20,6 +21,7 @@ export class AuthController {
     private readonly loginUserWorkflow: LoginUserWorkflow,
     private readonly logoutUserWorkflow: LogoutUserWorkflow,
     private readonly registerWorkflow: RegisterWorkflow,
+    private readonly refreshUserSessionWorkflow: RefreshUserSessionWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -42,13 +44,11 @@ export class AuthController {
     return this.registerWorkflow.execute(dto);
   }
 
-  // @Post(API_ENDPOINTS.AUTH.REFRESH.serverPath)
-  // public refresh(): AuthTokenResponse {
-  //   return this.authService.refresh();
-  // }
-
-  // @Get(API_ENDPOINTS.AUTH.ME.serverPath)
-  // public me(): AuthTokenResponse {
-  //   return this.authService.me();
-  // }
+  @HttpCode(HttpStatus.OK)
+  @Post(API_ENDPOINTS.AUTH.REFRESH.serverPath)
+  public refresh(
+    @Req() { cookies }: Request & { cookies: Record<string, string | undefined> },
+  ): Promise<AuthTokenResponse> {
+    return this.refreshUserSessionWorkflow.execute(cookies.refreshToken);
+  }
 }

@@ -9,7 +9,7 @@ export function initSwagger(app: INestApplication): void {
     .setDescription(OPENAPI_CONFIG.description)
     .setVersion(OPENAPI_CONFIG.version)
     .addTag(OPENAPI_CONFIG.tags.auth)
-    .addTag(OPENAPI_CONFIG.tags.track)
+    .addTag(OPENAPI_CONFIG.tags.user)
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
