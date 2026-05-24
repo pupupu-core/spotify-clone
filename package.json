@@ -1,6 +1,7 @@
 {
   "name": "streaming-service",
   "version": "0.0.0",
+  "packageManager": "pnpm@10.33.2",
   "license": "MIT",
   "scripts": {
     "serve:backend": "nx run api:serve",
@@ -106,7 +107,6 @@
     "stylelint": "^17.11.0",
     "stylelint-config-clean-order": "^8.0.1",
     "stylelint-config-standard-scss": "^17.0.0",
-    "tslib": "^2.8.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.10",
@@ -137,6 +137,7 @@
     "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
+    "tslib": "^2.8.1",
     "zone.js": "^0.16.2"
   }
 }
