@@ -9,6 +9,10 @@
     "show:backend": "nx show project api",
     "show:frontend": "nx show project web",
     "dev": "nx run web:serve",
+    "dev:deps": "docker compose up -d db",
+    "dev:local": "pnpm dev",
+    "dev:docker": "docker compose up -d",
+    "dev:down:apps": "docker stop pupufy-api pupufy-web",
     "lint": "pnpm run lint:check",
     "lint:check": "nx run-many -t lint",
     "lint:fix": "nx run-many -t lint -- --fix",
@@ -44,9 +48,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
-    "db:studio": "prisma studio",
-    "db:up": "docker compose up -d",
-    "dev:up": "docker compose up -d && pnpm dev"
+    "db:studio": "prisma studio"
   },
   "private": true,
   "devDependencies": {
