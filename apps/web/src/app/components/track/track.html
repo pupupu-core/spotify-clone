@@ -1,5 +1,0 @@
-@if (view() === 'list') {
-  <ppf-track-row [isPlaying]="isPlaying()" [track]="track()" (playClick)="playClick.emit()" />
-} @else if (view() === 'card') {
-  <ppf-track-card [isPlaying]="isPlaying()" [track]="track()" (playClick)="playClick.emit()" />
-}
