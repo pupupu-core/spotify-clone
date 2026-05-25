@@ -1,10 +1,10 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type { JamendoTrack } from '../../../core/api/jamendo/models/tracks.model';
-import { AudioEngine } from './html-audio.service';
+import { PpfAudioEngine } from './html-audio.service';
 
 @Injectable({ providedIn: 'root' })
-export class PlayerService {
-  private readonly engine = inject(AudioEngine);
+export class PpfPlayerService {
+  private readonly engine = inject(PpfAudioEngine);
 
   private readonly queue = signal<JamendoTrack[]>([]);
   private readonly index = signal(-100);

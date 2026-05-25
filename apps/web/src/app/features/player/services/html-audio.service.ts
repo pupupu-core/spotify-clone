@@ -1,7 +1,7 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
-export class AudioEngine {
+export class PpfAudioEngine {
   private readonly audio = new Audio();
 
   public readonly isPlaying = signal(false);
@@ -47,6 +47,7 @@ export class AudioEngine {
 
   public play(): void {
     void this.audio.play();
+    // add popularity +1 here or in player service
   }
 
   public pause(): void {
