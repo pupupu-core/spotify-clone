@@ -10,6 +10,8 @@ export class PpfAudioEngine {
   public readonly position = signal(0);
   public readonly duration = signal(0);
 
+  public readonly volume = signal(0);
+
   constructor() {
     const currentAudio = this.audio;
 
@@ -26,23 +28,30 @@ export class PpfAudioEngine {
       }
     };
 
+    const onEnded = (): void => this.isPlaying.set(false);
+
     currentAudio.addEventListener('play', onPlay);
     currentAudio.addEventListener('pause', onPause);
     currentAudio.addEventListener('progress', onProgress);
     currentAudio.addEventListener('timeupdate', onTime);
     currentAudio.addEventListener('loadedmetadata', onDuration);
+    currentAudio.addEventListener('ended', onEnded);
 
     inject(DestroyRef).onDestroy(() => {
+      currentAudio.pause();
       currentAudio.removeEventListener('play', onPlay);
       currentAudio.removeEventListener('pause', onPause);
       currentAudio.removeEventListener('progress', onProgress);
       currentAudio.removeEventListener('timeupdate', onTime);
       currentAudio.removeEventListener('loadedmetadata', onDuration);
+      currentAudio.removeEventListener('ended', onEnded);
     });
   }
 
   public load(src: string): void {
     this.audio.src = src;
+    this.position.set(0);
+    this.duration.set(0);
   }
 
   public play(): void {
@@ -60,5 +69,19 @@ export class PpfAudioEngine {
     } else {
       this.pause();
     }
+  }
+
+  public seek(seconds: number): void {
+    this.audio.currentTime = seconds;
+  }
+
+  public setVolume(value: number): void {
+    this.audio.volume = Math.min(1, Math.max(0, value));
+  }
+
+  public onEnded(handler: () => void) {
+    this.audio.addEventListener('ended', handler);
+
+    return (): void => this.audio.removeEventListener('ended', handler);
   }
 }
