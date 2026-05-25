@@ -76,7 +76,9 @@ export class PpfAudioEngine {
   }
 
   public setVolume(value: number): void {
-    this.audio.volume = Math.min(1, Math.max(0, value));
+    const clamped = Math.min(100, Math.max(0, value));
+
+    this.audio.volume = Math.round(clamped) / 100;
   }
 
   public onEnded(handler: () => void) {
