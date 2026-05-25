@@ -22,7 +22,7 @@ RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml prisma.config.ts ./
 RUN pnpm install --prod --frozen-lockfile --ignore-scripts
-RUN pnpm prisma generate
+RUN pnpm exec prisma generate
 
 COPY --from=build /app/dist/apps/api ./
 
