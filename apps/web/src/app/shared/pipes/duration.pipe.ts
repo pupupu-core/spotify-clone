@@ -11,7 +11,9 @@ export class DurationPipe implements PipeTransform {
     const minutes = Math.trunc(timeNumber / SECONDS_PER_MINUTE)
       .toString()
       .padStart(2, '0');
-    const seconds = (timeNumber % SECONDS_PER_MINUTE).toString().padStart(2, '0');
+    const seconds = Math.floor(Math.ceil(timeNumber % SECONDS_PER_MINUTE))
+      .toString()
+      .padStart(2, '0');
 
     return `${minutes}:${seconds}`;
   }
