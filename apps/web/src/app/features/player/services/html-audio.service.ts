@@ -7,6 +7,9 @@ export class AudioEngine {
   public readonly isPlaying = signal(false);
   public readonly buffered = signal(0);
 
+  public readonly position = signal(0);
+  public readonly duration = signal(0);
+
   constructor() {
     const currentAudio = this.audio;
 
@@ -14,8 +17,11 @@ export class AudioEngine {
 
     const onPlay = (): void => this.isPlaying.set(true);
     const onPause = (): void => this.isPlaying.set(false);
+    const onTime = (): void => this.position.set(currentAudio.currentTime);
+    const onDuration = (): void => this.duration.set(currentAudio.duration || 0);
+
     const onProgress = (): void => {
-      if (this.buffered.length >= 1) {
+      if (currentAudio.buffered.length > 0) {
         this.buffered.set(currentAudio.buffered.end(currentAudio.buffered.length - 1));
       }
     };
@@ -23,11 +29,15 @@ export class AudioEngine {
     currentAudio.addEventListener('play', onPlay);
     currentAudio.addEventListener('pause', onPause);
     currentAudio.addEventListener('progress', onProgress);
+    currentAudio.addEventListener('timeupdate', onTime);
+    currentAudio.addEventListener('loadedmetadata', onDuration);
 
     inject(DestroyRef).onDestroy(() => {
       currentAudio.removeEventListener('play', onPlay);
       currentAudio.removeEventListener('pause', onPause);
       currentAudio.removeEventListener('progress', onProgress);
+      currentAudio.removeEventListener('timeupdate', onTime);
+      currentAudio.removeEventListener('loadedmetadata', onDuration);
     });
   }
 
