@@ -8,6 +8,8 @@ export class PpfPlayerService {
 
   public readonly queue = signal<JamendoTrack[]>([]);
   public readonly index = signal(-100);
+  public readonly position = this.engine.position;
+  public readonly duration = this.engine.duration;
 
   public readonly current = computed<JamendoTrack | null>(() => {
     const i = this.index();

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import type { JamendoTrack } from '../../../../core/api/jamendo/models/tracks.model';
+import { PpfPlayerService } from '../../services/track-player.service';
 import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlider } from '@angular/material/slider';
@@ -15,5 +16,17 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class PpfFooterPlayerComponent {
   public readonly track = input.required<JamendoTrack>();
-  protected readonly isPlaying = signal(false);
+  protected readonly player = inject(PpfPlayerService);
+
+  protected onSeek(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
+
+    this.player.seek(value);
+  }
+
+  protected onVolume(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
+
+    this.player.volume(value);
+  }
 }

@@ -1,25 +1,22 @@
+@let track = player.current();
+
 <section class="player__section">
   <div class="player__section-wrapper">
     <div class="player__track-info">
-      @if (track()) {
+      @if (track) {
         <div class="player__cover-wrapper">
           <span>
             <a class="player-cover-link">
-              <img
-                class="player__cover"
-                [src]="track().image"
-                [alt]="track().album_name"
-                loading="lazy"
-              />
+              <img class="player__cover" [src]="track.image" [alt]="track.album_name" />
             </a>
           </span>
         </div>
         <div class="player__names">
           <span>
-            <a class="player__artist-name">{{ track().artist_name }}</a>
+            <a class="player__artist-name">{{ track.artist_name }}</a>
           </span>
           <span
-            ><a class="player__track-name">{{ track().name }}</a>
+            ><a class="player__track-name">{{ track.name }}</a>
           </span>
         </div>
       } @else {
@@ -28,7 +25,13 @@
     </div>
 
     <div class="player__controls">
-      <button matButton type="button" class="player__perv" (click)="(null)" [disabled]="!track">
+      <button
+        matButton
+        type="button"
+        class="player__perv"
+        (click)="player.previous()"
+        [disabled]="!track"
+      >
         <mat-icon
           inline
           aria-hidden="false"
@@ -38,8 +41,14 @@
           skip_previous
         </mat-icon>
       </button>
-      <button matButton type="button" class="player__play" (click)="(null)" [disabled]="!track">
-        @if (isPlaying()) {
+      <button
+        matButton
+        type="button"
+        class="player__play"
+        (click)="player.toggle()"
+        [disabled]="!track"
+      >
+        @if (player.isPlaying()) {
           <mat-icon
             inline
             aria-hidden="false"
@@ -59,7 +68,13 @@
           </mat-icon>
         }
       </button>
-      <button matButton type="button" class="player__next" (click)="(null)" [disabled]="!track">
+      <button
+        matButton
+        type="button"
+        class="player__next"
+        (click)="player.next()"
+        [disabled]="!track"
+      >
         <mat-icon
           inline
           aria-hidden="false"
@@ -78,17 +93,17 @@
           type="range"
           min="0"
           [max]="100"
-          (input)="(null)"
-          [disabled]="!track()"
+          (input)="onVolume($event)"
+          [disabled]="!track"
         />
       </mat-slider>
     </div>
 
     <div class="player__progress">
       <div class="progress__time-wrapper">
-        <span class="player__time time-position">{{ 1 | duration }}</span>
-        <span class="player__time-slash">/</span>
-        <span class="player__time time-duration">{{ 1 | duration }}</span>
+        <span class="player__time time-position">{{ player.position() | duration }}</span>
+        <span class="player__time-slash"> / </span>
+        <span class="player__time time-duration">{{ player.duration() | duration }}</span>
       </div>
       <div class="progress__input-wrapper">
         <mat-slider>
@@ -96,10 +111,10 @@
             matSliderThumb
             type="range"
             min="0"
-            [max]="null"
-            [value]="null"
-            (input)="(null)"
-            [disabled]="!track()"
+            [max]="player.duration() || 0"
+            [value]="player.position()"
+            (input)="onSeek($event)"
+            [disabled]="!track"
           />
         </mat-slider>
       </div>
