@@ -35,6 +35,8 @@ jobs:
           context: .
           file: apps/api/dockerfile
           push: true
+          build-args: |
+            DATABASE_URL=postgresql://placeholder:placeholder@localhost:5432/placeholder
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/pupufy-api:${{ github.ref_name }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/pupufy-api:${{ github.sha }}
