@@ -1,33 +1,96 @@
 <section class="player__section">
-  <div class="player-wrapper">
-    <div class="player-track-info">
-      <div
-        class="footer-player"
-        (click)="onActivate()"
-        (keydown.enter)="onActivate()"
-        tabindex="10"
-      >
-        @if (track().image) {
-          <img [src]="track().image" alt="{{ track().name }}" class="player-cover" />
+  <div class="player__section-wrapper">
+    <div class="player__track-info">
+      @if (track()) {
+        <div class="player__cover-wrapper">
+          <span>
+            <a class="player-cover-link">
+              <img
+                class="player__cover"
+                [src]="track().image"
+                [alt]="track().album_name"
+                loading="lazy"
+              />
+            </a>
+          </span>
+        </div>
+        <div class="player__names">
+          <span>
+            <a class="player__artist-name">{{ track().artist_name }}</a>
+          </span>
+          <span
+            ><a class="player__track-name">{{ track().name }}</a>
+          </span>
+        </div>
+      } @else {
+        <div class="player__empty"><p></p></div>
+      }
+    </div>
+
+    <div class="player__controls">
+      <button matButton type="button" class="player__perv" (click)="(null)" [disabled]="!track">
+        <mat-icon
+          inline
+          aria-hidden="false"
+          aria-label="perv icon"
+          fontSet="material-icons-outlined"
+        >
+          skip_previous
+        </mat-icon>
+      </button>
+      <button matButton type="button" class="player__play" (click)="(null)" [disabled]="!track">
+        @if (isPlaying()) {
+          <mat-icon
+            inline
+            aria-hidden="false"
+            aria-label="stop icon"
+            fontSet="material-icons-outlined"
+          >
+            stop_circle
+          </mat-icon>
+        } @else {
+          <mat-icon
+            inline
+            aria-hidden="false"
+            aria-label="play icon"
+            fontSet="material-icons-outlined"
+          >
+            play_circle
+          </mat-icon>
         }
+      </button>
+      <button matButton type="button" class="player__next" (click)="(null)" [disabled]="!track">
+        <mat-icon
+          inline
+          aria-hidden="false"
+          aria-label="next icon"
+          fontSet="material-icons-outlined"
+        >
+          skip_next
+        </mat-icon>
+      </button>
+    </div>
+
+    <div class="player__volume">
+      <input type="range" min="0" [max]="100" (input)="(null)" [disabled]="!track()" />
+    </div>
+
+    <div class="player__progress">
+      <div class="progress__time-wrapper">
+        <span class="player__time time-position">{{ 1 | duration }}</span>
+        <span class="player__time-slash"> / </span>
+        <span class="player__time time-duration">{{ 1 | duration }}</span>
       </div>
-      <div class="player-names">
-        <div class="track-name">{{ track().name }}</div>
-        <div class="artist-name">{{ track().artist_name }}</div>
+      <div class="progress__input-wrapper">
+        <input
+          type="range"
+          min="0"
+          [max]="null"
+          [value]="null"
+          (input)="(null)"
+          [disabled]="!track()"
+        />
       </div>
-    </div>
-    <div class="player-controls">
-      <button>perv</button>
-      <button class="play-btn" (click)="onActivate(); $event.stopPropagation()">play</button>
-      <button>next</button>
-    </div>
-    <div class="search__player-volume">
-      <span>volume</span>
-      <input type="range" name="" id="" />
-    </div>
-    <div class="search__player-time">
-      <span>timeline</span>
-      <input type="range" name="" id="" />
     </div>
   </div>
 </section>

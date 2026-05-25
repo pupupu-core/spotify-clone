@@ -1,26 +1,62 @@
+@use '../../../../../styles/variables';
+@use '../../../../../styles/colors';
+@use '../../../../../styles/mixins';
+
 :host {
   display: flex;
   flex-direction: row;
-  align-items: center;
+
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.player-cover {
+.player__cover {
   align-items: center;
   width: 30px;
 }
 
-.player-wrapper {
-  display: flex;
-  flex-direction: row;
+.player__section {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.player-track-info {
+.player__section-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.player__track-info {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.player-names {
+.player__names {
   display: flex;
   flex-direction: column;
+}
+
+.player__progress {
+  display: flex;
+  flex-direction: column;
+}
+
+.progress__time-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.player__section-wrapper {
+  > div {
+    padding: variables.$space-16;
+  }
+}
+
+.player__controls,
+.player__progress,
+.player__volume {
+  align-self: center;
 }
