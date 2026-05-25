@@ -49,14 +49,6 @@ export const TRACKS_MOCK: JamendoTrack[] = Array.from({ length: 10 }, (_, index)
   position: index + 1,
 }));
 
-export const DIFFERENT_TRACKS_MOCK: JamendoTrack[] = Array.from({ length: 10 }, (_, index) => ({
-  ...TRACK_MOCK,
-  id: `${Number(TRACK_MOCK.id) + index}`,
-  name: `${TRACK_MOCK.name} ${index + 1}`,
-  duration: TRACK_MOCK.duration + index,
-  position: index + 1,
-}));
-
 export const TRACKS_RESPONSE_MOCK: JamendoTracksResponse = {
   headers: {
     status: 'success',
@@ -65,5 +57,5 @@ export const TRACKS_RESPONSE_MOCK: JamendoTracksResponse = {
     warnings: '',
     results_count: TRACKS_MOCK.length,
   },
-  results: DIFFERENT_TRACKS_MOCK,
+  results: TRACKS_MOCK,
 };
