@@ -72,24 +72,36 @@
     </div>
 
     <div class="player__volume">
-      <input type="range" min="0" [max]="100" (input)="(null)" [disabled]="!track()" />
+      <mat-slider>
+        <input
+          matSliderThumb
+          type="range"
+          min="0"
+          [max]="100"
+          (input)="(null)"
+          [disabled]="!track()"
+        />
+      </mat-slider>
     </div>
 
     <div class="player__progress">
       <div class="progress__time-wrapper">
         <span class="player__time time-position">{{ 1 | duration }}</span>
-        <span class="player__time-slash"> / </span>
+        <span class="player__time-slash">/</span>
         <span class="player__time time-duration">{{ 1 | duration }}</span>
       </div>
       <div class="progress__input-wrapper">
-        <input
-          type="range"
-          min="0"
-          [max]="null"
-          [value]="null"
-          (input)="(null)"
-          [disabled]="!track()"
-        />
+        <mat-slider>
+          <input
+            matSliderThumb
+            type="range"
+            min="0"
+            [max]="null"
+            [value]="null"
+            (input)="(null)"
+            [disabled]="!track()"
+          />
+        </mat-slider>
       </div>
     </div>
   </div>
