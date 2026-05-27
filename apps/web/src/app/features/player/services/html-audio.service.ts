@@ -1,4 +1,4 @@
-import { DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class PpfAudioEngine {
@@ -36,16 +36,6 @@ export class PpfAudioEngine {
     currentAudio.addEventListener('timeupdate', onTime);
     currentAudio.addEventListener('loadedmetadata', onDuration);
     currentAudio.addEventListener('ended', onEnded);
-
-    inject(DestroyRef).onDestroy(() => {
-      currentAudio.pause();
-      currentAudio.removeEventListener('play', onPlay);
-      currentAudio.removeEventListener('pause', onPause);
-      currentAudio.removeEventListener('progress', onProgress);
-      currentAudio.removeEventListener('timeupdate', onTime);
-      currentAudio.removeEventListener('loadedmetadata', onDuration);
-      currentAudio.removeEventListener('ended', onEnded);
-    });
   }
 
   public load(src: string): void {
