@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { AuthUser } from '../models/user.model';
+import { AuthSession } from '../models/auth/auth-session.model';
 
-type IssueAuthSessionInput = Pick<AuthUser, 'id'>;
+interface IssueAuthSessionInput {
+  id: string;
+}
 
 @Injectable()
 export class IssueAuthSessionStep {
-  public async execute(input: IssueAuthSessionInput) {
+  public async execute(input: IssueAuthSessionInput): Promise<AuthSession> {
     return {
       accessToken: `mock-access-token${input.id}`,
       refreshToken: 'mock-refresh-token',

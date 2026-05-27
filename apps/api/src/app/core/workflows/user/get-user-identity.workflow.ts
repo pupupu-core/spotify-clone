@@ -9,7 +9,6 @@ export class GetUserIdentityWorkflow {
     //   -> retrieve-current-auth-user.step
     return {
       accessToken: 'mock-access-token',
-      refreshToken: 'mock-refresh-token',
     };
   }
 }

@@ -9,7 +9,6 @@ export class AuthWorkflow {
     //   -> retrieve-current-auth-user
     return {
       accessToken: 'mock-access-token',
-      refreshToken: 'mock-refresh-token',
     };
   }
 }
