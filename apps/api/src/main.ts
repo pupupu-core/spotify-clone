@@ -14,6 +14,17 @@ async function bootstrap(): Promise<void> {
     type: VersioningType.URI,
   });
   app.use(cookieParser());
+  app.enableCors({
+    origin: [
+      'https://tryproxy.online',
+      'http://localhost:4200',
+      'http://localhost:4201',
+      'http://localhost:5173',
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+  });
 
   initSwagger(app);
 
