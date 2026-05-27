@@ -58,7 +58,7 @@ export class PpfSearchPageComponent {
   private readonly _liveAnnouncer = inject(LiveAnnouncer);
   private readonly trackService = inject(TrackService);
   public readonly trackList = this.trackService.trackList;
-  public readonly paginator_page_size = PAGE_SIZE;
+  public readonly paginatorPageSize = PAGE_SIZE;
 
   public dataSource = new MatTableDataSource(this.trackList());
 
