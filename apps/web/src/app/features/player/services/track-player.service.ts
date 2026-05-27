@@ -7,14 +7,14 @@ export class PpfPlayerService {
   private readonly engine = inject(PpfAudioEngine);
 
   public readonly queue = signal<JamendoTrack[]>([]);
-  public readonly index = signal(-100);
+  public readonly index = signal<number | null>(null);
   public readonly position = this.engine.position;
   public readonly duration = this.engine.duration;
 
   public readonly current = computed<JamendoTrack | null>(() => {
     const i = this.index();
 
-    if (i >= 0) {
+    if (typeof i === 'number') {
       return this.queue()[i];
     } else {
       return null;
@@ -54,7 +54,9 @@ export class PpfPlayerService {
     const que = this.queue();
     const idx = this.index();
 
-    console.log(this.queue());
+    if (typeof idx === 'object') {
+      return;
+    }
 
     if (que.length === 0) {
       return;
@@ -72,7 +74,7 @@ export class PpfPlayerService {
   public previous(): void {
     const idx = this.index();
 
-    if (idx > 0) {
+    if (typeof idx === 'number') {
       this.index.set(idx - 1);
     } else {
       this.engine.seek(0);
@@ -83,7 +85,7 @@ export class PpfPlayerService {
     this.engine.seek(seconds);
   }
 
-  public volume(value: number): void {
+  public setVolume(value: number): void {
     this.engine.setVolume(value);
   }
 
