@@ -10,7 +10,7 @@ export class PpfAudioEngine {
   public readonly position = signal(0);
   public readonly duration = signal(0);
 
-  public readonly volume = signal(0);
+  public readonly volume = signal(100);
 
   constructor() {
     const currentAudio = this.audio;
