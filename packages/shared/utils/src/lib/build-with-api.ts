@@ -1,2 +1,9 @@
-export const buildWithApi = (path: string, prefix = '/api', version = '/v1'): string =>
-  `${prefix}${version}${path}`;
+export const buildWithApi = ({
+  prefix = '/api',
+  version = '/v1',
+  path,
+}: {
+  prefix?: string;
+  version?: string;
+  path: string;
+}): string => `${prefix}${version}/${path}`;

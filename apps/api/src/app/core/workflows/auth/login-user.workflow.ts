@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import type { AuthTokenResponse, LoginRequest } from '@streaming-service/model';
 import { FindUserForLoginStep } from '../../steps/find-user-for-login.step';
 import { VerifyLoginPasswordStep } from '../../steps/verify-login-password.step';
 import { IssueAuthSessionStep } from '../../steps/issue-auth-session.step';
+import { AuthSession } from '$/core/models/auth/auth-session.model';
 
-type LoginInput = LoginRequest;
+export interface LoginUserCommand {
+  email: string;
+  password: string;
+}
 
 @Injectable()
 export class LoginUserWorkflow {
@@ -14,11 +17,11 @@ export class LoginUserWorkflow {
     private readonly issueAuthSessionStep: IssueAuthSessionStep,
   ) {}
 
-  public async execute(input: LoginInput): Promise<AuthTokenResponse> {
-    const user = await this.findUserForLoginStep.execute(input);
+  public async execute({ email, password }: LoginUserCommand): Promise<AuthSession> {
+    const user = await this.findUserForLoginStep.execute({ email });
 
     await this.verifyLoginPasswordStep.execute({
-      plainPassword: input.password,
+      plainPassword: password,
       passwordHash: user.password,
     });
 

@@ -8,7 +8,8 @@ export interface VerifyLoginPasswordInput {
 
 @Injectable()
 export class VerifyLoginPasswordStep {
-  public async execute({ plainPassword, passwordHash }: VerifyLoginPasswordInput) {
+  public async execute({ plainPassword, passwordHash }: VerifyLoginPasswordInput): Promise<void> {
+    // TODO: compare plainPassword with passwordHash using dedicated lib
     if (plainPassword !== passwordHash) {
       throw new InvalidCredentialsError();
     }

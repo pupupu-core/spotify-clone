@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../infrastructure/prisma/prisma.service';
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error';
-import { AuthUser } from '../models/user.model';
+import { AuthUser } from '../models/user/user.model';
 
 export interface FindUserForLoginInput {
   email: string;

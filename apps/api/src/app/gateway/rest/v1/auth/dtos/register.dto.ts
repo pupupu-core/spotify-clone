@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsStrongPassword, MinLength } from 'class-validator';
 import { AUTH_CONSTRAINTS } from '@streaming-service/config';
+import { RegisterRequest } from '@streaming-service/model';
 
-export class RegisterDto {
+export class RegisterDto implements RegisterRequest {
   @ApiProperty({
     example: 'user@mail.com',
   })
