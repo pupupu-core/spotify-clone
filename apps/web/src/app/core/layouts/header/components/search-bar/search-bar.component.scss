@@ -1,0 +1,22 @@
+@use '../../../../../../styles/variables';
+
+.search-bar {
+  --mat-form-field-outlined-container-shape: #{variables.$radius-lg};
+
+  width: clamp(150px, 40vw, 400px);
+  padding-right: max(
+    16px,
+    var(--mat-form-field-outlined-container-shape, var(--mat-sys-corner-extra-small))
+  );
+
+  .search-input {
+    &:placeholder-shown {
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.mdc-text-field {
+  border-top-left-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+}
