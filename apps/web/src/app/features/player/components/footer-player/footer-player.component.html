@@ -6,21 +6,23 @@
       @if (track) {
         <div class="player__cover-wrapper">
           <span>
-            <a class="player-cover-link">
+            <a class="player-cover-link" [routerLink]="['/album', track.album_id]">
               <img class="player__cover" [src]="track.image" [alt]="track.album_name" />
             </a>
           </span>
         </div>
         <div class="player__names">
           <span>
-            <a class="player__artist-name">{{ track.artist_name }}</a>
+            <a class="player__artist-name" [routerLink]="['/artist', track.artist_id]">{{
+              track.artist_name
+            }}</a>
           </span>
           <span
             ><a class="player__track-name">{{ track.name }}</a>
           </span>
         </div>
       } @else {
-        <div class="player__empty"><p></p></div>
+        <div class="player__empty"></div>
       }
     </div>
 
@@ -93,6 +95,7 @@
           type="range"
           min="0"
           [max]="100"
+          [value]="100"
           (input)="onVolume($event)"
           [disabled]="!track"
         />

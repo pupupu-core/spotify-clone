@@ -6,10 +6,11 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSlider } from '@angular/material/slider';
 import { MatSliderThumb } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ppf-footer-player',
-  imports: [DurationPipe, MatIcon, MatSlider, MatSliderThumb, MatButtonModule],
+  imports: [DurationPipe, MatIcon, MatSlider, MatSliderThumb, MatButtonModule, RouterLink],
   templateUrl: './footer-player.component.html',
   styleUrl: './footer-player.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +28,6 @@ export class PpfFooterPlayerComponent {
   protected onVolume(event: Event): void {
     const value = Number((event.target as HTMLInputElement).value);
 
-    this.player.volume(value);
+    this.player.setVolume(value);
   }
 }
