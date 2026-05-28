@@ -12,7 +12,7 @@ import { APP_GUARD } from '@nestjs/core';
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          name: 'defualt',
+          name: 'default',
           ttl: 60_000,
           limit: 5,
         },
