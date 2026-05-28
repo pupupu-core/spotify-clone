@@ -12,30 +12,34 @@ export class PpfAudioEngine {
 
   public readonly volume = signal(100);
 
+  public readonly ended = signal(0);
+
   constructor() {
-    const currentAudio = this.audio;
+    this.preloadMetadata();
+    this.constructEvents();
+  }
 
-    currentAudio.preload = 'metadata';
+  private preloadMetadata(): void {
+    this.audio.preload = 'metadata';
+  }
 
-    const onPlay = (): void => this.isPlaying.set(true);
-    const onPause = (): void => this.isPlaying.set(false);
-    const onTime = (): void => this.position.set(currentAudio.currentTime);
-    const onDuration = (): void => this.duration.set(currentAudio.duration || 0);
+  private constructEvents(): void {
+    this.audio.addEventListener('play', () => this.isPlaying.set(true));
+    this.audio.addEventListener('pause', () => this.isPlaying.set(false));
+    this.audio.addEventListener('progress', () => this.onProgress());
+    this.audio.addEventListener('loadedmetadata', () =>
+      this.duration.set(this.audio.duration || 0),
+    );
+    this.audio.addEventListener('timeupdate', () => this.position.set(this.audio.currentTime));
+    this.audio.addEventListener('ended', () => this.isPlaying.set(false));
+  }
 
-    const onProgress = (): void => {
-      if (currentAudio.buffered.length > 0) {
-        this.buffered.set(currentAudio.buffered.end(currentAudio.buffered.length - 1));
-      }
-    };
+  private onProgress(): void {
+    const buffered = this.audio.buffered;
 
-    const onEnded = (): void => this.isPlaying.set(false);
-
-    currentAudio.addEventListener('play', onPlay);
-    currentAudio.addEventListener('pause', onPause);
-    currentAudio.addEventListener('progress', onProgress);
-    currentAudio.addEventListener('timeupdate', onTime);
-    currentAudio.addEventListener('loadedmetadata', onDuration);
-    currentAudio.addEventListener('ended', onEnded);
+    if (buffered.length > 0) {
+      this.buffered.set(buffered.end(buffered.length - 1));
+    }
   }
 
   public load(src: string): void {
