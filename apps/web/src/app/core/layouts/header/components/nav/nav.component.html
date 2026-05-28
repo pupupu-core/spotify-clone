@@ -1,0 +1,7 @@
+<nav class="nav">
+  @for (navItem of navItems; track navItem.label) {
+    <a class="nav-link" [routerLink]="navItem.path" routerLinkActive="active-link">{{
+      navItem.label
+    }}</a>
+  }
+</nav>

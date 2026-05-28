@@ -3,10 +3,11 @@ import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ROUTES } from '../../config/routes';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { NavComponent } from './components/nav/nav.component';
 
 @Component({
   selector: 'ppf-header',
-  imports: [NgOptimizedImage, RouterLink, SearchBarComponent],
+  imports: [NgOptimizedImage, RouterLink, SearchBarComponent, NavComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

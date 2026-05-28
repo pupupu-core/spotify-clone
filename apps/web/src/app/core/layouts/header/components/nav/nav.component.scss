@@ -1,0 +1,23 @@
+@use '../../../../../../styles/mixins';
+
+.nav {
+  display: flex;
+  gap: clamp(15px, 3vw, 30px);
+  justify-content: space-between;
+
+  .nav-link {
+    @include mixins.font-md;
+
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      text-decoration-color: inherit;
+    }
+  }
+
+  .active-link {
+    text-decoration: underline;
+  }
+}
