@@ -1,4 +1,4 @@
-export interface JamendoTrack {
+export interface JamendoTrackDto {
   id: string;
   name: string;
   duration: number;
