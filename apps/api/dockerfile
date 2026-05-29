@@ -1,0 +1,39 @@
+FROM node:24-alpine AS build
+
+WORKDIR /app
+
+ARG DATABASE_URL
+
+RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json tsconfig.base.json prisma.config.ts ./
+COPY apps ./apps
+COPY packages ./packages
+
+RUN pnpm install --frozen-lockfile
+RUN test -n "$DATABASE_URL" || (echo "DATABASE_URL build arg is required" >&2 && exit 1)
+RUN pnpm exec prisma generate
+RUN pnpm nx build api
+
+FROM node:24-alpine
+
+WORKDIR /app
+
+ARG DATABASE_URL
+
+ENV NODE_ENV=production
+
+RUN corepack enable && corepack prepare pnpm@10.33.2 --activate
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml prisma.config.ts ./
+COPY apps/api/prisma ./apps/api/prisma
+
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
+RUN test -n "$DATABASE_URL" || (echo "DATABASE_URL build arg is required" >&2 && exit 1)
+RUN pnpm exec prisma generate
+
+COPY --from=build /app/dist/apps/api ./
+
+EXPOSE 3000
+
+CMD ["node", "main.js"]
