@@ -1,10 +1,11 @@
 <header class="header">
   <div class="logo-container">
-    <a [routerLink]="ROUTES.HOME.path" class="logo-link">
+    <a [routerLink]="ROUTES.HOME.to" class="logo-link">
       <img alt="" class="logo-img" height="54" ngSrc="/img/logo-icon.svg" width="120" priority />
       <h1 class="app-name">pypyfu</h1>
     </a>
   </div>
   <ppf-search-bar />
   <ppf-nav />
+  <ppf-auth-button (logoutClick)="logoutUser()" />
 </header>
