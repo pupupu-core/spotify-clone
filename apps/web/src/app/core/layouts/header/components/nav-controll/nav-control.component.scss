@@ -1,0 +1,11 @@
+@use '../../../../../../styles/mixins';
+
+.nav-control-button {
+  --mat-button-text-label-text-color: var(--mat-sys-tertiary);
+
+  @include mixins.font-xl;
+
+  .nav-control-icon {
+    margin-top: 6px;
+  }
+}

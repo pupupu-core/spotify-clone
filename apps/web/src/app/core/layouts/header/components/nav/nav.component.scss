@@ -1,23 +1,95 @@
 @use '../../../../../../styles/mixins';
+@use '../../../../../../styles/variables';
 
-.nav {
+.nav-component-dialog {
   display: flex;
-  gap: clamp(15px, 3vw, 30px);
-  justify-content: space-between;
+  flex-direction: column;
 
-  .nav-link {
-    @include mixins.font-md;
+  height: 100%;
+  max-height: 100%;
+  padding: 0;
 
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease;
 
-    &:hover {
-      text-decoration-color: inherit;
+  &.home {
+    background: url('/img/nav-home.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &.search {
+    background: url('/img/nav-search.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &.library {
+    background: url('/img/nav-library.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &.about-us {
+    background: url('/img/nav-about-us.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 20px;
+
+    .header-title {
+      @include mixins.font-xl;
+
+      margin-bottom: 10px;
+      font-family: Notable, sans-serif;
+    }
+
+    .header-description {
+      @include mixins.font-md;
     }
   }
 
-  .active-link {
-    text-decoration: underline;
+  .nav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 40px;
+    align-items: start;
+    justify-content: start;
+
+    padding: 120px 20px;
+
+    .nav-link {
+      @include mixins.font-xl;
+    }
+
+    .nav-link {
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        text-decoration-color: inherit;
+      }
+    }
+
+    .active-link {
+      text-decoration: underline;
+    }
+  }
+
+  .nav-component-footer {
+    @include mixins.font-lg;
+
+    padding: 30px 20px;
+    text-align: right;
   }
 }

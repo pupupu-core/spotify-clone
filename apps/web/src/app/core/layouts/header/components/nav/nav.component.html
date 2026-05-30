@@ -1,7 +1,30 @@
-<nav class="nav">
-  @for (navItem of navItems; track navItem.label) {
-    <a class="nav-link" [routerLink]="navItem.path" routerLinkActive="active-link">{{
-      navItem.label
-    }}</a>
-  }
-</nav>
+<mat-dialog-content
+  class="nav-component-dialog home"
+  [class.home]="hoveredRouter()?.backgroundImage === 'home'"
+  [class.search]="hoveredRouter()?.backgroundImage === 'search'"
+  [class.library]="hoveredRouter()?.backgroundImage === 'library'"
+  [class.about-us]="hoveredRouter()?.backgroundImage === 'about-us'"
+>
+  <div class="dialog-header">
+    <div class="dialog-text">
+      <h2 class="header-title">Pypyfu</h2>
+      <span class="header-description"> Explore, search and build your collection.</span>
+    </div>
+    <button mat-dialog-close matIconButton>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <nav class="nav">
+    @for (navItem of navItems; track navItem.label) {
+      <a
+        class="nav-link"
+        [routerLink]="navItem.path"
+        routerLinkActive="active-link"
+        (mouseenter)="hoveredRouter.set(navItem)"
+        mat-dialog-close
+        >{{ navItem.label }}</a
+      >
+    }
+  </nav>
+  <ppf-auth-button class="nav-component-footer" (logoutClick)="logoutClick.emit()" />
+</mat-dialog-content>

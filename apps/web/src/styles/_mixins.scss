@@ -2,26 +2,31 @@
 
 // F O N T S
 @mixin font-xl {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-xl;
   font-weight: 300;
 }
 
 @mixin font-lg {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-lg;
   font-weight: 300;
 }
 
 @mixin font-md {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-md;
   font-weight: 300;
 }
 
 @mixin font-sm {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-sm;
   font-weight: 300;
 }
 
 @mixin font-xs {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-xs;
   font-weight: 300;
 }
@@ -41,5 +46,59 @@
   &::-webkit-scrollbar-thumb {
     border-radius: 999px;
     background: $thumb-color;
+  }
+}
+
+// G L A S S M O R P H I S M
+@mixin glass-transparent {
+  border: 1px solid rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 10%);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 4px 24px rgb(0 0 0 / 8%),
+    inset 0 1px 0 rgb(255 255 255 / 10%);
+}
+
+@mixin glass-blue-40 {
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 20px;
+
+  background: rgb(255 255 255 / 20%);
+  backdrop-filter: blur(40px);
+  box-shadow:
+    0 8px 32px rgb(0 0 0 / 10%),
+    inset 0 1px 0 rgb(255 255 255 / 50%),
+    inset 0 -1px 0 rgb(255 255 255 / 10%),
+    inset 0 0 60px 30px rgb(255 255 255 / 300%);
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    height: 1px;
+
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 80%), transparent);
+  }
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 1px;
+    height: 100%;
+
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 80%),
+      transparent,
+      rgb(255 255 255 / 30%)
+    );
   }
 }

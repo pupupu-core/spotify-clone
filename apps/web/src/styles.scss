@@ -2,6 +2,7 @@
 @use 'styles/variables';
 
 @import './styles/themes/dark.css';
+@import './styles/angular-material';
 
 html {
   color-scheme: dark;
@@ -62,4 +63,15 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.nav-backdrop {
+  background-color: rgb(0 0 0 / 60%);
+  backdrop-filter: blur(4px);
+}
+
+nav-dialog {
+  @media screen and (width <= 768px) {
+    width: 100vw !important;
+  }
 }
