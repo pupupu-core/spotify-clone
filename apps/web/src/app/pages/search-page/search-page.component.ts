@@ -52,6 +52,12 @@ export class PpfSearchPageComponent {
   private readonly trackService = inject(TrackService);
   public readonly trackList = this.trackService.trackList;
 
+  public readonly sort = viewChild(MatSort);
+  public readonly paginator = viewChild(MatPaginator);
+
+  protected readonly minDuration = signal<number>(0);
+  protected readonly maxDuration = signal<number>(600);
+
   public dataSource = new MatTableDataSource(this.trackList());
 
   public displayedColumns: string[] = [
@@ -62,8 +68,18 @@ export class PpfSearchPageComponent {
     'play',
   ];
 
-  public readonly sort = viewChild(MatSort);
-  public readonly paginator = viewChild(MatPaginator);
+  protected readonly selectedGenres = signal<string[]>([]);
+
+  protected readonly tagInputControl = new FormControl('', { nonNullable: true });
+
+  protected readonly filteredGenres = computed(() => {
+    const input = this.tagInputControl.value.toLowerCase();
+    const selected = this.selectedGenres();
+
+    return ALL_GENRES.filter(
+      genre => genre.toLowerCase().includes(input) && !selected.includes(genre),
+    );
+  });
 
   constructor() {
     effect(() => {
@@ -85,19 +101,6 @@ export class PpfSearchPageComponent {
     }
   }
 
-  protected readonly selectedGenres = signal<string[]>([]);
-
-  protected readonly tagInputControl = new FormControl('', { nonNullable: true });
-
-  protected readonly filteredGenres = computed(() => {
-    const input = this.tagInputControl.value.toLowerCase();
-    const selected = this.selectedGenres();
-
-    return ALL_GENRES.filter(
-      genre => genre.toLowerCase().includes(input) && !selected.includes(genre),
-    );
-  });
-
   protected addGenre(event: MatAutocompleteSelectedEvent): void {
     if (typeof event.option.value === 'string') {
       const genre = event.option.value;
@@ -112,9 +115,6 @@ export class PpfSearchPageComponent {
   protected removeGenre(genre: string): void {
     this.selectedGenres.update(g => g.filter(clicked => clicked !== genre));
   }
-
-  protected readonly minDuration = signal<number>(0);
-  protected readonly maxDuration = signal<number>(600);
 
   protected onMinDuration(event: Event): void {
     if (event.target instanceof HTMLInputElement) {
