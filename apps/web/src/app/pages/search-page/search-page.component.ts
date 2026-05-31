@@ -74,9 +74,11 @@ export class PpfSearchPageComponent {
   }
 
   public applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
+    if (event.target instanceof HTMLInputElement) {
+      const filterValue = event.target.value;
 
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -115,10 +117,14 @@ export class PpfSearchPageComponent {
   protected readonly maxDuration = signal<number>(600);
 
   protected onMinDuration(event: Event): void {
-    this.minDuration.set(Number((event.target as HTMLInputElement).value));
+    if (event.target instanceof HTMLInputElement) {
+      this.minDuration.set(Number(event.target.value));
+    }
   }
 
   protected onMaxDuration(event: Event): void {
-    this.maxDuration.set(Number((event.target as HTMLInputElement).value));
+    if (event.target instanceof HTMLInputElement) {
+      this.maxDuration.set(Number(event.target.value));
+    }
   }
 }
