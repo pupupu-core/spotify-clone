@@ -61,6 +61,7 @@ export class PpfSearchPageComponent {
   public dataSource = new MatTableDataSource(this.trackList());
 
   public displayedColumns: string[] = [
+    'album_name',
     'album_cover',
     'artist_meta',
     'play_count',

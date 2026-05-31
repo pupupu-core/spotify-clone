@@ -107,6 +107,13 @@
     </section>
   </div>
   <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="album_name">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let track">
+        <p>{{ track.album_name }}</p>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="album_cover">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let track">
