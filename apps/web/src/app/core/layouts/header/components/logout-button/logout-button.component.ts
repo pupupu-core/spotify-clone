@@ -3,12 +3,12 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'ppf-auth-button',
+  selector: 'ppf-logout-button',
   imports: [MatIcon, MatButton],
-  templateUrl: './auth-button.component.html',
-  styleUrl: './auth-button.component.scss',
+  templateUrl: './logout-button.component.html',
+  styleUrl: './logout-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthButtonComponent {
+export class LogoutButtonComponent {
   protected readonly logoutClick = output<void>();
 }

@@ -3,10 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ROUTES } from '../../../../config/routes';
 import { MatDialogClose, MatDialogContent } from '@angular/material/dialog';
-import { AuthButtonComponent } from '../auth-button/auth-button.component';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { APP_NAME } from '../../../../constants/common.constants';
+import { LogoutButtonComponent } from '../logout-button/logout-button.component';
 
 const NAV_ITEMS: NavItem[] = [
   { label: ROUTES.HOME.meta.title, path: ROUTES.HOME.to, backgroundImage: 'home' },
@@ -28,10 +28,10 @@ interface NavItem {
     RouterLinkActive,
     RouterLink,
     MatDialogContent,
-    AuthButtonComponent,
     MatIcon,
     MatIconButton,
     MatDialogClose,
+    LogoutButtonComponent,
   ],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss',
