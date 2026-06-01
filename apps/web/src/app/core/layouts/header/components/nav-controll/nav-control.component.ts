@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatSuffix } from '@angular/material/input';
 
 @Component({
   selector: 'ppf-nav-control',
-  imports: [MatIcon, MatSuffix, MatButton],
+  imports: [MatIcon, MatButton],
   templateUrl: './nav-control.component.html',
   styleUrl: './nav-control.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
