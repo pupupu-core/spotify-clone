@@ -2,26 +2,31 @@
 
 // F O N T S
 @mixin font-xl {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-xl;
   font-weight: 300;
 }
 
 @mixin font-lg {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-lg;
   font-weight: 300;
 }
 
 @mixin font-md {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-md;
   font-weight: 300;
 }
 
 @mixin font-sm {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-sm;
   font-weight: 300;
 }
 
 @mixin font-xs {
+  font-family: 'Elms Sans', sans-serif;
   font-size: variables.$font-size-xs;
   font-weight: 300;
 }
@@ -42,4 +47,14 @@
     border-radius: 999px;
     background: $thumb-color;
   }
+}
+
+// G L A S S M O R P H I S M
+@mixin glass-transparent {
+  border: 1px solid rgb(255 255 255 / 12%);
+  background: rgb(0 0 0 / 15%);
+  backdrop-filter: blur(4px);
+  box-shadow:
+    0 4px 24px rgb(0 0 0 / 8%),
+    inset 0 1px 0 rgb(255 255 255 / 10%);
 }

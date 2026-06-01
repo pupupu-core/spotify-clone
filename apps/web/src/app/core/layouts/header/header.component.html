@@ -1,0 +1,10 @@
+<header class="app-header">
+  <div>
+    <a [routerLink]="ROUTES.HOME.to" class="logo-link">
+      <img alt="" class="logo-img" height="54" ngSrc="/img/logo-icon.svg" width="120" priority />
+      <h1>{{ APP_NAME }}</h1>
+    </a>
+  </div>
+  <ppf-search-bar />
+  <ppf-nav-control (navControlClick)="openDialog('300ms', '300ms')" />
+</header>
