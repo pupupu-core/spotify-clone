@@ -111,7 +111,16 @@
     },
     "test": {
       "executor": "@angular/build:unit-test",
-      "options": {}
+      "options": {
+        "watch": false,
+        "coverage": true
+      }
+    },
+    "test-watch": {
+      "executor": "@angular/build:unit-test",
+      "options": {
+        "watch": true
+      }
     },
     "serve-static": {
       "continuous": true,

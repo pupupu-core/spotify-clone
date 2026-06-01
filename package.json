@@ -48,7 +48,11 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:studio": "DATABASE_URL=postgresql://pupufy_app:postgres@localhost:5432/pupufy prisma studio",
-    "db:up": "docker compose up -d db"
+    "db:up": "docker compose up -d db",
+    "test:web": "nx run web:test",
+    "test:web:watch": "nx run web:test-watch",
+    "test:utils": "nx run utils:test",
+    "test:utils:watch": "nx run utils:test-watch"
   },
   "private": true,
   "devDependencies": {

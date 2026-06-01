@@ -1,0 +1,66 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - deploy
+  workflow_run:
+    workflows: ['E2E']
+    types:
+      - completed
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_OWNER: ${{ github.repository_owner }}
+  IMAGE_REF_NAME: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref_name }}
+  IMAGE_SHA: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+  API_DOCKER_FILE: apps/api/dockerfile
+  WEB_DOCKER_FILE: apps/web/dockerfile
+
+jobs:
+  build-and-push:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    name: Build and push Docker images
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.ref }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ env.API_DOCKER_FILE }}
+          push: true
+          build-args: |
+            DATABASE_URL=postgresql://placeholder:placeholder@localhost:5432/placeholder
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/pupufy-api:${{ env.IMAGE_REF_NAME }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/pupufy-api:${{ env.IMAGE_SHA }}
+
+      - name: Build and push Web image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ env.WEB_DOCKER_FILE }}
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/pupufy-web:${{ env.IMAGE_REF_NAME }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/pupufy-web:${{ env.IMAGE_SHA }}
