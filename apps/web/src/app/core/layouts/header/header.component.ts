@@ -6,6 +6,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { NavControlComponent } from './components/nav-controll/nav-control.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NavComponent } from './components/nav/nav.component';
+import { APP_NAME } from '../../constants/common.constants';
 
 @Component({
   selector: 'ppf-header',
@@ -43,4 +44,6 @@ export class HeaderComponent {
   public closeDialog(): void {
     this.dialog.closeAll();
   }
+
+  protected readonly APP_NAME = APP_NAME;
 }

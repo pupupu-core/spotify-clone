@@ -6,6 +6,7 @@ import { MatDialogClose, MatDialogContent } from '@angular/material/dialog';
 import { AuthButtonComponent } from '../auth-button/auth-button.component';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { APP_NAME } from '../../../../constants/common.constants';
 
 const NAV_ITEMS: NavItem[] = [
   { label: ROUTES.HOME.meta.title, path: ROUTES.HOME.to, backgroundImage: 'home' },
@@ -40,4 +41,5 @@ export class NavComponent {
   public readonly logoutClick = output<void>();
   protected readonly hoveredRouter = signal<NavItem>(NAV_ITEMS[0]);
   protected readonly navItems = NAV_ITEMS;
+  protected readonly APP_NAME = APP_NAME;
 }

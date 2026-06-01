@@ -1,13 +1,13 @@
 <mat-dialog-content
   class="nav-component-dialog home"
-  [class.home]="hoveredRouter()?.backgroundImage === 'home'"
-  [class.search]="hoveredRouter()?.backgroundImage === 'search'"
-  [class.library]="hoveredRouter()?.backgroundImage === 'library'"
-  [class.about-us]="hoveredRouter()?.backgroundImage === 'about-us'"
+  [class.home]="hoveredRouter().backgroundImage === 'home'"
+  [class.search]="hoveredRouter().backgroundImage === 'search'"
+  [class.library]="hoveredRouter().backgroundImage === 'library'"
+  [class.about-us]="hoveredRouter().backgroundImage === 'about-us'"
 >
   <div class="dialog-header">
     <div class="dialog-text">
-      <h2 class="header-title">Pypyfu</h2>
+      <h2 class="header-title">{{ APP_NAME }}</h2>
       <span class="header-description"> Explore, search and build your collection.</span>
     </div>
     <button mat-dialog-close matIconButton>
