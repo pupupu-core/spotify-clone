@@ -1,23 +1,21 @@
 @use '../../../../styles/mixins';
 
-.header {
+.app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 15px;
 
-  .logo-container {
-    .logo-link {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+  .logo-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-      .app-name {
-        @include mixins.font-lg;
+    h1 {
+      @include mixins.font-lg;
 
-        font-family: Notable, sans-serif;
-      }
+      font-family: Notable, sans-serif;
     }
   }
 }
