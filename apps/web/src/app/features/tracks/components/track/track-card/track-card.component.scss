@@ -3,9 +3,21 @@
 @use '../../../../../../styles/mixins';
 
 .track-container {
+  cursor: pointer;
+
   display: flex;
   gap: 5px;
   align-items: stretch;
+
+  border-radius: variables.$radius-md;
+
+  &:hover {
+    background-color: colors.$mat-sys-primary-20;
+  }
+
+  &--playing {
+    background-color: colors.$mat-sys-primary-20;
+  }
 
   .album-cover {
     position: relative;

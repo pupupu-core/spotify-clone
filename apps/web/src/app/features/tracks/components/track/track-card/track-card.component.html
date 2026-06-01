@@ -1,4 +1,4 @@
-<div class="track-container">
+<div class="track-container" [class.track-container--playing]="isPlaying()">
   <div class="album-cover">
     <img [src]="track().album_image || track().image" alt="" />
     <button
