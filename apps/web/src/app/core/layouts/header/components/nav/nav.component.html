@@ -1,30 +1,30 @@
 <mat-dialog-content
-  class="nav-component-dialog home"
-  [class.home]="hoveredRouter().backgroundImage === 'home'"
-  [class.search]="hoveredRouter().backgroundImage === 'search'"
-  [class.library]="hoveredRouter().backgroundImage === 'library'"
-  [class.about-us]="hoveredRouter().backgroundImage === 'about-us'"
+  class="nav-dialog nav-dialog--home"
+  [class.nav-dialog--home]="hoveredRouter().backgroundImage === 'home'"
+  [class.nav-dialog--search]="hoveredRouter().backgroundImage === 'search'"
+  [class.nav-dialog--library]="hoveredRouter().backgroundImage === 'library'"
+  [class.nav-dialog--about-us]="hoveredRouter().backgroundImage === 'about-us'"
 >
   <div class="dialog-header">
-    <div class="dialog-text">
-      <h2 class="header-title">{{ APP_NAME }}</h2>
-      <span class="header-description"> Explore, search and build your collection.</span>
+    <div>
+      <h2 class="title">{{ APP_NAME }}</h2>
+      <span class="subtitle"> Explore, search and build your collection.</span>
     </div>
     <button mat-dialog-close matIconButton>
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <nav class="nav">
+  <nav class="app-nav">
     @for (navItem of navItems; track navItem.label) {
       <a
         class="nav-link"
         [routerLink]="navItem.path"
-        routerLinkActive="active-link"
+        routerLinkActive="nav-link--active"
         (mouseenter)="hoveredRouter.set(navItem)"
         mat-dialog-close
         >{{ navItem.label }}</a
       >
     }
   </nav>
-  <ppf-auth-button class="nav-component-footer" (logoutClick)="logoutClick.emit()" />
+  <ppf-auth-button class="dialog-footer" (logoutClick)="logoutClick.emit()" />
 </mat-dialog-content>

@@ -32,8 +32,8 @@ export class HeaderComponent {
       maxWidth: 'none',
       minWidth: 'initial',
       minHeight: '100vh',
-      panelClass: 'nav-dialog',
-      backdropClass: 'nav-backdrop',
+      panelClass: 'app-navigation-dialog',
+      backdropClass: 'app-navigation-backdrop',
     });
 
     dialogRef.componentInstance.logoutClick.subscribe(logoutClick => {

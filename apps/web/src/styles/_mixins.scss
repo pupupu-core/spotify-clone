@@ -52,8 +52,8 @@
 // G L A S S M O R P H I S M
 @mixin glass-transparent {
   border: 1px solid rgb(255 255 255 / 12%);
-  background: rgb(255 255 255 / 10%);
-  backdrop-filter: blur(16px);
+  background: rgb(62 41 11 / 15%);
+  backdrop-filter: blur(4px);
   box-shadow:
     0 4px 24px rgb(0 0 0 / 8%),
     inset 0 1px 0 rgb(255 255 255 / 10%);

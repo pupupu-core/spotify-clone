@@ -1,7 +1,7 @@
 @use '../../../../../../styles/mixins';
 @use '../../../../../../styles/variables';
 
-.nav-component-dialog {
+.nav-dialog {
   display: flex;
   flex-direction: column;
 
@@ -11,28 +11,28 @@
 
   transition: all 0.2s ease;
 
-  &.home {
+  &.nav-dialog--home {
     background: url('/img/nav-home.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
   }
 
-  &.search {
+  &.nav-dialog--search {
     background: url('/img/nav-search.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
   }
 
-  &.library {
+  &.nav-dialog--library {
     background: url('/img/nav-library.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
   }
 
-  &.about-us {
+  &.nav-dialog--about-us {
     background: url('/img/nav-about-us.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -45,19 +45,19 @@
     justify-content: space-between;
     padding: 30px 20px;
 
-    .header-title {
+    .title {
       @include mixins.font-xl;
 
       margin-bottom: 10px;
       font-family: Notable, sans-serif;
     }
 
-    .header-description {
+    .subtitle {
       @include mixins.font-md;
     }
   }
 
-  .nav {
+  .app-nav {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -69,9 +69,7 @@
 
     .nav-link {
       @include mixins.font-xl;
-    }
 
-    .nav-link {
       text-decoration: underline;
       text-decoration-color: transparent;
       transition: all 0.2s ease-in-out;
@@ -81,12 +79,12 @@
       }
     }
 
-    .active-link {
+    .nav-link--active {
       text-decoration: underline;
     }
   }
 
-  .nav-component-footer {
+  .dialog-footer {
     @include mixins.font-lg;
 
     padding: 30px 20px;
