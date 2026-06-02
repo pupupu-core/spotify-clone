@@ -124,6 +124,9 @@ jobs:
       - build-and-push
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Run deploy.sh over SSH
         env:
           DEPLOY_SSH_HOST: ${{ vars.DEPLOY_SSH_HOST }}
