@@ -73,9 +73,19 @@
         </div>
       </div>
       <div class="search-page__panel-dur-slider">
-        <mat-slider>
-          <input matSliderStartThumb />
-          <input matSliderEndThumb />
+        <mat-slider [min]="0" [max]="1200">
+          <input
+            matSliderStartThumb
+            #sliderMin
+            [value]="minDuration()"
+            (input)="minDuration.set(sliderMin.valueAsNumber)"
+          />
+          <input
+            matSliderEndThumb
+            #sliderMax
+            [value]="maxDuration()"
+            (input)="maxDuration.set(sliderMax.valueAsNumber)"
+          />
         </mat-slider>
       </div>
     </section>
