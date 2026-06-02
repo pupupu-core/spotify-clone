@@ -89,3 +89,10 @@ th.mat-sort-header-sorted {
   width: 500px;
   height: 60px;
 }
+
+.search-page__dur-input {
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
+}

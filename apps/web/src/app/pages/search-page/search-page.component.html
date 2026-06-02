@@ -9,7 +9,7 @@
         <div class="search-page__dur-row">
           <mat-form-field>
             <mat-icon
-              inline
+              matPrefix
               aria-hidden="false"
               aria-label="schedule icon"
               fontSet="material-icons-outlined"
@@ -17,18 +17,19 @@
               schedule
             </mat-icon>
             <input
+              #minInput
               matInput
               id="min-dur"
               type="number"
               class="search-page__dur-input"
               min="0"
               max="600"
-              step="10"
-              (change)="onMinDuration($event)"
+              [value]="minDuration()"
+              (change)="minDuration.set(minInput.valueAsNumber)"
               placeholder="min seconds"
             />
             <mat-icon
-              inline
+              matSuffix
               aria-hidden="false"
               aria-label="cancel icon"
               fontSet="material-icons-outlined"
@@ -41,7 +42,7 @@
         <div class="search-page__dur-row">
           <mat-form-field>
             <mat-icon
-              inline
+              matPrefix
               aria-hidden="false"
               aria-label="schedule icon"
               fontSet="material-icons-outlined"
@@ -49,18 +50,19 @@
               schedule
             </mat-icon>
             <input
+              #maxInput
               matInput
               id="max-dur"
               type="number"
               class="search-page__dur-input"
               min="0"
               max="600"
-              step="10"
-              (change)="onMaxDuration($event)"
+              [value]="maxDuration()"
+              (change)="maxDuration.set(maxInput.valueAsNumber)"
               placeholder="max seconds"
             />
             <mat-icon
-              inline
+              matSuffix
               aria-hidden="false"
               aria-label="cancel icon"
               fontSet="material-icons-outlined"

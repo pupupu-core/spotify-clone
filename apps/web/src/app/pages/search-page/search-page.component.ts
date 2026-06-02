@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  model,
   signal,
   viewChild,
 } from '@angular/core';
@@ -55,8 +56,19 @@ export class PpfSearchPageComponent {
   public readonly sort = viewChild(MatSort);
   public readonly paginator = viewChild(MatPaginator);
 
-  protected readonly minDuration = signal<number>(0);
-  protected readonly maxDuration = signal<number>(600);
+  public readonly minDuration = model<number>(0);
+  public readonly maxDuration = model<number>(1200);
+
+  protected readonly selectedGenres = signal<string[]>([]);
+
+  protected readonly filteredGenres = computed(() => {
+    const input = this.tagInputControl.value.toLowerCase();
+    const selected = this.selectedGenres();
+
+    return ALL_GENRES.filter(
+      genre => genre.toLowerCase().includes(input) && !selected.includes(genre),
+    );
+  });
 
   public dataSource = new MatTableDataSource(this.trackList());
 
@@ -69,18 +81,7 @@ export class PpfSearchPageComponent {
     'play',
   ];
 
-  protected readonly selectedGenres = signal<string[]>([]);
-
   protected readonly tagInputControl = new FormControl('', { nonNullable: true });
-
-  protected readonly filteredGenres = computed(() => {
-    const input = this.tagInputControl.value.toLowerCase();
-    const selected = this.selectedGenres();
-
-    return ALL_GENRES.filter(
-      genre => genre.toLowerCase().includes(input) && !selected.includes(genre),
-    );
-  });
 
   constructor() {
     effect(() => {
@@ -115,17 +116,5 @@ export class PpfSearchPageComponent {
 
   protected removeGenre(genre: string): void {
     this.selectedGenres.update(g => g.filter(clicked => clicked !== genre));
-  }
-
-  protected onMinDuration(event: Event): void {
-    if (event.target instanceof HTMLInputElement) {
-      this.minDuration.set(Number(event.target.value));
-    }
-  }
-
-  protected onMaxDuration(event: Event): void {
-    if (event.target instanceof HTMLInputElement) {
-      this.maxDuration.set(Number(event.target.value));
-    }
   }
 }
