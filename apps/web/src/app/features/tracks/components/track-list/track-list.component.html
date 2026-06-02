@@ -3,10 +3,7 @@
 
   <ul class="track-list__items">
     @for (track of trackList(); track track.id) {
-      <li
-        class="track-list__item"
-        [class.track-list__item--active]="currentTrack()?.id === track.id"
-      >
+      <li class="track-list__item">
         <ppf-tracks [isPlaying]="currentTrack()?.id === track.id" [track]="track" view="list" />
       </li>
     }
