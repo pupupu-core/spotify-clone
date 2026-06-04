@@ -1,3 +1,5 @@
+import type { JamendoMusicInfoData } from './tracks.model';
+
 export interface JamendoHeader {
   status: 'success' | 'failed';
   code: number;
@@ -14,6 +16,7 @@ export interface TrackDataUI {
   name: string;
   duration: string | number;
   album_name: string;
+  musicinfo?: JamendoMusicInfoData;
   //TODO:
   // 1)добавить play count, когда узнаем что возвращается
   // 2) добавить флаг для отображения кастомных треков

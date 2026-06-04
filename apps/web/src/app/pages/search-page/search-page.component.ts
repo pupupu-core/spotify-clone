@@ -22,8 +22,16 @@ import type { MatAutocompleteSelectedEvent } from '@angular/material/autocomplet
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
+import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
+
+interface TrackFilter {
+  searchQuery: string;
+  genres: string[];
+  minDuration: number;
+  maxDuration: number;
+}
 
 @Component({
   selector: 'ppf-search-page',
@@ -56,9 +64,12 @@ export class PpfSearchPageComponent {
   public readonly sort = viewChild(MatSort);
   public readonly paginator = viewChild(MatPaginator);
 
+  protected readonly tagInputControl = new FormControl('', { nonNullable: true });
+
   public readonly minDuration = model<number>(0);
   public readonly maxDuration = model<number>(1200);
 
+  protected readonly searchText = signal<string>('');
   protected readonly selectedGenres = signal<string[]>([]);
 
   protected readonly filteredGenres = computed(() => {
@@ -69,6 +80,15 @@ export class PpfSearchPageComponent {
       genre => genre.toLowerCase().includes(input) && !selected.includes(genre),
     );
   });
+
+  private readonly activeFilter = computed<string>(() =>
+    JSON.stringify({
+      searchQuery: this.searchText().trim().toLowerCase(),
+      genres: this.selectedGenres(),
+      minDuration: this.minDuration(),
+      maxDuration: this.maxDuration(),
+    }),
+  );
 
   public dataSource = new MatTableDataSource(this.trackList());
 
@@ -81,25 +101,24 @@ export class PpfSearchPageComponent {
     'play',
   ];
 
-  protected readonly tagInputControl = new FormControl('', { nonNullable: true });
-
   constructor() {
+    this.dataSource.filterPredicate = this.ppfFilterPredicate.bind(this);
+
     effect(() => {
       this.dataSource.data = this.trackList();
       this.dataSource.sort = this.sort() ?? null;
       this.dataSource.paginator = this.paginator() ?? null;
     });
+
+    effect(() => {
+      this.dataSource.filter = this.activeFilter();
+      this.dataSource.paginator?.firstPage();
+    });
   }
 
   public applyFilter(event: Event): void {
     if (event.target instanceof HTMLInputElement) {
-      const filterValue = event.target.value;
-
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+      this.searchText.set(event.target.value);
     }
   }
 
@@ -116,5 +135,44 @@ export class PpfSearchPageComponent {
 
   protected removeGenre(genre: string): void {
     this.selectedGenres.update(g => g.filter(clicked => clicked !== genre));
+  }
+
+  private ppfFilterPredicate(track: TrackDataUI, filterJson: string): boolean {
+    if (!filterJson) {
+      return true;
+    }
+
+    const filter: TrackFilter = JSON.parse(filterJson) as TrackFilter;
+
+    return (
+      this.isMatchesSearchQuery(track, filter.searchQuery) &&
+      this.isMatchesGenre(track, filter.genres) &&
+      this.isMatchesDuration(track, filter.minDuration, filter.maxDuration)
+    );
+  }
+  private isMatchesSearchQuery(track: TrackDataUI, searchQuery: string): boolean {
+    if (!searchQuery) {
+      return true;
+    }
+
+    const trackMeta = [track.name, track.artist_name, track.album_name].join(' ').toLowerCase();
+
+    return trackMeta.includes(searchQuery);
+  }
+
+  private isMatchesGenre(track: TrackDataUI, genres: string[]): boolean {
+    if (genres.length === 0) {
+      return true;
+    }
+
+    const trackGenres = (track?.musicinfo?.tags.genres ?? []).map((g: string) => g.toLowerCase());
+
+    return genres.some(genre => trackGenres.includes(genre.toLowerCase()));
+  }
+
+  private isMatchesDuration(track: TrackDataUI, min: number, max: number): boolean {
+    const trackDuration = Number(track.duration);
+
+    return trackDuration >= min && trackDuration <= max;
   }
 }
