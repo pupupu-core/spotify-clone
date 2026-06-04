@@ -154,7 +154,7 @@
         mat-sort-header
         sortActionDescription="Sort by popularity"
       >
-        Duration
+        Popularity
       </th>
       <td mat-cell *matCellDef="let track">{{ 100000 | abbreviatedNumber }}</td>
     </ng-container>
@@ -184,7 +184,13 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No tracks matching "{{ input.value }}"</td>
+      <td class="mat-cell" colspan="4">
+        @if (input.value) {
+          No tracks matching to query "{{ input.value }}" and applied filters
+        } @else {
+          No tracks matching to applied filters
+        }
+      </td>
     </tr>
   </table>
 
