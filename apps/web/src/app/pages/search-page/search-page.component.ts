@@ -23,6 +23,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
+import { ActivatedRoute } from '@angular/router';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 
@@ -32,6 +33,16 @@ interface TrackFilter {
   minDuration: number;
   maxDuration: number;
 }
+
+const QUERY_PARAMETERS = {
+  SEARCH: 'q',
+  GENRES: 'genres',
+  MIN_DUR: 'minDur',
+  MAX_DUR: 'maxDur',
+  SORT_BY: 'sortBy',
+  SORT_DIR: 'sortDir',
+  PAGE: 'page',
+} as const;
 
 @Component({
   selector: 'ppf-search-page',
@@ -59,7 +70,11 @@ interface TrackFilter {
 })
 export class PpfSearchPageComponent {
   private readonly trackService = inject(TrackService);
+  private readonly route = inject(ActivatedRoute);
+
   public readonly trackList = this.trackService.trackList;
+
+  private readonly params = this.route.snapshot.queryParamMap;
 
   public readonly sort = viewChild(MatSort);
   public readonly paginator = viewChild(MatPaginator);
@@ -69,7 +84,7 @@ export class PpfSearchPageComponent {
   public readonly minDuration = model<number>(0);
   public readonly maxDuration = model<number>(1200);
 
-  protected readonly searchText = signal<string>('');
+  protected readonly searchText = signal<string>(this.params.get(QUERY_PARAMETERS.SEARCH) ?? '');
   protected readonly selectedGenres = signal<string[]>([]);
 
   protected readonly filteredGenres = computed(() => {
