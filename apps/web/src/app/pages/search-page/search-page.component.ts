@@ -43,6 +43,9 @@ const QUERY_PARAMETERS = {
   PAGE: 'page',
 } as const;
 
+const INITIAL_MIN_DURATION = 0;
+const INITIAL_MAX_DURATION = 1200;
+
 @Component({
   selector: 'ppf-search-page',
   imports: [
@@ -81,10 +84,10 @@ export class PpfSearchPageComponent {
   protected readonly tagInputControl = new FormControl('', { nonNullable: true });
 
   protected readonly minDuration = signal<number>(
-    this.parseNumber(this.params.get(QUERY_PARAMETERS.MIN_DUR), 0),
+    this.parseNumber(this.params.get(QUERY_PARAMETERS.MIN_DUR), INITIAL_MIN_DURATION),
   );
   protected readonly maxDuration = signal<number>(
-    this.parseNumber(this.params.get(QUERY_PARAMETERS.MAX_DUR), 1200),
+    this.parseNumber(this.params.get(QUERY_PARAMETERS.MAX_DUR), INITIAL_MAX_DURATION),
   );
 
   protected readonly searchText = signal<string>(this.params.get(QUERY_PARAMETERS.SEARCH) ?? '');
