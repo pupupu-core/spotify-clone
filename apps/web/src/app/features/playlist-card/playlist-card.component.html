@@ -14,7 +14,11 @@
   </div>
   <div class="footer">
     <p>Album Name</p>
-    <button matIconButton aria-label="Icon button with a outbound arrow icon">
+    <button
+      matIconButton
+      aria-label="Icon button with a outbound arrow icon"
+      (click)="playlistClick.emit()"
+    >
       <mat-icon fontSet="material-icons-outlined">outbound</mat-icon>
     </button>
   </div>
