@@ -4,7 +4,6 @@ import {
   computed,
   effect,
   inject,
-  model,
   signal,
   viewChild,
 } from '@angular/core';
@@ -81,8 +80,12 @@ export class PpfSearchPageComponent {
 
   protected readonly tagInputControl = new FormControl('', { nonNullable: true });
 
-  public readonly minDuration = model<number>(0);
-  public readonly maxDuration = model<number>(1200);
+  protected readonly minDuration = signal<number>(
+    this.parseNumber(this.params.get(QUERY_PARAMETERS.MIN_DUR), 0),
+  );
+  protected readonly maxDuration = signal<number>(
+    this.parseNumber(this.params.get(QUERY_PARAMETERS.MAX_DUR), 1200),
+  );
 
   protected readonly searchText = signal<string>(this.params.get(QUERY_PARAMETERS.SEARCH) ?? '');
   protected readonly selectedGenres = signal<string[]>([]);
@@ -189,5 +192,11 @@ export class PpfSearchPageComponent {
     const trackDuration = Number(track.duration);
 
     return trackDuration >= min && trackDuration <= max;
+  }
+
+  private parseNumber(rawNum: string | null, defaultNum: number): number {
+    const normalizedNum = Number(rawNum);
+
+    return rawNum !== null && !Number.isNaN(normalizedNum) ? normalizedNum : defaultNum;
   }
 }
