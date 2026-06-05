@@ -1,29 +1,17 @@
-import {
-  Body,
-  ConflictException,
-  Controller,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Req,
-  Res,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
 
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { AuthTokenResponse } from '@streaming-service/model';
-import { OPENAPI_CONFIG } from '../../../../shared/config/openapi.config';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dtos/login.dto';
-import { LoginUserWorkflow } from '../../../../core/workflows/auth/login-user.workflow';
-import { LogoutUserWorkflow } from '../../../../core/workflows/auth/logout-user.workflow';
-import { RegisterUserWorkflow } from '../../../../core/workflows/auth/register-user.workflow';
 import { RegisterDto } from './dtos/register.dto';
 import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
 import type { Request, Response } from 'express';
 import { AuthCookieService } from './auth-cookie.service';
-import { InvalidCredentialsError } from '$/core/errors/invalid-credentials.error';
-import { EmailAlreadyTakenError } from '$/core/errors/email-already-taken.error';
+import { LoginUserWorkflow } from '$/core/workflows/auth/login-user.workflow';
+import { LogoutUserWorkflow } from '$/core/workflows/auth/logout-user.workflow';
+import { RegisterUserWorkflow } from '$/core/workflows/auth/register-user.workflow';
+import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
 
 @ApiTags(OPENAPI_CONFIG.tags.auth)
 @Controller({
@@ -45,19 +33,11 @@ export class AuthController {
     @Body() dto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ): Promise<AuthTokenResponse> {
-    try {
-      const { refreshToken, accessToken } = await this.loginUserWorkflow.execute(dto);
+    const { refreshToken, accessToken } = await this.loginUserWorkflow.execute(dto);
 
-      this.authCookieService.setRefreshToken(response, refreshToken);
+    this.authCookieService.setRefreshToken(response, refreshToken);
 
-      return { accessToken };
-    } catch (error) {
-      if (error instanceof InvalidCredentialsError) {
-        throw new UnauthorizedException('Invalid credentials');
-      }
-
-      throw error;
-    }
+    return { accessToken };
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -77,19 +57,11 @@ export class AuthController {
     @Body() dto: RegisterDto,
     @Res({ passthrough: true }) response: Response,
   ): Promise<AuthTokenResponse> {
-    try {
-      const { refreshToken, accessToken } = await this.registerUserWorkflow.execute(dto);
+    const { refreshToken, accessToken } = await this.registerUserWorkflow.execute(dto);
 
-      this.authCookieService.setRefreshToken(response, refreshToken);
+    this.authCookieService.setRefreshToken(response, refreshToken);
 
-      return { accessToken };
-    } catch (error) {
-      if (error instanceof EmailAlreadyTakenError) {
-        throw new ConflictException('Email already taken');
-      }
-
-      throw error;
-    }
+    return { accessToken };
   }
 
   @HttpCode(HttpStatus.OK)

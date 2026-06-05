@@ -1,6 +1,7 @@
-export class InvalidCredentialsError extends Error {
+import { CoreError } from './core.error';
+
+export class InvalidCredentialsError extends CoreError {
   public constructor() {
-    super('Invalid credentials');
-    this.name = 'InvalidCredentialsError';
+    super({ message: 'Invalid credentials', code: 'INVALID_CREDENTIALS' });
   }
 }

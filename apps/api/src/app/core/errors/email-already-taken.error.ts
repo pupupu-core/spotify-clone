@@ -1,6 +1,7 @@
-export class EmailAlreadyTakenError extends Error {
+import { CoreError } from './core.error';
+
+export class EmailAlreadyTakenError extends CoreError {
   public constructor() {
-    super('Email already taken');
-    this.name = 'EmailAlreadyTakenError';
+    super({ message: 'Email already taken', code: 'AUTH_EMAIL_TAKEN' });
   }
 }
