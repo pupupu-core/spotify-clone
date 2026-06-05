@@ -18,3 +18,12 @@ export interface TrackDataUI {
   // 1)добавить play count, когда узнаем что возвращается
   // 2) добавить флаг для отображения кастомных треков
 }
+
+export interface PlaylistDataUI {
+  id: string;
+  name: string;
+  releasedate: string;
+  artist_name: string;
+  image: string;
+  tracks: TrackDataUI[];
+}
