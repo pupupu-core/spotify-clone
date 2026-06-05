@@ -91,7 +91,9 @@ export class PpfSearchPageComponent {
   );
 
   protected readonly searchText = signal<string>(this.params.get(QUERY_PARAMETERS.SEARCH) ?? '');
-  protected readonly selectedGenres = signal<string[]>([]);
+  protected readonly selectedGenres = signal<string[]>(
+    this.parseGenres(this.params.get(QUERY_PARAMETERS.GENRES)),
+  );
 
   protected readonly filteredGenres = computed(() => {
     const input = this.tagInputControl.value.toLowerCase();
@@ -201,5 +203,17 @@ export class PpfSearchPageComponent {
     const normalizedNum = Number(rawNum);
 
     return rawNum !== null && !Number.isNaN(normalizedNum) ? normalizedNum : defaultNum;
+  }
+
+  private parseGenres(raw: string | null): string[] {
+    if (typeof raw !== 'string' || raw === null || raw === undefined) {
+      return [];
+    }
+
+    return raw
+      .toLowerCase()
+      .split(',')
+      .map(genre => genre.trim())
+      .filter(genre => ALL_GENRES.includes(genre));
   }
 }
