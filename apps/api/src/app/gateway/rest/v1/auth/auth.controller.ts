@@ -2,16 +2,16 @@ import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/
 
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { AuthTokenResponse } from '@streaming-service/model';
-import { OPENAPI_CONFIG } from '../../../../shared/config/openapi.config';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dtos/login.dto';
-import { LoginUserWorkflow } from '../../../../core/workflows/auth/login-user.workflow';
-import { LogoutUserWorkflow } from '../../../../core/workflows/auth/logout-user.workflow';
-import { RegisterUserWorkflow } from '../../../../core/workflows/auth/register-user.workflow';
 import { RegisterDto } from './dtos/register.dto';
 import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
 import type { Request, Response } from 'express';
 import { AuthCookieService } from './auth-cookie.service';
+import { LoginUserWorkflow } from '$/core/workflows/auth/login-user.workflow';
+import { LogoutUserWorkflow } from '$/core/workflows/auth/logout-user.workflow';
+import { RegisterUserWorkflow } from '$/core/workflows/auth/register-user.workflow';
+import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
 
 @ApiTags(OPENAPI_CONFIG.tags.auth)
 @Controller({
