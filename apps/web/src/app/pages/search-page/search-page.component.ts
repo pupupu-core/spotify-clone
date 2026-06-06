@@ -22,7 +22,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 
@@ -73,6 +73,7 @@ const INITIAL_MAX_DURATION = 1200;
 export class PpfSearchPageComponent {
   private readonly trackService = inject(TrackService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   public readonly trackList = this.trackService.trackList;
 
@@ -136,6 +137,10 @@ export class PpfSearchPageComponent {
     effect(() => {
       this.dataSource.filter = this.activeFilter();
       this.dataSource.paginator?.firstPage();
+    });
+
+    effect(() => {
+      this.pushQueryParmsToUrl();
     });
   }
 
@@ -215,5 +220,22 @@ export class PpfSearchPageComponent {
       .split(',')
       .map(genre => genre.trim())
       .filter(genre => ALL_GENRES.includes(genre));
+  }
+
+  private pushQueryParmsToUrl(): void {
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      replaceUrl: true,
+      queryParams: {
+        [QUERY_PARAMETERS.SEARCH]: this.searchText() || null,
+        [QUERY_PARAMETERS.GENRES]: this.selectedGenres().length
+          ? this.selectedGenres().join(',')
+          : null,
+        [QUERY_PARAMETERS.MIN_DUR]:
+          this.minDuration() > INITIAL_MIN_DURATION ? this.minDuration() : null,
+        [QUERY_PARAMETERS.MAX_DUR]:
+          this.maxDuration() < INITIAL_MAX_DURATION ? this.maxDuration() : null,
+      },
+    });
   }
 }
