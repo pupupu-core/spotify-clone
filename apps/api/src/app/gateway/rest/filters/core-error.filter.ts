@@ -6,6 +6,7 @@ import {
   Catch,
   ConflictException,
   ExceptionFilter,
+  HttpStatus,
   UnauthorizedException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
@@ -14,13 +15,27 @@ import { BaseExceptionFilter } from '@nestjs/core';
 export class CoreErrorFilter extends BaseExceptionFilter implements ExceptionFilter<CoreError> {
   public override catch(error: CoreError, host: ArgumentsHost): void {
     if (error instanceof EmailAlreadyTakenError) {
-      super.catch(new ConflictException(error.message), host);
+      super.catch(
+        new ConflictException({
+          statusCode: HttpStatus.CONFLICT,
+          code: error.code,
+          message: error.message,
+        }),
+        host,
+      );
 
       return;
     }
 
     if (error instanceof InvalidCredentialsError) {
-      super.catch(new UnauthorizedException(error.message), host);
+      super.catch(
+        new UnauthorizedException({
+          statusCode: HttpStatus.UNAUTHORIZED,
+          code: error.code,
+          message: error.message,
+        }),
+        host,
+      );
 
       return;
     }
