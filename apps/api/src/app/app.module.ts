@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { AuthModule } from './gateway/rest/v1/auth/auth.module';
-import { UserModule } from './gateway/rest/v1/user/user.module';
+import { AccountModule } from './gateway/rest/v1/account/account.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { CoreErrorFilter } from './gateway/rest/filters/core-error.filter';
@@ -9,7 +9,7 @@ import { CoreErrorFilter } from './gateway/rest/filters/core-error.filter';
 @Module({
   imports: [
     AuthModule,
-    UserModule,
+    AccountModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {

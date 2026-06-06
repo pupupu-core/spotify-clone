@@ -1,6 +1,6 @@
 import { CoreError } from '$/core/errors/core.error';
-import { EmailAlreadyTakenError } from '$/core/errors/email-already-taken.error';
 import { InvalidCredentialsError } from '$/core/errors/invalid-credentials.error';
+import { LocalEmailAlreadyTakenError } from '$/core/errors/local-email-already-taken.error';
 import {
   ArgumentsHost,
   Catch,
@@ -14,7 +14,7 @@ import { BaseExceptionFilter } from '@nestjs/core';
 @Catch(CoreError)
 export class CoreErrorFilter extends BaseExceptionFilter implements ExceptionFilter<CoreError> {
   public override catch(error: CoreError, host: ArgumentsHost): void {
-    if (error instanceof EmailAlreadyTakenError) {
+    if (error instanceof LocalEmailAlreadyTakenError) {
       super.catch(
         new ConflictException({
           statusCode: HttpStatus.CONFLICT,

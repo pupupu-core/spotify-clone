@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { IssueAuthSessionStep } from '../../steps/issue-auth-session.step';
-import { EnsureUserEmailIsAvailableStep } from '$/core/steps/ensure-user-email-is-available.step';
-import { HashUserPasswordStep } from '$/core/steps/hash-user-password.step';
-import { CreateUserAccountStep } from '$/core/steps/create-user-account.step';
+import { CreateLocalAccountStep } from '$/core/steps/create-local-account.step';
+import { EnsureLocalEmailIsAvailableStep } from '$/core/steps/ensure-local-email-is-available.step';
+import { HashPasswordStep } from '$/core/steps/hash-password.step';
 import { AuthSession } from '$/core/models/auth/auth-session.model';
 
-interface RegisterUserWorkflowCommand {
+interface RegisterLocalUserCommand {
   email: string;
   password: string;
   username?: string;
@@ -15,19 +15,19 @@ interface RegisterUserWorkflowCommand {
 export class RegisterUserWorkflow {
   constructor(
     private readonly issueAuthSessionStep: IssueAuthSessionStep,
-    private readonly ensureUserEmailIsAvailableStep: EnsureUserEmailIsAvailableStep,
-    private readonly hashUserPasswordStep: HashUserPasswordStep,
-    private readonly createUserAccountStep: CreateUserAccountStep,
+    private readonly ensureLocalEmailIsAvailableStep: EnsureLocalEmailIsAvailableStep,
+    private readonly hashPasswordStep: HashPasswordStep,
+    private readonly createLocalAccountStep: CreateLocalAccountStep,
   ) {}
-  public async execute({ email, password }: RegisterUserWorkflowCommand): Promise<AuthSession> {
-    await this.ensureUserEmailIsAvailableStep.execute({ email });
+  public async execute({ email, password }: RegisterLocalUserCommand): Promise<AuthSession> {
+    await this.ensureLocalEmailIsAvailableStep.execute({ email });
 
-    const { passwordHash } = await this.hashUserPasswordStep.execute({ password });
-    const { id } = await this.createUserAccountStep.execute({
+    const { passwordHash } = await this.hashPasswordStep.execute({ password });
+    const { accountId } = await this.createLocalAccountStep.execute({
       email,
       passwordHash,
     });
 
-    return await this.issueAuthSessionStep.execute({ id });
+    return await this.issueAuthSessionStep.execute({ accountId });
   }
 }

@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import type { AuthTokenResponse } from '@streaming-service/model';
 
 @Injectable()
-export class GetUserIdentityWorkflow {
+export class GetCurrentAccountWorkflow {
   public async execute(): Promise<AuthTokenResponse> {
     // TODO
-    // me workflow
-    //   -> retrieve-current-auth-user.step
+    // get current account workflow
+    //   -> retrieve-current-account.step
     return {
       accessToken: 'mock-access-token',
     };
