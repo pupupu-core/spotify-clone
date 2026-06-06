@@ -18,11 +18,11 @@ export const API_ENDPOINTS = {
       clientUrl: '/auth/logout',
     },
   },
-  USER: {
-    basePath: 'user',
+  ACCOUNT: {
+    basePath: 'account',
     ME: {
       serverPath: 'me',
-      clientUrl: '/user/me',
+      clientUrl: '/account/me',
     },
   },
   TRACK: {

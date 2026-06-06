@@ -1,19 +1,20 @@
 import { Module } from '@nestjs/common';
 
 import { AuthController } from './auth.controller';
-import { PrismaModule } from '../../../../infrastructure/prisma/prisma.module';
-import { FindUserForLoginStep } from '../../../../core/steps/find-user-for-login.step';
-import { VerifyLoginPasswordStep } from '../../../../core/steps/verify-login-password.step';
-import { IssueAuthSessionStep } from '../../../../core/steps/issue-auth-session.step';
-import { LoginUserWorkflow } from '../../../../core/workflows/auth/login-user.workflow';
-import { LogoutUserWorkflow } from '../../../../core/workflows/auth/logout-user.workflow';
-import { InvalidateUserSessionStep } from '../../../../core/steps/invalidate-user-session.step';
-import { RegisterUserWorkflow } from '../../../../core/workflows/auth/register-user.workflow';
+
 import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
-import { HashUserPasswordStep } from '$/core/steps/hash-user-password.step';
-import { EnsureUserEmailIsAvailableStep } from '$/core/steps/ensure-user-email-is-available.step';
-import { CreateUserAccountStep } from '$/core/steps/create-user-account.step';
+import { CreateLocalAccountStep } from '$/core/steps/create-local-account.step';
+import { EnsureLocalEmailIsAvailableStep } from '$/core/steps/ensure-local-email-is-available.step';
+import { HashPasswordStep } from '$/core/steps/hash-password.step';
 import { AuthCookieService } from './auth-cookie.service';
+import { PrismaModule } from '$/infrastructure/prisma/prisma.module';
+import { LoginUserWorkflow } from '$/core/workflows/auth/login-user.workflow';
+import { FindLocalIdentityForLoginStep } from '$/core/steps/find-local-identity-for-login.step';
+import { IssueAuthSessionStep } from '$/core/steps/issue-auth-session.step';
+import { RevokeAuthSessionStep } from '$/core/steps/revoke-auth-session.step';
+import { VerifyLocalPasswordStep } from '$/core/steps/verify-local-password.step';
+import { LogoutUserWorkflow } from '$/core/workflows/auth/logout-user.workflow';
+import { RegisterUserWorkflow } from '$/core/workflows/auth/register-user.workflow';
 
 @Module({
   imports: [PrismaModule],
@@ -23,13 +24,13 @@ import { AuthCookieService } from './auth-cookie.service';
     LogoutUserWorkflow,
     RegisterUserWorkflow,
     RefreshUserSessionWorkflow,
-    FindUserForLoginStep,
-    VerifyLoginPasswordStep,
+    FindLocalIdentityForLoginStep,
+    VerifyLocalPasswordStep,
     IssueAuthSessionStep,
-    InvalidateUserSessionStep,
-    HashUserPasswordStep,
-    EnsureUserEmailIsAvailableStep,
-    CreateUserAccountStep,
+    RevokeAuthSessionStep,
+    HashPasswordStep,
+    EnsureLocalEmailIsAvailableStep,
+    CreateLocalAccountStep,
     AuthCookieService,
   ],
 })

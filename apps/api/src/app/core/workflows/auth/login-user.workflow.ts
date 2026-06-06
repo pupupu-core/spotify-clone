@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { FindUserForLoginStep } from '../../steps/find-user-for-login.step';
-import { VerifyLoginPasswordStep } from '../../steps/verify-login-password.step';
+import { FindLocalIdentityForLoginStep } from '../../steps/find-local-identity-for-login.step';
 import { IssueAuthSessionStep } from '../../steps/issue-auth-session.step';
+import { VerifyLocalPasswordStep } from '../../steps/verify-local-password.step';
 import { AuthSession } from '$/core/models/auth/auth-session.model';
 
 export interface LoginUserCommand {
@@ -12,19 +12,19 @@ export interface LoginUserCommand {
 @Injectable()
 export class LoginUserWorkflow {
   constructor(
-    private readonly findUserForLoginStep: FindUserForLoginStep,
-    private readonly verifyLoginPasswordStep: VerifyLoginPasswordStep,
+    private readonly findLocalIdentityForLoginStep: FindLocalIdentityForLoginStep,
+    private readonly verifyLocalPasswordStep: VerifyLocalPasswordStep,
     private readonly issueAuthSessionStep: IssueAuthSessionStep,
   ) {}
 
   public async execute({ email, password }: LoginUserCommand): Promise<AuthSession> {
-    const user = await this.findUserForLoginStep.execute({ email });
+    const authIdentity = await this.findLocalIdentityForLoginStep.execute({ email });
 
-    await this.verifyLoginPasswordStep.execute({
+    await this.verifyLocalPasswordStep.execute({
       plainPassword: password,
-      passwordHash: user.password,
+      passwordHash: authIdentity.passwordHash,
     });
 
-    return await this.issueAuthSessionStep.execute({ id: user.id });
+    return await this.issueAuthSessionStep.execute({ accountId: authIdentity.accountId });
   }
 }
