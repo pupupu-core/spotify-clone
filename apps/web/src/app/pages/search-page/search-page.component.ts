@@ -86,6 +86,9 @@ export class PpfSearchPageComponent {
   protected readonly tagInputControl = new FormControl('', { nonNullable: true });
 
   private readonly sortBy = signal<string>(this.params.get(QUERY_PARAMETERS.SORT_BY) ?? '');
+  private readonly sortDir = signal<'asc' | 'desc' | ''>(
+    this.parseSortDir(this.params.get(QUERY_PARAMETERS.SORT_DIR)),
+  );
 
   protected readonly minDuration = signal<number>(
     this.parseNumber(this.params.get(QUERY_PARAMETERS.MIN_DUR), INITIAL_MIN_DURATION),
@@ -225,6 +228,14 @@ export class PpfSearchPageComponent {
       .filter(genre => ALL_GENRES.includes(genre));
   }
 
+  private parseSortDir(raw: string | null): 'asc' | 'desc' | '' {
+    if (raw === 'asc' || raw === 'desc') {
+      return raw;
+    }
+
+    return '';
+  }
+
   private pushQueryParmsToUrl(): void {
     void this.router.navigate([], {
       relativeTo: this.route,
@@ -239,11 +250,13 @@ export class PpfSearchPageComponent {
         [QUERY_PARAMETERS.MAX_DUR]:
           this.maxDuration() < INITIAL_MAX_DURATION ? this.maxDuration() : null,
         [QUERY_PARAMETERS.SORT_BY]: this.sortBy() || null,
+        [QUERY_PARAMETERS.SORT_DIR]: this.sortDir() || null,
       },
     });
   }
 
   public ppfOnSortChange(sortState: Sort): void {
     this.sortBy.set(sortState.active);
+    this.sortDir.set(sortState.direction);
   }
 }
