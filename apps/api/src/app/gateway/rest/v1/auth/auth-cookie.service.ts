@@ -1,7 +1,7 @@
 import { APP_CONFIG } from '$/shared/config/app.config';
 import { Injectable } from '@nestjs/common';
 import type { Response } from 'express';
-import { buildWithApi } from '@streaming-service/utils';
+import { buildApiPath } from '@streaming-service/utils';
 import { API_ENDPOINTS } from '@streaming-service/config';
 
 @Injectable()
@@ -11,7 +11,8 @@ export class AuthCookieService {
       httpOnly: true,
       secure: APP_CONFIG.isProduction,
       sameSite: 'lax',
-      path: buildWithApi({
+      path: buildApiPath({
+        prefix: null,
         path: API_ENDPOINTS.AUTH.basePath,
       }),
       maxAge: APP_CONFIG.auth.refreshTokenCookie.maxAgeMs,
@@ -23,7 +24,7 @@ export class AuthCookieService {
       httpOnly: true,
       secure: APP_CONFIG.isProduction,
       sameSite: 'lax',
-      path: buildWithApi({
+      path: buildApiPath({
         path: API_ENDPOINTS.AUTH.basePath,
       }),
     });
