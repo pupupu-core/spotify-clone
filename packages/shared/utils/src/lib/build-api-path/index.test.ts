@@ -1,13 +1,13 @@
-import { buildWithApi } from './index';
+import { buildApiPath } from './index';
 
 describe('buildWithApi', () => {
   it('builds a path with default prefix and version', () => {
-    expect(buildWithApi({ path: 'tracks' })).toBe('/api/v1/tracks');
+    expect(buildApiPath({ path: 'tracks' })).toBe('/api/v1/tracks');
   });
 
   it('builds a path with custom prefix and version', () => {
     expect(
-      buildWithApi({
+      buildApiPath({
         prefix: '/internal',
         version: '/v2',
         path: 'albums',

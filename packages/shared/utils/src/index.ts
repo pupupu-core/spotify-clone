@@ -1,1 +1,1 @@
-export * from './lib/build-with-api';
+export * from './lib/build-api-path';

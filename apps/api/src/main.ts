@@ -17,7 +17,10 @@ async function bootstrap(): Promise<void> {
     }),
   );
 
-  app.setGlobalPrefix(APP_CONFIG.restGateway.pathPrefix);
+  if (APP_CONFIG.restGateway.pathPrefix) {
+    app.setGlobalPrefix(APP_CONFIG.restGateway.pathPrefix);
+  }
+
   app.enableVersioning({
     type: VersioningType.URI,
   });
@@ -39,7 +42,10 @@ async function bootstrap(): Promise<void> {
   await app.listen(APP_CONFIG.http.port, APP_CONFIG.http.host);
 
   Logger.log(
-    `Backend is online: http://localhost:${APP_CONFIG.http.port}${APP_CONFIG.restGateway.pathPrefix}`,
+    `
+      Backend is online: http://localhost:${APP_CONFIG.http.port}${APP_CONFIG.restGateway.pathPrefix}
+      Swagger is online: http://localhost:${APP_CONFIG.http.port}${APP_CONFIG.restGateway.pathPrefix}/docs
+    `,
   );
 }
 

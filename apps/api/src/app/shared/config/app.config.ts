@@ -13,7 +13,7 @@ export const APP_CONFIG = {
     port: Number(process.env.PORT) || 3000,
   },
   restGateway: {
-    pathPrefix: '/api' as const,
+    pathPrefix: '' as const,
     version: '/v1' as const,
   },
   jamendo: {
