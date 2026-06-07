@@ -90,6 +90,10 @@ export class PpfSearchPageComponent {
     this.parseSortDir(this.params.get(QUERY_PARAMETERS.SORT_DIR)),
   );
 
+  private readonly currentPageIndex = signal<number>(
+    this.parseNumber(this.params.get(QUERY_PARAMETERS.PAGE), 0),
+  );
+
   protected readonly minDuration = signal<number>(
     this.parseNumber(this.params.get(QUERY_PARAMETERS.MIN_DUR), INITIAL_MIN_DURATION),
   );
@@ -251,6 +255,7 @@ export class PpfSearchPageComponent {
           this.maxDuration() < INITIAL_MAX_DURATION ? this.maxDuration() : null,
         [QUERY_PARAMETERS.SORT_BY]: this.sortBy() || null,
         [QUERY_PARAMETERS.SORT_DIR]: this.sortDir() || null,
+        [QUERY_PARAMETERS.PAGE]: this.currentPageIndex() > 0 ? this.currentPageIndex() : null,
       },
     });
   }
@@ -258,5 +263,10 @@ export class PpfSearchPageComponent {
   public ppfOnSortChange(sortState: Sort): void {
     this.sortBy.set(sortState.active);
     this.sortDir.set(sortState.direction);
+    this.currentPageIndex.set(0);
+  }
+
+  public ppfOnPageChange(pageIndex: number): void {
+    this.currentPageIndex.set(pageIndex);
   }
 }

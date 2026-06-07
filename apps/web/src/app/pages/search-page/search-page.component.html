@@ -194,5 +194,10 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSize]="4" showFirstLastButtons hidePageSize />
+  <mat-paginator
+    [pageSize]="4"
+    showFirstLastButtons
+    hidePageSize
+    (page)="ppfOnPageChange($event.pageIndex)"
+  />
 </div>
