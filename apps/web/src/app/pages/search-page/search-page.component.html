@@ -1,7 +1,7 @@
 <div class="search-page__wrapper mat-elevation-z8">
   <mat-form-field>
     <mat-label>Start for search songs, albums, authors...</mat-label>
-    <input matInput (keyup)="applyFilter($event)" #input aria-label="Search tracks" />
+    <input matInput (keyup)="applyFilterSearch($event)" #input aria-label="Search tracks" />
   </mat-form-field>
   <div class="search-page__panels">
     <section class="search-page__panel search-page__panel-duration">
@@ -25,7 +25,7 @@
               min="0"
               max="600"
               [value]="minDuration()"
-              (change)="minDuration.set(minInput.valueAsNumber)"
+              (change)="minDuration.set(minInput.valueAsNumber); resetPagination()"
               placeholder="min seconds"
             />
             <mat-icon
@@ -58,7 +58,7 @@
               min="0"
               max="600"
               [value]="maxDuration()"
-              (change)="maxDuration.set(maxInput.valueAsNumber)"
+              (change)="maxDuration.set(maxInput.valueAsNumber); resetPagination()"
               placeholder="max seconds"
             />
             <mat-icon
@@ -78,13 +78,13 @@
             matSliderStartThumb
             #sliderMin
             [value]="minDuration()"
-            (input)="minDuration.set(sliderMin.valueAsNumber)"
+            (input)="minDuration.set(sliderMin.valueAsNumber); resetPagination()"
           />
           <input
             matSliderEndThumb
             #sliderMax
             [value]="maxDuration()"
-            (input)="maxDuration.set(sliderMax.valueAsNumber)"
+            (input)="maxDuration.set(sliderMax.valueAsNumber); resetPagination()"
           />
         </mat-slider>
       </div>

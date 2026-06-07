@@ -158,10 +158,10 @@ export class PpfSearchPageComponent {
     });
   }
 
-  public applyFilter(event: Event): void {
+  public applyFilterSearch(event: Event): void {
     if (event.target instanceof HTMLInputElement) {
       this.searchText.set(event.target.value);
-      this.dataSource.paginator?.firstPage();
+      this.resetPagination();
     }
   }
 
@@ -169,10 +169,15 @@ export class PpfSearchPageComponent {
     this.sortBy.set(sortState.active);
     this.sortDir.set(sortState.direction);
     this.currentPageIndex.set(0);
+    this.resetPagination();
   }
 
   public ppfOnPageChange(pageIndex: number): void {
     this.currentPageIndex.set(pageIndex);
+  }
+
+  public resetPagination(): void {
+    this.dataSource.paginator?.firstPage();
   }
 
   protected addGenre(event: MatAutocompleteSelectedEvent): void {
