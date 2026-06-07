@@ -86,8 +86,8 @@ export class PpfSearchPageComponent {
 
   protected readonly tagInputControl = new FormControl('', { nonNullable: true });
 
-  private readonly sortBy = signal<string>(this.params.get(QUERY_PARAMETERS.SORT_BY) ?? '');
-  private readonly sortDir = signal<'asc' | 'desc' | ''>(
+  protected readonly sortBy = signal<string>(this.params.get(QUERY_PARAMETERS.SORT_BY) ?? '');
+  protected readonly sortDir = signal<'asc' | 'desc' | ''>(
     this.parseSortDir(this.params.get(QUERY_PARAMETERS.SORT_DIR)),
   );
 
@@ -278,14 +278,7 @@ export class PpfSearchPageComponent {
   }
 
   private restoreStateFromQueryParameters(): void {
-    const matSort = this.sort();
     const matPaginator = this.paginator();
-
-    if (matSort && this.sortBy()) {
-      matSort.active = this.sortBy();
-      matSort.direction = this.sortDir();
-      matSort.sortChange.emit({ active: matSort.active, direction: matSort.direction });
-    }
 
     if (matPaginator && this.currentPageIndex() > 0) {
       matPaginator.pageIndex = this.currentPageIndex();
