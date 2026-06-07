@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -146,18 +147,32 @@ export class PpfSearchPageComponent {
 
     effect(() => {
       this.dataSource.filter = this.activeFilter();
-      this.dataSource.paginator?.firstPage();
     });
 
     effect(() => {
       this.pushQueryParmsToUrl();
+    });
+
+    afterNextRender(() => {
+      this.restoreStateFromQueryParameters();
     });
   }
 
   public applyFilter(event: Event): void {
     if (event.target instanceof HTMLInputElement) {
       this.searchText.set(event.target.value);
+      this.dataSource.paginator?.firstPage();
     }
+  }
+
+  public ppfOnSortChange(sortState: Sort): void {
+    this.sortBy.set(sortState.active);
+    this.sortDir.set(sortState.direction);
+    this.currentPageIndex.set(0);
+  }
+
+  public ppfOnPageChange(pageIndex: number): void {
+    this.currentPageIndex.set(pageIndex);
   }
 
   protected addGenre(event: MatAutocompleteSelectedEvent): void {
@@ -166,6 +181,7 @@ export class PpfSearchPageComponent {
 
       if (!this.selectedGenres().includes(genre) && typeof genre) {
         this.selectedGenres.update(clicked => [...clicked, genre]);
+        this.dataSource.paginator?.firstPage();
       }
       this.tagInputControl.setValue('');
     }
@@ -173,6 +189,7 @@ export class PpfSearchPageComponent {
 
   protected removeGenre(genre: string): void {
     this.selectedGenres.update(g => g.filter(clicked => clicked !== genre));
+    this.dataSource.paginator?.firstPage();
   }
 
   private ppfFilterPredicate(track: TrackDataUI, filterJson: string): boolean {
@@ -260,13 +277,21 @@ export class PpfSearchPageComponent {
     });
   }
 
-  public ppfOnSortChange(sortState: Sort): void {
-    this.sortBy.set(sortState.active);
-    this.sortDir.set(sortState.direction);
-    this.currentPageIndex.set(0);
-  }
+  private restoreStateFromQueryParameters(): void {
+    const matSort = this.sort();
+    const matPaginator = this.paginator();
 
-  public ppfOnPageChange(pageIndex: number): void {
-    this.currentPageIndex.set(pageIndex);
+    if (matSort && this.sortBy()) {
+      matSort.active = this.sortBy();
+      matSort.direction = this.sortDir();
+      matSort.sortChange.emit({ active: matSort.active, direction: matSort.direction });
+    }
+
+    if (matPaginator && this.currentPageIndex() > 0) {
+      matPaginator.pageIndex = this.currentPageIndex();
+      this.dataSource.paginator = matPaginator;
+    }
+
+    this.dataSource.filter = this.activeFilter();
   }
 }
