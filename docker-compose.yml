@@ -6,13 +6,35 @@ services:
     container_name: pupufy-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: pupufy_app
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: pupufy
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - '5432:5432'
+      - '127.0.0.1:${DB_PORT}:5432'
     volumes:
       - postgres_data:/var/lib/postgresql
+
+  api:
+    image: pupufy-api:test
+    container_name: pupufy-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+
+  web:
+    image: pupufy-web:test
+    container_name: pupufy-web
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+    depends_on:
+      - api
 
 volumes:
   postgres_data:

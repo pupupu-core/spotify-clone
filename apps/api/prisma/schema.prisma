@@ -12,10 +12,106 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
+enum Role {
+  ADMIN
+  USER
+  CREATOR
+}
+
+enum AccountStatus {
+  ACTIVE
+  BANNED
+  DELETED
+}
+
+model Account {
+  id String @id @default(uuid())
+
+  role   Role          @default(USER)
+  status AccountStatus @default(ACTIVE)
+
+  profile        Profile?
+  creatorProfile CreatorProfile?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  authIdentities AuthIdentity[]
+  authSessions   AuthSession[]
+}
+
+model Profile {
+  id String @id @default(uuid())
+
+  accountId String  @unique
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  handle      String? @unique
+  displayName String?
+  email       String?
+  country     String?
+  city        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CreatorProfile {
+  id String @id @default(uuid())
+
+  accountId String  @unique
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  artistName  String?
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum AuthProvider {
+  LOCAL
+  GITHUB
+  TELEGRAM
+}
+
+model AuthIdentity {
+  id String @id @default(uuid())
+
+  accountId String
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  provider AuthProvider
+
+  providerAccountId String? // required for GITHUB/TELEGRAM
+  email             String? // required for LOCAL
+  passwordHash      String? // required only for LOCAL
+
+  emailVerifiedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, email])
+  @@unique([provider, providerAccountId])
+  @@unique([accountId, provider])
+}
+
+model AuthSession {
+  id String @id @default(uuid())
+
+  accountId String
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  refreshTokenHash String    @unique
+  expiresAt        DateTime
+  revokedAt        DateTime?
+  lastUsedAt       DateTime?
+
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+
+  @@index([accountId])
 }

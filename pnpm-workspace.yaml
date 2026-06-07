@@ -1,12 +1,15 @@
 allowBuilds:
   '@nestjs/core': true
   '@parcel/watcher': true
+  '@prisma/engines': set this to true or false
+  '@scarf/scarf': set this to true or false
   '@swc/core': true
   esbuild: true
   less: true
   lmdb: true
   msgpackr-extract: true
   nx: true
+  prisma: set this to true or false
   unrs-resolver: true
 autoInstallPeers: true
 minimumReleaseAge: 10080

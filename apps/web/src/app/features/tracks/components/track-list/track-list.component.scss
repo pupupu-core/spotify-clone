@@ -1,6 +1,6 @@
-@use '../../../../../styles/variables';
-@use '../../../../../styles/colors';
-@use '../../../../../styles/mixins';
+@use 'src/styles/variables';
+@use 'src/styles/colors';
+@use 'src/styles/mixins';
 
 :host {
   display: block;
@@ -48,9 +48,5 @@
 
   &__item {
     border-radius: variables.$radius-md;
-
-    &--active {
-      background-color: colors.$mat-sys-primary-20;
-    }
   }
 }
