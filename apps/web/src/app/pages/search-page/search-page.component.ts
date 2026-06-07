@@ -57,7 +57,6 @@ const INITIAL_MAX_DURATION = 1200;
     MatFormField,
     MatLabel,
     MatInput,
-    MatInputModule,
     MatIconModule,
     MatButtonModule,
     DurationPipe,
