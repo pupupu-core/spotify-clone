@@ -1,23 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-
-type QueryParamValue = string | number | boolean | null | undefined;
-type QueryParams = Record<string, QueryParamValue | QueryParamValue[]>;
+import z from 'zod';
+import { QueryParams } from './base-http.types';
 
 @Injectable()
 export class BaseHttpClient {
   public constructor(private readonly http: HttpService) {}
 
-  public async get<T>(url: string, params?: QueryParams): Promise<T> {
+  public async get<TZodSchema extends z.ZodType>(
+    url: string,
+    {
+      queryParams,
+      schema,
+    }: {
+      queryParams?: QueryParams;
+      schema: TZodSchema;
+    },
+  ): Promise<z.infer<TZodSchema>> {
     const response = await firstValueFrom(
-      this.http.get<T>(url, { params: this.cleanParams(params) }),
+      this.http.get<unknown>(url, { params: this.cleanQuery(queryParams) }),
     );
 
-    return response.data;
+    return schema.parse(response.data);
   }
 
-  private cleanParams(params?: QueryParams): QueryParams | undefined {
+  private cleanQuery(params?: QueryParams): QueryParams | undefined {
     if (!params) {
       return undefined;
     }
