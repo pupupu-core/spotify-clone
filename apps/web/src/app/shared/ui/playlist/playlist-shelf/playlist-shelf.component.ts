@@ -10,4 +10,9 @@ import { PlaylistCardComponent } from '../playlist-card/playlist-card.component'
 })
 export class PlaylistShelfComponent {
   public readonly componentTitle = input.required<string>();
+
+  protected onWheel(event: WheelEvent, container: HTMLElement): void {
+    event.preventDefault();
+    container.scrollLeft += event.deltaY;
+  }
 }

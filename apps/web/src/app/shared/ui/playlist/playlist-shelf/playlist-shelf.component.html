@@ -1,6 +1,10 @@
 <div class="playlist-shelf">
   <h2 class="title">{{ componentTitle() }}</h2>
-  <div class="playlist-shelf-inner">
+  <div
+    class="playlist-shelf-inner"
+    #playlistShelfInner
+    (wheel)="onWheel($event, playlistShelfInner)"
+  >
     <ppf-playlist-card />
     <ppf-playlist-card />
     <ppf-playlist-card />
