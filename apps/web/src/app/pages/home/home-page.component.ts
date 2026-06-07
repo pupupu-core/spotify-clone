@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TrackListComponent } from '../../features/tracks/components/track-list/track-list.component';
 import { TrackService } from '../../features/tracks/services/track.mock.service';
-import { PlaylistCardComponent } from '../../features/playlist-card/playlist-card.component';
+import { PlaylistShelfComponent } from '../../shared/ui/playlist/playlist-shelf/playlist-shelf.component';
 
 @Component({
   selector: 'ppf-home-page',
-  imports: [TrackListComponent, PlaylistCardComponent],
+  imports: [TrackListComponent, PlaylistShelfComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
