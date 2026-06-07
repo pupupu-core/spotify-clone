@@ -18,6 +18,7 @@ export const APP_CONFIG = {
   },
   jamendo: {
     apiKey: getEnvOrThrow('JAMENDO_API_KEY'),
+    clientId: getEnvOrThrow('JAMENDO_API_CLIENT_ID'),
   },
   prisma: {
     dbUrl: getEnvOrThrow('DATABASE_URL'),
