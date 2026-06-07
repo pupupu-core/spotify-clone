@@ -11,6 +11,7 @@ import { TrackService } from '../../features/tracks/services/track.mock.service'
 import { MatFormField, MatInput, MatInputModule, MatLabel } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import type { Sort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -83,6 +84,8 @@ export class PpfSearchPageComponent {
   public readonly paginator = viewChild(MatPaginator);
 
   protected readonly tagInputControl = new FormControl('', { nonNullable: true });
+
+  private readonly sortBy = signal<string>(this.params.get(QUERY_PARAMETERS.SORT_BY) ?? '');
 
   protected readonly minDuration = signal<number>(
     this.parseNumber(this.params.get(QUERY_PARAMETERS.MIN_DUR), INITIAL_MIN_DURATION),
@@ -235,7 +238,12 @@ export class PpfSearchPageComponent {
           this.minDuration() > INITIAL_MIN_DURATION ? this.minDuration() : null,
         [QUERY_PARAMETERS.MAX_DUR]:
           this.maxDuration() < INITIAL_MAX_DURATION ? this.maxDuration() : null,
+        [QUERY_PARAMETERS.SORT_BY]: this.sortBy() || null,
       },
     });
+  }
+
+  public ppfOnSortChange(sortState: Sort): void {
+    this.sortBy.set(sortState.active);
   }
 }

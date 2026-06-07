@@ -118,7 +118,7 @@
       </mat-chip-grid>
     </section>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort>
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="ppfOnSortChange($event)">
     <ng-container matColumnDef="album_name">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let track">
