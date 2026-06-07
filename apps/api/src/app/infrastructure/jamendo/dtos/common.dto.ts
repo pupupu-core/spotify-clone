@@ -21,3 +21,7 @@ export const createJamendoResponseSchema = <TItemSchema extends z.ZodType>(
 
 export type JamendoResponseStatusDto = z.infer<typeof JamendoResponseStatusSchema>;
 export type JamendoResponseHeadersDto = z.infer<typeof JamendoResponseHeadersSchema>;
+
+export type JamendoResponseDto<TItemDto> = z.infer<
+  ReturnType<typeof createJamendoResponseSchema<z.ZodType<TItemDto>>>
+>;
