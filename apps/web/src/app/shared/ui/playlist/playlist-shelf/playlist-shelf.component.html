@@ -5,6 +5,7 @@
     #playlistShelfInner
     (wheel)="onWheel($event, playlistShelfInner)"
   >
+    <!--    TODO: заменить данные на input сигнал, после добавление интерфейсов-->
     @for (track of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
       <ppf-playlist-card />
     }
