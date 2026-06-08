@@ -1,0 +1,27 @@
+<!--TODO: заменить данные на input сигнал, после добавление интерфейсов-->
+<div class="playlist-card-container">
+  <div class="header">
+    <p>
+      <mat-icon inline>calendar_month</mat-icon>
+      <span>April 5, 2019</span>
+    </p>
+    <p>
+      <mat-icon inline>music_note</mat-icon>
+      <span>10 tracks</span>
+    </p>
+  </div>
+  <div class="cover-container">
+    <img ngSrc="/img/album-bg-mock.png" alt="album name cover" width="195" height="195" priority />
+  </div>
+  <div class="footer">
+    <p>Album Name</p>
+    <button
+      matIconButton
+      aria-label="View playlist details"
+      (click)="playlistClick.emit()"
+      class="details-button"
+    >
+      <mat-icon fontSet="material-icons-outlined">outbound</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+@use 'src/styles/mixins';
+@use 'src/styles/variables';
+
+.playlist-shelf {
+  padding: 15px 20px;
+  border: 1px solid var(--mat-sys-surface);
+  border-radius: variables.$radius-md;
+
+  color: var(--mat-sys-surface);
+
+  background-color: var(--mat-sys-secondary);
+}
+
+.title {
+  @include mixins.font-lg;
+
+  margin-bottom: 20px;
+}
+
+.playlist-shelf-inner {
+  @include mixins.scrollbar-thin(var(--mat-sys-on-surface));
+
+  overflow: auto;
+  display: flex;
+  gap: 15px;
+  padding: 10px 0;
+}
