@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InvalidateUserSessionStep } from '../../steps/invalidate-user-session.step';
+import { RevokeAuthSessionStep } from '../../steps/revoke-auth-session.step';
 
 interface LogoutUserCommand {
   refreshToken: string;
@@ -7,9 +7,9 @@ interface LogoutUserCommand {
 
 @Injectable()
 export class LogoutUserWorkflow {
-  constructor(private readonly invalidateUserSessionStep: InvalidateUserSessionStep) {}
+  constructor(private readonly revokeAuthSessionStep: RevokeAuthSessionStep) {}
 
   public async execute(command: LogoutUserCommand): Promise<void> {
-    return await this.invalidateUserSessionStep.execute(command);
+    return await this.revokeAuthSessionStep.execute(command);
   }
 }

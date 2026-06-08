@@ -13,11 +13,12 @@ export const APP_CONFIG = {
     port: Number(process.env.PORT) || 3000,
   },
   restGateway: {
-    pathPrefix: '/api' as const,
+    pathPrefix: '' as const,
     version: '/v1' as const,
   },
   jamendo: {
     apiKey: getEnvOrThrow('JAMENDO_API_KEY'),
+    clientId: getEnvOrThrow('JAMENDO_API_CLIENT_ID'),
   },
   prisma: {
     dbUrl: getEnvOrThrow('DATABASE_URL'),

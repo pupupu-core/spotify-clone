@@ -1,0 +1,210 @@
+<div class="search-page__wrapper mat-elevation-z8">
+  <mat-form-field>
+    <mat-label>Start for search songs, albums, authors...</mat-label>
+    <input matInput (keyup)="applyFilterSearch($event)" #input aria-label="Search tracks" />
+  </mat-form-field>
+  <div class="search-page__panels">
+    <section class="search-page__panel search-page__panel-duration">
+      <div class="search-page__panel-durs">
+        <div class="search-page__dur-row">
+          <mat-form-field>
+            <mat-icon
+              matPrefix
+              aria-hidden="false"
+              aria-label="schedule icon"
+              fontSet="material-icons-outlined"
+            >
+              schedule
+            </mat-icon>
+            <input
+              #minInput
+              matInput
+              id="min-dur"
+              type="number"
+              class="search-page__dur-input"
+              min="0"
+              max="600"
+              [value]="minDuration()"
+              (change)="minDuration.set(minInput.valueAsNumber); resetPagination()"
+              placeholder="min seconds"
+            />
+            <mat-icon
+              matSuffix
+              aria-hidden="false"
+              aria-label="cancel icon"
+              fontSet="material-icons-outlined"
+            >
+              cancel
+            </mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="search-page__dur-row">
+          <mat-form-field>
+            <mat-icon
+              matPrefix
+              aria-hidden="false"
+              aria-label="schedule icon"
+              fontSet="material-icons-outlined"
+            >
+              schedule
+            </mat-icon>
+            <input
+              #maxInput
+              matInput
+              id="max-dur"
+              type="number"
+              class="search-page__dur-input"
+              min="0"
+              max="600"
+              [value]="maxDuration()"
+              (change)="maxDuration.set(maxInput.valueAsNumber); resetPagination()"
+              placeholder="max seconds"
+            />
+            <mat-icon
+              matSuffix
+              aria-hidden="false"
+              aria-label="cancel icon"
+              fontSet="material-icons-outlined"
+            >
+              cancel
+            </mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="search-page__panel-dur-slider">
+        <mat-slider [min]="0" [max]="1200">
+          <input
+            matSliderStartThumb
+            #sliderMin
+            [value]="minDuration()"
+            (input)="minDuration.set(sliderMin.valueAsNumber); resetPagination()"
+          />
+          <input
+            matSliderEndThumb
+            #sliderMax
+            [value]="maxDuration()"
+            (input)="maxDuration.set(sliderMax.valueAsNumber); resetPagination()"
+          />
+        </mat-slider>
+      </div>
+    </section>
+
+    <section class="search-page__panel search-page__panel-genres">
+      <mat-form-field appearance="fill" class="search-page__genre-field">
+        <input
+          matInput
+          [formControl]="tagInputControl"
+          [matAutocomplete]="genreAuto"
+          [matChipInputFor]="chipGrid"
+          placeholder="Genre tags"
+        />
+        <mat-autocomplete #genreAuto="matAutocomplete" (optionSelected)="addGenre($event)">
+          @for (genre of filteredGenres(); track genre) {
+            <mat-option [value]="genre">{{ genre }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-chip-grid #chipGrid class="chip-grid-container">
+        @for (genre of selectedGenres(); track genre) {
+          <mat-chip-row (removed)="removeGenre(genre)" [removable]="true">
+            {{ genre }}
+            <button matChipRemove>
+              <span>×</span>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+    </section>
+  </div>
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    (matSortChange)="ppfOnSortChange($event)"
+    [matSortActive]="sortBy()"
+    [matSortDirection]="sortDir()"
+  >
+    <ng-container matColumnDef="album_name">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let track">
+        <p>{{ track.album_name }}</p>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="album_cover">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let track">
+        <img class="album-img" [src]="track.album_image" [alt]="track.album_name + ' cover'" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="artist_meta">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+        name
+      </th>
+      <td mat-cell *matCellDef="let track">
+        <div class="album-title-container">
+          <div class="title-container">
+            <p class="track-name">{{ track.name }}</p>
+            <p class="album-name">{{ track.artist_name }}</p>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="play_count">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by popularity"
+      >
+        Popularity
+      </th>
+      <td mat-cell *matCellDef="let track">{{ 100000 | abbreviatedNumber }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="duration">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by duration"
+      >
+        Duration
+      </th>
+      <td mat-cell *matCellDef="let track">{{ track.duration | duration }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="play">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let track">
+        <button mat-icon-button [attr.aria-label]="'Play ' + track.name">
+          <mat-icon fontSet="material-icons-outlined">play_circle</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        @if (input.value) {
+          No tracks matching to query "{{ input.value }}" and applied filters
+        } @else {
+          No tracks matching to applied filters
+        }
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator
+    [pageSize]="4"
+    showFirstLastButtons
+    hidePageSize
+    (page)="ppfOnPageChange($event.pageIndex)"
+  />
+</div>

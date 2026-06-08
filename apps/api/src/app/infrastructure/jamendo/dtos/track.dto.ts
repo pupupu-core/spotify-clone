@@ -1,39 +1,49 @@
-export interface JamendoTrackDto {
-  id: string;
-  name: string;
-  duration: number;
-  artist_id: string;
-  artist_name: string;
-  artist_idstr: string;
-  album_name: string;
-  album_id: string;
-  license_ccurl: string;
-  position: number;
-  releasedate: string;
-  album_image: string;
-  audio: string;
-  audiodownload: string;
-  prourl: string;
-  shorturl: string;
-  shareurl: string;
-  waveform: string;
-  image: string;
-  musicinfo: JamendoMusicInfoData;
-  audiodownload_allowed: boolean;
-  content_id_free: boolean;
-}
+import { z } from 'zod';
+import { createJamendoResponseSchema } from './common.dto';
 
-export interface JamendoMusicInfoData {
-  vocalinstrumental: string;
-  lang: string;
-  gender: string;
-  acousticelectric: string;
-  speed: string;
-  tags: JamendoMusicInfoTags;
-}
+const JamendoTrackMusicInfoTagsSchema = z.object({
+  genres: z.array(z.string()),
+  instruments: z.array(z.string()),
+  vartags: z.array(z.string()),
+});
 
-export interface JamendoMusicInfoTags {
-  genres: string[];
-  instruments: string[];
-  vartags: string[];
-}
+const JamendoTrackMusicInfoSchema = z.object({
+  vocalinstrumental: z.string(),
+  lang: z.string(),
+  gender: z.string(),
+  acousticelectric: z.string(),
+  speed: z.string(),
+  tags: JamendoTrackMusicInfoTagsSchema,
+});
+
+const JamendoTrackSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  duration: z.number(),
+  artist_id: z.string(),
+  artist_name: z.string(),
+  artist_idstr: z.string(),
+  album_name: z.string(),
+  album_id: z.string(),
+  license_ccurl: z.string(),
+  position: z.number(),
+  releasedate: z.string(),
+  album_image: z.string(),
+  audio: z.string(),
+  audiodownload: z.string(),
+  prourl: z.string(),
+  shorturl: z.string(),
+  shareurl: z.string(),
+  waveform: z.string(),
+  image: z.string(),
+  musicinfo: JamendoTrackMusicInfoSchema.optional(),
+  audiodownload_allowed: z.boolean(),
+  content_id_free: z.boolean(),
+});
+
+export const JamendoListTracksResponseSchema = createJamendoResponseSchema(JamendoTrackSchema);
+
+export type JamendoTrackMusicInfoTagsDto = z.infer<typeof JamendoTrackMusicInfoTagsSchema>;
+export type JamendoTrackMusicInfoDto = z.infer<typeof JamendoTrackMusicInfoSchema>;
+export type JamendoTrackDto = z.infer<typeof JamendoTrackSchema>;
+export type JamendoListTracksResponseDto = z.infer<typeof JamendoListTracksResponseSchema>;
