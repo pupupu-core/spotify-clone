@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import type { AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+  NgZone,
+  viewChild,
+} from '@angular/core';
 import { PlaylistCardComponent } from '../playlist-card/playlist-card.component';
 
 @Component({
@@ -8,11 +16,30 @@ import { PlaylistCardComponent } from '../playlist-card/playlist-card.component'
   styleUrl: './playlist-shelf.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaylistShelfComponent {
-  public readonly componentTitle = input.required<string>();
+export class PlaylistShelfComponent implements AfterViewInit, OnDestroy {
+  public readonly title = input.required<string>();
 
-  protected onWheel(event: WheelEvent, container: HTMLElement): void {
+  private readonly zone = inject(NgZone);
+
+  private readonly shelfRef = viewChild.required<ElementRef<HTMLDivElement>>('playlistShelfInner');
+  private wheelContainer!: HTMLDivElement;
+
+  protected wheelHandler = (event: WheelEvent): void => {
     event.preventDefault();
-    container.scrollLeft += event.deltaY;
+    this.wheelContainer.scrollLeft += event.deltaY;
+  };
+
+  public ngAfterViewInit(): void {
+    this.wheelContainer = this.shelfRef().nativeElement;
+
+    this.zone.runOutsideAngular(() => {
+      this.wheelContainer.addEventListener('wheel', this.wheelHandler, {
+        passive: false,
+      });
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.wheelContainer.removeEventListener('wheel', this.wheelHandler);
   }
 }
