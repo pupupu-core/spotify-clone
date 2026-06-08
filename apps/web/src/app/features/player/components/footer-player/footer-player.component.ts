@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import type { JamendoTrack } from '../../../../core/api/jamendo/models/tracks.model';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PpfPlayerService } from '../../services/track-player.service';
 import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
 import { MatIcon } from '@angular/material/icon';
@@ -16,7 +15,6 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PpfFooterPlayerComponent {
-  public readonly track = input.required<JamendoTrack>();
   protected readonly player = inject(PpfPlayerService);
 
   protected onSeek(event: Event): void {
