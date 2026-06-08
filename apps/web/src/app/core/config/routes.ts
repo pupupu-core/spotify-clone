@@ -11,16 +11,32 @@ export const ROUTES = {
     path: '',
     to: '/',
     meta: {
-      label: 'Home',
-      title: 'Home',
+      label: 'Discover page',
+      title: 'Discover',
     },
   },
   SEARCH: {
     path: 'search',
-    to: 'search',
+    to: '/search',
     meta: {
       label: 'Search page',
       title: 'Search',
+    },
+  },
+  LIBRARY: {
+    path: 'library',
+    to: '/library',
+    meta: {
+      label: 'Library page',
+      title: 'Library',
+    },
+  },
+  ABOUT_US: {
+    path: 'about-us',
+    to: '/about-us',
+    meta: {
+      label: 'About us page',
+      title: 'About us',
     },
   },
   NOT_FOUND: {

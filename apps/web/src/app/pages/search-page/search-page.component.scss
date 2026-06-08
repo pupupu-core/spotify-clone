@@ -54,9 +54,6 @@ th.mat-sort-header-sorted {
 
 .album-img {
   width: 90px;
-}
-
-.album-img {
   border-radius: variables.$radius-sm;
   object-fit: cover;
 }
@@ -97,4 +94,11 @@ th.mat-sort-header-sorted {
 .chip-grid-container {
   width: 500px;
   height: 60px;
+}
+
+.search-page__dur-input {
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
 }

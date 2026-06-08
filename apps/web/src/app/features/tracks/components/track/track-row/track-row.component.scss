@@ -3,6 +3,8 @@
 @use '../../../../../../styles/mixins';
 
 .track-container {
+  cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -19,16 +21,20 @@
     background-color: colors.$mat-sys-primary-20;
   }
 
-  .album-title-container {
+  &--playing {
+    background-color: colors.$mat-sys-primary-20;
+  }
+
+  .track-content {
     display: flex;
     align-items: center;
 
-    .album-img-container {
+    .album-cover {
       width: 70px;
       height: 70px;
       margin-right: 10px;
 
-      .album-img {
+      img {
         width: 100%;
         height: 100%;
         border-radius: variables.$radius-sm;
@@ -36,7 +42,7 @@
       }
     }
 
-    .title-container {
+    .track-text {
       .author-name {
         @include mixins.font-md;
       }
@@ -52,15 +58,11 @@
     gap: clamp(10px, 6vw, 50px);
     align-items: center;
 
-    .play-count,
-    .duration {
+    p {
       display: flex;
+      gap: 5px;
       align-items: center;
       font-size: variables.$font-size-sm;
     }
   }
-}
-
-.isPlaying {
-  background-color: colors.$mat-sys-primary-20;
 }

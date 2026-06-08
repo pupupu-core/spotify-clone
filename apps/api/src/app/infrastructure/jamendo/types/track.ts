@@ -2,38 +2,38 @@ export interface JamendoTrack {
   id: string;
   name: string;
   duration: number;
-  artist_id: string;
-  artist_name: string;
-  artist_idstr: string;
-  album_name: string;
-  album_id: string;
-  license_ccurl: string;
+  artistId: string;
+  artistName: string;
+  artistIdString: string;
+  albumName: string;
+  albumId: string;
+  licenseUrl: string;
   position: number;
-  releasedate: string;
-  album_image: string;
-  audio: string;
-  audiodownload: string;
-  prourl: string;
-  shorturl: string;
-  shareurl: string;
-  waveform: string;
-  image: string;
-  musicinfo: JamendoMusicInfoData;
-  audiodownload_allowed: boolean;
-  content_id_free: boolean;
+  releaseDate: string;
+  albumImageUrl: string;
+  audioUrl: string;
+  audioDownloadUrl: string;
+  proUrl: string;
+  shortUrl: string;
+  shareUrl: string;
+  waveformUrl: string;
+  imageUrl: string;
+  musicInfo?: JamendoTrackMusicInfo;
+  isAudioDownloadAllowed: boolean;
+  isFreeContent: boolean;
 }
 
-export interface JamendoMusicInfoData {
-  vocalinstrumental: string;
+export interface JamendoTrackMusicInfo {
+  vocalInstrumental: string;
   lang: string;
   gender: string;
-  acousticelectric: string;
+  acousticElectric: string;
   speed: string;
-  tags: JamendoMusicInfoTags;
+  tags: JamendoTrackMusicInfoTags;
 }
 
-export interface JamendoMusicInfoTags {
+export interface JamendoTrackMusicInfoTags {
   genres: string[];
   instruments: string[];
-  vartags: string[];
+  varTags: string[];
 }

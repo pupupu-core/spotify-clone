@@ -29,6 +29,8 @@ export default [
       '@angular-eslint/no-pipe-impure': 'error',
       '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       '@angular-eslint/no-lifecycle-call': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'error',
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
       '@angular-eslint/consistent-component-styles': 'warn',
       '@angular-eslint/prefer-signals': 'warn',
       '@angular-eslint/prefer-output-readonly': 'warn',

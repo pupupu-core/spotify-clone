@@ -1,7 +1,7 @@
 <div class="search-page__wrapper mat-elevation-z8">
   <mat-form-field>
     <mat-label>Start for search songs, albums, authors...</mat-label>
-    <input matInput (keyup)="applyFilter($event)" #input aria-label="Search tracks" />
+    <input matInput (keyup)="applyFilterSearch($event)" #input aria-label="Search tracks" />
   </mat-form-field>
   <div class="search-page__panels">
     <section class="search-page__panel search-page__panel-duration">
@@ -9,7 +9,7 @@
         <div class="search-page__dur-row">
           <mat-form-field>
             <mat-icon
-              inline
+              matPrefix
               aria-hidden="false"
               aria-label="schedule icon"
               fontSet="material-icons-outlined"
@@ -17,18 +17,19 @@
               schedule
             </mat-icon>
             <input
+              #minInput
               matInput
               id="min-dur"
               type="number"
               class="search-page__dur-input"
               min="0"
               max="600"
-              step="10"
-              (change)="onMinDuration($event)"
+              [value]="minDuration()"
+              (change)="minDuration.set(minInput.valueAsNumber); resetPagination()"
               placeholder="min seconds"
             />
             <mat-icon
-              inline
+              matSuffix
               aria-hidden="false"
               aria-label="cancel icon"
               fontSet="material-icons-outlined"
@@ -41,7 +42,7 @@
         <div class="search-page__dur-row">
           <mat-form-field>
             <mat-icon
-              inline
+              matPrefix
               aria-hidden="false"
               aria-label="schedule icon"
               fontSet="material-icons-outlined"
@@ -49,18 +50,19 @@
               schedule
             </mat-icon>
             <input
+              #maxInput
               matInput
               id="max-dur"
               type="number"
               class="search-page__dur-input"
               min="0"
               max="600"
-              step="10"
-              (change)="onMaxDuration($event)"
+              [value]="maxDuration()"
+              (change)="maxDuration.set(maxInput.valueAsNumber); resetPagination()"
               placeholder="max seconds"
             />
             <mat-icon
-              inline
+              matSuffix
               aria-hidden="false"
               aria-label="cancel icon"
               fontSet="material-icons-outlined"
@@ -71,9 +73,19 @@
         </div>
       </div>
       <div class="search-page__panel-dur-slider">
-        <mat-slider>
-          <input matSliderStartThumb />
-          <input matSliderEndThumb />
+        <mat-slider [min]="0" [max]="1200">
+          <input
+            matSliderStartThumb
+            #sliderMin
+            [value]="minDuration()"
+            (input)="minDuration.set(sliderMin.valueAsNumber); resetPagination()"
+          />
+          <input
+            matSliderEndThumb
+            #sliderMax
+            [value]="maxDuration()"
+            (input)="maxDuration.set(sliderMax.valueAsNumber); resetPagination()"
+          />
         </mat-slider>
       </div>
     </section>
@@ -106,7 +118,21 @@
       </mat-chip-grid>
     </section>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    (matSortChange)="ppfOnSortChange($event)"
+    [matSortActive]="sortBy()"
+    [matSortDirection]="sortDir()"
+  >
+    <ng-container matColumnDef="album_name">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let track">
+        <p>{{ track.album_name }}</p>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="album_cover">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let track">
@@ -135,7 +161,7 @@
         mat-sort-header
         sortActionDescription="Sort by popularity"
       >
-        popularity
+        Popularity
       </th>
       <td mat-cell *matCellDef="let track">{{ 100000 | abbreviatedNumber }}</td>
     </ng-container>
@@ -175,9 +201,20 @@
     ></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No tracks matching "{{ input.value }}"</td>
+      <td class="mat-cell" colspan="4">
+        @if (input.value) {
+          No tracks matching to query "{{ input.value }}" and applied filters
+        } @else {
+          No tracks matching to applied filters
+        }
+      </td>
     </tr>
   </table>
 
-  <mat-paginator [pageSize]="[this.paginatorPageSize]" showFirstLastButtons />
+  <mat-paginator
+    [pageSize]="this.paginatorPageSize"
+    showFirstLastButtons
+    hidePageSize
+    (page)="ppfOnPageChange($event.pageIndex)"
+  />
 </div>
