@@ -50,7 +50,6 @@ export class PpfAudioEngine {
 
   public play(): void {
     void this.audio.play();
-    // add popularity +1 here or in player service
   }
 
   public pause(): void {
@@ -73,6 +72,7 @@ export class PpfAudioEngine {
     const clamped = Math.min(100, Math.max(0, value));
 
     this.audio.volume = Math.round(clamped) / 100;
+    this.volume.set(clamped);
   }
 
   public onEnded(handler: () => void) {

@@ -92,11 +92,12 @@
       <mat-slider>
         <input
           matSliderThumb
+          #volumeSlider
           type="range"
           min="0"
           [max]="100"
-          [value]="100"
-          (input)="onVolume($event)"
+          [value]="player.volume()"
+          (input)="player.setVolume(volumeSlider.valueAsNumber)"
           [disabled]="!track"
         />
       </mat-slider>
@@ -112,11 +113,12 @@
         <mat-slider>
           <input
             matSliderThumb
+            #seekSlider
             type="range"
             min="0"
             [max]="player.duration() || 0"
             [value]="player.position()"
-            (input)="onSeek($event)"
+            (input)="player.seek(seekSlider.valueAsNumber)"
             [disabled]="!track"
           />
         </mat-slider>

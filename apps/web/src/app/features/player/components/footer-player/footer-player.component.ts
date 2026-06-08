@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { PpfPlayerService } from '../../services/track-player.service';
 import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
 import { MatIcon } from '@angular/material/icon';
@@ -17,15 +17,6 @@ import { RouterLink } from '@angular/router';
 export class PpfFooterPlayerComponent {
   protected readonly player = inject(PpfPlayerService);
 
-  protected onSeek(event: Event): void {
-    const value = Number((event.target as HTMLInputElement).value);
-
-    this.player.seek(value);
-  }
-
-  protected onVolume(event: Event): void {
-    const value = Number((event.target as HTMLInputElement).value);
-
-    this.player.setVolume(value);
-  }
+  protected readonly seekInputValue = signal<number>(0);
+  protected readonly volumeInputValue = signal<number>(100);
 }

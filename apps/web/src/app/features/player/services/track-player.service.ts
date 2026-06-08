@@ -23,6 +23,8 @@ export class PpfPlayerService {
 
   public readonly isPlaying = this.engine.isPlaying;
 
+  public readonly volume = this.engine.volume;
+
   constructor() {
     this.engine.onEnded(() => this.next());
 
@@ -88,7 +90,4 @@ export class PpfPlayerService {
   public setVolume(value: number): void {
     this.engine.setVolume(value);
   }
-
-  // todo: add enqueue and dequeue methods
-  // i also should add shuffle mode, repeat mode, repeat order, i guess
 }
