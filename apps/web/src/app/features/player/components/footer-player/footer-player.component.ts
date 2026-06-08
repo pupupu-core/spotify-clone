@@ -1,18 +1,19 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import type { JamendoTrack } from '../../../../core/api/jamendo/models/tracks.model';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { PpfPlayerService } from '../../services/track-player.service';
+import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
+import { MatIcon } from '@angular/material/icon';
+import { MatSlider } from '@angular/material/slider';
+import { MatSliderThumb } from '@angular/material/slider';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ppf-footer-player',
-  imports: [],
+  imports: [DurationPipe, MatIcon, MatSlider, MatSliderThumb, MatButtonModule, RouterLink],
   templateUrl: './footer-player.component.html',
   styleUrl: './footer-player.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PpfFooterPlayerComponent {
-  public readonly track = input.required<JamendoTrack>();
-  public readonly playTrack = output<void>();
-
-  protected onActivate(): void {
-    this.playTrack.emit();
-  }
+  protected readonly player = inject(PpfPlayerService);
 }

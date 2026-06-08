@@ -181,14 +181,24 @@
     <ng-container matColumnDef="play">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let track">
-        <button mat-icon-button [attr.aria-label]="'Play ' + track.name">
-          <mat-icon fontSet="material-icons-outlined">play_circle</mat-icon>
+        <button mat-icon-button [attr.aria-label]="'Play ' + track.name" (click)="playTrack(track)">
+          <mat-icon fontSet="material-icons-outlined">
+            {{
+              player.current()?.id === track.id && player.isPlaying()
+                ? 'pause_circle'
+                : 'play_circle'
+            }}</mat-icon
+          >
         </button>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      [class.active]="player.current()?.id === row.id"
+    ></tr>
 
     <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="4">
@@ -202,7 +212,7 @@
   </table>
 
   <mat-paginator
-    [pageSize]="4"
+    [pageSize]="this.paginatorPageSize"
     showFirstLastButtons
     hidePageSize
     (page)="ppfOnPageChange($event.pageIndex)"

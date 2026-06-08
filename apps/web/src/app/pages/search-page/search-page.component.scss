@@ -16,6 +16,15 @@
   );
 }
 
+.mat-mdc-row.active {
+  background-color: var(--mat-table-row-item-container-color, colors.$mat-sys-primary-20);
+
+  .track-name {
+    font-weight: 600;
+    color: var(--mat-primary);
+  }
+}
+
 .mat-mdc-header-cell {
   border: 0;
 }
