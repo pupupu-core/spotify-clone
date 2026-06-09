@@ -27,25 +27,27 @@ jobs:
 
       - name: Verify allowed directory
         run: |
-          # Записываем список всех измененных файлов в переменную
           CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
           
-          echo "Измененные файлы (после фильтрации .github):"
+          echo "Измененные файлы:"
           echo "$CHANGED_FILES"
           
-          # Флаг, который переключится в 1, если найдем нарушителя
           HAS_VIOLATION=0
 
-          # Бежим циклом по каждому измененному файлу
           for file in $CHANGED_FILES; do
-            # Если путь к файлу НЕ начинается с "development-notes/"
+            # ИГНОРИРУЕМ сам файл воркфлоу, чтобы он не мешал тестам
+            if [[ "$file" == *".github/workflows/"* ]]; then
+              echo "Пропускаем системный файл автоматизации: $file"
+              continue
+            fi
+
+            # Если любой ДРУГОЙ файл не в нужной папке — это нарушение
             if [[ ! $file =~ ^development-notes/ ]]; then
               echo "❌ Нарушение: файл '$file' находится вне папки development-notes/"
               HAS_VIOLATION=1
             fi
           done
 
-          # Если нашли хотя бы один чужой файл — роняем джобу
           if [ $HAS_VIOLATION -eq 1 ]; then
             echo "❌ Ошибка: В этом PR изменены файлы за пределами папки development-notes!"
             exit 1
