@@ -1,0 +1,45 @@
+name: Check Development Notes
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronized, reopened, ready_for_review]
+
+jobs:
+  validate-files:
+    if: github.event.pull_request.head.ref == 'development-notes'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get all changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+
+      - name: Verify allowed directory
+        run: |
+          CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
+          
+          echo "Измененные файлы:"
+          echo "$CHANGED_FILES"
+          
+          HAS_VIOLATION=0
+
+          for file in $CHANGED_FILES; do
+            if [[ ! $file =~ ^development-notes/ ]]; then
+              echo "❌ Нарушение: файл '$file' находится вне папки development-notes/"
+              HAS_VIOLATION=1
+            fi
+          done
+
+          if [ $HAS_VIOLATION -eq 1 ]; then
+            echo "❌ Ошибка: В этом PR изменены файлы за пределами папки development-notes!"
+            exit 1
+          else
+            echo "✅ Отлично! Все изменения находятся строго внутри папки development-notes/."
+          fi
