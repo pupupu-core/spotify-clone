@@ -24,10 +24,10 @@ jobs:
       - name: Verify allowed directory
         run: |
           CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
-          
+
           echo "Измененные файлы:"
           echo "$CHANGED_FILES"
-          
+
           HAS_VIOLATION=0
 
           for file in $CHANGED_FILES; do
