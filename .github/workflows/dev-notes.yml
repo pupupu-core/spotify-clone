@@ -1,0 +1,37 @@
+name: Check Development Notes
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronized]
+
+jobs:
+  validate-files:
+    if: github.event.pull_request.head.ref == 'development-notes'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@d6babd6bf1b14640d25be9fcf1f4007dfc330f9a
+        with:
+          files: |
+            development-notes/**
+
+      - name: Verify allowed directory
+        if: steps.changed-files.outputs.any_modified == 'true' && steps.changed-files.outputs.only_modified == 'false'
+        run: |
+          echo "❌ Ошибка: В этом PR изменены файлы за пределами папки development-notes!"
+          echo "Пожалуйста, уберите изменения из других директорий."
+          exit 1
+
+      - name: Success message
+        if: steps.changed-files.outputs.only_modified == 'true'
+        run: |
+          echo "✅ Отлично! Изменения находятся строго внутри папки development-notes/."
