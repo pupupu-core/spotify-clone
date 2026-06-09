@@ -20,28 +20,17 @@ jobs:
       - name: Get all changed files
         id: changed-files
         uses: tj-actions/changed-files@v45
-        with:
-          # Просто получаем список всех файлов, полностью игнорируя сам воркфлоу
-          ignored_files: |
-            .github/workflows/**
 
       - name: Verify allowed directory
         run: |
           CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
-          
+
           echo "Измененные файлы:"
           echo "$CHANGED_FILES"
-          
+
           HAS_VIOLATION=0
 
           for file in $CHANGED_FILES; do
-            # ИГНОРИРУЕМ сам файл воркфлоу, чтобы он не мешал тестам
-            if [[ "$file" == *".github/workflows/"* ]]; then
-              echo "Пропускаем системный файл автоматизации: $file"
-              continue
-            fi
-
-            # Если любой ДРУГОЙ файл не в нужной папке — это нарушение
             if [[ ! $file =~ ^development-notes/ ]]; then
               echo "❌ Нарушение: файл '$file' находится вне папки development-notes/"
               HAS_VIOLATION=1
