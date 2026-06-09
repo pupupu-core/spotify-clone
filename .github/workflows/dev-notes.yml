@@ -17,23 +17,38 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get changed files
+      - name: Get all changed files
         id: changed-files
         uses: tj-actions/changed-files@v45
         with:
-          files: |
-            development-notes/**
+          # Просто получаем список всех файлов, полностью игнорируя сам воркфлоу
           ignored_files: |
             .github/workflows/**
 
       - name: Verify allowed directory
-        if: steps.changed-files.outputs.any_modified == 'true' && steps.changed-files.outputs.only_modified == 'false'
         run: |
-          echo "❌ Ошибка: В этом PR изменены файлы за пределами папки development-notes!"
-          echo "Пожалуйста, уберите изменения из других директорий."
-          exit 1
+          # Записываем список всех измененных файлов в переменную
+          CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
+          
+          echo "Измененные файлы (после фильтрации .github):"
+          echo "$CHANGED_FILES"
+          
+          # Флаг, который переключится в 1, если найдем нарушителя
+          HAS_VIOLATION=0
 
-      - name: Success message
-        if: steps.changed-files.outputs.only_modified == 'true'
-        run: |
-          echo "✅ Отлично! Изменения находятся строго внутри папки development-notes/."
+          # Бежим циклом по каждому измененному файлу
+          for file in $CHANGED_FILES; do
+            # Если путь к файлу НЕ начинается с "development-notes/"
+            if [[ ! $file =~ ^development-notes/ ]]; then
+              echo "❌ Нарушение: файл '$file' находится вне папки development-notes/"
+              HAS_VIOLATION=1
+            fi
+          done
+
+          # Если нашли хотя бы один чужой файл — роняем джобу
+          if [ $HAS_VIOLATION -eq 1 ]; then
+            echo "❌ Ошибка: В этом PR изменены файлы за пределами папки development-notes!"
+            exit 1
+          else
+            echo "✅ Отлично! Все изменения находятся строго внутри папки development-notes/."
+          fi
