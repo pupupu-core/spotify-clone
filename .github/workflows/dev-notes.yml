@@ -23,6 +23,8 @@ jobs:
         with:
           files: |
             development-notes/**
+          ignored_files: |
+            .github/workflows/**
 
       - name: Verify allowed directory
         if: steps.changed-files.outputs.any_modified == 'true' && steps.changed-files.outputs.only_modified == 'false'
