@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, synchronized]
+    types: [opened, synchronized, reopened, ready_for_review]
 
 jobs:
   validate-files:
