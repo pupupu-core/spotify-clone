@@ -19,7 +19,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@d6babd6bf1b14640d25be9fcf1f4007dfc330f9a
+        uses: tj-actions/changed-files@c65cd8834d90f96894080ca33320cfa820a469f6
         with:
           files: |
             development-notes/**
