@@ -10,6 +10,8 @@ import { JamendoUnavailableError } from './errors/jamendo-unavailable.error';
 import { JamendoResponseDto } from './dtos/common.dto';
 import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
+import { JamendoArtistTracks } from '$/infrastructure/jamendo/types/artists';
+import { JamendoArtistListTracksResponseSchema } from '$/infrastructure/jamendo/dtos/artists.dto';
 
 @Injectable()
 export class JamendoClient {
@@ -27,6 +29,17 @@ export class JamendoClient {
       },
       schema: JamendoListTracksResponseSchema,
     }).then(mapToListTracks);
+  }
+
+  public async listPopularArtistTracks(): Promise<JamendoArtistTracks[]> {
+    return this.get({
+      path: 'artists/tracks',
+      queryParams: {
+        order: 'popularity_total',
+        limit: '10',
+      },
+      schema: JamendoArtistListTracksResponseSchema,
+    }).then();
   }
 
   private async get<TZodSchema extends z.ZodType<JamendoResponseDto<unknown>>>({
