@@ -64,6 +64,8 @@ export class JamendoClient {
           cause: error,
         });
       }
+
+      throw error;
     }
   }
 
