@@ -1,0 +1,67 @@
+@use 'src/styles/variables';
+@use 'src/styles/mixins';
+
+.artist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.artist-info {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+
+  img {
+    border-radius: variables.$radius-xl;
+    object-fit: cover;
+  }
+}
+
+.artist-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+
+  .albums-count {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px;
+    border: 1px solid var(--mat-sys-surface);
+    border-radius: variables.$radius-xl;
+
+    background: var(--mat-sys-on-primary);
+  }
+
+  .name {
+    @include mixins.font-xl;
+
+    width: max-content;
+    padding: 10px 15px;
+    border: 1px solid var(--mat-sys-surface);
+    border-radius: variables.$radius-xl;
+
+    background: var(--mat-sys-primary-transparent);
+  }
+}
+
+.biography {
+  min-height: 100%;
+  padding: 10px 20px;
+  border: 1px solid var(--mat-sys-surface);
+  border-radius: variables.$radius-xl;
+
+  color: var(--mat-sys-surface);
+
+  background: var(--mat-sys-secondary);
+}
