@@ -5,9 +5,11 @@ import { AccountModule } from './gateway/rest/v1/account/account.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { CoreErrorFilter } from './gateway/rest/filters/core-error.filter';
+import { TrackModule } from './gateway/rest/v1/track/track.module';
 
 @Module({
   imports: [
+    TrackModule,
     AuthModule,
     AccountModule,
     ThrottlerModule.forRoot({
