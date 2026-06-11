@@ -10,6 +10,7 @@ import { JamendoUnavailableError } from './errors/jamendo-unavailable.error';
 import { JamendoResponseDto } from './dtos/common.dto';
 import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
+import { JamendoListTracksInput } from './types/track-input';
 
 @Injectable()
 export class JamendoClient {
@@ -17,18 +18,33 @@ export class JamendoClient {
 
   public constructor(private readonly http: BaseHttpClient) {}
 
-  // TODO Refactor with dynamic query params
-  public async listPopularTracks(): Promise<JamendoTrack[]> {
+  // Public methods
+  // Tracks
+  public async listTracks(input: JamendoListTracksInput): Promise<JamendoTrack[]> {
     return this.get({
       path: 'tracks',
       queryParams: {
-        order: 'popularity_total',
-        limit: '10',
+        order: input.order,
+        limit: input.limit ?? 10,
+        offset: input.offset,
+        search: input.search,
+        fuzzytags: input.genres?.length ? input.genres.join('+') : undefined,
+        type: input.type ?? 'single+albumtrack',
       },
       schema: JamendoListTracksResponseSchema,
     }).then(mapToListTracks);
   }
 
+  // Public methods
+  // Artists
+  // TODO
+
+  // Public methods
+  // Albums
+  // TODO
+
+  // Private methods
+  // Shared request utils
   private async get<TZodSchema extends z.ZodType<JamendoResponseDto<unknown>>>({
     path,
     queryParams = {},
@@ -64,6 +80,8 @@ export class JamendoClient {
           cause: error,
         });
       }
+
+      throw error;
     }
   }
 
