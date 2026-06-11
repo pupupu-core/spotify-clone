@@ -15,7 +15,6 @@ import { JamendoArtistListTracksResponseSchema } from '$/infrastructure/jamendo/
 import { mapToListArtistTracks } from '$/infrastructure/jamendo/mappers/artists';
 import { JamendoListTracksInput } from './types/track-input';
 
-
 @Injectable()
 export class JamendoClient {
   private readonly JAMENDO_API_BASE_URL = 'https://api.jamendo.com/v3.0/';
