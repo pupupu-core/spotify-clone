@@ -2,6 +2,10 @@
 @use 'src/styles/variables';
 
 .playlist-shelf {
+  display: grid;
+  align-items: start;
+
+  height: 100%;
   padding: 15px 20px;
   border: 1px solid var(--mat-sys-surface);
   border-radius: variables.$radius-xl;

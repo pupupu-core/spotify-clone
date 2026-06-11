@@ -65,3 +65,9 @@
 
   background: var(--mat-sys-secondary);
 }
+
+.artist-catalog {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
