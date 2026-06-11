@@ -1,23 +1,23 @@
 export interface JamendoArtistTrack {
-  album_id: string;
-  album_name: string;
+  albumId: string;
+  albumName: string;
   id: string;
   name: string;
   duration: string;
-  releasedate: string;
-  license_ccurl: string;
-  album_image: string;
-  image: string;
-  audio: string;
-  audiodownload: string;
-  audiodownload_allowed: boolean;
+  releaseDate: string;
+  licenseUrl: string;
+  albumImageUrl: string;
+  imageUrl: string;
+  audioUrl: string;
+  audioDownloadUrl: string;
+  audioDownloadAllowed: boolean;
 }
 
 export interface JamendoArtistTracks {
   id: string;
   name: string;
   website: string;
-  joindate: string;
-  image: string;
+  joinDate: string;
+  imageUrl: string;
   tracks: JamendoArtistTrack[];
 }

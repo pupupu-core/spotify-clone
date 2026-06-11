@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { createJamendoResponseSchema } from '$/infrastructure/jamendo/dtos/common.dto';
 
-const JamendoArtistTrackShema = z.object({
+const JamendoArtistTrackSchema = z.object({
   album_id: z.string(),
   album_name: z.string(),
   id: z.string(),
@@ -16,17 +16,18 @@ const JamendoArtistTrackShema = z.object({
   audiodownload_allowed: z.boolean(),
 });
 
-const JamendoArtistTracksShema = z.object({
+const JamendoArtistTracksSchema = z.object({
   id: z.string(),
   name: z.string(),
   website: z.string(),
   joindate: z.string(),
   image: z.string(),
-  tracks: z.array(JamendoArtistTrackShema),
+  tracks: z.array(JamendoArtistTrackSchema),
 });
 
 export const JamendoArtistListTracksResponseSchema =
-  createJamendoResponseSchema(JamendoArtistTracksShema);
+  createJamendoResponseSchema(JamendoArtistTracksSchema);
 
-export type JamendoArtistTracks = z.infer<typeof JamendoArtistTracksShema>;
-export type JamendoArtistTrack = z.infer<typeof JamendoArtistTrackShema>;
+export type JamendoArtistTracksDto = z.infer<typeof JamendoArtistTracksSchema>;
+export type JamendoArtistTrackDto = z.infer<typeof JamendoArtistTrackSchema>;
+export type JamendoArtistTracksResponseDto = z.infer<typeof JamendoArtistListTracksResponseSchema>;

@@ -12,6 +12,7 @@ import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
 import { JamendoArtistTracks } from '$/infrastructure/jamendo/types/artists';
 import { JamendoArtistListTracksResponseSchema } from '$/infrastructure/jamendo/dtos/artists.dto';
+import { mapToListArtistTracks } from '$/infrastructure/jamendo/mappers/artists';
 
 @Injectable()
 export class JamendoClient {
@@ -39,7 +40,7 @@ export class JamendoClient {
         limit: '10',
       },
       schema: JamendoArtistListTracksResponseSchema,
-    }).then();
+    }).then(mapToListArtistTracks);
   }
 
   private async get<TZodSchema extends z.ZodType<JamendoResponseDto<unknown>>>({
