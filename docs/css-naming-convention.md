@@ -55,7 +55,7 @@
 ```html
 
 <div class="playlist-card">
-  <img class="cover">
+  <img class="cover-container">
 
   <div class="content">
     <h2 class="title"></h2>
@@ -155,7 +155,7 @@ Angular изолирует стили компонента, поэтому до�
 .actions {
 }
 
-.cover {
+.cover-container {
 }
 
 .artist {

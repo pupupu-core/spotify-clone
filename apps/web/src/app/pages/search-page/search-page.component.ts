@@ -23,10 +23,12 @@ import type { MatAutocompleteSelectedEvent } from '@angular/material/autocomplet
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
+import { PpfPlayerService } from '../../features/player/services/track-player.service';
 import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
+const PAGE_SIZE = 4;
 
 interface TrackFilter {
   searchQuery: string;
@@ -72,11 +74,13 @@ const INITIAL_MAX_DURATION = 1200;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PpfSearchPageComponent {
+  protected readonly player = inject(PpfPlayerService);
   private readonly trackService = inject(TrackService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   public readonly trackList = this.trackService.trackList;
+  public readonly paginatorPageSize = PAGE_SIZE;
 
   private readonly params = this.route.snapshot.queryParamMap;
 
@@ -290,5 +294,18 @@ export class PpfSearchPageComponent {
     }
 
     this.dataSource.filter = this.activeFilter();
+  }
+
+  protected playTrack(track: TrackDataUI): void {
+    if (this.player.current()?.id === track.id) {
+      this.player.toggle();
+
+      return;
+    }
+
+    const full = this.trackService.trackWithAudio();
+    const index = full.findIndex(trck => trck.id === track.id);
+
+    this.player.playTracks(full, index);
   }
 }

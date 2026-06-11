@@ -15,6 +15,10 @@ The Pupufy application is an implementation of [Jamendo API](https://developer.j
 | Vsevolod Timoshenko  | [shoblinsky](https://github.com/shoblinsky) |
 | Hanna Surmach        | [khasekai](https://github.com/khasekai)     |
 
+## Deployment link
+
+[Application deployment](https://pupufy.tryproxy.online/)
+
 ## Angular Nest Monorepo Starter
 
 Nx monorepo with:

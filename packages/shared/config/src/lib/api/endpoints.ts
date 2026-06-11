@@ -26,7 +26,10 @@ export const API_ENDPOINTS = {
     },
   },
   TRACK: {
-    serverPath: 'track',
-    clientUrl: '/track/id',
+    basePath: 'tracks',
+    DISCOVERY: {
+      serverPath: 'discovery',
+      clientUrl: '/tracks/discovery',
+    },
   },
 } as const;

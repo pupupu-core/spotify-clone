@@ -13,6 +13,8 @@ import { BaseHttpError } from '../http/errors/base-http.error';
 import { JamendoArtistTracks } from '$/infrastructure/jamendo/types/artists';
 import { JamendoArtistListTracksResponseSchema } from '$/infrastructure/jamendo/dtos/artists.dto';
 import { mapToListArtistTracks } from '$/infrastructure/jamendo/mappers/artists';
+import { JamendoListTracksInput } from './types/track-input';
+
 
 @Injectable()
 export class JamendoClient {
@@ -20,18 +22,26 @@ export class JamendoClient {
 
   public constructor(private readonly http: BaseHttpClient) {}
 
-  // TODO Refactor with dynamic query params
-  public async listPopularTracks(): Promise<JamendoTrack[]> {
+  // Public methods
+  // Tracks
+  public async listTracks(input: JamendoListTracksInput): Promise<JamendoTrack[]> {
     return this.get({
       path: 'tracks',
       queryParams: {
-        order: 'popularity_total',
-        limit: '10',
+        order: input.order,
+        limit: input.limit ?? 10,
+        offset: input.offset,
+        search: input.search,
+        fuzzytags: input.genres?.length ? input.genres.join('+') : undefined,
+        type: input.type ?? 'single+albumtrack',
       },
       schema: JamendoListTracksResponseSchema,
     }).then(mapToListTracks);
   }
 
+  // Public methods
+  // Artists
+  // TODO
   public async listPopularArtistTracks(): Promise<JamendoArtistTracks[]> {
     return this.get({
       path: 'artists/tracks',
@@ -43,6 +53,12 @@ export class JamendoClient {
     }).then(mapToListArtistTracks);
   }
 
+  // Public methods
+  // Albums
+  // TODO
+
+  // Private methods
+  // Shared request utils
   private async get<TZodSchema extends z.ZodType<JamendoResponseDto<unknown>>>({
     path,
     queryParams = {},
@@ -78,6 +94,8 @@ export class JamendoClient {
           cause: error,
         });
       }
+
+      throw error;
     }
   }
 

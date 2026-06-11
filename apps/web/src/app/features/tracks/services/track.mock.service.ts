@@ -23,4 +23,7 @@ export class TrackService {
     TRACKS_RESPONSE_MOCK.results.map(mapTrackToUI),
   );
   public readonly trackList = this.trackListState.asReadonly();
+
+  private readonly trackStateWithAudio = signal<JamendoTrack[]>(TRACKS_RESPONSE_MOCK.results);
+  public readonly trackWithAudio = this.trackStateWithAudio.asReadonly();
 }
