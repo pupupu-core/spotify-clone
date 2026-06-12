@@ -13,8 +13,8 @@ export const JamendoAutocompleteResultsSchema = z.object({
   albums: z.array(JamendoAutocompleteMatchSchema).optional(),
 });
 
-export const JamendoArtistListTracksResponseSchema = createJamendoResponseSchema(
+export const JamendoAutocompleteResponseSchema = createJamendoResponseSchema(
   JamendoAutocompleteResultsSchema,
 );
 
-export type JamendoAutocompleteResponseDto = z.infer<typeof JamendoArtistListTracksResponseSchema>;
+export type JamendoAutocompleteResponseDto = z.infer<typeof JamendoAutocompleteResponseSchema>;
