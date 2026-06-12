@@ -1,6 +1,6 @@
 export interface JamendoAutocompleteMatch {
   match: string;
-  count: number; //опять же, првоерить утром на опциональность count
+  count?: number;
 }
 
 export interface JamendoAutocompleteResult {

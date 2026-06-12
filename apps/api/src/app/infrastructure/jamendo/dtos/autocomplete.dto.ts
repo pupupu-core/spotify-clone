@@ -3,10 +3,7 @@ import { createJamendoResponseSchema } from '$/infrastructure/jamendo/dtos/commo
 
 export const JamendoAutocompleteMatchSchema = z.object({
   match: z.string(),
-  count: z.number(),
-  // если не будет метча,
-  // то count будет 0 или он вообще не вернётся?
-  // утром потыкаю постман(?), если не вернётся, сделать .optional()
+  count: z.number().optional(),
 });
 
 export const JamendoAutocompleteResultsSchema = z.object({
