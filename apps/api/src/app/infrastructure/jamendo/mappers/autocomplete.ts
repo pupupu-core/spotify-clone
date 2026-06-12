@@ -1,33 +1,13 @@
-// import { JamendoAutocompleteResponseDto } from '../dtos/autocomplete.dto';
-// dto: JamendoAutocompleteResponseDto,
-// dto.results.key
+import { JamendoAutocompleteResponseDto } from '../dtos/autocomplete.dto';
 import { JamendoAutocompleteResult } from '../types/autocomplete';
 
-export const mapToAutocompleteResult = (): JamendoAutocompleteResult => {
+export const mapToAutocompleteResult = (
+  dto: JamendoAutocompleteResponseDto,
+): JamendoAutocompleteResult => {
   return {
-    tags: [
-      {
-        match: 'string',
-        count: 1,
-      },
-    ],
-    artists: [
-      {
-        match: 'string',
-        count: 1,
-      },
-    ],
-    tracks: [
-      {
-        match: 'string',
-        count: 1,
-      },
-    ],
-    albums: [
-      {
-        match: 'string',
-        count: 1,
-      },
-    ],
+    tags: dto.results.tags ?? [],
+    artists: dto.results.artists ?? [],
+    tracks: dto.results.tracks ?? [],
+    albums: dto.results.albums ?? [],
   };
 };
