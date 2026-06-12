@@ -24,6 +24,7 @@ enum AccountStatus {
   DELETED
 }
 
+// ACCOUNT & AUTH
 model Account {
   id String @id @default(uuid())
 
@@ -38,6 +39,9 @@ model Account {
 
   authIdentities AuthIdentity[]
   authSessions   AuthSession[]
+
+  uploadedTracks Track[]      @relation("UploadedTracks")
+  uploadedFiles  StoredFile[] @relation("UploadedFiles")
 }
 
 model Profile {
@@ -51,6 +55,9 @@ model Profile {
   email       String?
   country     String?
   city        String?
+
+  avatarFileId String?     @unique
+  avatarFile   StoredFile? @relation("ProfileAvatarFile", fields: [avatarFileId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,6 +74,11 @@ model CreatorProfile {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  tracks Track[] @relation("CreatorTracks")
+
+  avatarFileId String?     @unique
+  avatarFile   StoredFile? @relation("CreatorProfileAvatarFile", fields: [avatarFileId], references: [id], onDelete: SetNull)
 }
 
 enum AuthProvider {
@@ -114,4 +126,121 @@ model AuthSession {
   createdAt DateTime @default(now())
 
   @@index([accountId])
+}
+
+// TRACK
+enum TrackStatus {
+  PENDING_REVIEW // Waiting for admin/moderation check
+  PUBLISHED // Visible and playable
+  BLOCKED //  Manually blocked by admin
+  DELETED // Removed by user/admin
+}
+
+enum TrackSource {
+  JAMENDO
+  LOCAL
+}
+
+model Track {
+  id String @id @default(uuid())
+
+  source     TrackSource
+  externalId String? // External provider track ID, null for local tracks
+
+  status TrackStatus @default(PUBLISHED)
+
+  title       String
+  artistName  String?
+  albumName   String?
+  durationSec Int?
+
+  coverUrl String? // External provider cover URL
+  audioUrl String? // External provider audio URL
+
+  uploadedByAccountId String? // Account that performed the upload
+  uploadedByAccount   Account? @relation("UploadedTracks", fields: [uploadedByAccountId], references: [id], onDelete: SetNull)
+
+  creatorProfileId String? // Creator that owns this track
+  creatorProfile   CreatorProfile? @relation("CreatorTracks", fields: [creatorProfileId], references: [id], onDelete: SetNull)
+
+  audioFileId String?     @unique // Local uploaded audio file
+  audioFile   StoredFile? @relation("TrackAudioFile", fields: [audioFileId], references: [id], onDelete: SetNull)
+
+  coverFileId String?     @unique // Local uploaded cover image
+  coverFile   StoredFile? @relation("TrackCoverFile", fields: [coverFileId], references: [id], onDelete: SetNull)
+
+  publishedAt DateTime?
+  blockedAt   DateTime?
+  deletedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // playlistEntries PlaylistTrack[]
+  // likedBy          LikedTrack[]
+  // playbackHistory  PlaybackHistory[]
+  // availabilityRules TrackAvailabilityRule[]
+
+  @@unique([source, externalId])
+  @@index([creatorProfileId])
+  @@index([status])
+}
+
+// PLAYLIST
+
+// STORAGE
+enum UploadStatus {
+  PENDING
+  READY
+  FAILED
+}
+
+enum StoredFileKind {
+  AUDIO
+  IMAGE
+}
+
+enum StoredFileVisibility {
+  PRIVATE
+  PUBLIC
+}
+
+model StoredFile {
+  id String @id @default(uuid())
+
+  uploadedById String?
+  uploadedBy   Account? @relation("UploadedFiles", fields: [uploadedById], references: [id], onDelete: SetNull)
+
+  kind       StoredFileKind
+  visibility StoredFileVisibility @default(PRIVATE)
+
+  storageDriver String @default("S3_COMPATIBLE")
+  bucket        String
+  objectKey     String
+
+  originalFileName String?
+  mimeType         String
+  sizeBytes        Int
+  checksum         String?
+
+  uploadStatus UploadStatus @default(PENDING)
+
+  width       Int?
+  height      Int?
+  durationSec Int?
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  trackAudioFor           Track?          @relation("TrackAudioFile")
+  trackCoverFor           Track?          @relation("TrackCoverFile")
+  profileAvatarFor        Profile?        @relation("ProfileAvatarFile")
+  creatorProfileAvatarFor CreatorProfile? @relation("CreatorProfileAvatarFile")
+  // playlistCoverFor Playlist? @relation("PlaylistCoverFile")
+
+  @@unique([storageDriver, bucket, objectKey])
+  @@index([uploadedById])
+  @@index([kind])
+  @@index([uploadStatus])
 }
