@@ -1,18 +1,17 @@
 @use 'src/styles/mixins';
 @use 'src/styles/variables';
 
+:host {
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-xl;
+  background-color: var(--surface-playlist-shelf-bg);
+}
+
 .playlist-shelf {
   display: grid;
   align-items: start;
-
   height: 100%;
   padding: 15px 20px;
-  border: 1px solid var(--mat-sys-surface);
-  border-radius: variables.$radius-xl;
-
-  color: var(--mat-sys-surface);
-
-  background-color: var(--mat-sys-secondary);
 }
 
 .title {

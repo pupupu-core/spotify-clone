@@ -5,7 +5,7 @@
 :host {
   display: block;
 
-  border: 1px solid rgb(from var(--mat-sys-secondary) r g b / 28%);
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
   border-radius: variables.$radius-xl;
 
   background: var(--surface-track-list-bg);
@@ -23,7 +23,6 @@
     @include mixins.font-lg;
 
     line-height: 1.1;
-    color: var(--mat-sys-on-surface);
   }
 
   &__items {

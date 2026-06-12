@@ -2,7 +2,8 @@
 @use 'src/styles/mixins';
 
 :host {
-  --surface-track-list-bg: rgb(121 165 195 / 40%);
+  --surface-track-list-bg: rgb(from var(--mat-sys-secondary) r g b / 40%);
+  --surface-playlist-shelf-bg: rgb(from var(--mat-sys-primary-container) r g b / 40%);
 }
 
 .artist-container {
@@ -78,4 +79,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+  color: white;
+
+  ppf-playlist-shelf {
+    color: var(--mat-sys-tertiary);
+  }
 }
