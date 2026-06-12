@@ -19,6 +19,7 @@ import { JamendoAutocompleteFromInput } from './types/autocomplete-entity';
 import { JamendoAutocompleteResult } from './types/autocomplete';
 import { mapToAutocompleteResult } from './mappers/autocomplete';
 import { JamendoAutocompleteResponseSchema } from './dtos/autocomplete.dto';
+import { JamendoArtistTracksInput } from '$/infrastructure/jamendo/types/artist-input';
 
 @Injectable()
 export class JamendoClient {
@@ -46,13 +47,15 @@ export class JamendoClient {
   // Public methods
   // Artists
   // TODO
-  public async listPopularArtistTracks(artistName: string): Promise<JamendoArtistTracks[]> {
+  public async listPopularArtistTracks(
+    input: JamendoArtistTracksInput,
+  ): Promise<JamendoArtistTracks[]> {
     return this.get({
       path: 'artists/tracks',
       queryParams: {
-        order: 'popularity_total',
-        limit: '10',
-        name: artistName,
+        order: input.order,
+        limit: input.limit ?? '10',
+        id: input.artistId,
       },
       schema: JamendoArtistListTracksResponseSchema,
     }).then(mapToListArtistTracks);
