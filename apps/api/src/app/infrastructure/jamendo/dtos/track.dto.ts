@@ -41,7 +41,9 @@ const JamendoTrackSchema = z.object({
   content_id_free: z.boolean(),
 });
 
-export const JamendoListTracksResponseSchema = createJamendoResponseSchema(JamendoTrackSchema);
+export const JamendoListTracksResponseSchema = createJamendoResponseSchema(
+  z.array(JamendoTrackSchema),
+);
 
 export type JamendoTrackMusicInfoTagsDto = z.infer<typeof JamendoTrackMusicInfoTagsSchema>;
 export type JamendoTrackMusicInfoDto = z.infer<typeof JamendoTrackMusicInfoSchema>;
