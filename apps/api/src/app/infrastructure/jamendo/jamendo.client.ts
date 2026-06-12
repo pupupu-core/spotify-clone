@@ -46,12 +46,13 @@ export class JamendoClient {
   // Public methods
   // Artists
   // TODO
-  public async listPopularArtistTracks(): Promise<JamendoArtistTracks[]> {
+  public async listPopularArtistTracks(artistName: string): Promise<JamendoArtistTracks[]> {
     return this.get({
       path: 'artists/tracks',
       queryParams: {
         order: 'popularity_total',
         limit: '10',
+        name: artistName,
       },
       schema: JamendoArtistListTracksResponseSchema,
     }).then(mapToListArtistTracks);
