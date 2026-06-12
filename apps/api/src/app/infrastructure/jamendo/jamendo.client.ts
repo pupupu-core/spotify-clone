@@ -10,6 +10,9 @@ import { JamendoUnavailableError } from './errors/jamendo-unavailable.error';
 import { JamendoResponseDto } from './dtos/common.dto';
 import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
+import { JamendoArtistTracks } from '$/infrastructure/jamendo/types/artists';
+import { JamendoArtistListTracksResponseSchema } from '$/infrastructure/jamendo/dtos/artists.dto';
+import { mapToListArtistTracks } from '$/infrastructure/jamendo/mappers/artists';
 import { JamendoListTracksInput } from './types/track-input';
 
 @Injectable()
@@ -38,6 +41,16 @@ export class JamendoClient {
   // Public methods
   // Artists
   // TODO
+  public async listPopularArtistTracks(): Promise<JamendoArtistTracks[]> {
+    return this.get({
+      path: 'artists/tracks',
+      queryParams: {
+        order: 'popularity_total',
+        limit: '10',
+      },
+      schema: JamendoArtistListTracksResponseSchema,
+    }).then(mapToListArtistTracks);
+  }
 
   // Public methods
   // Albums
