@@ -11,12 +11,12 @@ const JamendoResponseHeadersSchema = z.object({
   results_fullcount: z.number().optional(),
 });
 
-export const createJamendoResponseSchema = <TItemSchema extends z.ZodType>(
-  itemSchema: TItemSchema,
+export const createJamendoResponseSchema = <TResultSchema extends z.ZodType>(
+  resultsSchema: TResultSchema,
 ) =>
   z.object({
     headers: JamendoResponseHeadersSchema,
-    results: itemSchema,
+    results: resultsSchema,
   });
 
 export type JamendoResponseStatusDto = z.infer<typeof JamendoResponseStatusSchema>;
