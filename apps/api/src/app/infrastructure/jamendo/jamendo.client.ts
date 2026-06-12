@@ -12,6 +12,11 @@ import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
 import { JamendoListTracksInput } from './types/track-input';
 
+import { JamendoAutocompleteFromInput } from './types/autocomplete-entity';
+import { JamendoAutocompleteResult } from './types/autocomplete';
+import { mapToAutocompleteResult } from './mappers/autocomplete';
+import { JamendoAutocompleteResponseSchema } from './dtos/autocomplete.dto';
+
 @Injectable()
 export class JamendoClient {
   private readonly JAMENDO_API_BASE_URL = 'https://api.jamendo.com/v3.0/';
@@ -42,6 +47,28 @@ export class JamendoClient {
   // Public methods
   // Albums
   // TODO
+
+  //  Public methods
+  // autocomplete
+
+  public async autocomplete(
+    input: JamendoAutocompleteFromInput,
+  ): Promise<JamendoAutocompleteResult> {
+    if (!input.prefix || input.prefix.trim().length < 2) {
+      return { tags: [], artists: [], tracks: [], albums: [] };
+    }
+
+    return this.get({
+      path: 'autocomplete',
+      queryParams: {
+        prefix: input.prefix,
+        limit: input.limit ?? 10,
+        matchcount: input.matchcount ? 1 : 0,
+        entity: input.entity?.length ? input.entity.join('+') : undefined,
+      },
+      schema: JamendoAutocompleteResponseSchema,
+    }).then(mapToAutocompleteResult);
+  }
 
   // Private methods
   // Shared request utils
