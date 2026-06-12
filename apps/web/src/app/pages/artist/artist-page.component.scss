@@ -64,6 +64,10 @@
   color: var(--mat-sys-surface);
 
   background: var(--mat-sys-secondary);
+
+  h3 {
+    @include mixins.font-lg;
+  }
 }
 
 .artist-catalog {
