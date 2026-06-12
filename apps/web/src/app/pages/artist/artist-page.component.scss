@@ -1,6 +1,10 @@
 @use 'src/styles/variables';
 @use 'src/styles/mixins';
 
+:host {
+  --surface-track-list-bg: rgb(121 165 195 / 40%);
+}
+
 .artist-container {
   display: flex;
   flex-direction: column;
