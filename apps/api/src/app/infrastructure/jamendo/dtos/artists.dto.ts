@@ -25,8 +25,9 @@ const JamendoArtistTracksSchema = z.object({
   tracks: z.array(JamendoArtistTrackSchema),
 });
 
-export const JamendoArtistListTracksResponseSchema =
-  createJamendoResponseSchema(JamendoArtistTracksSchema);
+export const JamendoArtistListTracksResponseSchema = createJamendoResponseSchema(
+  z.array(JamendoArtistTracksSchema),
+);
 
 export type JamendoArtistTracksDto = z.infer<typeof JamendoArtistTracksSchema>;
 export type JamendoArtistTrackDto = z.infer<typeof JamendoArtistTrackSchema>;
