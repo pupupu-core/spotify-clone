@@ -1,5 +1,6 @@
 :root {
   --mat-sys-primary: rgb(182 196 252);
+  --mat-sys-primary-transparent: rgb(182 196 252 / 0.3);
   --mat-sys-surface-tint: rgb(182 196 252);
   --mat-sys-on-primary: rgb(30 46 92);
   --mat-sys-primary-container: rgb(20 36 82);
