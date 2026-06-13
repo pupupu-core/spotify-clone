@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
+
 import { AuthProvider } from '../../../../generated/prisma/client';
-import { PrismaService } from '../../infrastructure/prisma/prisma.service';
+import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error';
 
 interface FindLocalIdentityForLoginInput {
