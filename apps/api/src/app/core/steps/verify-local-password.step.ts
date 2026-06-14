@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import argon2 from 'argon2';
+
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error';
 
 export interface VerifyLocalPasswordInput {
@@ -9,8 +11,9 @@ export interface VerifyLocalPasswordInput {
 @Injectable()
 export class VerifyLocalPasswordStep {
   public async execute({ plainPassword, passwordHash }: VerifyLocalPasswordInput): Promise<void> {
-    // TODO: compare plainPassword with passwordHash using dedicated lib
-    if (plainPassword !== passwordHash) {
+    const isValid = await argon2.verify(passwordHash, plainPassword);
+
+    if (!isValid) {
       throw new InvalidCredentialsError();
     }
   }

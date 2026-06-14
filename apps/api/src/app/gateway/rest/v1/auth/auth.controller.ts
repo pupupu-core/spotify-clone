@@ -1,8 +1,8 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { AuthTokenResponse } from '@streaming-service/model';
-import { ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
 import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
