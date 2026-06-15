@@ -21,7 +21,15 @@ export class PpfFooterPlayerComponent {
 
   private readonly dialog = inject(MatDialog);
 
-  protected openQueue(): void {
+  protected openQueue(event: MouseEvent): void {
+    const target = event.target;
+
+    if (target instanceof HTMLElement) {
+      if (target.closest('button, a, mat-slider, input')) {
+        return;
+      }
+    }
+
     this.dialog.open(PpfPlayerQueueComponent, {
       width: 'min(624px, calc(100vw - 10%))',
       maxWidth: 'none',
