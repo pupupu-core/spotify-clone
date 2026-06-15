@@ -5,12 +5,14 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: 24
+  NODE_VERSION: 22
   PNPM_VERSION: 10.33.2
 
 jobs:
   e2e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -31,9 +33,11 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright Chromium
-        run: pnpm exec playwright install chromium
+        timeout-minutes: 5
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Run E2E tests
+        timeout-minutes: 15
         run: pnpm test:e2e -- --project=chromium
 
       - name: Upload Playwright report
