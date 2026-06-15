@@ -8,6 +8,19 @@ export default [
   {
     files: ['**/*.ts', '**/*.js'],
     // Override or add rules here
-    rules: {},
+    rules: {
+      'import-x/no-extraneous-dependencies': [
+        'error',
+        {
+          devDependencies: true,
+        },
+      ],
+      'playwright/expect-expect': [
+        'error',
+        {
+          assertFunctionNames: ['expect', 'expectOpened'],
+        },
+      ],
+    },
   },
 ];
