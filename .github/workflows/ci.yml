@@ -36,22 +36,22 @@ jobs:
           DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/placeholder
         run: pnpm db:generate
 
-      - name: Format check
+      - name: Check format
         run: pnpm format:check
 
       - name: Lint
         run: pnpm lint
 
-      - name: Stylelint
+      - name: Check styles
         run: pnpm stylelint:web
 
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Unit Test Web
+      - name: Skip web unit tests
         run: echo "Tests are temporarily disabled"
 
-      - name: Unit Test Utils
+      - name: Test utils
         run: pnpm test:utils
 
       - name: Build
