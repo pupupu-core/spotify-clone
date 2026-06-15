@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { IssueAuthSessionStep } from '../../steps/issue-auth-session.step';
 import { CreateLocalAccountStep } from '$/core/steps/create-local-account.step';
 import { EnsureLocalEmailIsAvailableStep } from '$/core/steps/ensure-local-email-is-available.step';
 import { HashPasswordStep } from '$/core/steps/hash-password.step';
+import { IssueAuthSessionStep } from '$/core/steps/issue-auth-session.step';
 import { AuthSession } from '$/core/models/auth/auth-session.model';
 
 interface RegisterLocalUserCommand {
