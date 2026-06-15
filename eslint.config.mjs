@@ -182,6 +182,17 @@ export default [
     },
   },
   {
+    files: ['apps/e2e/**/*.{ts,js,mts,cts}'],
+    rules: {
+      'import-x/no-extraneous-dependencies': [
+        'error',
+        {
+          devDependencies: true,
+        },
+      ],
+    },
+  },
+  {
     files: ['**/*.dto.ts', '**/*.schema.ts'],
     rules: {
       'max-classes-per-file': 'off',
