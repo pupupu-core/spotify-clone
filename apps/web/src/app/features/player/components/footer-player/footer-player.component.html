@@ -1,6 +1,10 @@
 @let track = player.current();
 
 <section class="player__section">
+  @if (track) {
+    <img class="player__background-cover" [src]="track.image" [alt]="track.album_name" />
+  }
+
   <div class="player__section-wrapper" (click)="openQueue()">
     <div class="player__track-info">
       @if (track) {

@@ -17,15 +17,49 @@
 }
 
 .player__section {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+  position: relative;
+
+  overflow: hidden;
+
+  width: 1400px;
+  min-height: 104px;
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-md;
+
+  color: rgb(18 20 28 / 92%);
+
+  background-color: #ffffff1a;
+  backdrop-filter: blur(40px);
 }
 
 .player__section-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.player__section::before {
+  pointer-events: none;
+  content: '';
+
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+}
+
+.player__background-cover {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: 0;
+  inset: -50px;
+
+  width: calc(100% + 100px);
+  height: calc(100% + 100px);
+
+  opacity: 0.7;
+  object-fit: cover;
+  filter: blur(40px);
 }
 
 .player__track-info {
