@@ -1,11 +1,20 @@
 import { getEnvOrThrow } from '../lib/get-env-or-throw';
 
+const REFRESH_TOKEN_EXPIRES_IN_MS = 30 * 24 * 60 * 60_000; // 30 days
+
 export const APP_CONFIG = {
   isProduction: process.env.NODE_ENV === 'production',
   auth: {
+    jwt: {
+      secret: getEnvOrThrow('JWT_SECRET'),
+      accessExpiresIn: '15m' as const,
+    },
+    refreshToken: {
+      expiresInMs: REFRESH_TOKEN_EXPIRES_IN_MS,
+    },
     refreshTokenCookie: {
       name: 'refreshToken',
-      maxAgeMs: 30 * 24 * 60 * 60_000, // 30 days
+      maxAgeMs: REFRESH_TOKEN_EXPIRES_IN_MS,
     },
   },
   http: {
