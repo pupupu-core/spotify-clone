@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @use './mixins';
+@use './variables';
 
 :root {
   @include mat.dialog-overrides(
@@ -18,5 +19,21 @@
 .app-navigation-dialog {
   @media screen and (width <= 768px) {
     width: 100vw !important;
+  }
+}
+
+.ppf-queue-backdrop {
+  @include mixins.glass-transparent;
+
+  background-color: rgb(0 0 0 / 45%);
+  backdrop-filter: blur(2px);
+}
+
+.ppf-queue-dialog {
+  .mat-mdc-dialog-surface {
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 8%);
+    border-radius: variables.$radius-md;
+    background-color: #223465;
   }
 }
