@@ -1,6 +1,6 @@
-import { IssueAuthSessionStep } from '$/core/steps/issue-auth-session.step';
 import { Injectable } from '@nestjs/common';
 import type { AuthTokenResponse } from '@streaming-service/model';
+import { IssueAuthSessionStep } from '$/core/steps/issue-auth-session.step';
 
 @Injectable()
 export class RefreshUserSessionWorkflow {

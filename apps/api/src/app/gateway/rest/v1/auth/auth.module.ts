@@ -15,9 +15,10 @@ import { RevokeAuthSessionStep } from '$/core/steps/revoke-auth-session.step';
 import { VerifyLocalPasswordStep } from '$/core/steps/verify-local-password.step';
 import { LogoutUserWorkflow } from '$/core/workflows/auth/logout-user.workflow';
 import { RegisterUserWorkflow } from '$/core/workflows/auth/register-user.workflow';
+import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, AuthTokenModule],
   controllers: [AuthController],
   providers: [
     LoginUserWorkflow,

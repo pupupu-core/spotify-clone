@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { RevokeAuthSessionStep } from '../../steps/revoke-auth-session.step';
+import { RevokeAuthSessionStep } from '$/core/steps/revoke-auth-session.step';
 
 interface LogoutUserCommand {
   refreshToken: string;

@@ -25,6 +25,7 @@ export class AuthCookieService {
       secure: APP_CONFIG.isProduction,
       sameSite: 'lax',
       path: buildApiPath({
+        prefix: null,
         path: API_ENDPOINTS.AUTH.basePath,
       }),
     });
