@@ -1,17 +1,16 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-
+import type { Request, Response } from 'express';
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { AuthTokenResponse } from '@streaming-service/model';
-import { LoginDto } from './dtos/login.dto';
-import { RegisterDto } from './dtos/register.dto';
 import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
-import type { Request, Response } from 'express';
-import { AuthCookieService } from './auth-cookie.service';
 import { LoginUserWorkflow } from '$/core/workflows/auth/login-user.workflow';
 import { LogoutUserWorkflow } from '$/core/workflows/auth/logout-user.workflow';
 import { RegisterUserWorkflow } from '$/core/workflows/auth/register-user.workflow';
 import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
+import { LoginDto } from './dtos/login.dto';
+import { RegisterDto } from './dtos/register.dto';
+import { AuthCookieService } from './auth-cookie.service';
 
 @ApiTags(OPENAPI_CONFIG.tags.auth)
 @Controller({
@@ -46,9 +45,8 @@ export class AuthController {
     @Req() { cookies }: Request,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
+    await this.logoutUserWorkflow.execute(cookies.refreshToken);
     this.authCookieService.clearRefreshToken(response);
-
-    return this.logoutUserWorkflow.execute(cookies.refreshToken);
   }
 
   @HttpCode(HttpStatus.CREATED)

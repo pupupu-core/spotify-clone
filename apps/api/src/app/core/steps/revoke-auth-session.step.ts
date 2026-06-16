@@ -1,20 +1,33 @@
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '$/infrastructure/prisma/prisma.service';
-import { Injectable, Logger } from '@nestjs/common';
+import { AuthTokenService } from '$/infrastructure/token/auth-token.service';
 
 export interface RevokeAuthSessionInput {
-  refreshToken: string;
+  refreshToken?: string;
 }
 
 @Injectable()
 export class RevokeAuthSessionStep {
-  private readonly logger = new Logger(RevokeAuthSessionStep.name);
+  public constructor(
+    private readonly prisma: PrismaService,
+    private readonly authTokenService: AuthTokenService,
+  ) {}
 
-  public constructor(private readonly prisma: PrismaService) {}
+  public async execute({ refreshToken }: RevokeAuthSessionInput): Promise<void> {
+    if (!refreshToken) {
+      return;
+    }
 
-  public async execute(input: RevokeAuthSessionInput): Promise<void> {
-    this.logger.log(`Revoking auth session for token: ${input.refreshToken.substring(0, 8)}...`);
-    // TODO revoke auth session by refresh token hash
+    const refreshTokenHash = this.authTokenService.hashRefreshToken(refreshToken);
 
-    return;
+    await this.prisma.authSession.updateMany({
+      where: {
+        refreshTokenHash,
+        revokedAt: null,
+      },
+      data: {
+        revokedAt: new Date(),
+      },
+    });
   }
 }
