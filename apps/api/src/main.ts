@@ -34,7 +34,7 @@ async function bootstrap(): Promise<void> {
     ],
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   initSwagger(app);
