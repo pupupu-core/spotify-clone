@@ -14,11 +14,11 @@ export class PpfPlayerService {
   public readonly current = computed<JamendoTrack | null>(() => {
     const i = this.index();
 
-    if (typeof i === 'number') {
-      return this.queue()[i];
-    } else {
+    if (i === null) {
       return null;
     }
+
+    return this.queue()[i] ?? null;
   });
 
   public readonly isPlaying = this.engine.isPlaying;
@@ -42,8 +42,11 @@ export class PpfPlayerService {
     if (tracks.length === 0) {
       return;
     }
+
+    const nextIndex = Math.max(0, Math.min(startIndex, tracks.length - 1));
+
     this.queue.set(tracks);
-    this.index.set(Math.max(0, Math.min(startIndex, tracks.length - 1)));
+    this.index.set(nextIndex);
   }
 
   public toggle(): void {
@@ -56,7 +59,7 @@ export class PpfPlayerService {
     const que = this.queue();
     const idx = this.index();
 
-    if (typeof idx === 'object') {
+    if (idx === null) {
       return;
     }
 
@@ -76,11 +79,13 @@ export class PpfPlayerService {
   public previous(): void {
     const idx = this.index();
 
-    if (typeof idx === 'number') {
-      this.index.set(idx - 1);
-    } else {
+    if (idx === null || idx === 0) {
       this.engine.seek(0);
+
+      return;
     }
+
+    this.index.set(idx - 1);
   }
 
   public seek(seconds: number): void {
