@@ -15,10 +15,15 @@ export class AccessTokenGuard implements CanActivate {
     }
 
     const accessToken = authHeader.slice('Bearer '.length);
-    const payload = await this.authTokenService.verifyAccessToken(accessToken);
 
-    request.accountId = payload.sub;
+    try {
+      const payload = await this.authTokenService.verifyAccessToken(accessToken);
 
-    return true;
+      request.accountId = payload.sub;
+
+      return true;
+    } catch {
+      throw new UnauthorizedException();
+    }
   }
 }
