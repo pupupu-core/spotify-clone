@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AuthSession } from '../models/auth/auth-session.model';
+import { AuthTokenPair } from '../models/auth/auth-session.model';
 import { AuthTokenService } from '$/infrastructure/token/auth-token.service';
 import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { APP_CONFIG } from '$/shared/config/app.config';
@@ -17,7 +17,7 @@ export class IssueAuthSessionStep {
     private readonly prisma: PrismaService,
   ) {}
 
-  public async execute({ accountId }: IssueAuthSessionInput): Promise<AuthSession> {
+  public async execute({ accountId }: IssueAuthSessionInput): Promise<AuthTokenPair> {
     const accessToken = await this.authTokenService.issueAccessToken(accountId);
     const refreshToken = this.authTokenService.generateRefreshToken();
     const refreshTokenHash = this.authTokenService.hashRefreshToken(refreshToken);

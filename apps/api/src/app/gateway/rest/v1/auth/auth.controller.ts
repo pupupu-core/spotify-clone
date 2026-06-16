@@ -67,9 +67,16 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post(API_ENDPOINTS.AUTH.REFRESH.serverPath)
-  public refresh(@Req() request: Request): Promise<AuthTokenResponse> {
-    const refreshToken = this.authCookieService.extractRefreshToken(request);
+  public async refresh(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<AuthTokenResponse> {
+    const currentRefreshToken = this.authCookieService.extractRefreshToken(request);
+    const { accessToken, refreshToken } =
+      await this.refreshUserSessionWorkflow.execute(currentRefreshToken);
 
-    return this.refreshUserSessionWorkflow.execute(refreshToken);
+    this.authCookieService.setRefreshToken(response, refreshToken);
+
+    return { accessToken };
   }
 }
