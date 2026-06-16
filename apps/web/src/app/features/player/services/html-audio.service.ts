@@ -80,4 +80,14 @@ export class PpfAudioEngine {
 
     return (): void => this.audio.removeEventListener('ended', handler);
   }
+
+  public clearAudioElement(): void {
+    this.audio.pause();
+    this.audio.removeAttribute('src');
+    this.audio.load();
+    this.isPlaying.set(false);
+    this.buffered.set(0);
+    this.position.set(0);
+    this.duration.set(0);
+  }
 }
