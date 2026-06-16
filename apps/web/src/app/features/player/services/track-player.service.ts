@@ -95,4 +95,36 @@ export class PpfPlayerService {
   public setVolume(value: number): void {
     this.engine.setVolume(value);
   }
+
+  private isValidIndex(index: number): boolean {
+    return Number.isInteger(index) && index >= 0 && index < this.queue().length;
+  }
+
+  private playQueuedTrack(index: number): void {
+    if (!this.isValidIndex(index)) {
+      return;
+    }
+
+    if (this.index() === index) {
+      this.engine.play();
+
+      return;
+    }
+
+    this.index.set(index);
+  }
+
+  public toggleQueuedTrack(index: number): void {
+    if (!this.isValidIndex(index)) {
+      return;
+    }
+
+    if (this.index() === index) {
+      this.toggle();
+
+      return;
+    }
+
+    this.playQueuedTrack(index);
+  }
 }

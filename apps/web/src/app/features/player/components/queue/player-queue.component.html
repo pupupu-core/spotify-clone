@@ -5,4 +5,66 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
+
+  @if (isEmpty()) {
+    <p class="empty">Queue is empty</p>
+  } @else {
+    <div class="controls">
+      <button matIconButton type="button" (click)="player.previous()">
+        <mat-icon fontSet="material-icons-outlined">skip_previous</mat-icon>
+      </button>
+      <button matIconButton type="button" (click)="player.toggle()">
+        <mat-icon fontSet="material-icons-outlined">
+          {{ player.isPlaying() ? 'pause_circle' : 'play_circle' }}
+        </mat-icon>
+      </button>
+      <button matIconButton type="button" (click)="player.next()">
+        <mat-icon fontSet="material-icons-outlined">skip_next</mat-icon>
+      </button>
+    </div>
+
+    <!--TODO: remove those boilerplate lines -> render via TrackRows from shared components-->
+    <ol></ol>
+    <ol class="list">
+      @for (track of queue(); track track.id; let index = $index) {
+        <li class="item" [class.item--active]="activeIndex() === index">
+          <img class="cover" [src]="track.image" [alt]="track.album_name + ' cover'" />
+
+          <div class="meta">
+            <a class="artist" [routerLink]="['/artist', track.artist_id]" mat-dialog-close>
+              {{ track.artist_name }}
+            </a>
+            <a class="name" mat-dialog-close>
+              {{ track.name }}
+            </a>
+          </div>
+
+          <span class="stat">
+            <mat-icon fontSet="material-icons-outlined"> headphones </mat-icon>
+            <span>{{ 100000 | abbreviatedNumber }}</span>
+          </span>
+
+          <span class="stat">
+            <mat-icon fontSet="material-icons-outlined"> timer </mat-icon>
+            <span>{{ track.duration | duration }}</span>
+          </span>
+
+          <button
+            matIconButton
+            type="button"
+            class="play"
+            (click)="player.toggleQueuedTrack(index)"
+          >
+            <mat-icon fontSet="material-icons-outlined">
+              {{ activeIndex() === index && player.isPlaying() ? 'pause_circle' : 'play_circle' }}
+            </mat-icon>
+          </button>
+
+          <button matIconButton type="button" class="remove">
+            <mat-icon fontSet="material-icons-outlined"> close </mat-icon>
+          </button>
+        </li>
+      }
+    </ol>
+  }
 </mat-dialog-content>
