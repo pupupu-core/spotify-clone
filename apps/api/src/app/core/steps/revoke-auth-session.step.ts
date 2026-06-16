@@ -3,7 +3,7 @@ import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { AuthTokenService } from '$/infrastructure/token/auth-token.service';
 
 export interface RevokeAuthSessionInput {
-  refreshToken?: string;
+  refreshToken: string;
 }
 
 @Injectable()
@@ -14,10 +14,6 @@ export class RevokeAuthSessionStep {
   ) {}
 
   public async execute({ refreshToken }: RevokeAuthSessionInput): Promise<void> {
-    if (!refreshToken) {
-      return;
-    }
-
     const refreshTokenHash = this.authTokenService.hashRefreshToken(refreshToken);
 
     await this.prisma.authSession.updateMany({

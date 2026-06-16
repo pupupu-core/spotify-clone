@@ -42,10 +42,13 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post(API_ENDPOINTS.AUTH.LOGOUT.serverPath)
   public async logout(
-    @Req() { cookies }: Request,
+    @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    await this.logoutUserWorkflow.execute(cookies.refreshToken);
+    const refreshToken = this.authCookieService.extractRefreshToken(request);
+
+    await this.logoutUserWorkflow.execute({ refreshToken });
+
     this.authCookieService.clearRefreshToken(response);
   }
 
@@ -64,7 +67,9 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post(API_ENDPOINTS.AUTH.REFRESH.serverPath)
-  public refresh(@Req() { cookies }: Request): Promise<AuthTokenResponse> {
-    return this.refreshUserSessionWorkflow.execute(cookies.refreshToken);
+  public refresh(@Req() request: Request): Promise<AuthTokenResponse> {
+    const refreshToken = this.authCookieService.extractRefreshToken(request);
+
+    return this.refreshUserSessionWorkflow.execute(refreshToken);
   }
 }
