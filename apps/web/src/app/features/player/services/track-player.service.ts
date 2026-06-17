@@ -127,4 +127,10 @@ export class PpfPlayerService {
 
     this.playQueuedTrack(index);
   }
+
+  public clearQueue(): void {
+    this.engine.clearAudioElement();
+    this.queue.set([]);
+    this.index.set(null);
+  }
 }

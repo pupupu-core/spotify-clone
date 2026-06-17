@@ -22,9 +22,11 @@
         <mat-icon fontSet="material-icons-outlined">skip_next</mat-icon>
       </button>
     </div>
+    <div>
+      <button type="button" (click)="player.clearQueue()">reset queue</button>
+    </div>
 
     <!--TODO: remove those boilerplate lines -> render via TrackRows from shared components-->
-    <ol></ol>
     <ol class="list">
       @for (track of queue(); track track.id; let index = $index) {
         <li class="item" [class.item--active]="activeIndex() === index">
