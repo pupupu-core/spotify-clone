@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
-
 import { AuthController } from './auth.controller';
-
 import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
 import { CreateLocalAccountStep } from '$/core/steps/create-local-account.step';
 import { EnsureLocalEmailIsAvailableStep } from '$/core/steps/ensure-local-email-is-available.step';
@@ -16,11 +14,14 @@ import { VerifyLocalPasswordStep } from '$/core/steps/verify-local-password.step
 import { LogoutUserWorkflow } from '$/core/workflows/auth/logout-user.workflow';
 import { RegisterUserWorkflow } from '$/core/workflows/auth/register-user.workflow';
 import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
+import { FindActiveAuthSessionStep } from '$/core/steps/find-active-auth-session.step';
+import { AccessTokenGuard } from '../../guards/access-token.guard';
 
 @Module({
   imports: [PrismaModule, AuthTokenModule],
   controllers: [AuthController],
   providers: [
+    AccessTokenGuard,
     LoginUserWorkflow,
     LogoutUserWorkflow,
     RegisterUserWorkflow,
@@ -33,6 +34,7 @@ import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
     EnsureLocalEmailIsAvailableStep,
     CreateLocalAccountStep,
     AuthCookieService,
+    FindActiveAuthSessionStep,
   ],
 })
 export class AuthModule {}

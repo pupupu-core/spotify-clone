@@ -1,17 +1,16 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-
+import type { Request, Response } from 'express';
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { AuthTokenResponse } from '@streaming-service/model';
-import { LoginDto } from './dtos/login.dto';
-import { RegisterDto } from './dtos/register.dto';
 import { RefreshUserSessionWorkflow } from '$/core/workflows/auth/refresh-user-session.workflow';
-import type { Request, Response } from 'express';
-import { AuthCookieService } from './auth-cookie.service';
 import { LoginUserWorkflow } from '$/core/workflows/auth/login-user.workflow';
 import { LogoutUserWorkflow } from '$/core/workflows/auth/logout-user.workflow';
 import { RegisterUserWorkflow } from '$/core/workflows/auth/register-user.workflow';
 import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
+import { LoginDto } from './dtos/login.dto';
+import { RegisterDto } from './dtos/register.dto';
+import { AuthCookieService } from './auth-cookie.service';
 
 @ApiTags(OPENAPI_CONFIG.tags.auth)
 @Controller({
@@ -43,12 +42,14 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @Post(API_ENDPOINTS.AUTH.LOGOUT.serverPath)
   public async logout(
-    @Req() { cookies }: Request,
+    @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    this.authCookieService.clearRefreshToken(response);
+    const refreshToken = this.authCookieService.extractRefreshToken(request);
 
-    return this.logoutUserWorkflow.execute(cookies.refreshToken);
+    await this.logoutUserWorkflow.execute({ refreshToken });
+
+    this.authCookieService.clearRefreshToken(response);
   }
 
   @HttpCode(HttpStatus.CREATED)
@@ -66,7 +67,16 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post(API_ENDPOINTS.AUTH.REFRESH.serverPath)
-  public refresh(@Req() { cookies }: Request): Promise<AuthTokenResponse> {
-    return this.refreshUserSessionWorkflow.execute(cookies.refreshToken);
+  public async refresh(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<AuthTokenResponse> {
+    const currentRefreshToken = this.authCookieService.extractRefreshToken(request);
+    const { accessToken, refreshToken } =
+      await this.refreshUserSessionWorkflow.execute(currentRefreshToken);
+
+    this.authCookieService.setRefreshToken(response, refreshToken);
+
+    return { accessToken };
   }
 }

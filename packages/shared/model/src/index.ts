@@ -4,3 +4,4 @@ export * from './lib/auth/register-request.model';
 export * from './lib/track/track-response.model';
 export * from './lib/track/track-discovery-response.model';
 export * from './lib/artists/artist-tracks-response.model';
+export * from './lib/account/account-me-response.model';

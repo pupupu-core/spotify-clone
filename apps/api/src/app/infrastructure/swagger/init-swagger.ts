@@ -8,6 +8,7 @@ export function initSwagger(app: INestApplication): void {
     .setTitle(OPENAPI_CONFIG.title)
     .setDescription(OPENAPI_CONFIG.description)
     .setVersion(OPENAPI_CONFIG.version)
+    .addBearerAuth()
     .addTag(OPENAPI_CONFIG.tags.auth)
     .addTag(OPENAPI_CONFIG.tags.account)
     .build();
