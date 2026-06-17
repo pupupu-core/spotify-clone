@@ -22,9 +22,6 @@
         <mat-icon fontSet="material-icons-outlined">skip_next</mat-icon>
       </button>
     </div>
-    <div>
-      <button type="button" (click)="player.clearQueue()">reset queue</button>
-    </div>
 
     <!--TODO: remove those boilerplate lines -> render via TrackRows from shared components-->
     <ol class="list">
@@ -62,7 +59,12 @@
             </mat-icon>
           </button>
 
-          <button matIconButton type="button" class="remove">
+          <button
+            matIconButton
+            type="button"
+            class="remove"
+            (click)="player.removeTrackFromQueue(index)"
+          >
             <mat-icon fontSet="material-icons-outlined"> close </mat-icon>
           </button>
         </li>

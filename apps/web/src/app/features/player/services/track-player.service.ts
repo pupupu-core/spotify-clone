@@ -96,6 +96,43 @@ export class PpfPlayerService {
     this.engine.setVolume(value);
   }
 
+  public removeTrackFromQueue(index: number): void {
+    if (!this.isValidIndex(index)) {
+      return;
+    }
+
+    const currentIndex = this.index();
+    const nextQueue = this.removeTrackAtIndex(index);
+
+    if (nextQueue.length === 0) {
+      this.clearQueue();
+
+      return;
+    }
+
+    const nextIndex = this.getIndexAfterRemoval(currentIndex, index, nextQueue.length);
+
+    this.queue.set(nextQueue);
+
+    if (nextIndex !== null) {
+      this.index.set(nextIndex);
+    }
+  }
+
+  public toggleQueuedTrack(index: number): void {
+    if (!this.isValidIndex(index)) {
+      return;
+    }
+
+    if (this.index() === index) {
+      this.toggle();
+
+      return;
+    }
+
+    this.playQueuedTrack(index);
+  }
+
   private isValidIndex(index: number): boolean {
     return Number.isInteger(index) && index >= 0 && index < this.queue().length;
   }
@@ -114,23 +151,33 @@ export class PpfPlayerService {
     this.index.set(index);
   }
 
-  public toggleQueuedTrack(index: number): void {
-    if (!this.isValidIndex(index)) {
-      return;
-    }
-
-    if (this.index() === index) {
-      this.toggle();
-
-      return;
-    }
-
-    this.playQueuedTrack(index);
-  }
-
-  public clearQueue(): void {
+  private clearQueue(): void {
     this.engine.clearAudioElement();
     this.queue.set([]);
     this.index.set(null);
+  }
+
+  private removeTrackAtIndex(index: number): JamendoTrack[] {
+    return this.queue().filter((_, queueIndex) => queueIndex !== index);
+  }
+
+  private getIndexAfterRemoval(
+    currentIndex: number | null,
+    removedIndex: number,
+    queueLength: number,
+  ): number | null {
+    if (currentIndex === null) {
+      return null;
+    }
+
+    if (removedIndex < currentIndex) {
+      return currentIndex - 1;
+    }
+
+    if (removedIndex === currentIndex) {
+      return Math.min(currentIndex, queueLength - 1);
+    }
+
+    return currentIndex;
   }
 }
