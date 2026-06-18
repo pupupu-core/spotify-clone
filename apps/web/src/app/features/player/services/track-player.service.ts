@@ -11,6 +11,8 @@ export class PpfPlayerService {
   public readonly position = this.engine.position;
   public readonly duration = this.engine.duration;
 
+  public readonly isMuted = this.engine.isMuted;
+
   public readonly current = computed<JamendoTrack | null>(() => {
     const i = this.index();
 
@@ -131,6 +133,10 @@ export class PpfPlayerService {
     }
 
     this.playQueuedTrack(index);
+  }
+
+  public toggleMute(): void {
+    this.engine.toggleMute();
   }
 
   private isValidIndex(index: number): boolean {

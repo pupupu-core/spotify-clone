@@ -92,7 +92,19 @@
       </button>
     </div>
 
-    <div class="player__volume">
+    <div class="volume">
+      <button matButton type="button" (click)="player.toggleMute()">
+        @if (player.isMuted()) {
+          <mat-icon class="player__volume-icon" fontSet="material-icons-outlined">
+            volume_mute
+          </mat-icon>
+        } @else {
+          <mat-icon class="player__volume-icon" fontSet="material-icons-outlined">
+            volume_up
+          </mat-icon>
+        }
+      </button>
+
       <mat-slider>
         <input
           matSliderThumb
