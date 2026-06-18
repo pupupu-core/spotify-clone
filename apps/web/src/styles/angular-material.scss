@@ -24,9 +24,6 @@
 
 .ppf-queue-backdrop {
   @include mixins.glass-transparent;
-
-  background-color: rgb(0 0 0 / 45%);
-  backdrop-filter: blur(2px);
 }
 
 .ppf-queue-dialog {
