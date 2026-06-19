@@ -8,8 +8,8 @@ export const buildApiPath = ({
   path: string;
 }): string => {
   if (prefix !== null) {
-    return `${prefix}${version}/${path}`;
+    return `${prefix}${version}${path}`;
   }
 
-  return `${version}/${path}`;
+  return `${version}${path}`;
 };
