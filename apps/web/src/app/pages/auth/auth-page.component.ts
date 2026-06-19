@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '~/core/api/auth/auth.service';
 
 @Component({
   selector: 'ppf-auth-page',
@@ -10,6 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class AuthPageComponent {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly authApi = inject(AuthService);
 
   protected readonly loginForm = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -22,13 +24,13 @@ export class AuthPageComponent {
 
       return;
     }
-    this.saveForm();
+    this.login();
   }
 
-  private saveForm(): void {
-    // API
-    // this.api.save(this.loginForm.value).subscribe(() => {
-    //     this.loginForm.markAsPristine();
-    //   });
+  private login(): void {
+    this.authApi.login(this.loginForm.getRawValue()).subscribe(({ accessToken }) => {
+      this.loginForm.markAsPristine();
+      console.log(accessToken);
+    });
   }
 }
