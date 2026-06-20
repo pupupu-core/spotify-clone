@@ -4,7 +4,7 @@
 
 ```bash
 pnpm exec nx g @nx/angular:component apps/web/src/app/features/player/player-page
-pnpm exec nx g @nx/angular:service apps/web/src/app/core/services/entity --skipTests
+pnpm exec nx g @nx/angular:service --project=web --path=apps/web/src/app/features/auth/services/sign-up --skipTests
 pnpm exec nx g @nx/angular:lib apps/web/src/app/shared/ui
 ```
 
