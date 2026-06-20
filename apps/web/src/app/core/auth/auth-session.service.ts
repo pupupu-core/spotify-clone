@@ -11,6 +11,10 @@ export class AuthSessionService {
 
   public readonly isAuthenticated = computed(() => this.accessToken() !== null);
 
+  public getAccessToken(): string | null {
+    return this.accessToken();
+  }
+
   public login(request: LoginRequest): Observable<AuthTokenResponse> {
     return this.authApi.login(request).pipe(
       tap({

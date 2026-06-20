@@ -24,4 +24,11 @@ export const APP_ENDPOINTS = {
       path: API_ENDPOINTS.AUTH.REFRESH.clientUrl,
     }),
   },
+  ACCOUNT: {
+    ME: buildApiPath({
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.ACCOUNT.ME.clientUrl,
+    }),
+  },
 } as const;
