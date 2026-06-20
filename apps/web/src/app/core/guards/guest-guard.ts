@@ -1,11 +1,12 @@
 import { inject } from '@angular/core';
 import type { CanActivateFn } from '@angular/router';
 import { Router } from '@angular/router';
-import { ROUTES } from '../config/routes';
-import { IS_AUTHED } from '../config/mock-flags';
+import { ROUTES } from '../config/routes.config';
+import { AuthSessionService } from '../auth/auth-session.service';
 
 export const guestGuard: CanActivateFn = () => {
   const router = inject(Router);
+  const isAuthenticated = inject(AuthSessionService).isAuthenticated;
 
-  return IS_AUTHED ? router.createUrlTree([ROUTES.HOME.to]) : true;
+  return isAuthenticated() ? router.createUrlTree([ROUTES.HOME.to]) : true;
 };
