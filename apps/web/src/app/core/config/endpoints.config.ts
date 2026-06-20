@@ -13,5 +13,15 @@ export const APP_ENDPOINTS = {
       version: API_VERSION,
       path: API_ENDPOINTS.AUTH.REGISTER.clientUrl,
     }),
+    LOGOUT: buildApiPath({
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.AUTH.LOGOUT.clientUrl,
+    }),
+    REFRESH: buildApiPath({
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.AUTH.REFRESH.clientUrl,
+    }),
   },
 } as const;

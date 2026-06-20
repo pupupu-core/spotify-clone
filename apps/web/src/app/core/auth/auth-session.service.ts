@@ -20,4 +20,22 @@ export class AuthSessionService {
       }),
     );
   }
+
+  public refresh(): Observable<AuthTokenResponse> {
+    return this.authApi.refresh().pipe(
+      tap({
+        next: ({ accessToken }) => this.accessToken.set(accessToken),
+        error: () => this.accessToken.set(null),
+      }),
+    );
+  }
+
+  public logout(): Observable<void> {
+    return this.authApi.logout().pipe(
+      tap({
+        next: () => this.accessToken.set(null),
+        error: () => this.accessToken.set(null),
+      }),
+    );
+  }
 }

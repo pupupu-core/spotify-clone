@@ -13,4 +13,16 @@ export class AuthApiService {
       withCredentials: true,
     });
   }
+
+  public logout(): Observable<void> {
+    return this.http.post<void>(APP_ENDPOINTS.AUTH.LOGOUT, {}, { withCredentials: true });
+  }
+
+  public refresh(): Observable<AuthTokenResponse> {
+    return this.http.post<AuthTokenResponse>(
+      APP_ENDPOINTS.AUTH.REFRESH,
+      {},
+      { withCredentials: true },
+    );
+  }
 }
