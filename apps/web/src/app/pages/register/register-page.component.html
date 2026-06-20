@@ -1,2 +1,7 @@
-<p>register-page works!</p>
-<ppf-register-form></ppf-register-form>
+<ppf-register-form
+  (formSubmit)="register($event)"
+  [isLoading]="isFormLoading()"
+  [error]="formError()"
+/>
+
+<a [routerLink]="ROUTES.AUTH.LOGIN.to">Log in</a>

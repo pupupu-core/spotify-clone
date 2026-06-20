@@ -1,12 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import type { AuthTokenResponse, LoginRequest } from '@streaming-service/model';
+import type { AuthTokenResponse, LoginRequest, RegisterRequest } from '@streaming-service/model';
 import type { Observable } from 'rxjs';
 import { APP_ENDPOINTS } from '~/core/config/endpoints.config';
 
 @Injectable({ providedIn: 'root' })
 export class AuthApiService {
   private readonly http = inject(HttpClient);
+
+  public register(request: RegisterRequest): Observable<AuthTokenResponse> {
+    return this.http.post<AuthTokenResponse>(APP_ENDPOINTS.AUTH.REGISTER, request, {});
+  }
 
   public login(request: LoginRequest): Observable<AuthTokenResponse> {
     return this.http.post<AuthTokenResponse>(APP_ENDPOINTS.AUTH.LOGIN, request, {
