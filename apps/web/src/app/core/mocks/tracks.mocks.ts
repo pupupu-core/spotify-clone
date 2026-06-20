@@ -47,6 +47,7 @@ export const TRACKS_MOCK: JamendoTrack[] = Array.from({ length: 10 }, (_, index)
   id: `${Number(TRACK_MOCK.id) + index}`,
   name: `${TRACK_MOCK.name} ${index + 1}`,
   position: index + 1,
+  duration: TRACK_MOCK.duration + index,
 }));
 
 export const TRACKS_RESPONSE_MOCK: JamendoTracksResponse = {
