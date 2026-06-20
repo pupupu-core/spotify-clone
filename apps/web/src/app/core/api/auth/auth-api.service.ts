@@ -5,7 +5,7 @@ import type { Observable } from 'rxjs';
 import { APP_ENDPOINTS } from '~/core/config/endpoints.config';
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AuthApiService {
   private readonly http = inject(HttpClient);
 
   public login(request: LoginRequest): Observable<AuthTokenResponse> {
