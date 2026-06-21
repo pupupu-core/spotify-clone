@@ -1,9 +1,17 @@
 import {
+  JamendoArtistAlbumDto,
+  JamendoArtistAlbumsListDto,
+  JamendoArtistListAlbumsResponseDto,
   JamendoArtistTrackDto,
   JamendoArtistTracksDto,
   JamendoArtistTracksResponseDto,
 } from '$/infrastructure/jamendo/dtos/artists.dto';
-import { JamendoArtistTrack, JamendoArtistTracks } from '$/infrastructure/jamendo/types/artists';
+import {
+  JamendoArtistAlbum,
+  JamendoArtistAlbumsList,
+  JamendoArtistTrack,
+  JamendoArtistTracks,
+} from '$/infrastructure/jamendo/types/artists';
 
 const mapToArtistTrack = (dto: JamendoArtistTrackDto): JamendoArtistTrack => {
   return {
@@ -33,8 +41,34 @@ const mapToArtistTracks = (dto: JamendoArtistTracksDto): JamendoArtistTracks => 
   };
 };
 
-export const mapToListArtistTracks = (
+export const mapToArtistTracksResponse = (
   dto: JamendoArtistTracksResponseDto,
 ): JamendoArtistTracks[] => {
   return dto.results.map(mapToArtistTracks);
+};
+
+const mapToArtistAlbum = (dto: JamendoArtistAlbumDto): JamendoArtistAlbum => {
+  return {
+    albumId: dto.id,
+    albumName: dto.name,
+    releaseDate: dto.releasedate,
+    albumImageUrl: dto.image,
+  };
+};
+
+const mapToArtistAlbumsList = (dto: JamendoArtistAlbumsListDto): JamendoArtistAlbumsList => {
+  return {
+    id: dto.id,
+    name: dto.name,
+    website: dto.website,
+    joinDate: dto.joindate,
+    imageUrl: dto.image,
+    albums: dto.albums.map(mapToArtistAlbum),
+  };
+};
+
+export const mapToArtistAlbumsListResponse = (
+  dto: JamendoArtistListAlbumsResponseDto,
+): JamendoArtistAlbumsList[] => {
+  return dto.results.map(mapToArtistAlbumsList);
 };

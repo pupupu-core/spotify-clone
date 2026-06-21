@@ -32,3 +32,29 @@ export const JamendoArtistListTracksResponseSchema = createJamendoResponseSchema
 export type JamendoArtistTracksDto = z.infer<typeof JamendoArtistTracksSchema>;
 export type JamendoArtistTrackDto = z.infer<typeof JamendoArtistTrackSchema>;
 export type JamendoArtistTracksResponseDto = z.infer<typeof JamendoArtistListTracksResponseSchema>;
+
+const JamendoArtistAlbumSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  releasedate: z.string(),
+  image: z.string(),
+});
+
+const JamendoArtistAlbumsListSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  website: z.string(),
+  joindate: z.string(),
+  image: z.string(),
+  albums: z.array(JamendoArtistAlbumSchema),
+});
+
+export const JamendoArtistListAlbumsResponseSchema = createJamendoResponseSchema(
+  z.array(JamendoArtistAlbumsListSchema),
+);
+
+export type JamendoArtistAlbumDto = z.infer<typeof JamendoArtistAlbumSchema>;
+export type JamendoArtistAlbumsListDto = z.infer<typeof JamendoArtistAlbumsListSchema>;
+export type JamendoArtistListAlbumsResponseDto = z.infer<
+  typeof JamendoArtistListAlbumsResponseSchema
+>;

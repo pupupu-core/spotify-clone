@@ -5,3 +5,9 @@ export interface JamendoArtistTracksInput {
   artistId: number[];
   limit?: number;
 }
+
+export interface JamendoArtistAlbumsInput {
+  order: JamendoListTracksOrder;
+  artistId: number[];
+  limit?: number;
+}

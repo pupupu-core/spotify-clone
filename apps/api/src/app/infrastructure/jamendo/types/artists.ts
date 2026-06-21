@@ -21,3 +21,19 @@ export interface JamendoArtistTracks {
   imageUrl: string;
   tracks: JamendoArtistTrack[];
 }
+
+export interface JamendoArtistAlbum {
+  albumId: string;
+  albumName: string;
+  releaseDate: string;
+  albumImageUrl: string;
+}
+
+export interface JamendoArtistAlbumsList {
+  id: string;
+  name: string;
+  website: string;
+  joinDate: string;
+  imageUrl: string;
+  albums: JamendoArtistAlbum[];
+}

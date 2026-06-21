@@ -10,16 +10,28 @@ import { JamendoUnavailableError } from './errors/jamendo-unavailable.error';
 import { JamendoResponseDto } from './dtos/common.dto';
 import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
-import { JamendoArtistTracks } from '$/infrastructure/jamendo/types/artists';
-import { JamendoArtistListTracksResponseSchema } from '$/infrastructure/jamendo/dtos/artists.dto';
-import { mapToListArtistTracks } from '$/infrastructure/jamendo/mappers/artists';
+import {
+  JamendoArtistAlbumsList,
+  JamendoArtistTracks,
+} from '$/infrastructure/jamendo/types/artists';
+import {
+  JamendoArtistListAlbumsResponseSchema,
+  JamendoArtistListTracksResponseSchema,
+} from '$/infrastructure/jamendo/dtos/artists.dto';
+import {
+  mapToArtistAlbumsListResponse,
+  mapToArtistTracksResponse,
+} from '$/infrastructure/jamendo/mappers/artists';
 import { JamendoListTracksInput } from './types/track-input';
 
 import { JamendoAutocompleteFromInput } from './types/autocomplete-entity';
 import { JamendoAutocompleteResult } from './types/autocomplete';
 import { mapToAutocompleteResult } from './mappers/autocomplete';
 import { JamendoAutocompleteResponseSchema } from './dtos/autocomplete.dto';
-import { JamendoArtistTracksInput } from '$/infrastructure/jamendo/types/artist-input';
+import {
+  JamendoArtistAlbumsInput,
+  JamendoArtistTracksInput,
+} from '$/infrastructure/jamendo/types/artist-input';
 
 @Injectable()
 export class JamendoClient {
@@ -54,16 +66,29 @@ export class JamendoClient {
       path: 'artists/tracks',
       queryParams: {
         order: input.order,
-        limit: input.limit ?? '10',
+        limit: input.limit ?? 10,
         id: input.artistId,
       },
       schema: JamendoArtistListTracksResponseSchema,
-    }).then(mapToListArtistTracks);
+    }).then(mapToArtistTracksResponse);
   }
 
   // Public methods
   // Albums
   // TODO
+  public async listPopularArtistAlbums(
+    input: JamendoArtistAlbumsInput,
+  ): Promise<JamendoArtistAlbumsList[]> {
+    return this.get({
+      path: 'artists/albums',
+      queryParams: {
+        order: input.order,
+        limit: input.limit ?? 10,
+        id: input.artistId,
+      },
+      schema: JamendoArtistListAlbumsResponseSchema,
+    }).then(mapToArtistAlbumsListResponse);
+  }
 
   //  Public methods
   // autocomplete
