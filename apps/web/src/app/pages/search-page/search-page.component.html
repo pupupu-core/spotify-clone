@@ -22,6 +22,7 @@
             >
               schedule
             </mat-icon>
+            <mat-label>min seconds</mat-label>
             <input
               #minInput
               matInput
@@ -32,7 +33,6 @@
               max="600"
               [value]="minDuration()"
               (change)="minDuration.set(minInput.valueAsNumber); resetPagination()"
-              placeholder="min seconds"
             />
             <mat-icon
               matSuffix
@@ -55,6 +55,7 @@
             >
               schedule
             </mat-icon>
+            <mat-label>max seconds</mat-label>
             <input
               #maxInput
               matInput
@@ -65,7 +66,6 @@
               max="600"
               [value]="maxDuration()"
               (change)="maxDuration.set(maxInput.valueAsNumber); resetPagination()"
-              placeholder="max seconds"
             />
             <mat-icon
               matSuffix
@@ -98,36 +98,43 @@
 
     <section class="search-page__panel search-page__panel-genres">
       <mat-form-field
-        appearance="fill"
-        class="search-page__genre-field"
         appearance="outline"
+        class="search-page__genre-field"
         subscriptSizing="dynamic"
       >
         <input
           matInput
           [formControl]="tagInputControl"
           [matAutocomplete]="genreAuto"
-          [matChipInputFor]="chipGrid"
           placeholder="Genre tags"
+          aria-label="Genre tags"
         />
-        <mat-autocomplete #genreAuto="matAutocomplete" (optionSelected)="addGenre($event)">
+        <mat-icon matSuffix>music_note</mat-icon>
+        <mat-autocomplete
+          #genreAuto="matAutocomplete"
+          class="search-page-genre-options"
+          (optionSelected)="addGenre($event)"
+        >
           @for (genre of filteredGenres(); track genre) {
             <mat-option [value]="genre">{{ genre }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-chip-grid #chipGrid class="chip-grid-container">
-        @for (genre of selectedGenres(); track genre) {
-          <mat-chip-row (removed)="removeGenre(genre)" [removable]="true">
-            {{ genre }}
-            <button matChipRemove>
-              <span>×</span>
-            </button>
-          </mat-chip-row>
-        }
-      </mat-chip-grid>
+      @if (selectedGenres().length > 0) {
+        <mat-chip-set class="chip-grid-container">
+          @for (genre of selectedGenres(); track genre) {
+            <mat-chip (removed)="removeGenre(genre)" [removable]="true">
+              {{ genre }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          }
+        </mat-chip-set>
+      }
     </section>
+
     <section class="search-page__panel-sort">
       <span id="search-sort-label" class="search-page__sort-label">Sorting by:</span>
       <button
@@ -156,68 +163,74 @@
       </button>
     </section>
   </div>
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="album_name">
-      <td mat-cell *matCellDef="let track">
-        <p>{{ track.album_name }}</p>
-      </td>
-    </ng-container>
+  <div class="search-page__table-wrap">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="album_name">
+        <td mat-cell *matCellDef="let track">
+          <p>{{ track.album_name }}</p>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="album_cover">
-      <td mat-cell *matCellDef="let track">
-        <img class="album-img" [src]="track.album_image" [alt]="track.album_name + ' cover'" />
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="album_cover">
+        <td mat-cell *matCellDef="let track">
+          <img class="album-img" [src]="track.album_image" [alt]="track.album_name + ' cover'" />
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="artist_meta">
-      <td mat-cell *matCellDef="let track">
-        <div class="album-title-container">
-          <div class="title-container">
-            <p class="track-name">{{ track.name }}</p>
-            <p class="album-name">{{ track.artist_name }}</p>
+      <ng-container matColumnDef="artist_meta">
+        <td mat-cell *matCellDef="let track">
+          <div class="album-title-container">
+            <div class="title-container">
+              <p class="track-name">{{ track.name }}</p>
+              <p class="album-name">{{ track.artist_name }}</p>
+            </div>
           </div>
-        </div>
-      </td>
-    </ng-container>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="play_count">
-      <td mat-cell *matCellDef="let track">{{ 100000 | abbreviatedNumber }}</td>
-    </ng-container>
+      <ng-container matColumnDef="play_count">
+        <td mat-cell *matCellDef="let track">{{ 100000 | abbreviatedNumber }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="duration">
-      <td mat-cell *matCellDef="let track">{{ track.duration | duration }}</td>
-    </ng-container>
+      <ng-container matColumnDef="duration">
+        <td mat-cell *matCellDef="let track">{{ track.duration | duration }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="play">
-      <td mat-cell *matCellDef="let track">
-        <button mat-icon-button [attr.aria-label]="'Play ' + track.name" (click)="playTrack(track)">
-          <mat-icon fontSet="material-icons-outlined">
-            {{
-              player.current()?.id === track.id && player.isPlaying()
-                ? 'pause_circle'
-                : 'play_circle'
-            }}
-          </mat-icon>
-        </button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="play">
+        <td mat-cell *matCellDef="let track">
+          <button
+            mat-icon-button
+            [attr.aria-label]="'Play ' + track.name"
+            (click)="playTrack(track)"
+          >
+            <mat-icon fontSet="material-icons-outlined">
+              {{
+                player.current()?.id === track.id && player.isPlaying()
+                  ? 'pause_circle'
+                  : 'play_circle'
+              }}
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      [class.active]="player.current()?.id === row.id"
-    ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [class.active]="player.current()?.id === row.id"
+      ></tr>
 
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell search-page__empty" colspan="6">
-        @if (searchText()) {
-          No tracks matching to query "{{ searchText() }}" and applied filters
-        } @else {
-          No tracks matching to applied filters
-        }
-      </td>
-    </tr>
-  </table>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell search-page__empty" colspan="6">
+          @if (searchText()) {
+            No tracks matching to query "{{ searchText() }}" and applied filters
+          } @else {
+            No tracks matching to applied filters
+          }
+        </td>
+      </tr>
+    </table>
+  </div>
 
   <mat-paginator
     [pageSize]="this.paginatorPageSize"
