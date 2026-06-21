@@ -9,7 +9,16 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./src",
+    "paths": {
+      "#/pages/*": ["./pages/*"],
+      "#/shared/*": ["./shared/*"],
+
+      "@streaming-service/utils": ["../../../../packages/shared/utils/src/index.ts"],
+      "@streaming-service/config": ["../../../../packages/shared/config/src/index.ts"],
+      "@streaming-service/model": ["../../../../packages/shared/model/src/index.ts"]
+    }
   },
   "include": [
     "**/*.ts",

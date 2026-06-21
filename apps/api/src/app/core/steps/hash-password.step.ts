@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import argon2 from 'argon2';
 
 interface HashPasswordInput {
   password: string;
@@ -11,7 +12,13 @@ interface HashPasswordResult {
 @Injectable()
 export class HashPasswordStep {
   public async execute({ password }: HashPasswordInput): Promise<HashPasswordResult> {
-    // TODO implement password hashing
-    return { passwordHash: password };
+    const passwordHash = await argon2.hash(password, {
+      type: argon2.argon2id,
+      memoryCost: 19 * 1024,
+      timeCost: 2,
+      parallelism: 1,
+    });
+
+    return { passwordHash };
   }
 }

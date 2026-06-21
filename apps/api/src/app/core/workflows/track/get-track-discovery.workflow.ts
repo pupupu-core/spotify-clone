@@ -1,6 +1,6 @@
-import { FetchTrackDiscoveryStep } from '$/core/steps/fetch-track-discovery.step';
 import { Injectable } from '@nestjs/common';
 import { TrackDiscoveryResponse } from '@streaming-service/model';
+import { FetchTrackDiscoveryStep } from '$/core/steps/fetch-track-discovery.step';
 
 @Injectable()
 export class GetTrackDiscoveryWorkflow {

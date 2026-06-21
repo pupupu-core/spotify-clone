@@ -1,12 +1,16 @@
 # Pupufy
 
-## About pupufy
+[![Nx](https://img.shields.io/badge/Nx-143055?logo=nx&logoColor=fff)](https://nx.dev/) [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=fff)](https://angular.dev/) [![RxJS](https://img.shields.io/badge/RxJS-B7178C?logo=reactivex&logoColor=fff)](https://rxjs.dev/) [![NestJS](https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=fff)](https://nestjs.com/) [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)](https://www.typescriptlang.org/) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=fff)](https://www.postgresql.org/) [![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=fff)](https://www.prisma.io/) [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](https://www.docker.com/) [![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=fff)](https://playwright.dev/) [![Zod](https://img.shields.io/badge/Zod-3E67B1?logo=zod&logoColor=fff)](https://zod.dev/) [![Swagger](https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=000)](https://swagger.io/) [![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=fff)](https://pnpm.io/)
 
-### Project description
+## Overview
 
 The Pupufy application is an implementation of [Jamendo API](https://developer.jamendo.com/v3.0/docs). It allows free access to stream and download more than 350,000 songs from the Jamendo catalog - all published under Creative Commons licences - without advertisements. With Jamendo's featured selections, the user can easily discover and listen to albums, songs and the most popular artists.
 
-### Team members
+### Deployment
+
+[Application deployment](https://pupufy.tryproxy.online/)
+
+### Team
 
 | Name                 | Github                                      |
 | -------------------- | ------------------------------------------- |
@@ -15,105 +19,69 @@ The Pupufy application is an implementation of [Jamendo API](https://developer.j
 | Vsevolod Timoshenko  | [shoblinsky](https://github.com/shoblinsky) |
 | Hanna Surmach        | [khasekai](https://github.com/khasekai)     |
 
-## Deployment link
-
-[Application deployment](https://pupufy.tryproxy.online/)
-
-## Angular Nest Monorepo Starter
+## Workspace
 
 Nx monorepo with:
 
-- `apps/web` - Angular SPA
-- `apps/api` - NestJS backend
-- `packages/shared/model` - shared public API contracts
-- `packages/shared/utils` - shared pure utilities
-- `packages/shared/config` - shared constants/config
+- `apps/web` (`~/*`) - Angular SPA
+- `apps/api` (`$/*`) - NestJS backend
+- `apps/e2e` (`#/*`) - Playwright end-to-end tests
+- `packages/shared/model` (`@streaming-service/model`) - shared public API contracts
+- `packages/shared/utils` (`@streaming-service/utils`) - shared pure utilities
+- `packages/shared/config` (`@streaming-service/config`) - shared constants/config
 
 More structure notes: [docs/architecture.md](./docs/architecture.md)
 
-### Run
+### Quick Start
 
-Install dependencies:
-
-```bash
-pnpm install
-```
-
-Run frontend + backend:
+Install dependencies, start the local database, then run the app:
 
 ```bash
+pnpm deps
+pnpm db:up
 pnpm dev
 ```
 
-Run only backend:
+Stop Docker Compose services when finished:
 
 ```bash
-pnpm serve:backend
+pnpm dev:down
 ```
 
-Run only frontend:
+### Common Checks
 
 ```bash
-pnpm serve:frontend
-```
-
-### Checks
-
-```bash
-pnpm format:check
 pnpm lint
-pnpm stylelint:web
 pnpm typecheck
 ```
 
-Auto-fix where supported:
+Install Playwright browsers once before local e2e runs, then run e2e tests:
 
 ```bash
-pnpm format
-pnpm lint:fix
-pnpm stylelint:web:fix
+pnpm exec playwright install
+pnpm test:e2e
 ```
+
+All package scripts and descriptions are listed in [docs/scripts.md](./docs/scripts.md).
 
 ### Top Level Structure
 
-```text
-apps/
-  web/
-  api/
+```mermaid
+flowchart TD
+  root["Music Streaming Service"]
 
-packages/
-  shared/
-    model/
-    utils/
-    config/
+  root --> apps["apps"]
+  apps --> web["web<br/>Angular SPA"]
+  apps --> api["api<br/>NestJS backend"]
+  apps --> e2e["e2e<br/>Playwright tests"]
+
+  root --> packages["packages"]
+  packages --> shared["shared"]
+  shared --> model["model<br/>API contracts"]
+  shared --> utils["utils<br/>pure utilities"]
+  shared --> config["config<br/>shared constants"]
 ```
 
 ### Generate
 
-Angular:
-
-```bash
-pnpm exec nx g @nx/angular:component apps/web/src/app/features/player/player-page
-pnpm exec nx g @nx/angular:service apps/web/src/app/core/services/entity --skipTests
-pnpm exec nx g @nx/angular:lib apps/web/src/app/shared/ui
-```
-
-Nest:
-
-```bash
-pnpm exec nx g @nx/nest:module apps/api/src/app/gateway/rest/v1/entity/entity
-pnpm exec nx g @nx/nest:controller apps/api/src/app/gateway/rest/v1/entity/entity --unitTestRunner=none
-pnpm exec nx g @nx/nest:service apps/api/src/app/infrastructure/storage/audio-storage/audio-storage --unitTestRunner=none
-```
-
-Shared TypeScript lib:
-
-```bash
-pnpm exec nx g @nx/js:lib packages/shared/model
-```
-
-Preview a generator without writing files:
-
-```bash
-pnpm exec nx g @nx/angular:component apps/web/src/app/features/player/player-page --dry-run
-```
+Generator examples are documented in [docs/generators.md](./docs/generators.md).

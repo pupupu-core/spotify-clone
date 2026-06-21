@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
+
 import { AuthProvider } from '../../../../generated/prisma/client';
-import { PrismaService } from '../../infrastructure/prisma/prisma.service';
+import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { InvalidCredentialsError } from '../errors/invalid-credentials.error';
 
 interface FindLocalIdentityForLoginInput {
@@ -20,7 +21,7 @@ export class FindLocalIdentityForLoginStep {
     const authIdentity = await this.prisma.authIdentity.findUnique({
       where: {
         provider_email: {
-          provider: AuthProvider.LOCAL,
+          provider: AuthProvider.EMAIL_PASSWORD,
           email: email.trim().toLowerCase(),
         },
       },
