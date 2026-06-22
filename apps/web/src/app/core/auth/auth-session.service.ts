@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type { AuthTokenResponse, LoginRequest, RegisterRequest } from '@streaming-service/model';
 import type { Observable } from 'rxjs';
-import { tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { AuthApiService } from '../api/auth/auth-api.service';
 
 @Injectable({ providedIn: 'root' })
@@ -45,11 +45,6 @@ export class AuthSessionService {
   }
 
   public logout(): Observable<void> {
-    return this.authApi.logout().pipe(
-      tap({
-        next: () => this.accessToken.set(null),
-        error: () => this.accessToken.set(null),
-      }),
-    );
+    return this.authApi.logout().pipe(finalize(() => this.accessToken.set(null)));
   }
 }
