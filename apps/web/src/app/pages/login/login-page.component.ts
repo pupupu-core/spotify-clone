@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '
 import { Router, RouterLink } from '@angular/router';
 import type { LoginRequest } from '@streaming-service/model';
 import { catchError, EMPTY, finalize } from 'rxjs';
-import { AuthSessionService } from '~/core/auth/auth-session.service';
+import { AuthSessionService } from '~/core/stores/auth-session.service';
 import { LoginFormComponent } from '~/features/auth/components/login/login-form.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { APP_ROUTES } from '~/core/tokens/app-routes.token';

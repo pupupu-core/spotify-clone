@@ -1,12 +1,12 @@
 import type { Route } from '@angular/router';
 import { ROUTES } from './core/config/routes.config';
-import { AppLayoutComponent } from './core/layouts/app-layout/app-layout.component';
+import { AppLayoutComponent } from './pages/layouts/app/app-layout.component';
 import { HomePageComponent } from './pages/home/home-page.component';
 import { PpfSearchPageComponent } from './pages/search-page/search-page.component';
 import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest-guard';
 import { ArtistPageComponent } from '~/pages/artist/artist-page.component';
-import { AuthLayoutComponent } from './features/auth/layouts/auth-layout.component';
+import { AuthLayoutComponent } from './pages/layouts/auth/auth-layout.component';
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { RegisterPageComponent } from './pages/register/register-page.component';
 

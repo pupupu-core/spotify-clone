@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import type { RegisterRequest } from '@streaming-service/model';
 import { catchError, EMPTY, finalize } from 'rxjs';
-import { AuthSessionService } from '~/core/auth/auth-session.service';
+import { AuthSessionService } from '~/core/stores/auth-session.service';
 import { APP_ROUTES } from '~/core/tokens/app-routes.token';
 import { RegisterFormComponent } from '~/features/auth/components/register/register-form.component';
 

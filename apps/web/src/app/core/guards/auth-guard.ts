@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import type { CanMatchFn } from '@angular/router';
 import { Router } from '@angular/router';
 import { ROUTES } from '../config/routes.config';
-import { AuthSessionService } from '../auth/auth-session.service';
+import { AuthSessionService } from '../stores/auth-session.service';
 
 export const authGuard: CanMatchFn = () => {
   const router = inject(Router);

@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import type { AuthTokenResponse, LoginRequest, RegisterRequest } from '@streaming-service/model';
 import type { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs';
-import { AuthApiService } from '../api/auth/auth-api.service';
+import { AuthApiService } from '../services/auth-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthSessionService {

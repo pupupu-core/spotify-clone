@@ -10,9 +10,9 @@ import { appRoutes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ppfTranslocoConfig } from './core/i18n/transloco.config';
 import { inject } from '@angular/core';
-import { AuthSessionService } from './core/auth/auth-session.service';
+import { AuthSessionService } from './core/stores/auth-session.service';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { accessTokenInterceptor } from './core/auth/access-token.interceptor';
+import { accessTokenInterceptor } from './core/interceptors/access-token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

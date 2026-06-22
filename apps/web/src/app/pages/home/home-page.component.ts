@@ -4,7 +4,7 @@ import { TrackListComponent } from '../../features/tracks/components/track-list/
 import { TrackService } from '../../features/tracks/services/track.mock.service';
 import type { AccountMeResponse } from '@streaming-service/model';
 import { catchError, EMPTY, type Observable, tap } from 'rxjs';
-import { AccountApiService } from '~/core/api/account/account-api.service';
+import { AccountApiService } from '~/core/services/account-api.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
