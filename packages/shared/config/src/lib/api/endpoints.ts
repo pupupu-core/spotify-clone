@@ -32,4 +32,11 @@ export const API_ENDPOINTS = {
       clientUrl: '/tracks/discovery',
     },
   },
+  ARTIST: {
+    basePath: 'artists',
+    TRACKS: {
+      serverPath: ':artistId/tracks',
+      clientUrl: '/artists/:artistId/tracks',
+    },
+  },
 } as const;
