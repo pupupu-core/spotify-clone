@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ROUTES } from '../../../../config/routes';
+import { ROUTES } from '../../../../config/routes.config';
 import { MatDialogClose, MatDialogContent } from '@angular/material/dialog';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';

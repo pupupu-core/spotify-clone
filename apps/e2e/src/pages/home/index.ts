@@ -17,7 +17,7 @@ export class HomePage {
   }
 
   public async expectOpened(): Promise<void> {
-    await expect(this.page).toHaveURL(APP_ROUTES.HOME.to);
+    await expect(this.page).toHaveURL(APP_ROUTES.AUTH.LOGIN.to);
     await expect(this.logoLink).toBeVisible();
     await expect(this.logoTitle).toBeVisible();
   }

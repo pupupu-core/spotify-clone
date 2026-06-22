@@ -6,6 +6,22 @@ export const ROUTES = {
       label: 'Authentication',
       title: 'Welcome',
     },
+    LOGIN: {
+      path: 'login',
+      to: '/auth/login',
+      meta: {
+        label: 'Login Page',
+        title: 'Login',
+      },
+    },
+    REGISTER: {
+      path: 'register',
+      to: '/auth/register',
+      meta: {
+        label: 'Register Page',
+        title: 'Register',
+      },
+    },
   },
   HOME: {
     path: '',
