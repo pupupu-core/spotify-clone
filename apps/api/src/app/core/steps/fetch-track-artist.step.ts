@@ -13,6 +13,10 @@ export class FetchTrackArtistStep {
       limit: 10,
     });
 
+    if (!artist) {
+      throw new Error('Artist not found');
+    }
+
     return artist;
   }
 }
