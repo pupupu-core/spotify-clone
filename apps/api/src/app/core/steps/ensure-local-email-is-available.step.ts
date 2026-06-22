@@ -15,7 +15,7 @@ export class EnsureLocalEmailIsAvailableStep {
     const authIdentity = await this.prisma.authIdentity.findUnique({
       where: {
         provider_email: {
-          provider: AuthProvider.LOCAL,
+          provider: AuthProvider.EMAIL_PASSWORD,
           email: email.trim().toLowerCase(),
         },
       },

@@ -6,6 +6,7 @@ import { AuthPageComponent } from './pages/auth/auth-page.component';
 import { PpfSearchPageComponent } from './pages/search-page/search-page.component';
 import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest-guard';
+import { ArtistPageComponent } from '~/pages/artist/artist-page.component';
 
 export const appRoutes: Route[] = [
   {
@@ -28,6 +29,11 @@ export const appRoutes: Route[] = [
         path: ROUTES.SEARCH.path,
         title: ROUTES.SEARCH.meta.title,
         component: PpfSearchPageComponent,
+      },
+      {
+        path: ROUTES.ARTIST.path,
+        title: ROUTES.ARTIST.meta.title,
+        component: ArtistPageComponent,
       },
     ],
   },

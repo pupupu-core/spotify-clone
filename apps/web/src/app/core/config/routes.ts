@@ -31,6 +31,14 @@ export const ROUTES = {
       title: 'Library',
     },
   },
+  ARTIST: {
+    path: 'artist/:artistId',
+    to: (artistId: string) => `/artist/${artistId}`,
+    meta: {
+      label: 'Artist page',
+      title: 'Artist',
+    },
+  },
   ABOUT_US: {
     path: 'about-us',
     to: '/about-us',

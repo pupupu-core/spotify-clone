@@ -1,5 +1,11 @@
 <section class="track-list">
-  <h2 class="track-list__title">{{ title() }}</h2>
+  <div class="header">
+    <h2 class="track-list__title">{{ title() }}</h2>
+    <button matButton="filled" class="action-play-btn" (click)="playAllClick.emit()">
+      <mat-icon fontSet="material-icons-outlined">play_arrow</mat-icon>
+      Play All
+    </button>
+  </div>
 
   <ul class="track-list__items">
     @for (track of trackList(); track track.id) {

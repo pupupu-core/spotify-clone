@@ -1,6 +1,6 @@
 import { APP_CONFIG } from '$/shared/config/app.config';
 import { Injectable } from '@nestjs/common';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import { buildApiPath } from '@streaming-service/utils';
 import { API_ENDPOINTS } from '@streaming-service/config';
 
@@ -25,8 +25,21 @@ export class AuthCookieService {
       secure: APP_CONFIG.isProduction,
       sameSite: 'lax',
       path: buildApiPath({
+        prefix: null,
         path: API_ENDPOINTS.AUTH.basePath,
       }),
     });
+  }
+
+  public extractRefreshToken(request: Request): string | undefined {
+    const cookies = request.cookies as unknown;
+
+    if (!cookies || typeof cookies !== 'object') {
+      return;
+    }
+
+    const value = (cookies as Record<string, unknown>)[APP_CONFIG.auth.refreshTokenCookie.name];
+
+    return typeof value === 'string' ? value : undefined;
   }
 }
