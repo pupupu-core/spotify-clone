@@ -1,10 +1,11 @@
 import type { OnInit } from '@angular/core';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { TrackListComponent } from '../../features/tracks/components/track-list/track-list.component';
 import { TrackService } from '../../features/tracks/services/track.mock.service';
 import type { AccountMeResponse } from '@streaming-service/model';
 import type { Observable } from 'rxjs';
 import { AccountApiService } from '~/core/api/account/account-api.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'ppf-home-page',
@@ -15,6 +16,8 @@ import { AccountApiService } from '~/core/api/account/account-api.service';
 })
 export class HomePageComponent implements OnInit {
   private readonly trackService = inject(TrackService);
+  private readonly destroyRef = inject(DestroyRef);
+
   public readonly trackList = this.trackService.trackList;
 
   // FOR DEBUG to showcase me endpoint
@@ -27,13 +30,15 @@ export class HomePageComponent implements OnInit {
 
   // FOR DEBUG to showcase me endpoint
   public ngOnInit(): void {
-    this.fetchMeAccount().subscribe({
-      next: me => {
-        console.log(me);
-      },
-      error: error => {
-        console.error(error);
-      },
-    });
+    this.fetchMeAccount()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: me => {
+          console.log(me);
+        },
+        error: error => {
+          console.error(error);
+        },
+      });
   }
 }
