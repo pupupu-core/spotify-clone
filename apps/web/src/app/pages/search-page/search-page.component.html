@@ -1,9 +1,6 @@
 <div class="search-page__wrapper mat-elevation-z8">
-  <mat-form-field>
-    <mat-label>Start for search songs, albums, authors...</mat-label>
-    <input matInput (keyup)="applyFilterSearch($event)" #input aria-label="Search tracks" />
-  </mat-form-field>
-  <div
+  <form
+    [formGroup]="filterForm"
     class="search-page__panels"
     matSort
     (matSortChange)="ppfOnSortChange($event)"
@@ -30,9 +27,9 @@
               type="number"
               class="search-page__dur-input"
               min="0"
-              max="600"
+              max="1200"
               [value]="minDuration()"
-              (change)="minDuration.set(minInput.valueAsNumber); resetPagination()"
+              formControlName="minDuration"
             />
             <mat-icon
               matSuffix
@@ -42,6 +39,9 @@
             >
               cancel
             </mat-icon>
+            @if (filterForm.controls.minDuration.invalid) {
+              <mat-error>Please, enter a value from 0 to 1200 seconds</mat-error>
+            }
           </mat-form-field>
         </div>
 
@@ -63,9 +63,9 @@
               type="number"
               class="search-page__dur-input"
               min="0"
-              max="600"
+              max="1200"
               [value]="maxDuration()"
-              (change)="maxDuration.set(maxInput.valueAsNumber); resetPagination()"
+              formControlName="maxDuration"
             />
             <mat-icon
               matSuffix
@@ -75,6 +75,9 @@
             >
               cancel
             </mat-icon>
+            @if (filterForm.controls.maxDuration.invalid) {
+              <mat-error>Please, enter a value from 0 to 1200 seconds</mat-error>
+            }
           </mat-form-field>
         </div>
       </div>
@@ -84,13 +87,13 @@
             matSliderStartThumb
             #sliderMin
             [value]="minDuration()"
-            (input)="minDuration.set(sliderMin.valueAsNumber); resetPagination()"
+            formControlName="minDuration"
           />
           <input
             matSliderEndThumb
             #sliderMax
             [value]="maxDuration()"
-            (input)="maxDuration.set(sliderMax.valueAsNumber); resetPagination()"
+            formControlName="maxDuration"
           />
         </mat-slider>
       </div>
@@ -108,6 +111,7 @@
           [matAutocomplete]="genreAuto"
           placeholder="Genre tags"
           aria-label="Genre tags"
+          formControlName="genreQuery"
         />
         <mat-icon matSuffix>music_note</mat-icon>
         <mat-autocomplete
@@ -162,7 +166,7 @@
         Name
       </button>
     </section>
-  </div>
+  </form>
   <div class="search-page__table-wrap">
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="album_name">
