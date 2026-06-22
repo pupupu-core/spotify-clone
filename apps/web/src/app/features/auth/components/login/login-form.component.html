@@ -10,7 +10,7 @@
   </label>
 
   <button type="submit" [disabled]="isLoading() || form.invalid">
-    <span>{{ isLoading() ? 'Logging in...' : 'Log in' }}</span>
+    <span>{{ isLoading() | submitButtonText: 'Log in' }}</span>
   </button>
 
   <!-- TODO: Add Error Transform Pipe -->

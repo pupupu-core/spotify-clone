@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { LoginRequest } from '@streaming-service/model';
+import { SubmitButtonTextPipe } from '~/shared/pipes/submit-button-text.pipe';
 
 @Component({
   selector: 'ppf-login-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SubmitButtonTextPipe],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

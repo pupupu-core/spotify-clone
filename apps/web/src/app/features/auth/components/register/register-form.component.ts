@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { RegisterRequest } from '@streaming-service/model';
+import { SubmitButtonTextPipe } from '~/shared/pipes/submit-button-text.pipe';
 
 @Component({
   selector: 'ppf-register-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SubmitButtonTextPipe],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
