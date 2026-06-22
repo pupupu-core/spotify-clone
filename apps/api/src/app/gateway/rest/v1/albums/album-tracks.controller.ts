@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from '@streaming-service/config';
 import { GetTracksAlbumWorkflow } from '$/core/workflows/albums/get-tracks-albums.workflow';
 import { AlbumResponse } from '@streaming-service/model';
 
-@ApiTags(OPENAPI_CONFIG.tags.track)
+@ApiTags(OPENAPI_CONFIG.tags.album)
 @Controller({
   path: API_ENDPOINTS.ALBUMS.basePath,
   version: '1',
