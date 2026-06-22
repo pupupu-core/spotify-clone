@@ -14,7 +14,7 @@ export class ArtistAlbumsController {
 
   @HttpCode(HttpStatus.OK)
   @Get(API_ENDPOINTS.ARTIST.ALBUMS.serverPath)
-  public async getTracks(@Param('artistId') artistId: string) {
+  public async getAlbums(@Param('artistId') artistId: string) {
     return this.workflow.execute(Number(artistId));
   }
 }

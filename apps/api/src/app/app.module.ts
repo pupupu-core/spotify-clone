@@ -8,6 +8,7 @@ import { CoreErrorFilter } from './gateway/rest/filters/core-error.filter';
 import { TrackModule } from './gateway/rest/v1/track/track.module';
 import { ArtistTrackModule } from '$/gateway/rest/v1/artist/artist-track.module';
 import { ArtistAlbumModule } from '$/gateway/rest/v1/artist/artist-album.module';
+import { AlbumTracksModule } from '$/gateway/rest/v1/albums/album-tracks.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ArtistAlbumModule } from '$/gateway/rest/v1/artist/artist-album.module'
     AccountModule,
     ArtistTrackModule,
     ArtistAlbumModule,
+    AlbumTracksModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {
