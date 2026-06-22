@@ -7,5 +7,7 @@ export const OPENAPI_CONFIG = {
     auth: 'Authentication',
     account: 'Account',
     track: 'Track',
+    artist: 'Artist',
+    album: 'Album',
   },
 } as const;

@@ -10,15 +10,35 @@ import { JamendoUnavailableError } from './errors/jamendo-unavailable.error';
 import { JamendoResponseDto } from './dtos/common.dto';
 import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
-import { JamendoArtistTracks } from '$/infrastructure/jamendo/types/artists';
-import { JamendoArtistListTracksResponseSchema } from '$/infrastructure/jamendo/dtos/artists.dto';
-import { mapToListArtistTracks } from '$/infrastructure/jamendo/mappers/artists';
+import {
+  JamendoArtistAlbumsList,
+  JamendoArtistMusicInfoList,
+  JamendoArtistTracks,
+} from '$/infrastructure/jamendo/types/artists';
+import {
+  JamendoArtistListAlbumsResponseSchema,
+  JamendoArtistListTracksResponseSchema,
+  JamendoArtistMusicInfoResponseSchema,
+} from '$/infrastructure/jamendo/dtos/artists.dto';
+import {
+  mapToArtistAlbumsListResponse,
+  mapToArtistMusicInfoResponse,
+  mapToArtistTracksResponse,
+} from '$/infrastructure/jamendo/mappers/artists';
 import { JamendoListTracksInput } from './types/track-input';
 
 import { JamendoAutocompleteFromInput } from './types/autocomplete-entity';
 import { JamendoAutocompleteResult } from './types/autocomplete';
 import { mapToAutocompleteResult } from './mappers/autocomplete';
 import { JamendoAutocompleteResponseSchema } from './dtos/autocomplete.dto';
+import {
+  JamendoArtistAlbumsInput,
+  JamendoArtistTracksInput,
+} from '$/infrastructure/jamendo/types/artist-input';
+import { JamendoAlbum } from '$/infrastructure/jamendo/types/albums';
+import { JamendoAlbumsResponseSchema } from '$/infrastructure/jamendo/dtos/albums.dto';
+import { mapToAlbumsResponse } from '$/infrastructure/jamendo/mappers/albums';
+import { JamendoAlbumsInput } from '$/infrastructure/jamendo/types/albums-input';
 
 @Injectable()
 export class JamendoClient {
@@ -46,20 +66,57 @@ export class JamendoClient {
   // Public methods
   // Artists
   // TODO
-  public async listPopularArtistTracks(): Promise<JamendoArtistTracks[]> {
+  public async listPopularArtistTracks(
+    input: JamendoArtistTracksInput,
+  ): Promise<JamendoArtistTracks[]> {
     return this.get({
       path: 'artists/tracks',
       queryParams: {
-        order: 'popularity_total',
-        limit: '10',
+        order: input.order,
+        limit: input.limit ?? 10,
+        id: input.artistId,
       },
       schema: JamendoArtistListTracksResponseSchema,
-    }).then(mapToListArtistTracks);
+    }).then(mapToArtistTracksResponse);
+  }
+
+  public async listPopularArtistAlbums(
+    input: JamendoArtistAlbumsInput,
+  ): Promise<JamendoArtistAlbumsList[]> {
+    return this.get({
+      path: 'artists/albums',
+      queryParams: {
+        order: input.order,
+        limit: input.limit ?? 10,
+        id: input.artistId,
+      },
+      schema: JamendoArtistListAlbumsResponseSchema,
+    }).then(mapToArtistAlbumsListResponse);
+  }
+
+  public async getArtistMusicInfo(artistIds: number[]): Promise<JamendoArtistMusicInfoList[]> {
+    return this.get({
+      path: 'artists/musicinfo',
+      queryParams: {
+        id: artistIds,
+      },
+      schema: JamendoArtistMusicInfoResponseSchema,
+    }).then(mapToArtistMusicInfoResponse);
   }
 
   // Public methods
   // Albums
   // TODO
+  public async listTracksAlbums(input: JamendoAlbumsInput): Promise<JamendoAlbum[]> {
+    return this.get({
+      path: 'albums/tracks',
+      queryParams: {
+        order: input.order,
+        id: input.albumsId,
+      },
+      schema: JamendoAlbumsResponseSchema,
+    }).then(mapToAlbumsResponse);
+  }
 
   //  Public methods
   // autocomplete
