@@ -32,6 +32,10 @@ import {
   JamendoArtistAlbumsInput,
   JamendoArtistTracksInput,
 } from '$/infrastructure/jamendo/types/artist-input';
+import { JamendoAlbum } from '$/infrastructure/jamendo/types/albums';
+import { JamendoAlbumsResponseSchema } from '$/infrastructure/jamendo/dtos/albums.dto';
+import { mapToAlbumsResponse } from '$/infrastructure/jamendo/mappers/albums';
+import { JamendoAlbumsInput } from '$/infrastructure/jamendo/types/albums-input';
 
 @Injectable()
 export class JamendoClient {
@@ -73,9 +77,6 @@ export class JamendoClient {
     }).then(mapToArtistTracksResponse);
   }
 
-  // Public methods
-  // Albums
-  // TODO
   public async listPopularArtistAlbums(
     input: JamendoArtistAlbumsInput,
   ): Promise<JamendoArtistAlbumsList[]> {
@@ -88,6 +89,20 @@ export class JamendoClient {
       },
       schema: JamendoArtistListAlbumsResponseSchema,
     }).then(mapToArtistAlbumsListResponse);
+  }
+
+  // Public methods
+  // Albums
+  // TODO
+  public async listTracksAlbums(input: JamendoAlbumsInput): Promise<JamendoAlbum[]> {
+    return this.get({
+      path: 'albums/tracks',
+      queryParams: {
+        order: input.order,
+        id: input.albumsId,
+      },
+      schema: JamendoAlbumsResponseSchema,
+    }).then(mapToAlbumsResponse);
   }
 
   //  Public methods
