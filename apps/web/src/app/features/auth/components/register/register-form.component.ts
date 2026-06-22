@@ -12,8 +12,8 @@ import type { RegisterRequest } from '@streaming-service/model';
 export class RegisterFormComponent {
   private readonly formBuilder = inject(FormBuilder);
 
-  public readonly isLoading = input.required();
-  public readonly error = input.required();
+  public readonly isLoading = input.required<boolean>();
+  public readonly error = input.required<string | null>();
 
   public readonly formSubmit = output<RegisterRequest>();
 
@@ -24,6 +24,10 @@ export class RegisterFormComponent {
   });
 
   protected submit(): void {
+    if (this.isLoading()) {
+      return;
+    }
+
     if (this.form.invalid) {
       return;
     }

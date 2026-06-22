@@ -12,21 +12,25 @@ import type { LoginRequest } from '@streaming-service/model';
 export class LoginFormComponent {
   private readonly formBuilder = inject(FormBuilder);
 
-  public readonly isLoading = input.required();
-  public readonly error = input.required();
+  public readonly isLoading = input.required<boolean>();
+  public readonly error = input.required<string | null>();
 
-  public readonly loginSubmit = output<LoginRequest>();
+  public readonly formSubmit = output<LoginRequest>();
 
-  protected readonly loginForm = this.formBuilder.nonNullable.group({
+  protected readonly form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
 
   protected submit(): void {
-    if (this.loginForm.invalid) {
+    if (this.isLoading()) {
       return;
     }
 
-    this.loginSubmit.emit(this.loginForm.getRawValue());
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.formSubmit.emit(this.form.getRawValue());
   }
 }
