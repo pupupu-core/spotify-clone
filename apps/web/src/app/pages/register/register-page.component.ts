@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import type { RegisterRequest } from '@streaming-service/model';
-import { finalize } from 'rxjs';
+import { catchError, EMPTY, finalize } from 'rxjs';
 import { AuthSessionService } from '~/core/auth/auth-session.service';
 import { ROUTES } from '~/core/config/routes.config';
 import { RegisterFormComponent } from '~/features/auth/components/register/register-form.component';
@@ -31,14 +31,15 @@ export class RegisterPageComponent {
       .register(request)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isFormLoading.set(false)),
-      )
-      .subscribe({
-        next: () => this.router.navigateByUrl(ROUTES.HOME.to),
-        error: (error: unknown) =>
+        catchError((error: unknown) => {
           this.formError.set(
             error instanceof HttpErrorResponse ? error.error.message : String(error),
-          ),
-      });
+          );
+
+          return EMPTY;
+        }),
+        finalize(() => this.isFormLoading.set(false)),
+      )
+      .subscribe(() => this.router.navigateByUrl(ROUTES.HOME.to));
   }
 }
