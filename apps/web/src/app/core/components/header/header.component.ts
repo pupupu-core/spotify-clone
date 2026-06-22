@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ROUTES } from '../../config/routes';
+import { ROUTES } from '../../config/routes.config';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { NavControlComponent } from './components/nav-controll/nav-control.component';
 import { MatDialog } from '@angular/material/dialog';
