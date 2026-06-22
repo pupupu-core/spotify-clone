@@ -42,6 +42,10 @@ export const API_ENDPOINTS = {
       serverPath: ':artistId/albums',
       clientUrl: '/artists/:artistId/albums',
     },
+    MUSIC_INFO: {
+      serverPath: ':artistId/musicInfo',
+      clientUrl: '/artists/:artistId/musicInfo',
+    },
   },
   ALBUMS: {
     basePath: 'albums',
