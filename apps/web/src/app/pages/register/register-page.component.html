@@ -1,0 +1,7 @@
+<ppf-register-form
+  (formSubmit)="register($event)"
+  [isLoading]="isFormLoading()"
+  [error]="formError()"
+/>
+
+<a [routerLink]="routes.AUTH.LOGIN.to">Log in</a>

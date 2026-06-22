@@ -7,9 +7,10 @@ export const buildApiPath = ({
   version?: string;
   path: string;
 }): string => {
-  if (prefix !== null) {
-    return `${prefix}${version}/${path}`;
-  }
+  const segments = prefix === null ? [version, path] : [prefix, version, path];
 
-  return `${version}/${path}`;
+  return `/${segments
+    .map(segment => segment.replace(/^\/+|\/+$/g, ''))
+    .filter(Boolean)
+    .join('/')}`;
 };
