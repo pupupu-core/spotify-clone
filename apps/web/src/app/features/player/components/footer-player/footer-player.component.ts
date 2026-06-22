@@ -21,7 +21,7 @@ export class PpfFooterPlayerComponent {
 
   private readonly dialog = inject(MatDialog);
 
-  protected openQueue(event: MouseEvent): void {
+  protected openQueue(event: Event): void {
     const target = event.target;
 
     if (target instanceof HTMLElement) {

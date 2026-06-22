@@ -5,7 +5,12 @@
     <img class="background-cover" [src]="track.image" [alt]="track.album_name" />
   }
 
-  <div class="section-wrapper" (click)="openQueue($event)">
+  <div
+    class="section-wrapper"
+    tabindex="0"
+    (click)="openQueue($event)"
+    (keydown.enter)="openQueue($event)"
+  >
     <div class="track-info">
       @if (track) {
         <div class="cover-wrapper">
