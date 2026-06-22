@@ -16,23 +16,15 @@ export class AuthSessionService {
   }
 
   public register(request: RegisterRequest): Observable<AuthTokenResponse> {
-    return this.authApi.register(request).pipe(
-      tap({
-        next: ({ accessToken }) => {
-          this.accessToken.set(accessToken);
-        },
-      }),
-    );
+    return this.authApi
+      .register(request)
+      .pipe(tap(({ accessToken }) => this.accessToken.set(accessToken)));
   }
 
   public login(request: LoginRequest): Observable<AuthTokenResponse> {
-    return this.authApi.login(request).pipe(
-      tap({
-        next: ({ accessToken }) => {
-          this.accessToken.set(accessToken);
-        },
-      }),
-    );
+    return this.authApi
+      .login(request)
+      .pipe(tap(({ accessToken }) => this.accessToken.set(accessToken)));
   }
 
   public refresh(): Observable<AuthTokenResponse> {
