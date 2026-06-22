@@ -6,14 +6,16 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { CoreErrorFilter } from './gateway/rest/filters/core-error.filter';
 import { TrackModule } from './gateway/rest/v1/track/track.module';
-import { ArtistModule } from '$/gateway/rest/v1/artist/artist.module';
+import { ArtistTrackModule } from '$/gateway/rest/v1/artist/artist-track.module';
+import { ArtistAlbumModule } from '$/gateway/rest/v1/artist/artist-album.module';
 
 @Module({
   imports: [
     TrackModule,
     AuthModule,
     AccountModule,
-    ArtistModule,
+    ArtistTrackModule,
+    ArtistAlbumModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {
