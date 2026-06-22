@@ -59,8 +59,8 @@ const QUERY_PARAMETERS = {
   PAGE: 'page',
 } as const;
 
-const INITIAL_MIN_DURATION = 0;
-const INITIAL_MAX_DURATION = 1200;
+const INPUT_MIN_DURATION = 0;
+const INPUT_MAX_DURATION = 1200;
 
 @Component({
   selector: 'ppf-search-page',
@@ -97,6 +97,8 @@ export class PpfSearchPageComponent {
 
   public readonly trackList = this.trackService.trackList;
   public readonly paginatorPageSize = PAGE_SIZE;
+  public readonly inputMaxValue = INPUT_MAX_DURATION;
+  public readonly inputMinValue = INPUT_MIN_DURATION;
 
   private readonly params = this.route.snapshot.queryParamMap;
 
@@ -112,10 +114,10 @@ export class PpfSearchPageComponent {
       nonNullable: true,
     }),
     minDuration: new FormControl<number | null>(null, {
-      validators: [Validators.min(0), Validators.max(INITIAL_MAX_DURATION)],
+      validators: [Validators.min(0), Validators.max(INPUT_MAX_DURATION)],
     }),
     maxDuration: new FormControl<number | null>(null, {
-      validators: [Validators.min(0), Validators.max(INITIAL_MAX_DURATION)],
+      validators: [Validators.min(0), Validators.max(INPUT_MAX_DURATION)],
     }),
   });
 
@@ -136,11 +138,11 @@ export class PpfSearchPageComponent {
   );
 
   protected readonly minDuration = computed(
-    () => this.filterFormValue().minDuration ?? INITIAL_MIN_DURATION,
+    () => this.filterFormValue().minDuration ?? INPUT_MIN_DURATION,
   );
 
   protected readonly maxDuration = computed(
-    () => this.filterFormValue().maxDuration ?? INITIAL_MAX_DURATION,
+    () => this.filterFormValue().maxDuration ?? INPUT_MAX_DURATION,
   );
   protected readonly searchText = computed(() => this.filterFormValue().searchQuery);
   protected readonly selectedGenres = computed(() => this.filterFormValue().genres);
@@ -315,9 +317,9 @@ export class PpfSearchPageComponent {
           ? this.selectedGenres().join(',')
           : null,
         [QUERY_PARAMETERS.MIN_DUR]:
-          this.minDuration() > INITIAL_MIN_DURATION ? this.minDuration() : null,
+          this.minDuration() > INPUT_MIN_DURATION ? this.minDuration() : null,
         [QUERY_PARAMETERS.MAX_DUR]:
-          this.maxDuration() < INITIAL_MAX_DURATION ? this.maxDuration() : null,
+          this.maxDuration() < INPUT_MAX_DURATION ? this.maxDuration() : null,
         [QUERY_PARAMETERS.SORT_BY]: this.sortBy() || null,
         [QUERY_PARAMETERS.SORT_DIR]: this.sortDir() || null,
         [QUERY_PARAMETERS.PAGE]: this.currentPageIndex() > 0 ? this.currentPageIndex() : null,

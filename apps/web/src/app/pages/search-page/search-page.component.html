@@ -26,8 +26,8 @@
               id="min-dur"
               type="number"
               class="search-page__dur-input"
-              min="0"
-              max="1200"
+              min="this.inputMinValue"
+              max="this.inputMaxValue"
               [value]="minDuration()"
               formControlName="minDuration"
             />
@@ -40,7 +40,10 @@
               cancel
             </mat-icon>
             @if (filterForm.controls.minDuration.invalid) {
-              <mat-error>Please, enter a value from 0 to 1200 seconds</mat-error>
+              <mat-error
+                >Please, enter a value from {{ this.inputMinValue }} to
+                {{ this.inputMaxValue }} seconds</mat-error
+              >
             }
           </mat-form-field>
         </div>
@@ -76,13 +79,16 @@
               cancel
             </mat-icon>
             @if (filterForm.controls.maxDuration.invalid) {
-              <mat-error>Please, enter a value from 0 to 1200 seconds</mat-error>
+              <mat-error
+                >Please, enter a value from {{ this.inputMinValue }} to
+                {{ this.inputMaxValue }} seconds</mat-error
+              >
             }
           </mat-form-field>
         </div>
       </div>
       <div class="search-page__panel-dur-slider">
-        <mat-slider [min]="0" [max]="1200">
+        <mat-slider [min]="this.inputMinValue" [max]="this.inputMaxValue">
           <input
             matSliderStartThumb
             #sliderMin
