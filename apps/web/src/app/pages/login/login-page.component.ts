@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import type { LoginRequest } from '@streaming-service/model';
 import { finalize } from 'rxjs';
 import { AuthSessionService } from '~/core/auth/auth-session.service';
 import { ROUTES } from '~/core/config/routes.config';
 import { LoginFormComponent } from '~/features/auth/components/login/login-form.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'ppf-login-page',
@@ -17,6 +18,7 @@ import { LoginFormComponent } from '~/features/auth/components/login/login-form.
 export class LoginPageComponent {
   private readonly authSession = inject(AuthSessionService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly routes = ROUTES;
   protected readonly isFormLoading = signal(false);
@@ -27,7 +29,10 @@ export class LoginPageComponent {
     this.formError.set(null);
     this.authSession
       .login(request)
-      .pipe(finalize(() => this.isFormLoading.set(false)))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFormLoading.set(false)),
+      )
       .subscribe({
         next: () => this.router.navigateByUrl(ROUTES.HOME.to),
         error: (error: unknown) =>

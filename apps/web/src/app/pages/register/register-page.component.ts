@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import type { RegisterRequest } from '@streaming-service/model';
 import { finalize } from 'rxjs';
@@ -17,6 +18,7 @@ import { RegisterFormComponent } from '~/features/auth/components/register/regis
 export class RegisterPageComponent {
   private readonly authSession = inject(AuthSessionService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly routes = ROUTES;
   protected readonly isFormLoading = signal(false);
@@ -27,7 +29,10 @@ export class RegisterPageComponent {
     this.formError.set(null);
     this.authSession
       .register(request)
-      .pipe(finalize(() => this.isFormLoading.set(false)))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.isFormLoading.set(false)),
+      )
       .subscribe({
         next: () => this.router.navigateByUrl(ROUTES.HOME.to),
         error: (error: unknown) =>
