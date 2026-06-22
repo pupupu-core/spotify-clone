@@ -9,7 +9,9 @@ export class AuthApiService {
   private readonly http = inject(HttpClient);
 
   public register(request: RegisterRequest): Observable<AuthTokenResponse> {
-    return this.http.post<AuthTokenResponse>(APP_ENDPOINTS.AUTH.REGISTER, request, {});
+    return this.http.post<AuthTokenResponse>(APP_ENDPOINTS.AUTH.REGISTER, request, {
+      withCredentials: true,
+    });
   }
 
   public login(request: LoginRequest): Observable<AuthTokenResponse> {
