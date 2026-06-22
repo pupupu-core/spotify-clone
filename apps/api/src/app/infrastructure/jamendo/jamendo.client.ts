@@ -12,14 +12,17 @@ import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
 import {
   JamendoArtistAlbumsList,
+  JamendoArtistMusicInfoList,
   JamendoArtistTracks,
 } from '$/infrastructure/jamendo/types/artists';
 import {
   JamendoArtistListAlbumsResponseSchema,
   JamendoArtistListTracksResponseSchema,
+  JamendoArtistMusicInfoResponseSchema,
 } from '$/infrastructure/jamendo/dtos/artists.dto';
 import {
   mapToArtistAlbumsListResponse,
+  mapToArtistMusicInfoResponse,
   mapToArtistTracksResponse,
 } from '$/infrastructure/jamendo/mappers/artists';
 import { JamendoListTracksInput } from './types/track-input';
@@ -89,6 +92,16 @@ export class JamendoClient {
       },
       schema: JamendoArtistListAlbumsResponseSchema,
     }).then(mapToArtistAlbumsListResponse);
+  }
+
+  public async getArtistMusicInfo(artistIds: number[]): Promise<JamendoArtistMusicInfoList[]> {
+    return this.get({
+      path: 'artists/musicinfo',
+      queryParams: {
+        id: artistIds,
+      },
+      schema: JamendoArtistMusicInfoResponseSchema,
+    }).then(mapToArtistMusicInfoResponse);
   }
 
   // Public methods
