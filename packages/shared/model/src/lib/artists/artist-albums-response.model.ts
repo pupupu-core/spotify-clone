@@ -1,4 +1,4 @@
-export interface ArtistAlbumsResult {
+export interface ArtistAlbumsResponse {
   id: string;
   name: string;
   website: string;

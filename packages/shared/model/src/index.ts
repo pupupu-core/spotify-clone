@@ -5,3 +5,6 @@ export * from './lib/track/track-response.model';
 export * from './lib/track/track-discovery-response.model';
 export * from './lib/artists/artist-tracks-response.model';
 export * from './lib/account/account-me-response.model';
+export * from './lib/artists/artist-albums-response.model';
+export * from './lib/artists/artist-music-info-response.model';
+export * from './lib/albums/album-tracks-response.model';
