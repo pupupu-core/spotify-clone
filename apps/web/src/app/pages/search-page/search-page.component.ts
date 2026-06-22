@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   inject,
   signal,
@@ -21,11 +22,14 @@ import { AbbreviatedNumberPipe } from '../../shared/pipes/abbreviated-number.pip
 import { MatChipsModule } from '@angular/material/chips';
 import type { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { PpfPlayerService } from '../../features/player/services/track-player.service';
 import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { map, merge } from 'rxjs';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -35,6 +39,14 @@ interface TrackFilter {
   genres: string[];
   minDuration: number;
   maxDuration: number;
+}
+
+interface SearchFilterForm {
+  searchQuery: FormControl<string>;
+  genreQuery: FormControl<string>;
+  genres: FormControl<string[]>;
+  minDuration: FormControl<number | null>;
+  maxDuration: FormControl<number | null>;
 }
 
 const QUERY_PARAMETERS = {
@@ -47,8 +59,8 @@ const QUERY_PARAMETERS = {
   PAGE: 'page',
 } as const;
 
-const INITIAL_MIN_DURATION = 0;
-const INITIAL_MAX_DURATION = 1200;
+const INPUT_MIN_DURATION = 0;
+const INPUT_MAX_DURATION = 1200;
 
 @Component({
   selector: 'ppf-search-page',
@@ -68,6 +80,8 @@ const INITIAL_MAX_DURATION = 1200;
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatSliderModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
@@ -79,13 +93,38 @@ export class PpfSearchPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
+  private readonly destroyRef = inject(DestroyRef);
+
   public readonly trackList = this.trackService.trackList;
   public readonly paginatorPageSize = PAGE_SIZE;
+  public readonly inputMaxValue = INPUT_MAX_DURATION;
+  public readonly inputMinValue = INPUT_MIN_DURATION;
 
   private readonly params = this.route.snapshot.queryParamMap;
 
   public readonly sort = viewChild(MatSort);
   public readonly paginator = viewChild(MatPaginator);
+
+  protected readonly filterForm = new FormGroup<SearchFilterForm>({
+    searchQuery: new FormControl(this.params.get(QUERY_PARAMETERS.SEARCH) ?? '', {
+      nonNullable: true,
+    }),
+    genreQuery: new FormControl('', { nonNullable: true }),
+    genres: new FormControl(this.parseGenres(this.params.get(QUERY_PARAMETERS.GENRES)), {
+      nonNullable: true,
+    }),
+    minDuration: new FormControl<number | null>(null, {
+      validators: [Validators.min(0), Validators.max(INPUT_MAX_DURATION)],
+    }),
+    maxDuration: new FormControl<number | null>(null, {
+      validators: [Validators.min(0), Validators.max(INPUT_MAX_DURATION)],
+    }),
+  });
+
+  private readonly filterFormValue = toSignal(
+    this.filterForm.valueChanges.pipe(map(() => this.filterForm.getRawValue())),
+    { initialValue: this.filterForm.getRawValue() },
+  );
 
   protected readonly tagInputControl = new FormControl('', { nonNullable: true });
 
@@ -98,20 +137,18 @@ export class PpfSearchPageComponent {
     this.parseNumber(this.params.get(QUERY_PARAMETERS.PAGE), 0),
   );
 
-  protected readonly minDuration = signal<number>(
-    this.parseNumber(this.params.get(QUERY_PARAMETERS.MIN_DUR), INITIAL_MIN_DURATION),
-  );
-  protected readonly maxDuration = signal<number>(
-    this.parseNumber(this.params.get(QUERY_PARAMETERS.MAX_DUR), INITIAL_MAX_DURATION),
+  protected readonly minDuration = computed(
+    () => this.filterFormValue().minDuration ?? INPUT_MIN_DURATION,
   );
 
-  protected readonly searchText = signal<string>(this.params.get(QUERY_PARAMETERS.SEARCH) ?? '');
-  protected readonly selectedGenres = signal<string[]>(
-    this.parseGenres(this.params.get(QUERY_PARAMETERS.GENRES)),
+  protected readonly maxDuration = computed(
+    () => this.filterFormValue().maxDuration ?? INPUT_MAX_DURATION,
   );
+  protected readonly searchText = computed(() => this.filterFormValue().searchQuery);
+  protected readonly selectedGenres = computed(() => this.filterFormValue().genres);
 
   protected readonly filteredGenres = computed(() => {
-    const input = this.tagInputControl.value.toLowerCase();
+    const input = this.filterFormValue().genreQuery.toLowerCase();
     const selected = this.selectedGenres();
 
     return ALL_GENRES.filter(
@@ -159,13 +196,18 @@ export class PpfSearchPageComponent {
     afterNextRender(() => {
       this.restoreStateFromQueryParameters();
     });
-  }
 
-  public applyFilterSearch(event: Event): void {
-    if (event.target instanceof HTMLInputElement) {
-      this.searchText.set(event.target.value);
-      this.resetPagination();
-    }
+    merge(
+      this.filterForm.controls.searchQuery.valueChanges,
+      this.filterForm.controls.genres.valueChanges,
+      this.filterForm.controls.minDuration.valueChanges,
+      this.filterForm.controls.maxDuration.valueChanges,
+    )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.currentPageIndex.set(0);
+        this.resetPagination();
+      });
   }
 
   public ppfOnSortChange(sortState: Sort): void {
@@ -187,17 +229,17 @@ export class PpfSearchPageComponent {
     if (typeof event.option.value === 'string') {
       const genre = event.option.value;
 
-      if (!this.selectedGenres().includes(genre) && typeof genre) {
-        this.selectedGenres.update(clicked => [...clicked, genre]);
-        this.dataSource.paginator?.firstPage();
+      if (!this.selectedGenres().includes(genre)) {
+        this.filterForm.controls.genres.setValue([...this.selectedGenres(), genre]);
       }
-      this.tagInputControl.setValue('');
+      this.filterForm.controls.genreQuery.setValue('');
     }
   }
 
   protected removeGenre(genre: string): void {
-    this.selectedGenres.update(g => g.filter(clicked => clicked !== genre));
-    this.dataSource.paginator?.firstPage();
+    this.filterForm.controls.genres.setValue(
+      this.selectedGenres().filter(clicked => clicked !== genre),
+    );
   }
 
   private ppfFilterPredicate(track: TrackDataUI, filterJson: string): boolean {
@@ -275,9 +317,9 @@ export class PpfSearchPageComponent {
           ? this.selectedGenres().join(',')
           : null,
         [QUERY_PARAMETERS.MIN_DUR]:
-          this.minDuration() > INITIAL_MIN_DURATION ? this.minDuration() : null,
+          this.minDuration() > INPUT_MIN_DURATION ? this.minDuration() : null,
         [QUERY_PARAMETERS.MAX_DUR]:
-          this.maxDuration() < INITIAL_MAX_DURATION ? this.maxDuration() : null,
+          this.maxDuration() < INPUT_MAX_DURATION ? this.maxDuration() : null,
         [QUERY_PARAMETERS.SORT_BY]: this.sortBy() || null,
         [QUERY_PARAMETERS.SORT_DIR]: this.sortDir() || null,
         [QUERY_PARAMETERS.PAGE]: this.currentPageIndex() > 0 ? this.currentPageIndex() : null,
