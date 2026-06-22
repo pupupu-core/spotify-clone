@@ -1,4 +1,4 @@
-import type { ArtistTrack, ArtistTracksResults } from '@streaming-service/model';
+import type { ArtistTrack, ArtistTracksResponse } from '@streaming-service/model';
 
 export const ARTIST_TRACK_MOCK: ArtistTrack = {
   albumId: '104336',
@@ -15,7 +15,7 @@ export const ARTIST_TRACK_MOCK: ArtistTrack = {
   audioDownloadAllowed: true,
 };
 
-export const ARTISTS_TRACKS_RESULTS_MOCK: ArtistTracksResults = {
+export const ARTISTS_TRACKS_RESULTS_MOCK: ArtistTracksResponse = {
   id: '376782',
   name: 'WE ARE FM',
   website: 'https://www.facebook.com/wearefm',
