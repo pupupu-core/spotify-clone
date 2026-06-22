@@ -18,13 +18,13 @@ export class RegisterPageComponent {
   private readonly authSession = inject(AuthSessionService);
   private readonly router = inject(Router);
 
-  protected readonly ROUTES = ROUTES;
+  protected readonly routes = ROUTES;
   protected readonly isFormLoading = signal(false);
-  protected readonly formError = signal<string | undefined>(undefined);
+  protected readonly formError = signal<string | null>(null);
 
   protected register(request: RegisterRequest): void {
     this.isFormLoading.set(true);
-    this.formError.set(undefined);
+    this.formError.set(null);
     this.authSession
       .register(request)
       .pipe(finalize(() => this.isFormLoading.set(false)))

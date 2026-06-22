@@ -18,13 +18,13 @@ export class LoginPageComponent {
   private readonly authSession = inject(AuthSessionService);
   private readonly router = inject(Router);
 
-  protected readonly ROUTES = ROUTES;
+  protected readonly routes = ROUTES;
   protected readonly isFormLoading = signal(false);
-  protected readonly formError = signal<string | undefined>(undefined);
+  protected readonly formError = signal<string | null>(null);
 
   protected login(request: LoginRequest): void {
     this.isFormLoading.set(true);
-    this.formError.set(undefined);
+    this.formError.set(null);
     this.authSession
       .login(request)
       .pipe(finalize(() => this.isFormLoading.set(false)))
