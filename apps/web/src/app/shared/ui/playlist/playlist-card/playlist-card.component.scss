@@ -2,7 +2,7 @@
 @use 'src/styles/mixins';
 
 .playlist-card-container {
-  width: 195px;
+  width: 190px;
 }
 
 .header {
@@ -31,7 +31,7 @@
   img {
     width: 100%;
     height: 100%;
-    border-radius: variables.$radius-sm;
+    border-radius: variables.$radius-md;
     object-fit: cover;
   }
 }

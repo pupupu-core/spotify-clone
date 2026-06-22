@@ -10,7 +10,15 @@ import { JamendoUnavailableError } from './errors/jamendo-unavailable.error';
 import { JamendoResponseDto } from './dtos/common.dto';
 import { JamendoError } from './errors/jamendo.error';
 import { BaseHttpError } from '../http/errors/base-http.error';
+import { JamendoArtistTracks } from '$/infrastructure/jamendo/types/artists';
+import { JamendoArtistListTracksResponseSchema } from '$/infrastructure/jamendo/dtos/artists.dto';
+import { mapToListArtistTracks } from '$/infrastructure/jamendo/mappers/artists';
 import { JamendoListTracksInput } from './types/track-input';
+
+import { JamendoAutocompleteFromInput } from './types/autocomplete-entity';
+import { JamendoAutocompleteResult } from './types/autocomplete';
+import { mapToAutocompleteResult } from './mappers/autocomplete';
+import { JamendoAutocompleteResponseSchema } from './dtos/autocomplete.dto';
 
 @Injectable()
 export class JamendoClient {
@@ -38,10 +46,42 @@ export class JamendoClient {
   // Public methods
   // Artists
   // TODO
+  public async listPopularArtistTracks(): Promise<JamendoArtistTracks[]> {
+    return this.get({
+      path: 'artists/tracks',
+      queryParams: {
+        order: 'popularity_total',
+        limit: '10',
+      },
+      schema: JamendoArtistListTracksResponseSchema,
+    }).then(mapToListArtistTracks);
+  }
 
   // Public methods
   // Albums
   // TODO
+
+  //  Public methods
+  // autocomplete
+
+  public async autocomplete(
+    input: JamendoAutocompleteFromInput,
+  ): Promise<JamendoAutocompleteResult> {
+    if (!input.prefix || input.prefix.trim().length < 2) {
+      return { tags: [], artists: [], tracks: [], albums: [] };
+    }
+
+    return this.get({
+      path: 'autocomplete',
+      queryParams: {
+        prefix: input.prefix,
+        limit: input.limit ?? 10,
+        matchcount: input.matchcount ? 1 : 0,
+        entity: input.entity?.length ? input.entity.join('+') : undefined,
+      },
+      schema: JamendoAutocompleteResponseSchema,
+    }).then(mapToAutocompleteResult);
+  }
 
   // Private methods
   // Shared request utils

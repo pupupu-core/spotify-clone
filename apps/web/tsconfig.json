@@ -18,9 +18,9 @@
       "~/pages/*": ["./app/pages/*"],
       "~/shared/*": ["./app/shared/*"],
 
-      "@streaming-service/utils": ["../../../../packages/shared/utils/src/index.ts"],
-      "@streaming-service/config": ["../../../../packages/shared/config/src/index.ts"],
-      "@streaming-service/model": ["../../../../packages/shared/model/src/index.ts"]
+      "@streaming-service/utils": ["../../../packages/shared/utils/src/index.ts"],
+      "@streaming-service/config": ["../../../packages/shared/config/src/index.ts"],
+      "@streaming-service/model": ["../../../packages/shared/model/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

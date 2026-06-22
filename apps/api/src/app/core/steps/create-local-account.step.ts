@@ -25,7 +25,7 @@ export class CreateLocalAccountStep {
         data: {
           authIdentities: {
             create: {
-              provider: AuthProvider.LOCAL,
+              provider: AuthProvider.EMAIL_PASSWORD,
               email: email.trim().toLowerCase(),
               passwordHash,
             },

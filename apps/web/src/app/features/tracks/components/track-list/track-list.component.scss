@@ -4,31 +4,25 @@
 
 :host {
   display: block;
+
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-xl;
+
+  background: var(--surface-track-list-bg);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
 }
 
 .track-list {
   display: grid;
   gap: variables.$space-18;
-
   min-height: 0;
   padding: variables.$space-16 variables.$space-14 variables.$space-12;
-  border: 1px solid rgb(from var(--mat-sys-secondary) r g b / 28%);
-  border-radius: variables.$radius-md;
-
-  background: linear-gradient(
-    180deg,
-    rgb(from var(--mat-sys-primary-container) r g b / 92%) 0%,
-    rgb(from var(--mat-sys-secondary-container) r g b / 86%) 100%
-  );
-  box-shadow:
-    inset 0 1px 0 rgb(from var(--mat-sys-on-surface) r g b / 4%),
-    0 12px 30px rgb(from var(--mat-sys-shadow) r g b / 24%);
 
   &__title {
     @include mixins.font-lg;
 
     line-height: 1.1;
-    color: var(--mat-sys-on-surface);
   }
 
   &__items {
@@ -47,6 +41,20 @@
   }
 
   &__item {
-    border-radius: variables.$radius-md;
+    border-radius: variables.$radius-xl;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .action-play-btn {
+    --mat-button-filled-container-color: var(--mat-sys-secondary-container);
+    --mat-button-filled-label-text-color: var(--mat-sys-tertiary);
+    --mat-button-filled-container-shape: #{variables.$radius-md};
+
+    box-shadow: none;
   }
 }
