@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular
 import { TrackListComponent } from '../../features/tracks/components/track-list/track-list.component';
 import { TrackService } from '../../features/tracks/services/track.mock.service';
 import type { AccountMeResponse } from '@streaming-service/model';
-import type { Observable } from 'rxjs';
+import { catchError, EMPTY, type Observable, tap } from 'rxjs';
 import { AccountApiService } from '~/core/api/account/account-api.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -16,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class HomePageComponent implements OnInit {
   private readonly trackService = inject(TrackService);
+  // FOR DEBUG to showcase me endpoint
   private readonly destroyRef = inject(DestroyRef);
 
   public readonly trackList = this.trackService.trackList;
@@ -31,14 +32,15 @@ export class HomePageComponent implements OnInit {
   // FOR DEBUG to showcase me endpoint
   public ngOnInit(): void {
     this.fetchMeAccount()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: me => {
-          console.log(me);
-        },
-        error: error => {
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap(me => console.log(me)),
+        catchError(error => {
           console.error(error);
-        },
-      });
+
+          return EMPTY;
+        }),
+      )
+      .subscribe();
   }
 }
