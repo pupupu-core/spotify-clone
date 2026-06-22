@@ -30,7 +30,6 @@
 [скриншот схемы]
 <img width="1448" height="1086" alt="ChatGPT Image Jun 12, 2026, 11_40_38 PM" src="https://github.com/user-attachments/assets/922e5ee7-d81f-4ec0-b743-48d5dcd61dae" />
 
-
 ### 2. Авторизация - Бэкенд
 
 Имплементировал авторизацию на бэке полностью для `auth/register`, `auth/login`, `auth/logout`, `auth/refresh` эндпоинтов. При этом в `RefreshUserSessionWorkflow` проявилась архитектурная проблема: workflow состоит из отдельных атомарных шагов (`FindActiveAuthSessionStep`, `RevokeAuthSessionStep`, `IssueAuthSessionStep`), но отзыв старой refresh-сессии и создание новой должны выполняться вместе: либо оба действия успешны, либо оба откатываются.
