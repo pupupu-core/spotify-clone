@@ -5,7 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import type { RegisterRequest } from '@streaming-service/model';
 import { catchError, EMPTY, finalize } from 'rxjs';
 import { AuthSessionService } from '~/core/auth/auth-session.service';
-import { ROUTES } from '~/core/config/routes.config';
+import { APP_ROUTES } from '~/core/tokens/app-routes.token';
 import { RegisterFormComponent } from '~/features/auth/components/register/register-form.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class RegisterPageComponent {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
-  protected readonly routes = ROUTES;
+  protected readonly routes = inject(APP_ROUTES);
   protected readonly isFormLoading = signal(false);
   protected readonly formError = signal<string | null>(null);
 
@@ -40,6 +40,6 @@ export class RegisterPageComponent {
         }),
         finalize(() => this.isFormLoading.set(false)),
       )
-      .subscribe(() => this.router.navigateByUrl(ROUTES.HOME.to));
+      .subscribe(() => this.router.navigateByUrl(this.routes.HOME.to));
   }
 }
