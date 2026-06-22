@@ -17,7 +17,7 @@ import { TrackModule } from './gateway/rest/v1/track/track.module';
         {
           name: 'default',
           ttl: 60_000,
-          limit: 5,
+          limit: 10,
         },
       ],
     }),
