@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /auth/
+Disallow: /library/
+
+Sitemap: https://pupufy.tryproxy.online/sitemap.xml
