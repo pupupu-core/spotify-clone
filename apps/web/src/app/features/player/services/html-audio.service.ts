@@ -1,8 +1,9 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, NgZone, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class PpfAudioEngine {
   private readonly audio = new Audio();
+  private readonly ngZone = inject(NgZone);
 
   public readonly isPlaying = signal(false);
   public readonly buffered = signal(0);
@@ -87,14 +88,16 @@ export class PpfAudioEngine {
   }
 
   private constructEvents(): void {
-    this.audio.addEventListener('play', () => this.isPlaying.set(true));
-    this.audio.addEventListener('pause', () => this.isPlaying.set(false));
-    this.audio.addEventListener('progress', () => this.onProgress());
-    this.audio.addEventListener('loadedmetadata', () =>
-      this.duration.set(this.audio.duration || 0),
-    );
-    this.audio.addEventListener('timeupdate', () => this.position.set(this.audio.currentTime));
-    this.audio.addEventListener('ended', () => this.isPlaying.set(false));
+    this.ngZone.runOutsideAngular(() => {
+      this.audio.addEventListener('play', () => this.isPlaying.set(true));
+      this.audio.addEventListener('pause', () => this.isPlaying.set(false));
+      this.audio.addEventListener('progress', () => this.onProgress());
+      this.audio.addEventListener('loadedmetadata', () =>
+        this.duration.set(this.audio.duration || 0),
+      );
+      this.audio.addEventListener('ended', () => this.isPlaying.set(false));
+      this.audio.addEventListener('timeupdate', () => this.position.set(this.audio.currentTime));
+    });
   }
 
   private onProgress(): void {
