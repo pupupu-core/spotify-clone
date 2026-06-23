@@ -1,6 +1,7 @@
 @use '../../../../../styles/variables';
 @use '../../../../../styles/colors';
 @use '../../../../../styles/mixins';
+@use '@angular/material' as mat;
 
 :host {
   display: flex;
@@ -11,52 +12,107 @@
   margin: 0 auto;
 }
 
-.player__cover {
+.cover {
   align-items: center;
   width: 30px;
 }
 
-.player__section {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
+.section {
+  position: relative;
+
+  overflow: hidden;
+
+  width: 1400px;
+  min-height: 104px;
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-md;
+
+  color: rgb(18 20 28 / 92%);
+
+  &::before {
+    @include mixins.glass-transparent;
+
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+  }
 }
 
-.player__section-wrapper {
+.section-wrapper {
+  position: relative;
+  z-index: 10;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.player__track-info {
+.background-cover {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: 0;
+  inset: -50px;
+
+  width: calc(100% + 100px);
+  height: calc(100% + 100px);
+
+  opacity: 0.7;
+  object-fit: cover;
+  filter: blur(10px);
+}
+
+.track-info {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.player__names {
+.names {
   display: flex;
   flex-direction: column;
 }
 
-.player__progress {
+.progress {
   display: flex;
   flex-direction: column;
 }
 
-.progress__time-wrapper {
+.time-wrapper {
   display: flex;
   justify-content: space-between;
 }
 
-.player__section-wrapper {
+.section-wrapper {
   > div {
     padding: variables.$space-16;
   }
 }
 
-.player__controls,
-.player__progress,
-.player__volume {
+.controls,
+.progress,
+.volume {
+  display: flex;
   align-self: center;
+}
+
+.section-wrapper,
+.controls,
+.progress,
+.volume {
+  position: relative;
+  z-index: 2;
+}
+
+.input-wrapper,
+.volume {
+  @include mat.slider-overrides(
+    (
+      active-track-height: 2px,
+      inactive-track-height: 2px,
+    )
+  );
 }

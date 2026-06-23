@@ -1,8 +1,9 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, NgZone, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class PpfAudioEngine {
   private readonly audio = new Audio();
+  private readonly ngZone = inject(NgZone);
 
   public readonly isPlaying = signal(false);
   public readonly buffered = signal(0);
@@ -14,32 +15,11 @@ export class PpfAudioEngine {
 
   public readonly ended = signal(0);
 
+  public readonly isMuted = signal(false);
+
   constructor() {
     this.preloadMetadata();
     this.constructEvents();
-  }
-
-  private preloadMetadata(): void {
-    this.audio.preload = 'metadata';
-  }
-
-  private constructEvents(): void {
-    this.audio.addEventListener('play', () => this.isPlaying.set(true));
-    this.audio.addEventListener('pause', () => this.isPlaying.set(false));
-    this.audio.addEventListener('progress', () => this.onProgress());
-    this.audio.addEventListener('loadedmetadata', () =>
-      this.duration.set(this.audio.duration || 0),
-    );
-    this.audio.addEventListener('timeupdate', () => this.position.set(this.audio.currentTime));
-    this.audio.addEventListener('ended', () => this.isPlaying.set(false));
-  }
-
-  private onProgress(): void {
-    const buffered = this.audio.buffered;
-
-    if (buffered.length > 0) {
-      this.buffered.set(buffered.end(buffered.length - 1));
-    }
   }
 
   public load(src: string): void {
@@ -73,11 +53,58 @@ export class PpfAudioEngine {
 
     this.audio.volume = Math.round(clamped) / 100;
     this.volume.set(clamped);
+
+    if (clamped > 0 && this.audio.muted) {
+      this.audio.muted = false;
+      this.isMuted.set(false);
+    }
   }
 
   public onEnded(handler: () => void) {
     this.audio.addEventListener('ended', handler);
 
     return (): void => this.audio.removeEventListener('ended', handler);
+  }
+
+  public clearAudioElement(): void {
+    this.audio.pause();
+    this.audio.removeAttribute('src');
+    this.audio.load();
+    this.isPlaying.set(false);
+    this.buffered.set(0);
+    this.position.set(0);
+    this.duration.set(0);
+  }
+
+  public toggleMute(): void {
+    const muted = !this.audio.muted;
+
+    this.audio.muted = muted;
+    this.isMuted.set(muted);
+  }
+
+  private preloadMetadata(): void {
+    this.audio.preload = 'metadata';
+  }
+
+  private constructEvents(): void {
+    this.ngZone.runOutsideAngular(() => {
+      this.audio.addEventListener('play', () => this.isPlaying.set(true));
+      this.audio.addEventListener('pause', () => this.isPlaying.set(false));
+      this.audio.addEventListener('progress', () => this.onProgress());
+      this.audio.addEventListener('loadedmetadata', () =>
+        this.duration.set(this.audio.duration || 0),
+      );
+      this.audio.addEventListener('ended', () => this.isPlaying.set(false));
+      this.audio.addEventListener('timeupdate', () => this.position.set(this.audio.currentTime));
+    });
+  }
+
+  private onProgress(): void {
+    const buffered = this.audio.buffered;
+
+    if (buffered.length > 0) {
+      this.buffered.set(buffered.end(buffered.length - 1));
+    }
   }
 }

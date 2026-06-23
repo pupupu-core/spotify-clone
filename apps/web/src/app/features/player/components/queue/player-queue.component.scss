@@ -1,0 +1,147 @@
+@use 'src/styles/mixins';
+@use 'src/styles/variables';
+@use 'src/styles/colors';
+
+:host {
+  display: block;
+
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-md;
+
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+}
+
+.playback-queue {
+  @include mixins.scrollbar-thin(rgb(255 255 255 / 70%));
+
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  max-height: min(680px, calc(100vh - 32px));
+  padding: 16px 22px 26px;
+
+  color: rgb(255 255 255 / 94%);
+
+  background-color: #223465;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  @include mixins.font-lg;
+
+  margin: 0;
+  color: rgb(255 255 255 / 96%);
+}
+
+.close {
+  align-self: center;
+}
+
+.queue {
+  @include mixins.scrollbar-thin(rgb(255 255 255 / 70%));
+
+  overflow: auto;
+  display: grid;
+  gap: 16px;
+
+  padding: variables.$radius-md;
+
+  background-color: #223465;
+}
+
+.title {
+  @include mixins.font-lg;
+
+  margin: 0;
+}
+
+.empty {
+  @include mixins.font-sm;
+
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  gap: variables.$space-8;
+
+  width: max-content;
+  margin: 0 auto;
+  border-radius: variables.$radius-md;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 60px minmax(100px, 1fr) 60px 60px 40px 40px;
+  gap: 8px;
+  align-items: center;
+
+  padding: variables.$space-8, variables.$space-16;
+  border-radius: variables.$radius-sm;
+}
+
+.item--active {
+  background-color: #4c6096;
+}
+
+.cover {
+  aspect-ratio: 1 / 1;
+  width: 56px;
+  border-radius: variables.$radius-sm;
+  object-fit: cover;
+}
+
+.meta {
+  overflow: hidden;
+  gap: 2px;
+  min-width: 0;
+}
+
+.artist,
+.name {
+  overflow: hidden;
+  display: block;
+  white-space: nowrap;
+}
+
+.artist,
+.name {
+  @include mixins.font-sm;
+}
+
+.stat {
+  @include mixins.font-xs;
+}
+
+.stat {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+
+  white-space: nowrap;
+
+  mat-icon {
+    width: variables.$font-size-xs;
+    height: variables.$font-size-xs;
+    font-size: variables.$font-size-xs;
+  }
+}
