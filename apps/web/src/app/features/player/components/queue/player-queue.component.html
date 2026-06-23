@@ -48,12 +48,7 @@
             <span>{{ track.duration | duration }}</span>
           </span>
 
-          <button
-            matIconButton
-            type="button"
-            class="play"
-            (click)="player.toggleQueuedTrack(index)"
-          >
+          <button matIconButton class="play" (click)="player.playQueuedTrack(index)">
             <mat-icon fontSet="material-icons-outlined">
               {{ activeIndex() === index && player.isPlaying() ? 'pause_circle' : 'play_circle' }}
             </mat-icon>

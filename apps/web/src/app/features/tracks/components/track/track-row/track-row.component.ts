@@ -4,10 +4,11 @@ import { MatIconButton } from '@angular/material/button';
 import { DurationPipe } from '../../../../../shared/pipes/duration.pipe';
 import { AbbreviatedNumberPipe } from '../../../../../shared/pipes/abbreviated-number.pipe';
 import type { TrackDataUI } from '../../../../../core/api/jamendo/models/common.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ppf-tracks-row',
-  imports: [MatIcon, MatIconButton, DurationPipe, AbbreviatedNumberPipe],
+  imports: [MatIcon, MatIconButton, DurationPipe, AbbreviatedNumberPipe, RouterLink],
   templateUrl: './track-row.component.html',
   styleUrl: './track-row.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

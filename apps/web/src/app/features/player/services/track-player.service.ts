@@ -1,19 +1,19 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import type { JamendoTrack } from '../../../core/api/jamendo/models/tracks.model';
+import type { TrackDataUI } from '../../../core/api/jamendo/models/common.model';
 import { PpfAudioEngine } from './html-audio.service';
 
 @Injectable({ providedIn: 'root' })
 export class PpfPlayerService {
   private readonly engine = inject(PpfAudioEngine);
 
-  public readonly queue = signal<JamendoTrack[]>([]);
+  public readonly queue = signal<TrackDataUI[]>([]);
   public readonly index = signal<number | null>(null);
   public readonly position = this.engine.position;
   public readonly duration = this.engine.duration;
 
   public readonly isMuted = this.engine.isMuted;
 
-  public readonly current = computed<JamendoTrack | null>(() => {
+  public readonly current = computed<TrackDataUI | null>(() => {
     const i = this.index();
 
     if (i === null) {
@@ -40,7 +40,7 @@ export class PpfPlayerService {
     });
   }
 
-  public playTracks(tracks: JamendoTrack[], startIndex = 0): void {
+  public playTracks(tracks: TrackDataUI[], startIndex = 0): void {
     if (tracks.length === 0) {
       return;
     }
@@ -121,29 +121,25 @@ export class PpfPlayerService {
     }
   }
 
-  public toggleQueuedTrack(index: number): void {
-    if (!this.isValidIndex(index)) {
-      return;
-    }
+  public toggleMute(): void {
+    this.engine.toggleMute();
+  }
 
-    if (this.index() === index) {
+  public toggleTrackByID(track: TrackDataUI, tracks: TrackDataUI[]): void {
+    if (this.current()?.id === track.id) {
       this.toggle();
 
       return;
     }
 
-    this.playQueuedTrack(index);
+    const index = tracks.findIndex(item => item.id === track.id);
+
+    if (index >= 0) {
+      this.playTracks(tracks, index);
+    }
   }
 
-  public toggleMute(): void {
-    this.engine.toggleMute();
-  }
-
-  private isValidIndex(index: number): boolean {
-    return Number.isInteger(index) && index >= 0 && index < this.queue().length;
-  }
-
-  private playQueuedTrack(index: number): void {
+  public playQueuedTrack(index: number): void {
     if (!this.isValidIndex(index)) {
       return;
     }
@@ -157,13 +153,17 @@ export class PpfPlayerService {
     this.index.set(index);
   }
 
+  private isValidIndex(index: number): boolean {
+    return Number.isInteger(index) && index >= 0 && index < this.queue().length;
+  }
+
   private clearQueue(): void {
     this.engine.clearAudioElement();
     this.queue.set([]);
     this.index.set(null);
   }
 
-  private removeTrackAtIndex(index: number): JamendoTrack[] {
+  private removeTrackAtIndex(index: number): TrackDataUI[] {
     return this.queue().filter((_, queueIndex) => queueIndex !== index);
   }
 

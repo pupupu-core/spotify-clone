@@ -12,10 +12,13 @@ export interface TrackDataUI {
   id: string;
   album_image: string;
   image: string;
-  artist_name?: string;
+  artist_name: string;
+  album_id: string;
+  artist_id: string;
   name: string;
   duration: string | number;
   album_name: string;
+  audio: string;
   musicinfo?: JamendoMusicInfoData;
   //TODO:
   // 1)добавить play count, когда узнаем что возвращается

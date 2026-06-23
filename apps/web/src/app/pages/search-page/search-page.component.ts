@@ -16,9 +16,6 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import type { Sort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { DurationPipe } from '../../shared/pipes/duration.pipe';
-import { AbbreviatedNumberPipe } from '../../shared/pipes/abbreviated-number.pipe';
 import { MatChipsModule } from '@angular/material/chips';
 import type { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -30,6 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { map, merge } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { TrackRowComponent } from '../../features/tracks/components/track/track-row/track-row.component';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -72,9 +70,6 @@ const INPUT_MAX_DURATION = 1200;
     MatLabel,
     MatInput,
     MatIconModule,
-    MatButtonModule,
-    DurationPipe,
-    AbbreviatedNumberPipe,
     MatInputModule,
     MatChipsModule,
     MatAutocompleteModule,
@@ -82,6 +77,7 @@ const INPUT_MAX_DURATION = 1200;
     MatSliderModule,
     MatInputModule,
     MatFormFieldModule,
+    TrackRowComponent,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
@@ -165,19 +161,27 @@ export class PpfSearchPageComponent {
     }),
   );
 
-  public dataSource = new MatTableDataSource(this.trackList());
-
-  public displayedColumns: string[] = [
-    'album_name',
-    'album_cover',
-    'artist_meta',
-    'play_count',
-    'duration',
-    'play',
-  ];
+  public readonly dataSource = new MatTableDataSource(this.trackList());
+  public readonly displayedColumns = ['track'];
 
   constructor() {
     this.dataSource.filterPredicate = this.ppfFilterPredicate.bind(this);
+    this.dataSource.sortingDataAccessor = (track, column): string | number => {
+      switch (column) {
+        case 'artist_meta':
+          return `${track.artist_name} ${track.name}`.toLowerCase();
+
+        //todo - get real, not hard-coded, playcount
+        case 'play_count':
+          return 100000;
+
+        case 'duration':
+          return track.duration;
+
+        default:
+          return '';
+      }
+    };
 
     effect(() => {
       this.dataSource.data = this.trackList();
@@ -339,15 +343,10 @@ export class PpfSearchPageComponent {
   }
 
   protected playTrack(track: TrackDataUI): void {
-    if (this.player.current()?.id === track.id) {
-      this.player.toggle();
+    const sort = this.dataSource.sort;
+    const filteredTracks = [...this.dataSource.filteredData];
+    const playbackQueue = sort ? this.dataSource.sortData(filteredTracks, sort) : filteredTracks;
 
-      return;
-    }
-
-    const full = this.trackService.trackWithAudio();
-    const index = full.findIndex(trck => trck.id === track.id);
-
-    this.player.playTracks(full, index);
+    this.player.toggleTrackByID(track, playbackQueue);
   }
 }
