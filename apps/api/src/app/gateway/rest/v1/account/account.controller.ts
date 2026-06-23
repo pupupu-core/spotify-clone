@@ -6,6 +6,7 @@ import { AccountMeResponse } from '@streaming-service/model';
 import { GetAccountMeWorkflow } from '$/core/workflows/account/get-current-me-account.workflow';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
 import { CurrentAccountId } from '../../decorators/current-account-id.decorator';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @ApiTags(OPENAPI_CONFIG.tags.account)
 @Controller({
@@ -19,6 +20,7 @@ export class AccountController {
   @UseGuards(AccessTokenGuard)
   @Header('Cache-Control', 'no-store')
   @HttpCode(HttpStatus.OK)
+  @SkipThrottle()
   @Get(API_ENDPOINTS.ACCOUNT.ME.serverPath)
   public me(@CurrentAccountId() accountId: string): Promise<AccountMeResponse> {
     return this.getAccountMeWorkflow.execute({ accountId });
