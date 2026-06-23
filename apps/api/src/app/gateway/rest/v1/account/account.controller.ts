@@ -1,5 +1,5 @@
 import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
-import { Controller, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Get, Header, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { AccountMeResponse } from '@streaming-service/model';
@@ -17,6 +17,7 @@ export class AccountController {
 
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
+  @Header('Cache-Control', 'no-store')
   @HttpCode(HttpStatus.OK)
   @Get(API_ENDPOINTS.ACCOUNT.ME.serverPath)
   public me(@CurrentAccountId() accountId: string): Promise<AccountMeResponse> {

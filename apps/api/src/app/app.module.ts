@@ -25,7 +25,7 @@ import { ArtistMusicInfoModule } from '$/gateway/rest/v1/artist/artist-music-inf
         {
           name: 'default',
           ttl: 60_000,
-          limit: 5,
+          limit: 10,
         },
       ],
     }),
