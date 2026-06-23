@@ -1,9 +1,9 @@
 <mat-dialog-content
   class="nav-dialog nav-dialog--home"
-  [class.nav-dialog--home]="hoveredRouter().backgroundImage === 'home'"
-  [class.nav-dialog--search]="hoveredRouter().backgroundImage === 'search'"
-  [class.nav-dialog--library]="hoveredRouter().backgroundImage === 'library'"
-  [class.nav-dialog--about-us]="hoveredRouter().backgroundImage === 'about-us'"
+  [class.nav-dialog--home]="hoveredRouter() === '/'"
+  [class.nav-dialog--search]="hoveredRouter() === '/search'"
+  [class.nav-dialog--library]="hoveredRouter() === '/library'"
+  [class.nav-dialog--about-us]="hoveredRouter() === '/about-us'"
 >
   <div class="dialog-header">
     <div>
@@ -21,7 +21,7 @@
         [routerLink]="navItem.path"
         routerLinkActive="nav-link--active"
         [routerLinkActiveOptions]="{ exact: true }"
-        (mouseenter)="hoveredRouter.set(navItem)"
+        (mouseenter)="hoveredRouter.set(navItem.path)"
         mat-dialog-close
         >{{ navItem.label }}</a
       >
