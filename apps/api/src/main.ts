@@ -27,6 +27,7 @@ async function bootstrap(): Promise<void> {
   app.use(cookieParser());
   app.enableCors({
     origin: [
+      'https://pupufy.tryproxy.online',
       'https://tryproxy.online',
       'http://localhost:4200',
       'http://localhost:4201',

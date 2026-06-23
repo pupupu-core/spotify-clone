@@ -11,6 +11,7 @@ import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
 import { AuthCookieService } from './auth-cookie.service';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @ApiTags(OPENAPI_CONFIG.tags.auth)
 @Controller({
@@ -66,6 +67,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @SkipThrottle()
   @Post(API_ENDPOINTS.AUTH.REFRESH.serverPath)
   public async refresh(
     @Req() request: Request,

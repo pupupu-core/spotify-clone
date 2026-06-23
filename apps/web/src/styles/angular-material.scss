@@ -34,3 +34,31 @@
     background-color: #223465;
   }
 }
+
+.search-page-genre-options.mat-mdc-autocomplete-panel {
+  @include mixins.scrollbar-thin(rgb(47 99 186 / 75%));
+  @include mixins.glass-transparent;
+  @include mat.autocomplete-overrides(
+    (
+      container-shape: radius-md,
+      container-elevation-shadow: 0 8px 24px rgb(0 0 0 / 22%),
+    )
+  );
+  @include mat.option-overrides(
+    (
+      label-text-color: #1a1a1a,
+      hover-state-layer-color: rgb(0 0 0 / 8%),
+      focus-state-layer-color: rgb(0 0 0 / 12%),
+      selected-state-label-text-color: #1a1a1a,
+      selected-state-layer-color: rgb(47 99 186 / 16%),
+    )
+  );
+
+  padding: space-4;
+  border: 1px solid rgb(0 0 0 / 12%);
+
+  .mat-mdc-option {
+    min-height: 44px;
+    border-radius: radius-sm;
+  }
+}
