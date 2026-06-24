@@ -57,7 +57,10 @@
     "test:e2e:ui": "nx run e2e:e2e -- --ui",
     "test:e2e:headed": "nx run e2e:e2e -- --headed",
     "test:e2e:debug": "nx run e2e:e2e -- --debug",
-    "test:e2e:report": "playwright show-report dist/.playwright/apps/e2e/playwright-report"
+    "test:e2e:report": "playwright show-report dist/.playwright/apps/e2e/playwright-report",
+    "minio:up": "docker compose up -d minio",
+    "minio:setup": "docker compose up -d minio && docker compose run --rm minio-init",
+    "infra:up": "docker compose up -d db minio"
   },
   "private": true,
   "devDependencies": {
