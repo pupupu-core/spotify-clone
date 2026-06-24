@@ -22,10 +22,12 @@ services:
       - .env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      S3_ENDPOINT: http://minio:9000
     ports:
       - '3000:3000'
     depends_on:
       - db
+      - minio
 
   web:
     image: pupufy-web:test
@@ -36,5 +38,44 @@ services:
     depends_on:
       - api
 
+  minio:
+    image: minio/minio:latest
+    container_name: pupufy-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - '127.0.0.1:9000:9000'
+      - '127.0.0.1:9001:9001'
+    volumes:
+      - minio_data:/data
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      S3_BUCKET: ${S3_BUCKET}
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        until mc alias set local http://minio:9000 "$${MINIO_ROOT_USER}" "$${MINIO_ROOT_PASSWORD}" >/dev/null 2>&1; do
+          echo "Waiting for MinIO..."
+          sleep 2
+        done
+
+        if mc mb --ignore-existing "local/$${S3_BUCKET}" >/dev/null 2>&1; then
+          printf 'MinIO bucket ready: %s\n' "$${S3_BUCKET}"
+        else
+          printf 'Failed to create/check MinIO bucket: %s\n' "$${S3_BUCKET}" >&2
+          exit 1
+        fi
+
 volumes:
   postgres_data:
+  minio_data:
