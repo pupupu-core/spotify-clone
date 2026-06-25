@@ -131,6 +131,20 @@ export class PpfPlayerService {
     }
   }
 
+  public toggleQueuedTrack(index: number): void {
+    if (!this.isValidIndex(index)) {
+      return;
+    }
+
+    if (this.index() === index) {
+      this.toggle();
+
+      return;
+    }
+
+    this.playQueuedTrack(index);
+  }
+
   public playQueuedTrack(index: number): void {
     if (!this.isValidIndex(index)) {
       return;
