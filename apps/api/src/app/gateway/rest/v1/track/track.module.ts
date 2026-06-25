@@ -6,10 +6,16 @@ import { FetchTrackDiscoveryStep } from '$/core/steps/fetch-track-discovery.step
 import { JamendoModule } from '$/infrastructure/jamendo/jamendo.module';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
 import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
+import { UploadTrackWorkflow } from '$/core/workflows/track/upload-track.workflow';
 
 @Module({
   imports: [JamendoModule, AuthTokenModule],
   controllers: [TrackController],
-  providers: [GetTrackDiscoveryWorkflow, FetchTrackDiscoveryStep, AccessTokenGuard],
+  providers: [
+    GetTrackDiscoveryWorkflow,
+    UploadTrackWorkflow,
+    FetchTrackDiscoveryStep,
+    AccessTokenGuard,
+  ],
 })
 export class TrackModule {}
