@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { DurationPipe } from '../../../../../shared/pipes/duration.pipe';
@@ -15,6 +15,9 @@ import { RouterLink } from '@angular/router';
 })
 export class TrackRowComponent {
   public readonly isPlaying = input.required<boolean>();
+  public readonly isActive = input<boolean | undefined>(undefined);
   public readonly track = input.required<TrackResponse>();
   public readonly playClick = output<void>();
+
+  protected readonly highlighted = computed(() => this.isActive() ?? this.isPlaying());
 }
