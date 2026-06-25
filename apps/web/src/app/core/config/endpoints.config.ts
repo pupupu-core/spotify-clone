@@ -37,4 +37,12 @@ export const APP_ENDPOINTS = {
       path: API_ENDPOINTS.ACCOUNT.ME.clientUrl,
     }),
   },
+  ARTIST: {
+    MUSIC_INFO: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.ARTIST.MUSIC_INFO.clientUrl,
+    }),
+  },
 } as const;
