@@ -1,19 +1,19 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import type { JamendoTrack } from '../../../core/api/jamendo/models/tracks.model';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import type { TrackResponse } from '@streaming-service/model';
 import { PpfAudioEngine } from './html-audio.service';
 
 @Injectable({ providedIn: 'root' })
 export class PpfPlayerService {
   private readonly engine = inject(PpfAudioEngine);
 
-  public readonly queue = signal<JamendoTrack[]>([]);
+  public readonly queue = signal<TrackResponse[]>([]);
   public readonly index = signal<number | null>(null);
   public readonly position = this.engine.position;
   public readonly duration = this.engine.duration;
 
   public readonly isMuted = this.engine.isMuted;
 
-  public readonly current = computed<JamendoTrack | null>(() => {
+  public readonly current = computed<TrackResponse | null>(() => {
     const i = this.index();
 
     if (i === null) {
@@ -29,18 +29,9 @@ export class PpfPlayerService {
 
   constructor() {
     this.engine.onEnded(() => this.next());
-
-    effect(() => {
-      const track = this.current();
-
-      if (track) {
-        this.engine.load(track.audio);
-        this.engine.play();
-      }
-    });
   }
 
-  public playTracks(tracks: JamendoTrack[], startIndex = 0): void {
+  public playTracks(tracks: TrackResponse[], startIndex = 0): void {
     if (tracks.length === 0) {
       return;
     }
@@ -48,7 +39,8 @@ export class PpfPlayerService {
     const nextIndex = Math.max(0, Math.min(startIndex, tracks.length - 1));
 
     this.queue.set(tracks);
-    this.index.set(nextIndex);
+
+    this.playTrackAtIndex(nextIndex);
   }
 
   public toggle(): void {
@@ -74,7 +66,7 @@ export class PpfPlayerService {
     if (nextIndex >= que.length) {
       this.engine.pause();
     } else {
-      this.index.set(nextIndex);
+      this.playTrackAtIndex(nextIndex);
     }
   }
 
@@ -87,7 +79,7 @@ export class PpfPlayerService {
       return;
     }
 
-    this.index.set(idx - 1);
+    this.playTrackAtIndex(idx - 1);
   }
 
   public seek(seconds: number): void {
@@ -112,12 +104,40 @@ export class PpfPlayerService {
       return;
     }
 
-    const nextIndex = this.getIndexAfterRemoval(currentIndex, index, nextQueue.length);
-
     this.queue.set(nextQueue);
 
-    if (nextIndex !== null) {
-      this.index.set(nextIndex);
+    if (currentIndex === null) {
+      return;
+    }
+
+    if (currentIndex === index) {
+      const nextIndex = Math.min(currentIndex, nextQueue.length - 1);
+
+      this.playTrackAtIndex(nextIndex);
+
+      return;
+    }
+
+    if (index < currentIndex) {
+      this.index.set(currentIndex - 1);
+    }
+  }
+
+  public toggleMute(): void {
+    this.engine.toggleMute();
+  }
+
+  public toggleTrackByID(track: TrackResponse, tracks: TrackResponse[]): void {
+    if (this.current()?.id === track.id) {
+      this.toggle();
+
+      return;
+    }
+
+    const index = tracks.findIndex(item => item.id === track.id);
+
+    if (index >= 0) {
+      this.playTracks(tracks, index);
     }
   }
 
@@ -135,15 +155,7 @@ export class PpfPlayerService {
     this.playQueuedTrack(index);
   }
 
-  public toggleMute(): void {
-    this.engine.toggleMute();
-  }
-
-  private isValidIndex(index: number): boolean {
-    return Number.isInteger(index) && index >= 0 && index < this.queue().length;
-  }
-
-  private playQueuedTrack(index: number): void {
+  public playQueuedTrack(index: number): void {
     if (!this.isValidIndex(index)) {
       return;
     }
@@ -153,8 +165,19 @@ export class PpfPlayerService {
 
       return;
     }
+    this.playTrackAtIndex(index);
+  }
+
+  private playTrackAtIndex(index: number): void {
+    const track = this.queue()[index];
 
     this.index.set(index);
+    this.engine.load(track.audioUrl);
+    this.engine.play();
+  }
+
+  private isValidIndex(index: number): boolean {
+    return Number.isInteger(index) && index >= 0 && index < this.queue().length;
   }
 
   private clearQueue(): void {
@@ -163,7 +186,7 @@ export class PpfPlayerService {
     this.index.set(null);
   }
 
-  private removeTrackAtIndex(index: number): JamendoTrack[] {
+  private removeTrackAtIndex(index: number): TrackResponse[] {
     return this.queue().filter((_, queueIndex) => queueIndex !== index);
   }
 

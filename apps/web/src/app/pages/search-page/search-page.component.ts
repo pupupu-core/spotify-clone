@@ -16,20 +16,18 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import type { Sort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { DurationPipe } from '../../shared/pipes/duration.pipe';
-import { AbbreviatedNumberPipe } from '../../shared/pipes/abbreviated-number.pipe';
 import { MatChipsModule } from '@angular/material/chips';
 import type { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { PpfPlayerService } from '../../features/player/services/track-player.service';
-import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
+import type { TrackResponse } from '@streaming-service/model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { map, merge } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { TrackRowComponent } from '../../features/tracks/components/track/track-row/track-row.component';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -72,9 +70,6 @@ const INPUT_MAX_DURATION = 1200;
     MatLabel,
     MatInput,
     MatIconModule,
-    MatButtonModule,
-    DurationPipe,
-    AbbreviatedNumberPipe,
     MatInputModule,
     MatChipsModule,
     MatAutocompleteModule,
@@ -82,6 +77,7 @@ const INPUT_MAX_DURATION = 1200;
     MatSliderModule,
     MatInputModule,
     MatFormFieldModule,
+    TrackRowComponent,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
@@ -165,19 +161,27 @@ export class PpfSearchPageComponent {
     }),
   );
 
-  public dataSource = new MatTableDataSource(this.trackList());
-
-  public displayedColumns: string[] = [
-    'album_name',
-    'album_cover',
-    'artist_meta',
-    'play_count',
-    'duration',
-    'play',
-  ];
+  public readonly dataSource = new MatTableDataSource(this.trackList());
+  public readonly displayedColumns = ['track'];
 
   constructor() {
     this.dataSource.filterPredicate = this.ppfFilterPredicate.bind(this);
+    this.dataSource.sortingDataAccessor = (track, column): string | number => {
+      switch (column) {
+        case 'artist_meta':
+          return `${track.artistName} ${track.name}`.toLowerCase();
+
+        //todo - get real, not hard-coded, playcount
+        case 'play_count':
+          return 100000;
+
+        case 'duration':
+          return track.duration;
+
+        default:
+          return '';
+      }
+    };
 
     effect(() => {
       this.dataSource.data = this.trackList();
@@ -242,7 +246,7 @@ export class PpfSearchPageComponent {
     );
   }
 
-  private ppfFilterPredicate(track: TrackDataUI, filterJson: string): boolean {
+  private ppfFilterPredicate(track: TrackResponse, filterJson: string): boolean {
     if (!filterJson) {
       return true;
     }
@@ -255,27 +259,27 @@ export class PpfSearchPageComponent {
       this.isMatchesDuration(track, filter.minDuration, filter.maxDuration)
     );
   }
-  private isMatchesSearchQuery(track: TrackDataUI, searchQuery: string): boolean {
+  private isMatchesSearchQuery(track: TrackResponse, searchQuery: string): boolean {
     if (!searchQuery) {
       return true;
     }
 
-    const trackMeta = [track.name, track.artist_name, track.album_name].join(' ').toLowerCase();
+    const trackMeta = [track.name, track.artistName, track.albumName].join(' ').toLowerCase();
 
     return trackMeta.includes(searchQuery);
   }
 
-  private isMatchesGenre(track: TrackDataUI, genres: string[]): boolean {
+  private isMatchesGenre(track: TrackResponse, genres: string[]): boolean {
     if (genres.length === 0) {
       return true;
     }
 
-    const trackGenres = (track?.musicinfo?.tags.genres ?? []).map((g: string) => g.toLowerCase());
+    const trackGenres = (track?.musicInfo?.tags.genres ?? []).map((g: string) => g.toLowerCase());
 
     return genres.some(genre => trackGenres.includes(genre.toLowerCase()));
   }
 
-  private isMatchesDuration(track: TrackDataUI, min: number, max: number): boolean {
+  private isMatchesDuration(track: TrackResponse, min: number, max: number): boolean {
     const trackDuration = Number(track.duration);
 
     return trackDuration >= min && trackDuration <= max;
@@ -338,16 +342,11 @@ export class PpfSearchPageComponent {
     this.dataSource.filter = this.activeFilter();
   }
 
-  protected playTrack(track: TrackDataUI): void {
-    if (this.player.current()?.id === track.id) {
-      this.player.toggle();
+  protected playTrack(track: TrackResponse): void {
+    const sort = this.dataSource.sort;
+    const filteredTracks = [...this.dataSource.filteredData];
+    const playbackQueue = sort ? this.dataSource.sortData(filteredTracks, sort) : filteredTracks;
 
-      return;
-    }
-
-    const full = this.trackService.trackWithAudio();
-    const index = full.findIndex(trck => trck.id === track.id);
-
-    this.player.playTracks(full, index);
+    this.player.toggleTrackByID(track, playbackQueue);
   }
 }

@@ -2,7 +2,7 @@
 
 <section class="section">
   @if (track) {
-    <img class="background-cover" [src]="track.image" [alt]="track.album_name" />
+    <img class="background-cover" [src]="track.imageUrl" [alt]="track.albumName" />
   }
 
   <div
@@ -15,15 +15,15 @@
       @if (track) {
         <div class="cover-wrapper">
           <span>
-            <a class="player-cover-link" [routerLink]="['/album', track.album_id]">
-              <img class="cover" [src]="track.image" [alt]="track.album_name" />
+            <a class="player-cover-link" [routerLink]="['/album', track.albumId]">
+              <img class="cover" [src]="track.imageUrl" [alt]="track.albumName" />
             </a>
           </span>
         </div>
         <div class="names">
           <span>
-            <a class="artist-name" [routerLink]="['/artist', track.artist_id]">{{
-              track.artist_name
+            <a class="artist-name" [routerLink]="['/artist', track.artistId]">{{
+              track.artistName
             }}</a>
           </span>
           <span
