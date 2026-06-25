@@ -104,12 +104,22 @@ export class PpfPlayerService {
       return;
     }
 
-    const nextIndex = this.getIndexAfterRemoval(currentIndex, index, nextQueue.length);
-
     this.queue.set(nextQueue);
 
-    if (nextIndex !== null) {
+    if (currentIndex === null) {
+      return;
+    }
+
+    if (currentIndex === index) {
+      const nextIndex = Math.min(currentIndex, nextQueue.length - 1);
+
       this.playTrackAtIndex(nextIndex);
+
+      return;
+    }
+
+    if (index < currentIndex) {
+      this.index.set(currentIndex - 1);
     }
   }
 
