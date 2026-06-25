@@ -36,8 +36,8 @@ export class HeaderComponent {
       backdropClass: 'app-navigation-backdrop',
     });
 
-    dialogRef.componentInstance.logoutClick.subscribe(logoutClick => {
-      console.log('logoutClick', logoutClick);
+    dialogRef.componentInstance.logoutClick.subscribe(() => {
+      this.closeDialog();
     });
   }
 
