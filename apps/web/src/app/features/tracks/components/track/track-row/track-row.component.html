@@ -2,13 +2,13 @@
   <div class="track-content">
     <div class="album-cover">
       <img
-        [src]="track().album_image || track().image"
-        [alt]="track().album_name || track().image + ' cover'"
+        [src]="track().albumImageUrl || track().imageUrl"
+        [alt]="track().albumName || track().imageUrl + ' cover'"
       />
     </div>
     <div class="track-text">
       <h3 class="author-name">
-        <a [routerLink]="['/artist', track().artist_id]">{{ track().artist_name }}</a>
+        <a [routerLink]="['/artist', track().artistId]">{{ track().artistName }}</a>
       </h3>
       <h4 class="track-name">{{ track().name }}</h4>
     </div>
