@@ -22,7 +22,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { PpfPlayerService } from '../../features/player/services/track-player.service';
-import type { TrackDataUI } from '../../core/api/jamendo/models/common.model';
+import type { TrackResponse } from '@streaming-service/model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { map, merge } from 'rxjs';
@@ -169,7 +169,7 @@ export class PpfSearchPageComponent {
     this.dataSource.sortingDataAccessor = (track, column): string | number => {
       switch (column) {
         case 'artist_meta':
-          return `${track.artist_name} ${track.name}`.toLowerCase();
+          return `${track.artistName} ${track.name}`.toLowerCase();
 
         //todo - get real, not hard-coded, playcount
         case 'play_count':
@@ -246,7 +246,7 @@ export class PpfSearchPageComponent {
     );
   }
 
-  private ppfFilterPredicate(track: TrackDataUI, filterJson: string): boolean {
+  private ppfFilterPredicate(track: TrackResponse, filterJson: string): boolean {
     if (!filterJson) {
       return true;
     }
@@ -259,27 +259,27 @@ export class PpfSearchPageComponent {
       this.isMatchesDuration(track, filter.minDuration, filter.maxDuration)
     );
   }
-  private isMatchesSearchQuery(track: TrackDataUI, searchQuery: string): boolean {
+  private isMatchesSearchQuery(track: TrackResponse, searchQuery: string): boolean {
     if (!searchQuery) {
       return true;
     }
 
-    const trackMeta = [track.name, track.artist_name, track.album_name].join(' ').toLowerCase();
+    const trackMeta = [track.name, track.artistName, track.albumName].join(' ').toLowerCase();
 
     return trackMeta.includes(searchQuery);
   }
 
-  private isMatchesGenre(track: TrackDataUI, genres: string[]): boolean {
+  private isMatchesGenre(track: TrackResponse, genres: string[]): boolean {
     if (genres.length === 0) {
       return true;
     }
 
-    const trackGenres = (track?.musicinfo?.tags.genres ?? []).map((g: string) => g.toLowerCase());
+    const trackGenres = (track?.musicInfo?.tags.genres ?? []).map((g: string) => g.toLowerCase());
 
     return genres.some(genre => trackGenres.includes(genre.toLowerCase()));
   }
 
-  private isMatchesDuration(track: TrackDataUI, min: number, max: number): boolean {
+  private isMatchesDuration(track: TrackResponse, min: number, max: number): boolean {
     const trackDuration = Number(track.duration);
 
     return trackDuration >= min && trackDuration <= max;
@@ -342,7 +342,7 @@ export class PpfSearchPageComponent {
     this.dataSource.filter = this.activeFilter();
   }
 
-  protected playTrack(track: TrackDataUI): void {
+  protected playTrack(track: TrackResponse): void {
     const sort = this.dataSource.sort;
     const filteredTracks = [...this.dataSource.filteredData];
     const playbackQueue = sort ? this.dataSource.sortData(filteredTracks, sort) : filteredTracks;

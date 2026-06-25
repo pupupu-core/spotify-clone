@@ -148,7 +148,7 @@ export class PpfPlayerService {
     const track = this.queue()[index];
 
     this.index.set(index);
-    this.engine.load(track.audio);
+    this.engine.load(track.audioUrl);
     this.engine.play();
   }
 

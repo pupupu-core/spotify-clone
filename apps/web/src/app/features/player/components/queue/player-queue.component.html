@@ -27,11 +27,11 @@
     <ol class="list">
       @for (track of queue(); track track.id; let index = $index) {
         <li class="item" [class.item--active]="activeIndex() === index">
-          <img class="cover" [src]="track.image" [alt]="track.album_name + ' cover'" />
+          <img class="cover" [src]="track.imageUrl" [alt]="track.albumName + ' cover'" />
 
           <div class="meta">
-            <a class="artist" [routerLink]="['/artist', track.artist_id]" mat-dialog-close>
-              {{ track.artist_name }}
+            <a class="artist" [routerLink]="['/artist', track.artistId]" mat-dialog-close>
+              {{ track.artistName }}
             </a>
             <a class="name" mat-dialog-close>
               {{ track.name }}
