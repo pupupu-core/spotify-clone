@@ -13,3 +13,15 @@ export const AUTH_CONSTRAINTS = {
     minLength: 3,
   },
 };
+
+export const UPLOAD_TRACK_CONSTRAINTS = {
+  title: {
+    minLength: 1,
+  },
+  artistName: {
+    minLength: 1,
+  },
+  albumName: {
+    minLength: 1,
+  },
+};
