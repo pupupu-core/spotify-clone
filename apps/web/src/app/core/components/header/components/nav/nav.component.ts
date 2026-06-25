@@ -9,6 +9,7 @@ import { APP_NAME } from '../../../../constants/common.constants';
 import { LogoutButtonComponent } from '../logout-button/logout-button.component';
 import { APP_ROUTES } from '~/core/tokens/app-routes.token';
 import { AuthSessionService } from '~/core/stores/auth-session.service';
+import { catchError, EMPTY, finalize } from 'rxjs';
 
 const NAV_ITEMS: NavItem[] = [
   { label: ROUTES.HOME.meta.title, path: ROUTES.HOME.to, backgroundImage: '/' },
@@ -50,9 +51,19 @@ export class NavComponent {
   protected readonly APP_NAME = APP_NAME;
 
   protected logout(): void {
-    this.authSession.logout().subscribe(() => {
-      this.logoutClick.emit();
-      void this.router.navigateByUrl(this.routes.AUTH.LOGIN.to);
-    });
+    this.authSession
+      .logout()
+      .pipe(
+        catchError((error: unknown) => {
+          console.error('Logout failed', error);
+
+          return EMPTY;
+        }),
+        finalize(() => {
+          this.logoutClick.emit();
+          void this.router.navigateByUrl(this.routes.AUTH.LOGIN.to);
+        }),
+      )
+      .subscribe();
   }
 }
