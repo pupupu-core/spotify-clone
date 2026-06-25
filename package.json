@@ -57,7 +57,10 @@
     "test:e2e:ui": "nx run e2e:e2e -- --ui",
     "test:e2e:headed": "nx run e2e:e2e -- --headed",
     "test:e2e:debug": "nx run e2e:e2e -- --debug",
-    "test:e2e:report": "playwright show-report dist/.playwright/apps/e2e/playwright-report"
+    "test:e2e:report": "playwright show-report dist/.playwright/apps/e2e/playwright-report",
+    "minio:init": "docker compose run --rm minio-init",
+    "minio:up": "docker compose up -d minio",
+    "infra:up": "docker compose up -d db minio"
   },
   "private": true,
   "devDependencies": {
@@ -96,6 +99,7 @@
     "@swc/helpers": "~0.5.21",
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
+    "@types/multer": "^2.1.0",
     "@types/node": "20.19.9",
     "@typescript-eslint/utils": "^8.59.2",
     "@vitest/coverage-v8": "~4.1.5",
@@ -134,6 +138,7 @@
     "@angular/material": "~21.2.11",
     "@angular/platform-browser": "~21.2.13",
     "@angular/router": "~21.2.13",
+    "@aws-sdk/client-s3": "^3.1071.0",
     "@jsverse/transloco": "^8.3.0",
     "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.1.19",
