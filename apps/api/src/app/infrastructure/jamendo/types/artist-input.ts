@@ -7,7 +7,6 @@ export interface JamendoArtistTracksInput {
 export interface JamendoArtistAlbumsInput {
   order: JamendoArtistAlbumsOrder;
   artistId: number[];
-  limit?: number;
 }
 
 type JamendoArtistSortDirection = 'asc' | 'desc';

@@ -80,14 +80,13 @@ export class JamendoClient {
     }).then(mapToArtistTracksResponse);
   }
 
-  public async listPopularArtistAlbums(
+  public async listArtistAlbums(
     input: JamendoArtistAlbumsInput,
   ): Promise<JamendoArtistAlbumsList[]> {
     return this.get({
       path: 'artists/albums',
       queryParams: {
         order: input.order,
-        limit: input.limit ?? 10,
         id: input.artistId,
       },
       schema: JamendoArtistListAlbumsResponseSchema,

@@ -7,7 +7,7 @@ export class FetchAlbumsArtistStep {
   public constructor(private readonly jamendoClient: JamendoClient) {}
 
   public async execute(artistId: number): Promise<ArtistAlbumsResponse> {
-    const [popularAlbums] = await this.jamendoClient.listPopularArtistAlbums({
+    const [popularAlbums] = await this.jamendoClient.listArtistAlbums({
       order: 'popularity_total',
       artistId: [artistId],
       limit: 10,
