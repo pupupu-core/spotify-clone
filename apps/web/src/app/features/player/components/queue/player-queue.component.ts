@@ -2,22 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { PpfPlayerService } from '../../services/track-player.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
 import { MatDialogClose, MatDialogContent } from '@angular/material/dialog';
-import { RouterLink } from '@angular/router';
-import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
+import { TrackRowComponent } from '~/features/tracks/components/track/track-row/track-row.component';
 
 @Component({
   selector: 'ppf-player-queue',
-  imports: [
-    MatButtonModule,
-    MatIcon,
-    DurationPipe,
-    MatDialogClose,
-    MatDialogContent,
-    RouterLink,
-    AbbreviatedNumberPipe,
-  ],
+  imports: [MatButtonModule, MatIcon, MatDialogClose, MatDialogContent, TrackRowComponent],
   templateUrl: './player-queue.component.html',
   styleUrl: './player-queue.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
