@@ -5,39 +5,16 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3';
-import { S3_STORAGE_CONFIG } from './s3-storage.config';
 import { createHash, randomUUID } from 'node:crypto';
+import { Readable } from 'node:stream';
 import { extname } from 'node:path';
 import { APP_CONFIG } from '$/shared/config/app.config';
-import { Readable } from 'node:stream';
-import { S3ObjectBodyNotReadableError } from './errors/s3-object-body-not-readable.error';
-
-export type UploadObjectKind = 'track-audio' | 'track-cover';
-
-export interface UploadObjectInput {
-  buffer: Buffer;
-  mimeType: string;
-  originalFileName: string;
-  accountId: string;
-  kind: UploadObjectKind;
-}
-
-export interface UploadObjectResult {
-  bucket: string;
-  objectKey: string;
-  checksum: string;
-  sizeBytes: number;
-}
-
-export interface RetrieveObjectResult {
-  body: Readable;
-  contentType?: string;
-  contentLength?: number;
-}
+import { S3_STORAGE_CONFIG } from './s3-storage.config';
+import { RetrieveObjectResult, UploadObjectInput, UploadObjectResult } from './types';
 
 @Injectable()
 export class S3StorageService {
-  private readonly storage = new S3Client(S3_STORAGE_CONFIG);
+  private readonly storageClient = new S3Client(S3_STORAGE_CONFIG);
 
   public async uploadObject({
     buffer,
@@ -50,7 +27,7 @@ export class S3StorageService {
     const extension = extname(originalFileName).toLowerCase();
     const objectKey = `${kind}/${accountId}/${randomUUID()}${extension}`;
 
-    await this.storage.send(
+    await this.storageClient.send(
       new PutObjectCommand({
         Bucket: APP_CONFIG.storage.s3.bucket,
         Key: objectKey,
@@ -69,7 +46,7 @@ export class S3StorageService {
   }
 
   public async deleteObject(objectKey: string): Promise<void> {
-    await this.storage.send(
+    await this.storageClient.send(
       new DeleteObjectCommand({
         Bucket: APP_CONFIG.storage.s3.bucket,
         Key: objectKey,
@@ -78,21 +55,19 @@ export class S3StorageService {
   }
 
   public async retrieveObject(objectKey: string): Promise<RetrieveObjectResult> {
-    const response = await this.storage.send(
+    const response = await this.storageClient.send(
       new GetObjectCommand({
         Bucket: APP_CONFIG.storage.s3.bucket,
         Key: objectKey,
       }),
     );
 
-    const body = response.Body;
-
-    if (!(body instanceof Readable)) {
-      throw new S3ObjectBodyNotReadableError(objectKey);
+    if (!(response.Body instanceof Readable)) {
+      throw new Error('Expected S3 object body to be a Node readable stream');
     }
 
     return {
-      body,
+      body: response.Body,
       contentType: response.ContentType,
       contentLength: response.ContentLength,
     };
