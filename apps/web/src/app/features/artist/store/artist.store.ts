@@ -3,6 +3,7 @@ import { initialState } from '~/features/artist/store/artist.state';
 import { computed, inject } from '@angular/core';
 import { ArtistApiService } from '~/core/services/artist-api.service';
 import { firstValueFrom } from 'rxjs';
+import { mapArtistTrackToTrackUI } from '~/shared/utils/mappers/artist.mappers';
 
 export const ArtistPageStore = signalStore(
   withState(initialState),
@@ -46,9 +47,12 @@ export const ArtistPageStore = signalStore(
       patchState(store, { isLoading: true });
       try {
         const response = await firstValueFrom(service.getArtistPopularTrack(artistId));
+        const tracks = response.tracks.map(track =>
+          mapArtistTrackToTrackUI(response.id, response.name, track),
+        );
 
         patchState(store, {
-          popularTracks: response.tracks,
+          popularTracks: tracks,
           isLoading: false,
         });
       } catch (error) {
