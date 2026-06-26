@@ -1,10 +1,15 @@
-<div class="track-container" [class.track-container--playing]="isPlaying()">
+<div class="track-container" [class.track-container--playing]="highlighted()">
   <div class="track-content">
     <div class="album-cover">
-      <img [src]="track().album_image || track().image" alt="" />
+      <img
+        [src]="track().albumImageUrl || track().imageUrl"
+        [alt]="track().albumName || track().imageUrl + ' cover'"
+      />
     </div>
     <div class="track-text">
-      <h3 class="author-name">{{ track().artist_name }}</h3>
+      <h3 class="author-name">
+        <a [routerLink]="['/artist', track().artistId]">{{ track().artistName }}</a>
+      </h3>
       <h4 class="track-name">{{ track().name }}</h4>
     </div>
   </div>

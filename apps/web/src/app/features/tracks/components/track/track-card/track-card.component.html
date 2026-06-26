@@ -1,6 +1,6 @@
 <div class="track-container" [class.track-container--playing]="isPlaying()">
   <div class="album-cover">
-    <img [src]="track().album_image || track().image" alt="" />
+    <img [src]="track().albumImageUrl || track().imageUrl" alt="" />
     <button
       matIconButton
       aria-label="control button"
@@ -14,7 +14,7 @@
   </div>
   <div class="description">
     <div class="author-track-name">
-      <h3 class="author-name">{{ track().artist_name }}</h3>
+      <h3 class="author-name">{{ track().artistName }}</h3>
       <h4 class="track-name">{{ track().name }}</h4>
     </div>
     <div class="stats-container">
