@@ -30,7 +30,7 @@ export const ArtistPageStore = signalStore(
         patchState(store, {
           id: response.id,
           name: response.name,
-          biography: biography ?? null,
+          biography: biography || null,
           coverUrl: response.imageUrl,
           isLoading: false,
         });
@@ -38,6 +38,23 @@ export const ArtistPageStore = signalStore(
         patchState(store, {
           isLoading: false,
           error: error instanceof Error ? error.message : 'Failed to load artist information.',
+        });
+      }
+    },
+
+    async loadPopularTracks(artistId: string): Promise<void> {
+      patchState(store, { isLoading: true });
+      try {
+        const response = await firstValueFrom(service.getArtistPopularTrack(artistId));
+
+        patchState(store, {
+          popularTracks: response.tracks,
+          isLoading: false,
+        });
+      } catch (error) {
+        patchState(store, {
+          isLoading: false,
+          error: error instanceof Error ? error.message : 'Failed to load artist popular tracks.',
         });
       }
     },
