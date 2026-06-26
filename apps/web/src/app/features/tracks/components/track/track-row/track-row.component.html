@@ -2,8 +2,11 @@
   <div class="track-content">
     <div class="album-cover">
       <img
-        [src]="track().albumImageUrl || track().imageUrl"
+        [ngSrc]="track().imageUrl || track().albumImageUrl"
         [alt]="track().albumName || track().imageUrl + ' cover'"
+        width="70"
+        height="70"
+        loading="lazy"
       />
     </div>
     <div class="track-text">

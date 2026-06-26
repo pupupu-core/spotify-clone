@@ -1,6 +1,12 @@
 <div class="track-container" [class.track-container--playing]="isPlaying()">
   <div class="album-cover">
-    <img [src]="track().albumImageUrl || track().imageUrl" alt="" />
+    <img
+      [ngSrc]="track().imageUrl || track().albumImageUrl"
+      [alt]="track().albumName || track().imageUrl + ' cover'"
+      width="70"
+      height="70"
+      loading="lazy"
+    />
     <button
       matIconButton
       aria-label="control button"

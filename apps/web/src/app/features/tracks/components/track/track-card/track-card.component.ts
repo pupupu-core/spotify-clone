@@ -4,10 +4,11 @@ import { MatIconButton } from '@angular/material/button';
 import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'ppf-tracks-card',
-  imports: [MatIcon, MatIconButton, DurationPipe, AbbreviatedNumberPipe],
+  imports: [MatIcon, MatIconButton, DurationPipe, AbbreviatedNumberPipe, NgOptimizedImage],
   templateUrl: './track-card.component.html',
   styleUrl: './track-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

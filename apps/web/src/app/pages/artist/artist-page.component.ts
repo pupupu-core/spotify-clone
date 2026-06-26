@@ -40,6 +40,7 @@ export class ArtistPageComponent {
 
       if (id !== null && id !== undefined) {
         void this.store.loadMusicInfo(id);
+        void this.store.loadPopularTracks(id);
       }
     });
   }
