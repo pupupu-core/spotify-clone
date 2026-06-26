@@ -38,7 +38,7 @@ export class ArtistPageComponent {
     effect(() => {
       const id = this.artistId();
 
-      if (id !== null || id !== undefined) {
+      if (id !== null && id !== undefined) {
         void this.store.loadMusicInfo(id);
       }
     });

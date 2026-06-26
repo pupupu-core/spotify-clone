@@ -46,5 +46,21 @@ export const APP_ENDPOINTS = {
         path: API_ENDPOINTS.ARTIST.MUSIC_INFO.clientUrl,
         dynamicParams: { artistId },
       }),
+    TRACKS: (artistId: string) =>
+      buildApiPath({
+        origin: environment.apiOrigin,
+        prefix: null,
+        version: API_VERSION,
+        path: API_ENDPOINTS.ARTIST.TRACKS.clientUrl,
+        dynamicParams: { artistId },
+      }),
+    ALBUMS: (artistId: string) =>
+      buildApiPath({
+        origin: environment.apiOrigin,
+        prefix: null,
+        version: API_VERSION,
+        path: API_ENDPOINTS.ARTIST.ALBUMS.clientUrl,
+        dynamicParams: { artistId },
+      }),
   },
 } as const;
