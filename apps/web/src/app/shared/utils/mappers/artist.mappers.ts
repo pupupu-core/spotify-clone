@@ -16,5 +16,7 @@ export function mapArtistTrackToTrackUI(
     imageUrl: track.imageUrl,
     albumImageUrl: track.albumImageUrl,
     audioUrl: track.audioUrl,
+    albumName: track.albumName,
+    albumId: track.albumId,
   };
 }

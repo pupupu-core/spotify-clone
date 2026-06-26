@@ -1,5 +1,5 @@
-import type { TrackResponse } from '@streaming-service/model';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import type { TrackResponse } from '@streaming-service/model';
 
 export function mapTrackResponseToTrackUI(track: TrackResponse): TrackUI {
   return {
@@ -12,5 +12,8 @@ export function mapTrackResponseToTrackUI(track: TrackResponse): TrackUI {
     imageUrl: track.imageUrl,
     albumImageUrl: track.albumImageUrl,
     audioUrl: track.audioUrl,
+    albumName: track.albumName,
+    genres: track.musicInfo?.tags.genres,
+    albumId: track.albumId,
   };
 }

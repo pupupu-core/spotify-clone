@@ -8,4 +8,7 @@ export interface TrackUI {
   imageUrl: string;
   albumImageUrl: string;
   audioUrl: string;
+  albumName: string;
+  genres?: string[];
+  albumId: string;
 }
