@@ -10,7 +10,6 @@ export class FetchAlbumsArtistStep {
     const [popularAlbums] = await this.jamendoClient.listArtistAlbums({
       order: 'popularity_total',
       artistId: [artistId],
-      limit: 10,
     });
 
     if (!popularAlbums) {

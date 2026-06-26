@@ -1,4 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .page-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
   max-width: 1300px;
   margin: auto;
 }

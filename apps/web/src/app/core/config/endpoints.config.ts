@@ -38,11 +38,13 @@ export const APP_ENDPOINTS = {
     }),
   },
   ARTIST: {
-    MUSIC_INFO: buildApiPath({
-      origin: environment.apiOrigin,
-      prefix: null,
-      version: API_VERSION,
-      path: API_ENDPOINTS.ARTIST.MUSIC_INFO.clientUrl,
-    }),
+    MUSIC_INFO: (artistId: string) =>
+      buildApiPath({
+        origin: environment.apiOrigin,
+        prefix: null,
+        version: API_VERSION,
+        path: API_ENDPOINTS.ARTIST.MUSIC_INFO.clientUrl,
+        dynamicParams: { artistId },
+      }),
   },
 } as const;

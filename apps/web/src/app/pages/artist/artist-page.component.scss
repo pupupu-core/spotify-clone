@@ -4,6 +4,10 @@
 :host {
   --surface-track-list-bg: rgb(from var(--mat-sys-secondary) r g b / 40%);
   --surface-playlist-shelf-bg: rgb(from var(--mat-sys-primary-container) r g b / 40%);
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .artist-container {
@@ -61,6 +65,8 @@
 }
 
 .biography {
+  flex: 1;
+
   min-height: 100%;
   padding: 10px 20px;
   border: 1px solid var(--mat-sys-surface);
@@ -84,4 +90,10 @@
   ppf-playlist-shelf {
     color: var(--mat-sys-tertiary);
   }
+}
+
+.loader {
+  display: flex;
+  flex: 1;
+  align-items: center;
 }
