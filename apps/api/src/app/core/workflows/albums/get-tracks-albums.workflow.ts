@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FetchTracksAlbumStep } from '$/core/steps/fetch-tracks-albums.step';
+import { FetchTracksAlbumStep } from '$/core/steps/fetch-tracks-album.step';
 import { AlbumResponse } from '@streaming-service/model';
 
 @Injectable()
