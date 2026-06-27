@@ -37,4 +37,18 @@ export const APP_ENDPOINTS = {
       path: API_ENDPOINTS.ACCOUNT.ME.clientUrl,
     }),
   },
+  SEARCH: {
+    AUTOCOMPLETE: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.SEARCH.AUTOCOMPLETE.clientUrl,
+    }),
+    TRACKS: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.SEARCH.TRACKS.clientUrl,
+    }),
+  },
 } as const;
