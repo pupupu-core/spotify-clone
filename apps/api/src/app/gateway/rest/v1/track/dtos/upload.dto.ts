@@ -15,9 +15,8 @@ export class UploadDto implements UploadTrackRequest {
   public artistName: string;
 
   @ApiProperty({ example: 'TANGK', required: false })
-  @MinLength(UPLOAD_TRACK_CONSTRAINTS.albumName.minLength)
-  @MaxLength(UPLOAD_TRACK_CONSTRAINTS.albumName.maxLength)
   @IsOptional()
+  @MaxLength(UPLOAD_TRACK_CONSTRAINTS.albumName.maxLength)
   public albumName?: string;
 
   @ApiProperty({ example: true })

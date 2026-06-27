@@ -15,7 +15,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { API_ENDPOINTS, UPLOAD_TRACK_CONSTRAINTS } from '@streaming-service/config';
 import { TrackDiscoveryResponse, UploadTrackResponse } from '@streaming-service/model';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
@@ -23,6 +23,7 @@ import { UploadDto } from './dtos/upload.dto';
 import { CurrentAccountId } from '../../decorators/current-account-id.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
+import { UploadTrackApiBodyOpenApiSchema } from './openapi/upload-track-api-body.schema';
 
 @ApiTags(OPENAPI_CONFIG.tags.track)
 @Controller({
@@ -42,6 +43,8 @@ export class TrackController {
   }
 
   @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ schema: UploadTrackApiBodyOpenApiSchema })
   @UseInterceptors(
     FileInterceptor('file', {
       storage: memoryStorage(),
