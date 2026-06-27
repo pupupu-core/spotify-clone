@@ -12,10 +12,6 @@ export class FetchTracksAlbumsStep {
       albumsId: albumIds,
     });
 
-    if (albums.length === 0) {
-      throw new Error('No album tracks found');
-    }
-
     return albums;
   }
 }
