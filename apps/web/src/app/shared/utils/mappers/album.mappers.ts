@@ -1,14 +1,18 @@
-import type { AlbumResponse } from '@streaming-service/model';
+import type { ArtistAlbum } from '@streaming-service/model';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
 
-export function mapAlbumResponseToAlbumUI(album: AlbumResponse): AlbumUI {
+export function mapAlbumResponseToAlbumUI(
+  album: ArtistAlbum,
+  artistId: string,
+  artistName: string,
+): AlbumUI {
   return {
-    id: album.id,
-    name: album.name,
+    id: album.albumId,
+    name: album.albumName,
     releaseDate: album.releaseDate,
-    artistId: album.artistId,
-    artistName: album.artistName,
-    imageUrl: album.imageUrl,
-    tracksCount: album.tracks.length,
+    artistId: artistId,
+    artistName: artistName,
+    imageUrl: album.albumImageUrl,
+    tracksCount: album.tracksCount,
   };
 }
