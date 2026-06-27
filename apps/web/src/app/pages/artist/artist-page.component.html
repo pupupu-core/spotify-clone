@@ -22,7 +22,7 @@
         <h2 class="name">{{ store.name() }}</h2>
       </div>
       <div class="biography">
-        <h3>{{ store.name() }} biography:</h3>
+        <h3>Artist biography:</h3>
         @if (store.biography()) {
           <p>{{ store.biography() }}</p>
         } @else {
@@ -32,7 +32,7 @@
     </div>
     <div class="artist-catalog">
       <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />
-      <ppf-playlist-shelf title="Artist Albums" />
+      <ppf-playlist-shelf title="Artist Albums" [albumsList]="store.albums()" />
     </div>
   </div>
 } @else {

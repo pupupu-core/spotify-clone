@@ -10,7 +10,7 @@ export const ArtistPageStore = signalStore(
   withState(initialState),
 
   withComputed(store => ({
-    albumsCount: computed(() => store.albums.length),
+    albumsCount: computed(() => store.albums().length),
   })),
 
   withMethods((store, artistService = inject(ArtistApiService)) => ({

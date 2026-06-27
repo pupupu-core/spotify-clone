@@ -3,18 +3,23 @@
   <div class="header">
     <p>
       <mat-icon inline>calendar_month</mat-icon>
-      <span>April 5, 2019</span>
+      <span>{{ album().releaseDate }}</span>
     </p>
     <p>
       <mat-icon inline>music_note</mat-icon>
-      <span>10 tracks</span>
+      <span>{{ album().tracksCount }} tracks</span>
     </p>
   </div>
   <div class="cover-container">
-    <img ngSrc="/img/album-bg-mock.png" alt="album name cover" width="195" height="195" />
+    <img
+      [ngSrc]="album().imageUrl || '/img/album-bg-mock.png'"
+      alt="album name cover"
+      width="195"
+      height="195"
+    />
   </div>
   <div class="footer">
-    <p>Album Name</p>
+    <p>{{ album().name }}</p>
     <button
       matIconButton
       aria-label="View playlist details"

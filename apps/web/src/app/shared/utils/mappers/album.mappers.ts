@@ -13,6 +13,6 @@ export function mapAlbumResponseToAlbumUI(
     artistId: artistId,
     artistName: artistName,
     imageUrl: album.albumImageUrl,
-    tracksCount: album.tracksCount,
+    tracksCount: album.tracksCount ?? 0,
   };
 }

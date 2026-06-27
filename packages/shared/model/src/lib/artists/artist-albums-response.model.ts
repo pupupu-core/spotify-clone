@@ -12,5 +12,5 @@ export interface ArtistAlbum {
   albumName: string;
   releaseDate: string;
   albumImageUrl: string;
-  tracksCount: number;
+  tracksCount?: number;
 }
