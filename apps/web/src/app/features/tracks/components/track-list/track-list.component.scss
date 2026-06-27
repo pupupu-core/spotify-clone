@@ -58,3 +58,9 @@
     box-shadow: none;
   }
 }
+
+.tracks-empty {
+  @include mixins.font-lg;
+
+  margin: auto;
+}

@@ -85,6 +85,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+
+  min-height: 450px;
+
   color: white;
 
   ppf-playlist-shelf {

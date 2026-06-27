@@ -7,16 +7,20 @@
     </button>
   </div>
 
-  <ul class="track-list__items">
-    @for (track of trackList(); track track.id) {
-      <li class="track-list__item">
-        <ppf-tracks
-          [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
-          [track]="track"
-          [view]="trackView()"
-          (playClick)="playTrackClick(track)"
-        />
-      </li>
-    }
-  </ul>
+  @if (trackList().length > 0) {
+    <ul class="track-list__items">
+      @for (track of trackList(); track track.id) {
+        <li class="track-list__item">
+          <ppf-tracks
+            [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
+            [track]="track"
+            [view]="trackView()"
+            (playClick)="playTrackClick(track)"
+          />
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="tracks-empty">No tracks available yet.</div>
+  }
 </section>

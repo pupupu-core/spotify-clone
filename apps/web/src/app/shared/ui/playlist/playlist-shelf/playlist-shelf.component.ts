@@ -20,7 +20,6 @@ import type { AlbumUI } from '~/shared/models/album-ui.model';
 export class PlaylistShelfComponent implements AfterViewInit, OnDestroy {
   public readonly title = input.required<string>();
   public readonly albumsList = input.required<AlbumUI[]>();
-
   private readonly zone = inject(NgZone);
 
   private readonly shelfRef = viewChild.required<ElementRef<HTMLDivElement>>('playlistShelfInner');

@@ -1,8 +1,12 @@
 <div class="playlist-shelf">
   <h2 class="title">{{ title() }}</h2>
   <div class="playlist-shelf-inner" #playlistShelfInner (wheel)="wheelHandler($event)">
-    @for (album of albumsList(); track album.id) {
-      <ppf-playlist-card [album]="album" />
+    @if (albumsList().length > 0) {
+      @for (album of albumsList(); track album.id) {
+        <ppf-playlist-card [album]="album" />
+      }
+    } @else {
+      <div class="albums-empty">No albums available yet.</div>
     }
   </div>
 </div>
