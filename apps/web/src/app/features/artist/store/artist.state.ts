@@ -1,5 +1,5 @@
-import type { ArtistAlbum } from '@streaming-service/model';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import type { AlbumUI } from '~/shared/models/album-ui.model';
 
 export interface ArtistPageState {
   id: string | null;
@@ -7,7 +7,7 @@ export interface ArtistPageState {
   biography: string | null;
   coverUrl: string | null;
   popularTracks: TrackUI[];
-  albums: ArtistAlbum[];
+  albums: AlbumUI[];
   isLoading: boolean;
   error: string | null;
 }

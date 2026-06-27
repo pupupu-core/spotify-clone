@@ -1,7 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import type { Observable } from 'rxjs';
-import type { ArtistMusicInfoResponse, ArtistTracksResponse } from '@streaming-service/model';
+import type {
+  ArtistAlbumsResponse,
+  ArtistMusicInfoResponse,
+  ArtistTracksResponse,
+} from '@streaming-service/model';
 import { APP_ENDPOINTS } from '~/core/config/endpoints.config';
 
 @Injectable({ providedIn: 'root' })
@@ -14,5 +18,9 @@ export class ArtistApiService {
 
   public getArtistPopularTrack(artistId: string): Observable<ArtistTracksResponse> {
     return this.http.get<ArtistTracksResponse>(APP_ENDPOINTS.ARTIST.TRACKS(artistId));
+  }
+
+  public getArtistAlbums(artistId: string): Observable<ArtistAlbumsResponse> {
+    return this.http.get<ArtistAlbumsResponse>(APP_ENDPOINTS.ARTIST.ALBUMS(artistId));
   }
 }
