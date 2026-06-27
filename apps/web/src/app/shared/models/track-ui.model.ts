@@ -1,3 +1,5 @@
+type TrackSource = 'jamendo' | 'userUpload';
+
 export interface TrackUI {
   id: string;
   name: string;
@@ -11,4 +13,5 @@ export interface TrackUI {
   albumName: string;
   genres?: string[];
   albumId: string;
+  sourse?: TrackSource;
 }
