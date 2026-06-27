@@ -10,7 +10,8 @@ import { Readable } from 'node:stream';
 import { extname } from 'node:path';
 import { APP_CONFIG } from '$/shared/config/app.config';
 import { S3_STORAGE_CONFIG } from './s3-storage.config';
-import { RetrieveObjectResult, UploadObjectInput, UploadObjectResult } from './types';
+import type { RetrieveObjectResult, UploadObjectInput, UploadObjectResult } from './types';
+import { S3ObjectBodyNotReadableError } from './errors/s3-object-body-not-readable.error';
 
 @Injectable()
 export class S3StorageService {
@@ -63,7 +64,7 @@ export class S3StorageService {
     );
 
     if (!(response.Body instanceof Readable)) {
-      throw new Error('Expected S3 object body to be a Node readable stream');
+      throw new S3ObjectBodyNotReadableError(objectKey);
     }
 
     return {
