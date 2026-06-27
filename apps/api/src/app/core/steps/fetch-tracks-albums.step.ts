@@ -8,7 +8,7 @@ export class FetchTracksAlbumsStep {
 
   public async execute(albumIds: number[]): Promise<AlbumResponse[]> {
     const albums = await this.jamendoClient.listTracksAlbums({
-      order: 'track_position',
+      order: 'popularity_total',
       albumsId: albumIds,
     });
 
