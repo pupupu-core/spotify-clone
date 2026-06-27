@@ -6,10 +6,20 @@ import { FetchTrackDiscoveryStep } from '$/core/steps/fetch-track-discovery.step
 import { JamendoModule } from '$/infrastructure/jamendo/jamendo.module';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
 import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
+import { UploadTrackWorkflow } from '$/core/workflows/track/upload-track.workflow';
+import { UploadTrackStep } from '$/core/steps/upload-track.step';
+import { PrismaModule } from '$/infrastructure/prisma/prisma.module';
+import { StorageModule } from '$/infrastructure/storage/s3-storage.module';
 
 @Module({
-  imports: [JamendoModule, AuthTokenModule],
+  imports: [JamendoModule, AuthTokenModule, PrismaModule, StorageModule],
   controllers: [TrackController],
-  providers: [GetTrackDiscoveryWorkflow, FetchTrackDiscoveryStep, AccessTokenGuard],
+  providers: [
+    GetTrackDiscoveryWorkflow,
+    UploadTrackWorkflow,
+    FetchTrackDiscoveryStep,
+    AccessTokenGuard,
+    UploadTrackStep,
+  ],
 })
 export class TrackModule {}

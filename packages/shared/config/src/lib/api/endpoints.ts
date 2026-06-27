@@ -31,6 +31,10 @@ export const API_ENDPOINTS = {
       serverPath: 'discovery',
       clientUrl: '/tracks/discovery',
     },
+    UPLOAD: {
+      serverPath: 'upload',
+      clientUrl: '/tracks/upload',
+    },
   },
   ARTIST: {
     basePath: 'artists',
