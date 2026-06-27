@@ -10,9 +10,13 @@
       />
     </div>
     <div class="track-text">
-      <h3 class="author-name">
-        <a [routerLink]="['/artist', track().artistId]">{{ track().artistName }}</a>
-      </h3>
+      <div class="author-name">
+        @if (track().sourse !== 'userUpload') {
+          <a [routerLink]="['/artist', track().artistId]">{{ track().artistName }}</a>
+        } @else {
+          <span>{{ track().artistName }}</span>
+        }
+      </div>
       <h4 class="track-name">{{ track().name }}</h4>
     </div>
   </div>
