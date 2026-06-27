@@ -1,4 +1,4 @@
-type ToastType = 'default' | 'info' | 'warn' | 'error' | 'success';
+export type ToastType = 'default' | 'info' | 'warn' | 'error' | 'success';
 
 export interface ToastPayload {
   readonly type: ToastType;
