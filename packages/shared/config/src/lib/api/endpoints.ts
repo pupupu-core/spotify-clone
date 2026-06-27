@@ -54,4 +54,15 @@ export const API_ENDPOINTS = {
       clientUrl: '/albums/:albumId/tracks',
     },
   },
+  SEARCH: {
+    basePath: 'search',
+    AUTOCOMPLETE: {
+      serverPath: 'autocomplete',
+      clientUrl: '/search/autocomplete',
+    },
+    TRACKS: {
+      serverPath: 'tracks',
+      clientUrl: '/search/tracks',
+    },
+  },
 } as const;
