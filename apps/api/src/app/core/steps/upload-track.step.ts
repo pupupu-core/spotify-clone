@@ -97,6 +97,7 @@ export class UploadTrackStep {
             artistName: true,
             audioFileId: true,
             albumName: true,
+            source: true,
           },
         });
       });
@@ -107,6 +108,8 @@ export class UploadTrackStep {
         artistName: track.artistName,
         audioFileId: track.audioFileId,
         albumName: track.albumName,
+        // TODO: refactor with correct type or enum later
+        source: 'userUpload',
       };
     } catch (error) {
       await this.prisma.storedFile.update({
