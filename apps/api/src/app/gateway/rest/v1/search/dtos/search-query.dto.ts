@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { IsInt, IsOptional, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
 
 export class AutocompleteQueryDto {
   @ApiProperty({
@@ -16,15 +16,17 @@ export class AutocompleteQueryDto {
 
   @ApiPropertyOptional({
     description: 'how much suggestions are matched per query',
+    type: Number,
     minimum: 1,
     maximum: 10,
     default: 5,
   })
   @Type(() => Number)
+  @IsOptional()
   @IsInt()
   @Min(1)
   @Max(10)
-  public limit = 5;
+  public limit?: number;
 }
 
 export class TrackSearchQueryDto {
@@ -41,6 +43,7 @@ export class TrackSearchQueryDto {
 
   @ApiPropertyOptional({
     description: 'maximum returned tracks',
+    type: Number,
     minimum: 1,
     maximum: 100,
     default: 50,
@@ -49,5 +52,5 @@ export class TrackSearchQueryDto {
   @IsInt()
   @Min(1)
   @Max(100)
-  public limit = 50;
+  public limit?: number;
 }

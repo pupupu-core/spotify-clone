@@ -21,12 +21,12 @@ export class SearchController {
   @HttpCode(HttpStatus.OK)
   @Get(API_ENDPOINTS.SEARCH.AUTOCOMPLETE.serverPath)
   public async autocomplete(@Query() query: AutocompleteQueryDto): Promise<AutocompleteResponse> {
-    return await this.getAutocompleteWorkflow.execute(query.query, query.limit);
+    return await this.getAutocompleteWorkflow.execute(query.query, query.limit ?? 5);
   }
 
   @HttpCode(HttpStatus.OK)
   @Get(API_ENDPOINTS.SEARCH.TRACKS.serverPath)
   public async tracks(@Query() query: TrackSearchQueryDto): Promise<TrackResponse[]> {
-    return await this.searchTracksWorkflow.execute(query.query, query.limit);
+    return await this.searchTracksWorkflow.execute(query.query, query.limit ?? 50);
   }
 }
