@@ -1,11 +1,28 @@
 import { GetTrackDiscoveryWorkflow } from '$/core/workflows/track/get-track-discovery.workflow';
 import { UploadTrackWorkflow } from '$/core/workflows/track/upload-track.workflow';
 import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
-import { Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  FileTypeValidator,
+  Get,
+  HttpCode,
+  HttpStatus,
+  MaxFileSizeValidator,
+  ParseFilePipe,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { API_ENDPOINTS } from '@streaming-service/config';
-import { TrackDiscoveryResponse } from '@streaming-service/model';
+import { API_ENDPOINTS, UPLOAD_TRACK_CONSTRAINTS } from '@streaming-service/config';
+import { TrackDiscoveryResponse, UploadTrackResponse } from '@streaming-service/model';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
+import { UploadDto } from './dtos/upload.dto';
+import { CurrentAccountId } from '../../decorators/current-account-id.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 
 @ApiTags(OPENAPI_CONFIG.tags.track)
 @Controller({
@@ -25,10 +42,34 @@ export class TrackController {
   }
 
   @ApiBearerAuth()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      limits: {
+        fileSize: UPLOAD_TRACK_CONSTRAINTS.limits.maxFileSizeBytes,
+      },
+    }),
+  )
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.CREATED)
   @Post(API_ENDPOINTS.TRACK.UPLOAD.serverPath)
-  public async upload(): Promise<void> {
-    return await this.uploadTrackWorkflow.execute();
+  public async upload(
+    @CurrentAccountId() accountId: string,
+    @Body() dto: UploadDto,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: UPLOAD_TRACK_CONSTRAINTS.limits.maxFileSizeBytes,
+          }),
+          new FileTypeValidator({
+            fileType: UPLOAD_TRACK_CONSTRAINTS.limits.typeRegex,
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ): Promise<UploadTrackResponse> {
+    return await this.uploadTrackWorkflow.execute({ file, accountId, ...dto });
   }
 }
