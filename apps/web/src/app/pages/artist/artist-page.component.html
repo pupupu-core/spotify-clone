@@ -1,6 +1,10 @@
 <!--TODO: добавить данные после добавления интерфейса-->
 @let coverUrl = store.coverUrl();
-@if (store.name()) {
+@if (store.isLoading()) {
+  <div class="loader">
+    <mat-spinner />
+  </div>
+} @else {
   <div class="artist-container">
     <div class="artist-info">
       <div class="avatar">
@@ -34,9 +38,5 @@
       <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />
       <ppf-playlist-shelf title="Artist Albums" [albumsList]="store.albums()" />
     </div>
-  </div>
-} @else {
-  <div class="loader">
-    <mat-spinner />
   </div>
 }

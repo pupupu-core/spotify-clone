@@ -36,9 +36,7 @@ export class ArtistPageComponent {
       const id = this.artistId();
 
       if (id !== null && id !== undefined) {
-        void this.store.loadMusicInfo(id);
-        void this.store.loadPopularTracks(id);
-        void this.store.loadArtistAlbums(id);
+        this.store.loadArtistPage(id);
       }
     });
   }

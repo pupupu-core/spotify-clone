@@ -1,10 +1,36 @@
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import type { ArtistPageState } from '~/features/artist/store/artist.state';
 import { initialState } from '~/features/artist/store/artist.state';
 import { computed, inject } from '@angular/core';
 import { ArtistApiService } from '~/core/services/artist-api.service';
-import { firstValueFrom } from 'rxjs';
+import { forkJoin, map, pipe, switchMap, tap } from 'rxjs';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { tapResponse } from '@ngrx/operators';
+import type { ArtistMusicInfoResponse } from '@streaming-service/model';
 import { mapArtistTrackToTrackUI } from '~/shared/utils/mappers/artist.mappers';
 import { mapAlbumResponseToAlbumUI } from '~/shared/utils/mappers/album.mappers';
+
+function mapArtist(response: ArtistMusicInfoResponse): Partial<ArtistPageState> {
+  const description = response.musicInfo.description;
+
+  const descriptionValue =
+    (description['en'] ||
+      description['ru'] ||
+      description['fr'] ||
+      description['es'] ||
+      Object.values(description).find(v => v.trim() !== '')) ??
+    '';
+
+  const biography =
+    new DOMParser().parseFromString(descriptionValue, 'text/html').body.textContent ?? null;
+
+  return {
+    id: response.id,
+    name: response.name,
+    biography: biography,
+    coverUrl: response.imageUrl,
+  };
+}
 
 export const ArtistPageStore = signalStore(
   withState(initialState),
@@ -14,74 +40,51 @@ export const ArtistPageStore = signalStore(
   })),
 
   withMethods((store, artistService = inject(ArtistApiService)) => ({
-    async loadMusicInfo(artistId: string): Promise<void> {
-      patchState(store, { isLoading: true });
-      try {
-        const response = await firstValueFrom(artistService.getMusicInfo(artistId));
-        const description = response.musicInfo.description;
-        const descriptionValue =
-          (description['en'] ||
-            description['ru'] ||
-            description['fr'] ||
-            description['es'] ||
-            Object.values(description).find(value => value.trim() !== '')) ??
-          '';
-        const biography = new DOMParser().parseFromString(descriptionValue, 'text/html').body
-          .textContent;
+    loadArtistPage: rxMethod<string>(
+      pipe(
+        tap(() => {
+          patchState(store, {
+            isLoading: true,
+          });
+        }),
 
-        patchState(store, {
-          id: response.id,
-          name: response.name,
-          biography: biography || null,
-          coverUrl: response.imageUrl,
-          isLoading: false,
-        });
-      } catch (error) {
-        patchState(store, {
-          isLoading: false,
-          error: error instanceof Error ? error.message : 'Failed to load artist information.',
-        });
-      }
-    },
+        switchMap(artistId =>
+          forkJoin({
+            musicInfo: artistService.getMusicInfo(artistId),
+            popularTracks: artistService.getArtistPopularTrack(artistId),
+            ArtistAlbums: artistService.getArtistAlbums(artistId),
+          }).pipe(
+            map(({ musicInfo, popularTracks, ArtistAlbums }) => ({
+              ...mapArtist(musicInfo),
 
-    async loadPopularTracks(artistId: string): Promise<void> {
-      patchState(store, { isLoading: true });
-      try {
-        const response = await firstValueFrom(artistService.getArtistPopularTrack(artistId));
-        const tracks = response.tracks.map(track =>
-          mapArtistTrackToTrackUI(response.id, response.name, track),
-        );
+              popularTracks: popularTracks.tracks.map(track =>
+                mapArtistTrackToTrackUI(popularTracks.id, popularTracks.name, track),
+              ),
 
-        patchState(store, {
-          popularTracks: tracks,
-          isLoading: false,
-        });
-      } catch (error) {
-        patchState(store, {
-          isLoading: false,
-          error: error instanceof Error ? error.message : 'Failed to load artist popular tracks.',
-        });
-      }
-    },
+              albums: ArtistAlbums.albums.map(album =>
+                mapAlbumResponseToAlbumUI(album, ArtistAlbums.id, ArtistAlbums.name),
+              ),
+            })),
 
-    async loadArtistAlbums(artistId: string): Promise<void> {
-      patchState(store, { isLoading: true });
-      try {
-        const response = await firstValueFrom(artistService.getArtistAlbums(artistId));
-        const albums = response.albums.map(album =>
-          mapAlbumResponseToAlbumUI(album, response.id, response.name),
-        );
+            tapResponse({
+              next: state => {
+                patchState(store, {
+                  ...state,
+                  isLoading: false,
+                });
+              },
 
-        patchState(store, {
-          albums: albums,
-          isLoading: false,
-        });
-      } catch (error) {
-        patchState(store, {
-          isLoading: false,
-          error: error instanceof Error ? error.message : 'Failed to load artist albums.',
-        });
-      }
-    },
+              error: error => {
+                patchState(store, {
+                  isLoading: false,
+                  error:
+                    error instanceof Error ? error.message : 'Failed to load artist page date.',
+                });
+              },
+            }),
+          ),
+        ),
+      ),
+    ),
   })),
 );
