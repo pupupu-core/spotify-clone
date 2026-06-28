@@ -3,7 +3,7 @@
   <div class="header">
     <p>
       <mat-icon inline>calendar_month</mat-icon>
-      <span>{{ album().releaseDate }}</span>
+      <span>{{ album().releaseDate | date: 'mediumDate' }}</span>
     </p>
     <p>
       <mat-icon inline>music_note</mat-icon>
