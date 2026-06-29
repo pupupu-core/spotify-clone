@@ -1,15 +1,13 @@
 <!--TODO: заменить данные на input сигнал, после добавление интерфейсов-->
 <div class="playlist-card-container">
   <div class="header">
-    <p>
-      <mat-icon inline>calendar_month</mat-icon>
-      <span>{{ album().releaseDate | date: 'mediumDate' }}</span>
-    </p>
-    <p>
-      <mat-icon inline>music_note</mat-icon>
-      <span>{{ album().tracksCount }} tracks</span>
-    </p>
+    @if (mode() === 'artist') {
+      <ng-container *ngTemplateOutlet="artisHeader" />
+    } @else if (mode() === 'library') {
+      <ng-container *ngTemplateOutlet="libraryHeader" />
+    }
   </div>
+  <ng-content />
   <div class="cover-container">
     <img
       [ngSrc]="album().imageUrl || '/img/album-bg-mock.png'"
@@ -30,3 +28,26 @@
     </button>
   </div>
 </div>
+
+<ng-template #artisHeader>
+  <p>
+    <mat-icon inline>calendar_month</mat-icon>
+    <span>{{ album().releaseDate | date: 'mediumDate' }}</span>
+  </p>
+  <p>
+    <mat-icon inline>music_note</mat-icon>
+    <span>{{ album().tracksCount }} tracks</span>
+  </p>
+</ng-template>
+
+<ng-template #libraryHeader>
+  <p>
+    <mat-icon inline>timer</mat-icon>
+    <!--    TODO: исправить на реальные данные-->
+    <span>{{ '1234' | duration }}</span>
+  </p>
+  <p>
+    <mat-icon inline>music_note</mat-icon>
+    <span>{{ album().tracksCount }} tracks</span>
+  </p>
+</ng-template>

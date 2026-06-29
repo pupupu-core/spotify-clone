@@ -7,8 +7,9 @@ import {
   NgZone,
   viewChild,
 } from '@angular/core';
-import { PlaylistCardComponent } from '../playlist-card/playlist-card.component';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
+import type { AlbumCardMode } from '~/features/tracks/components/track-list/models/mode.model';
+import { PlaylistCardComponent } from '~/shared/ui/playlist/playlist-card/playlist-card.component';
 
 @Component({
   selector: 'ppf-playlist-shelf',
@@ -20,6 +21,8 @@ import type { AlbumUI } from '~/shared/models/album-ui.model';
 export class PlaylistShelfComponent implements AfterViewInit, OnDestroy {
   public readonly title = input.required<string>();
   public readonly albumsList = input.required<AlbumUI[]>();
+  public readonly mode = input.required<AlbumCardMode>();
+
   private readonly zone = inject(NgZone);
 
   private readonly shelfRef = viewChild.required<ElementRef<HTMLDivElement>>('playlistShelfInner');

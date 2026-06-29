@@ -3,7 +3,7 @@
   <div class="playlist-shelf-inner" #playlistShelfInner (wheel)="wheelHandler($event)">
     @if (albumsList().length > 0) {
       @for (album of albumsList(); track album.id) {
-        <ppf-playlist-card [album]="album" />
+        <ppf-playlist-card [album]="album" [mode]="mode()" />
       }
     } @else {
       <div class="albums-empty">No albums available yet.</div>

@@ -8,7 +8,7 @@ import { JamendoAlbum, JamendoAlbumTrack } from '$/infrastructure/jamendo/types/
 const mapToAlbumTrack = (dto: JamendoAlbumTrackDto): JamendoAlbumTrack => {
   return {
     count: dto.count,
-    albumId: dto.id,
+    trackId: dto.id,
     position: dto.position,
     name: dto.name,
     duration: dto.duration,
