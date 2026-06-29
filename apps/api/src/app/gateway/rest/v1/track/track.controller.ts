@@ -20,7 +20,11 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { API_ENDPOINTS, UPLOAD_TRACK_CONSTRAINTS } from '@streaming-service/config';
-import { TrackDiscoveryResponse, UploadTrackResponse } from '@streaming-service/model';
+import {
+  CommunityTracksResponse,
+  TrackDiscoveryResponse,
+  UploadTrackResponse,
+} from '@streaming-service/model';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
 import { UploadDto } from './dtos/upload.dto';
 import { CurrentAccountId } from '../../decorators/current-account-id.decorator';
@@ -29,6 +33,7 @@ import { memoryStorage } from 'multer';
 import { UploadTrackApiBodyOpenApiSchema } from './openapi/upload-track-api-body.schema';
 import { DeleteTrackWorkflow } from '$/core/workflows/track/delete-track.workflow';
 import { RetrieveTrackAudioWorkflow } from '$/core/workflows/track/retrieve-track-audio.workflow';
+import { ListCommunityTracksWorkflow } from '$/core/workflows/track/list-community-tracks.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.track)
 @Controller({
@@ -41,6 +46,7 @@ export class TrackController {
     private readonly uploadTrackWorkflow: UploadTrackWorkflow,
     private readonly deleteTrackWorkflow: DeleteTrackWorkflow,
     private readonly retrieveTrackAudioWorkflow: RetrieveTrackAudioWorkflow,
+    private readonly listCommunityTracksWorkflow: ListCommunityTracksWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -104,5 +110,11 @@ export class TrackController {
       length: audio.contentLength,
       disposition: 'inline',
     });
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get(API_ENDPOINTS.TRACK.COMMUNITY.serverPath)
+  public async community(): Promise<CommunityTracksResponse> {
+    return await this.listCommunityTracksWorkflow.execute();
   }
 }
