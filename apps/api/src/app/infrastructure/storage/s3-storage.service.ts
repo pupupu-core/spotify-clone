@@ -10,7 +10,12 @@ import { Readable } from 'node:stream';
 import { extname } from 'node:path';
 import { APP_CONFIG } from '$/shared/config/app.config';
 import { S3_STORAGE_CONFIG } from './s3-storage.config';
-import type { RetrieveObjectResult, UploadObjectInput, UploadObjectResult } from './types';
+import type {
+  RetrieveObjectRange,
+  RetrieveObjectResult,
+  UploadObjectInput,
+  UploadObjectResult,
+} from './types';
 import { S3ObjectBodyNotReadableError } from './errors/s3-object-body-not-readable.error';
 
 @Injectable()
@@ -55,11 +60,15 @@ export class S3StorageService {
     );
   }
 
-  public async retrieveObject(objectKey: string): Promise<RetrieveObjectResult> {
+  public async retrieveObject(
+    objectKey: string,
+    range?: RetrieveObjectRange,
+  ): Promise<RetrieveObjectResult> {
     const response = await this.storageClient.send(
       new GetObjectCommand({
         Bucket: APP_CONFIG.storage.s3.bucket,
         Key: objectKey,
+        Range: range ? `bytes=${range.start}-${range.end}` : undefined,
       }),
     );
 
