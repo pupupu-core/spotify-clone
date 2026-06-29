@@ -1,7 +1,7 @@
 import type { TrackAudioStream } from '$/core/models/tracks/track-audio-stream.model';
 import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { S3StorageService } from '$/infrastructure/storage/s3-storage.service';
-import type { RetrieveObjectRange } from '$/infrastructure/storage/types';
+import { parseHttpRangeHeader } from '$/shared/lib/parse-http-range-header';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   StoredFileUploadStatus,
@@ -13,38 +13,6 @@ interface RetrieveTrackAudioInput {
   trackId: string;
   rangeHeader?: string;
 }
-
-const parseRangeHeader = (
-  rangeHeader: string | undefined,
-  totalSize: number,
-): RetrieveObjectRange | undefined => {
-  if (rangeHeader === undefined) {
-    return;
-  }
-
-  const match = rangeHeader.match(/^bytes=(\d*)-(\d*)$/);
-
-  if (match === null) {
-    return;
-  }
-
-  const [, rawStart, rawEnd] = match;
-
-  const start = rawStart === '' ? 0 : Number(rawStart);
-  const end = rawEnd === '' ? totalSize - 1 : Number(rawEnd);
-
-  if (
-    !Number.isInteger(start) ||
-    !Number.isInteger(end) ||
-    start < 0 ||
-    end < start ||
-    end >= totalSize
-  ) {
-    return;
-  }
-
-  return { start, end };
-};
 
 @Injectable()
 export class RetrieveTrackAudioStep {
@@ -86,7 +54,7 @@ export class RetrieveTrackAudioStep {
       throw new NotFoundException('Track audio not found');
     }
 
-    const range = parseRangeHeader(rangeHeader, track.audioFile.sizeBytes);
+    const range = parseHttpRangeHeader(rangeHeader, track.audioFile.sizeBytes);
     const object = await this.storage.retrieveObject(track.audioFile.objectKey, range);
 
     return {
