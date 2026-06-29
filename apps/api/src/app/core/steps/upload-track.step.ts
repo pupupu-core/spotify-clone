@@ -21,9 +21,6 @@ interface UploadTrackStepInput {
   isPrivate: boolean;
 }
 
-// TODO
-// Рефактор после добавления общего механизма транзакций в workflow
-// На атомарные степы
 @Injectable()
 export class UploadTrackStep {
   public constructor(
@@ -37,10 +34,10 @@ export class UploadTrackStep {
     title,
     artistName,
     albumName,
-    // TODO: Add fields to schema
-    // isSingle,
-    // isPrivate,
+    // TODO: Add Track.visibility and Track.releaseType to schema
+    // Map isPrivate/isSingle request flags to those fields in future
   }: UploadTrackStepInput): Promise<UploadTrackResponse> {
+    // Future UploadTrackAudioStep
     const storedFile = await this.prisma.storedFile.create({
       data: {
         uploadedByAccountId: accountId,
@@ -67,6 +64,7 @@ export class UploadTrackStep {
         kind: 'track-audio',
       });
 
+      // Future PublishUploadedTrackStep
       const track = await this.prisma.$transaction(async tx => {
         await tx.storedFile.update({
           where: {
@@ -112,6 +110,7 @@ export class UploadTrackStep {
         source: 'userUpload',
       };
     } catch (error) {
+      // Future FailTrackAudioUploadStep
       await this.prisma.storedFile.update({
         where: {
           id: storedFile.id,
