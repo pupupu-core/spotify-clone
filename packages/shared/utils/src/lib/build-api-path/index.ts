@@ -1,3 +1,9 @@
+/**
+ * Builds a normalized API URL from origin, prefix, version, and endpoint path.
+ *
+ * By default it creates `/api/v1/...`. Pass `prefix: null` when the API should
+ * be versioned directly as `/v1/...`.
+ */
 export const buildApiPath = ({
   origin = '',
   prefix = '/api',

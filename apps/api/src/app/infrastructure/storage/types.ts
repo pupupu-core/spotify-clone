@@ -22,3 +22,8 @@ export interface RetrieveObjectResult {
   contentType?: string;
   contentLength?: number;
 }
+
+export interface RetrieveObjectRange {
+  start: number;
+  end: number;
+}
