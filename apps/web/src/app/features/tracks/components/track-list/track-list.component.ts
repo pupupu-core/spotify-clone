@@ -5,6 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { PpfPlayerService } from '../../../player/services/track-player.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import type { TrackMode } from '~/features/tracks/components/track/models/track.model';
 
 @Component({
   selector: 'ppf-tracks-list',
@@ -18,7 +19,9 @@ export class TrackListComponent {
   public readonly trackList = input.required<TrackUI[]>();
   public readonly mode = input<TrackListMode>('list');
   protected readonly player = inject(PpfPlayerService);
-  protected readonly trackView = computed(() => (this.mode() === 'grid' ? 'card' : 'list'));
+  protected readonly trackView = computed<TrackMode>(() =>
+    this.mode() === 'grid' ? 'card' : 'row',
+  );
 
   protected playAllClick(): void {
     this.player.playTracks(this.trackList());

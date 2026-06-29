@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { TrackRowComponent } from './track-row/track-row.component';
 import { TrackCardComponent } from './track-card/track-card.component';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import type { TrackMode } from '~/features/tracks/components/track/models/track.model';
 
 @Component({
   selector: 'ppf-tracks',
@@ -12,7 +13,7 @@ import type { TrackUI } from '~/shared/models/track-ui.model';
 })
 export class Track {
   public readonly track = input.required<TrackUI>();
-  public readonly view = input.required<'list' | 'card'>();
+  public readonly view = input.required<TrackMode>();
   public readonly isPlaying = input.required<boolean>();
   public readonly playClick = output<void>();
 }
