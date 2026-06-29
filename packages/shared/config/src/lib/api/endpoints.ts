@@ -35,6 +35,10 @@ export const API_ENDPOINTS = {
       serverPath: 'upload',
       clientUrl: '/tracks/upload',
     },
+    DELETE: {
+      serverPath: ':trackId',
+      clientUrl: '/tracks/:trackId',
+    },
   },
   ARTIST: {
     basePath: 'artists',

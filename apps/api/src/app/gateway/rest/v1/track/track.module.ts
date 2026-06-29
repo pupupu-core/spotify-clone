@@ -10,6 +10,8 @@ import { UploadTrackWorkflow } from '$/core/workflows/track/upload-track.workflo
 import { UploadTrackStep } from '$/core/steps/upload-track.step';
 import { PrismaModule } from '$/infrastructure/prisma/prisma.module';
 import { StorageModule } from '$/infrastructure/storage/s3-storage.module';
+import { DeleteTrackWorkflow } from '$/core/workflows/track/delete-track.workflow';
+import { DeleteTrackStep } from '$/core/steps/delete-track.step';
 
 @Module({
   imports: [JamendoModule, AuthTokenModule, PrismaModule, StorageModule],
@@ -17,9 +19,11 @@ import { StorageModule } from '$/infrastructure/storage/s3-storage.module';
   providers: [
     GetTrackDiscoveryWorkflow,
     UploadTrackWorkflow,
+    DeleteTrackWorkflow,
     FetchTrackDiscoveryStep,
     AccessTokenGuard,
     UploadTrackStep,
+    DeleteTrackStep,
   ],
 })
 export class TrackModule {}

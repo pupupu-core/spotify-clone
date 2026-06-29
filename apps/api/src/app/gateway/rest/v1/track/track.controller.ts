@@ -4,11 +4,13 @@ import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
 import {
   Body,
   Controller,
+  Delete,
   FileTypeValidator,
   Get,
   HttpCode,
   HttpStatus,
   MaxFileSizeValidator,
+  Param,
   ParseFilePipe,
   Post,
   UploadedFile,
@@ -24,6 +26,7 @@ import { CurrentAccountId } from '../../decorators/current-account-id.decorator'
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { UploadTrackApiBodyOpenApiSchema } from './openapi/upload-track-api-body.schema';
+import { DeleteTrackWorkflow } from '$/core/workflows/track/delete-track.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.track)
 @Controller({
@@ -34,6 +37,7 @@ export class TrackController {
   public constructor(
     private readonly getTrackDiscoveryWorkflow: GetTrackDiscoveryWorkflow,
     private readonly uploadTrackWorkflow: UploadTrackWorkflow,
+    private readonly deleteTrackWorkflow: DeleteTrackWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -74,5 +78,16 @@ export class TrackController {
     file: Express.Multer.File,
   ): Promise<UploadTrackResponse> {
     return await this.uploadTrackWorkflow.execute({ file, accountId, ...dto });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(API_ENDPOINTS.TRACK.DELETE.serverPath)
+  public async delete(
+    @CurrentAccountId() accountId: string,
+    @Param('trackId') trackId: string,
+  ): Promise<void> {
+    return await this.deleteTrackWorkflow.execute({ accountId, trackId });
   }
 }
