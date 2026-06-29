@@ -13,6 +13,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTES } from '~/core/config/routes.config';
+import {
+  MatAutocompleteModule,
+  type MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 
 import type { AutocompleteEntity, AutocompleteResponse } from '@streaming-service/model';
 import {
@@ -42,7 +46,7 @@ const AUTOCOMPLETE_ENTITIES: AutocompleteEntity[] = ['tracks', 'artists', 'album
 
 interface AutocompleteSuggestion {
   entity: AutocompleteEntity;
-  label: string;
+  label: string | number;
 }
 
 interface AutocompleteState {
@@ -52,7 +56,15 @@ interface AutocompleteState {
 
 @Component({
   selector: 'ppf-search-bar',
-  imports: [MatFormField, MatIcon, MatInput, MatSuffix, MatIconButton, ReactiveFormsModule],
+  imports: [
+    MatAutocompleteModule,
+    MatFormField,
+    MatIcon,
+    MatIconButton,
+    MatInput,
+    MatSuffix,
+    ReactiveFormsModule,
+  ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -136,6 +148,13 @@ export class SearchBarComponent {
           this.ppfSearchBarGroup.setValue({ searchQuery: query }, { emitEvent: false });
         }
       });
+  }
+
+  protected selectSuggestion(event: MatAutocompleteSelectedEvent): void {
+    const value: unknown = event.option.value;
+    const stringifyValue = String(value);
+
+    this.navigateToSearch(stringifyValue);
   }
 
   protected submitSearch(): void {

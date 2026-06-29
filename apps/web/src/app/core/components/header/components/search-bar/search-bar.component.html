@@ -1,6 +1,7 @@
 <form [formGroup]="ppfSearchBarGroup" class="search-form" (ngSubmit)="submitSearch()">
   <mat-form-field appearance="outline" class="search-bar" subscriptSizing="dynamic">
     <input
+      #autocompleteTrigger="matAutocompleteTrigger"
       class="search-input"
       matInput
       type="search"
@@ -8,9 +9,19 @@
       autocomplete="off"
       type="search"
       formControlName="searchQuery"
+      [matAutocomplete]="autocomplete"
     />
     <button type="submit" matSuffix matIconButton aria-label="Search button">
       <mat-icon>search</mat-icon>
     </button>
   </mat-form-field>
+
+  <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="selectSuggestion($event)">
+    @for (suggestion of suggestions(); track suggestion.entity + suggestion.label) {
+      <mat-option [value]="suggestion.label">
+        <p>{{ suggestion.label }}</p>
+        <span class="entity">/{{ suggestion.entity }}/</span>
+      </mat-option>
+    }
+  </mat-autocomplete>
 </form>
