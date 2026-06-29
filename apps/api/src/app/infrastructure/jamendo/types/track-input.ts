@@ -7,6 +7,7 @@ export interface JamendoListTracksInput {
   offset?: number;
   search?: string;
   genres?: string[];
+  include?: JamendoListTracksInclude;
 }
 
 export type JamendoListTracksOrder =
@@ -36,3 +37,5 @@ type JamendoListTracksRatingOrder =
   | 'popularity_week'
   | 'popularity_month'
   | 'popularity_total';
+
+type JamendoListTracksInclude = 'licenses' | 'musicinfo' | 'stats' | 'lyrics';
