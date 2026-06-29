@@ -8,7 +8,7 @@ import {
   viewChild,
 } from '@angular/core';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
-import { PlaylistCardComponent } from '~/shared/ui/playlist/playlist-card/playlist-card.component';
+import { PlaylistCardComponent } from '~/shared/ui/playlist/components/playlist-card/playlist-card.component';
 import type { AlbumCardMode } from '~/shared/ui/playlist/models/playlist.model';
 
 @Component({

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/cor
 import { NgOptimizedImage } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
-import { PlaylistShelfComponent } from '~/shared/ui/playlist/playlist-shelf/playlist-shelf.component';
+import { PlaylistShelfComponent } from '~/shared/ui/playlist/components/playlist-shelf/playlist-shelf.component';
 import { ArtistPageStore } from '~/features/artist/store/artist.store';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';

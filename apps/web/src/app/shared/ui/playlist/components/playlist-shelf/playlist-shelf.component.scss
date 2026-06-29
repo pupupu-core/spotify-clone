@@ -1,5 +1,5 @@
-@use 'src/styles/mixins';
-@use 'src/styles/variables';
+@use '../../../../../../styles/mixins';
+@use '../../../../../../styles/variables';
 
 :host {
   border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
