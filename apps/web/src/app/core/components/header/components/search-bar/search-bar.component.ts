@@ -1,15 +1,53 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatInput, MatSuffix } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
-import { distinctUntilChanged, map } from 'rxjs';
 import { ROUTES } from '~/core/config/routes.config';
+
+import type { AutocompleteEntity, AutocompleteResponse } from '@streaming-service/model';
+import {
+  catchError,
+  concat,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
+import { SearchApiService } from '~/core/services/search-api.service';
 
 interface ppfSearchBar {
   searchQuery: FormControl<string>;
+}
+
+const EMPTY_AUTOCOMPLETE: AutocompleteResponse = {
+  albums: [],
+  artists: [],
+  tags: [],
+  tracks: [],
+};
+
+const AUTOCOMPLETE_ENTITIES: AutocompleteEntity[] = ['tracks', 'artists', 'albums', 'tags'];
+
+interface AutocompleteSuggestion {
+  entity: AutocompleteEntity;
+  label: string;
+}
+
+interface AutocompleteState {
+  status: 'error' | 'idle' | 'loading' | 'success';
+  response: AutocompleteResponse;
 }
 
 @Component({
@@ -23,9 +61,67 @@ export class SearchBarComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly searchApi = inject(SearchApiService);
 
   protected readonly ppfSearchBarGroup = new FormGroup<ppfSearchBar>({
     searchQuery: new FormControl('', { nonNullable: true }),
+  });
+
+  protected readonly autocompleteState = toSignal(
+    this.ppfSearchBarGroup.controls.searchQuery.valueChanges.pipe(
+      tap((typed: string) => {
+        console.log(typed);
+      }),
+      map(value => value.trim()),
+      distinctUntilChanged(),
+      debounceTime(500),
+      switchMap(query => {
+        if (query.length < 2) {
+          return of<AutocompleteState>({
+            status: 'idle',
+            response: EMPTY_AUTOCOMPLETE,
+          });
+        }
+
+        return concat(
+          of<AutocompleteState>({
+            status: 'loading',
+            response: EMPTY_AUTOCOMPLETE,
+          }),
+          this.searchApi.autocomplete(query).pipe(
+            map(response => ({
+              status: 'success',
+              response,
+            })),
+            catchError(() =>
+              of<AutocompleteState>({
+                status: 'error',
+                response: EMPTY_AUTOCOMPLETE,
+              }),
+            ),
+          ),
+        );
+      }),
+    ),
+    {
+      initialValue: {
+        status: 'idle',
+        response: EMPTY_AUTOCOMPLETE,
+      },
+    },
+  );
+
+  protected readonly suggestions = computed<AutocompleteSuggestion[]>(() =>
+    AUTOCOMPLETE_ENTITIES.flatMap(entity =>
+      this.autocompleteState().response[entity].map(({ match }) => ({
+        entity,
+        label: match,
+      })),
+    ),
+  );
+
+  private readonly logSuggestions = effect(() => {
+    console.log('suggestions:', this.suggestions());
   });
 
   public constructor() {
