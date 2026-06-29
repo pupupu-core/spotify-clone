@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  DestroyRef,
-  effect,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatInput, MatSuffix } from '@angular/material/input';
@@ -19,16 +12,7 @@ import {
 } from '@angular/material/autocomplete';
 
 import type { AutocompleteEntity, AutocompleteResponse } from '@streaming-service/model';
-import {
-  catchError,
-  concat,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  of,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { catchError, concat, debounceTime, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { SearchApiService } from '~/core/services/search-api.service';
 
 interface ppfSearchBar {
@@ -81,9 +65,6 @@ export class SearchBarComponent {
 
   protected readonly autocompleteState = toSignal(
     this.ppfSearchBarGroup.controls.searchQuery.valueChanges.pipe(
-      tap((typed: string) => {
-        console.log(typed);
-      }),
       map(value => value.trim()),
       distinctUntilChanged(),
       debounceTime(500),
@@ -131,10 +112,6 @@ export class SearchBarComponent {
       })),
     ),
   );
-
-  private readonly logSuggestions = effect(() => {
-    console.log('suggestions:', this.suggestions());
-  });
 
   public constructor() {
     this.route.queryParamMap
