@@ -1,6 +1,9 @@
 import { PrismaService } from '$/infrastructure/prisma/prisma.service';
+import { APP_CONFIG } from '$/shared/config/app.config';
 import { Injectable } from '@nestjs/common';
+import { API_ENDPOINTS } from '@streaming-service/config';
 import { AccountTracksResponse, type AccountTrackStatus } from '@streaming-service/model';
+import { buildApiPath } from '@streaming-service/utils';
 import { TrackSource } from '../../../../generated/prisma/enums';
 
 interface ListAccountTracksInput {
@@ -38,7 +41,12 @@ export class ListAccountTracksStep {
         artistName: track.artistName,
         albumName: track.albumName,
         genre: null,
-        audioUrl: null,
+        audioUrl: buildApiPath({
+          origin: APP_CONFIG.restGateway.publicOrigin,
+          prefix: null,
+          version: APP_CONFIG.restGateway.version,
+          path: API_ENDPOINTS.TRACK.AUDIO.clientUrl.replace(':trackId', track.id),
+        }),
         createdAt: track.createdAt.toISOString(),
         // REFACTOR status, handle types/enum better
         // without string manipulation and casting

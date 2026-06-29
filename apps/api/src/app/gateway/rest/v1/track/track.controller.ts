@@ -13,6 +13,7 @@ import {
   Param,
   ParseFilePipe,
   Post,
+  StreamableFile,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -27,6 +28,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { UploadTrackApiBodyOpenApiSchema } from './openapi/upload-track-api-body.schema';
 import { DeleteTrackWorkflow } from '$/core/workflows/track/delete-track.workflow';
+import { RetrieveTrackAudioWorkflow } from '$/core/workflows/track/retrieve-track-audio.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.track)
 @Controller({
@@ -38,6 +40,7 @@ export class TrackController {
     private readonly getTrackDiscoveryWorkflow: GetTrackDiscoveryWorkflow,
     private readonly uploadTrackWorkflow: UploadTrackWorkflow,
     private readonly deleteTrackWorkflow: DeleteTrackWorkflow,
+    private readonly retrieveTrackAudioWorkflow: RetrieveTrackAudioWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -89,5 +92,17 @@ export class TrackController {
     @Param('trackId') trackId: string,
   ): Promise<void> {
     return await this.deleteTrackWorkflow.execute({ accountId, trackId });
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get(API_ENDPOINTS.TRACK.AUDIO.serverPath)
+  public async audio(@Param('trackId') trackId: string): Promise<StreamableFile> {
+    const audio = await this.retrieveTrackAudioWorkflow.execute({ trackId });
+
+    return new StreamableFile(audio.body, {
+      type: audio.contentType ?? 'audio/mpeg',
+      length: audio.contentLength,
+      disposition: 'inline',
+    });
   }
 }
