@@ -49,14 +49,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  .action-play-btn {
-    --mat-button-filled-container-color: var(--mat-sys-secondary-container);
-    --mat-button-filled-label-text-color: var(--mat-sys-tertiary);
-    --mat-button-filled-container-shape: #{variables.$radius-md};
-
-    box-shadow: none;
-  }
 }
 
 .tracks-empty {
