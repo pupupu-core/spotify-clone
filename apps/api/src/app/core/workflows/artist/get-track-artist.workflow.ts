@@ -7,6 +7,10 @@ export class GetTrackArtistWorkflow {
   public constructor(private readonly fetchTrackArtistStep: FetchTrackArtistStep) {}
 
   public async execute(artistId: number): Promise<ArtistTracksResponse> {
-    return await this.fetchTrackArtistStep.execute(artistId);
+    const response = await this.fetchTrackArtistStep.execute(artistId);
+
+    const limitTracks = response.tracks.slice(0, 10);
+
+    return { ...response, tracks: limitTracks };
   }
 }

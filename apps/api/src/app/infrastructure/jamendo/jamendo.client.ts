@@ -73,7 +73,6 @@ export class JamendoClient {
       path: 'artists/tracks',
       queryParams: {
         order: input.order,
-        limit: input.limit ?? 10,
         id: input.artistId,
       },
       schema: JamendoArtistListTracksResponseSchema,
