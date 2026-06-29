@@ -8,8 +8,8 @@ import {
   viewChild,
 } from '@angular/core';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
-import type { AlbumCardMode } from '~/features/tracks/components/track-list/models/mode.model';
 import { PlaylistCardComponent } from '~/shared/ui/playlist/playlist-card/playlist-card.component';
+import type { AlbumCardMode } from '~/shared/ui/playlist/models/playlist.model';
 
 @Component({
   selector: 'ppf-playlist-shelf',

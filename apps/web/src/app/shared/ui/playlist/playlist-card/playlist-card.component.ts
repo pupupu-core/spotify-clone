@@ -3,9 +3,9 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { DatePipe, NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
-import type { AlbumCardMode } from '~/features/tracks/components/track-list/models/mode.model';
 import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { PLACEHOLDER_URL_200 } from '~/core/constants/common.constants';
+import type { AlbumCardMode } from '~/shared/ui/playlist/models/playlist.model';
 
 @Component({
   selector: 'ppf-playlist-card',
