@@ -24,6 +24,10 @@ export const API_ENDPOINTS = {
       serverPath: 'me',
       clientUrl: '/account/me',
     },
+    TRACKS: {
+      serverPath: 'tracks',
+      clientUrl: '/account/tracks',
+    },
   },
   TRACK: {
     basePath: 'tracks',
@@ -31,9 +35,21 @@ export const API_ENDPOINTS = {
       serverPath: 'discovery',
       clientUrl: '/tracks/discovery',
     },
+    COMMUNITY: {
+      serverPath: 'community',
+      clientUrl: '/tracks/community',
+    },
     UPLOAD: {
       serverPath: 'upload',
       clientUrl: '/tracks/upload',
+    },
+    AUDIO: {
+      serverPath: ':trackId/audio',
+      clientUrl: '/tracks/:trackId/audio',
+    },
+    DELETE: {
+      serverPath: ':trackId',
+      clientUrl: '/tracks/:trackId',
     },
   },
   ARTIST: {

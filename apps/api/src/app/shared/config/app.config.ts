@@ -24,6 +24,7 @@ export const APP_CONFIG = {
   restGateway: {
     pathPrefix: '' as const,
     version: '/v1' as const,
+    publicOrigin: process.env.API_PUBLIC_ORIGIN ?? '',
   },
   jamendo: {
     apiKey: getEnvOrThrow('JAMENDO_API_KEY'),
