@@ -1,5 +1,5 @@
 export interface JamendoAlbumsInput {
-  order: JamendoAlbumsOrder;
+  order?: JamendoAlbumsOrder;
   albumsId: number[];
 }
 

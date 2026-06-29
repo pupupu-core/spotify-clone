@@ -26,6 +26,18 @@ export class BaseHttpClient {
         this.http.get<unknown>(url, { params: this.cleanQuery(queryParams) }),
       );
 
+      const config = {
+        params: this.cleanQuery(queryParams),
+      };
+
+      console.log(
+        'URI>>>>>',
+        this.http.axiosRef.getUri({
+          url,
+          ...config,
+        }),
+      );
+
       return schema.parse(response.data);
     } catch (error) {
       if (error instanceof ZodError) {
