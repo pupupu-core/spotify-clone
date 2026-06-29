@@ -10,3 +10,4 @@ export * from './lib/artists/artist-music-info-response.model';
 export * from './lib/albums/album-tracks-response.model';
 export * from './lib/track/upload-track-request.model';
 export * from './lib/track/upload-track-response.model';
+export * from './lib/account/account-track-me-response.model';

@@ -24,6 +24,10 @@ export const API_ENDPOINTS = {
       serverPath: 'me',
       clientUrl: '/account/me',
     },
+    TRACKS: {
+      serverPath: 'tracks',
+      clientUrl: '/account/tracks',
+    },
   },
   TRACK: {
     basePath: 'tracks',
