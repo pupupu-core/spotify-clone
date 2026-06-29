@@ -1,11 +1,16 @@
-<mat-form-field appearance="outline" class="search-bar" subscriptSizing="dynamic">
-  <input
-    class="search-input"
-    matInput
-    placeholder="Start for search songs, albums, authors..."
-    type="search"
-  />
-  <button matSuffix matIconButton aria-label="Search button">
-    <mat-icon>search</mat-icon>
-  </button>
-</mat-form-field>
+<form [formGroup]="ppfSearchBarGroup" class="search-form" (ngSubmit)="submitSearch()">
+  <mat-form-field appearance="outline" class="search-bar" subscriptSizing="dynamic">
+    <input
+      class="search-input"
+      matInput
+      type="search"
+      placeholder="Start for search songs, albums, authors..."
+      autocomplete="off"
+      type="search"
+      formControlName="searchQuery"
+    />
+    <button type="submit" matSuffix matIconButton aria-label="Search button">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</form>
