@@ -1,21 +1,22 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
-import { DurationPipe } from '~/shared/pipes/duration.pipe';
-import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
 import { RouterLink } from '@angular/router';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { NgOptimizedImage } from '@angular/common';
+import { PLACEHOLDER_URL } from '~/core/constants/common.constants';
+import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
+import { DurationPipe } from '~/shared/pipes/duration.pipe';
 
 @Component({
   selector: 'ppf-tracks-row',
   imports: [
     MatIcon,
     MatIconButton,
-    DurationPipe,
-    AbbreviatedNumberPipe,
     RouterLink,
     NgOptimizedImage,
+    AbbreviatedNumberPipe,
+    DurationPipe,
   ],
   templateUrl: './track-row.component.html',
   styleUrl: './track-row.component.scss',
@@ -28,4 +29,5 @@ export class TrackRowComponent {
   public readonly playClick = output<void>();
 
   protected readonly highlighted = computed(() => this.isActive() ?? this.isPlaying());
+  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL;
 }

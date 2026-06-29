@@ -1,5 +1,4 @@
 <!--TODO: добавить данные после добавления интерфейса-->
-@let coverUrl = store.coverUrl();
 @if (store.isLoading()) {
   <div class="loader">
     <mat-spinner />
@@ -9,7 +8,7 @@
     <div class="artist-info">
       <div class="avatar">
         <img
-          [ngSrc]="coverUrl === '' || !coverUrl ? '/img/artist-avatar-mock.png' : coverUrl"
+          [ngSrc]="store.coverUrl() || PLACEHOLDER_URL"
           alt="artist avatar image"
           width="150"
           height="150"
@@ -21,24 +20,18 @@
           <mat-icon inline fontSet="material-icons-outlined" aria-label="music album icon">
             library_music
           </mat-icon>
-          <span>{{ store.albumsCount() }} albums</span>
+          <span>{{ store.albumsCount() || '0' }} albums</span>
         </div>
-        <h2 class="name">{{ store.name() }}</h2>
+        <h2 class="name">{{ store.name() || 'Artist name' }}</h2>
       </div>
       <div class="biography">
         <h3>Artist biography:</h3>
-        @if (store.biography()) {
-          <p>{{ store.biography() }}</p>
-        } @else {
-          <p>This artist doesn’t have a biography yet.</p>
-        }
+        <p>{{ store.biography() || 'This artist doesn’t have a biography yet.' }}</p>
       </div>
     </div>
     <div class="artist-catalog">
-      <!--      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />-->
-      <!--      <ppf-playlist-shelf mode="artist" title="Artist Albums" [albumsList]="store.albums()" />-->
-      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="[]" />
-      <ppf-playlist-shelf mode="artist" title="Artist Albums" [albumsList]="[]" />
+      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />
+      <ppf-playlist-shelf mode="artist" title="Artist Albums" [albumsList]="store.albums()" />
     </div>
   </div>
 }

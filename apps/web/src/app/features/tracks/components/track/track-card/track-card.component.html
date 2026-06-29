@@ -1,7 +1,7 @@
 <div class="track-container" [class.track-container--playing]="isPlaying()">
   <div class="album-cover">
     <img
-      [ngSrc]="track().imageUrl || track().albumImageUrl"
+      [ngSrc]="track().imageUrl || track().albumImageUrl || PLACEHOLDER_URL"
       [alt]="track().albumName || track().imageUrl + ' cover'"
       width="70"
       height="70"

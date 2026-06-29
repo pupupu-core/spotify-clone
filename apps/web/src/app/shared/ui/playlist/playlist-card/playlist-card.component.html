@@ -10,14 +10,14 @@
   <ng-content />
   <div class="cover-container">
     <img
-      [ngSrc]="album().imageUrl || '/img/album-bg-mock.png'"
+      [ngSrc]="album().imageUrl || PLACEHOLDER_URL_200"
       alt="album name cover"
       width="195"
       height="195"
     />
   </div>
   <div class="footer">
-    <p>{{ album().name }}</p>
+    <p>{{ album().name || 'Album name' }}</p>
     <button
       matIconButton
       aria-label="View playlist details"
@@ -32,11 +32,11 @@
 <ng-template #artisHeader>
   <p>
     <mat-icon inline>calendar_month</mat-icon>
-    <span>{{ album().releaseDate | date: 'mediumDate' }}</span>
+    <span>{{ (album().releaseDate | date: 'mediumDate') || 'No data' }}</span>
   </p>
   <p>
     <mat-icon inline>music_note</mat-icon>
-    <span>{{ album().tracksCount }} tracks</span>
+    <span>{{ album().tracksCount || '0' }} tracks</span>
   </p>
 </ng-template>
 
@@ -44,10 +44,10 @@
   <p>
     <mat-icon inline>timer</mat-icon>
     <!--    TODO: исправить на реальные данные-->
-    <span>{{ '1234' | duration }}</span>
+    <span>{{ '0' | duration }}</span>
   </p>
   <p>
     <mat-icon inline>music_note</mat-icon>
-    <span>{{ album().tracksCount }} tracks</span>
+    <span>{{ album().tracksCount || '0' }} tracks</span>
   </p>
 </ng-template>

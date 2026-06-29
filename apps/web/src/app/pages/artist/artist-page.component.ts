@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { PLACEHOLDER_URL } from '~/core/constants/common.constants';
 
 @Component({
   selector: 'ppf-artist-page',
@@ -40,4 +41,6 @@ export class ArtistPageComponent {
       }
     });
   }
+
+  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL;
 }

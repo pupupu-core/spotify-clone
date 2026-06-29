@@ -2,8 +2,8 @@
   <div class="track-content">
     <div class="album-cover">
       <img
-        [ngSrc]="track().imageUrl || track().albumImageUrl"
-        [alt]="track().albumName || track().imageUrl + ' cover'"
+        [ngSrc]="track().imageUrl || track().albumImageUrl || PLACEHOLDER_URL"
+        [alt]="(track().albumName || track().imageUrl || 'Album') + ' cover'"
         width="70"
         height="70"
         loading="lazy"
@@ -12,12 +12,14 @@
     <div class="track-text">
       <div class="author-name">
         @if (track().sourse !== 'userUpload') {
-          <a [routerLink]="['/artist', track().artistId]">{{ track().artistName }}</a>
+          <a [routerLink]="['/artist', track().artistId]">{{
+            track().artistName || 'Artist name'
+          }}</a>
         } @else {
-          <span>{{ track().artistName }}</span>
+          <span>{{ track().artistName || 'Artist name' }}</span>
         }
       </div>
-      <h4 class="track-name">{{ track().name }}</h4>
+      <h4 class="track-name">{{ track().name || 'Track name' }}</h4>
     </div>
   </div>
   <div class="track-info">
@@ -41,14 +43,10 @@
       >
         timer
       </mat-icon>
-      {{ track().duration | duration }}
+      {{ (track().duration | duration) || '00:00' }}
     </p>
   </div>
-  <button
-    matIconButton
-    aria-label="Example icon button with a vertical three dot icon"
-    (click)="playClick.emit()"
-  >
+  <button matIconButton aria-label="Track playback control button" (click)="playClick.emit()">
     <mat-icon fontSet="material-icons-outlined">
       {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
     </mat-icon>

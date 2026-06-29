@@ -25,6 +25,8 @@
 .avatar {
   width: 150px;
   height: 150px;
+  border-radius: variables.$radius-xl;
+  background-color: var(--mat-sys-on-primary);
 
   img {
     border-radius: variables.$radius-xl;
@@ -37,7 +39,6 @@
   flex-direction: column;
   gap: 10px;
   align-items: flex-start;
-  justify-content: center;
 
   .albums-count {
     display: flex;
@@ -99,4 +100,5 @@
   display: flex;
   flex: 1;
   align-items: center;
+  justify-content: center;
 }
