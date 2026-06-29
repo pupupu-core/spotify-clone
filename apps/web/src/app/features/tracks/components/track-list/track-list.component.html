@@ -3,8 +3,8 @@
     <h2 class="track-list__title">{{ title() }}</h2>
   </div>
 
-  @if (trackList().length > 0) {
-    <ul class="track-list__items">
+  <ul class="track-list__items">
+    @if (trackList().length > 0) {
       @for (track of trackList(); track track.id) {
         <li class="track-list__item">
           <ppf-tracks
@@ -15,8 +15,8 @@
           />
         </li>
       }
-    </ul>
-  } @else {
-    <div class="tracks-empty">No tracks available yet.</div>
-  }
+    } @else {
+      <li class="tracks-empty">No tracks available yet.</li>
+    }
+  </ul>
 </section>

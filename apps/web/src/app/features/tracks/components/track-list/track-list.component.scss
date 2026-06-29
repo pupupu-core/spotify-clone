@@ -16,7 +16,9 @@
 .track-list {
   display: grid;
   gap: variables.$space-18;
-  min-height: 0;
+  align-items: start;
+
+  height: 100%;
   padding: variables.$space-16 variables.$space-14 variables.$space-12;
 
   &__title {

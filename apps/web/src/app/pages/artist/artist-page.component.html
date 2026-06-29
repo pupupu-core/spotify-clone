@@ -35,8 +35,10 @@
       </div>
     </div>
     <div class="artist-catalog">
-      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />
-      <ppf-playlist-shelf mode="artist" title="Artist Albums" [albumsList]="store.albums()" />
+      <!--      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />-->
+      <!--      <ppf-playlist-shelf mode="artist" title="Artist Albums" [albumsList]="store.albums()" />-->
+      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="[]" />
+      <ppf-playlist-shelf mode="artist" title="Artist Albums" [albumsList]="[]" />
     </div>
   </div>
 }
