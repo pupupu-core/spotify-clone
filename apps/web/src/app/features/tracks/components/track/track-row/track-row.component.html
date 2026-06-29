@@ -22,33 +22,35 @@
       <h4 class="track-name">{{ track().name || 'Track name' }}</h4>
     </div>
   </div>
-  <div class="track-info">
-    <p>
-      <mat-icon
-        inline
-        aria-hidden="false"
-        aria-label="headphones icon"
-        fontSet="material-icons-outlined"
-      >
-        headphones
+  <div class="track-right">
+    <div class="track-info">
+      <p>
+        <mat-icon
+          inline
+          aria-hidden="false"
+          aria-label="headphones icon"
+          fontSet="material-icons-outlined"
+        >
+          headphones
+        </mat-icon>
+        {{ 100000 | abbreviatedNumber }}
+      </p>
+      <p>
+        <mat-icon
+          inline
+          aria-hidden="false"
+          aria-label="timer icon"
+          fontSet="material-icons-outlined"
+        >
+          timer
+        </mat-icon>
+        {{ (track().duration | duration) || '00:00' }}
+      </p>
+    </div>
+    <button matIconButton aria-label="Track playback control button" (click)="playClick.emit()">
+      <mat-icon fontSet="material-icons-outlined">
+        {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
       </mat-icon>
-      {{ 100000 | abbreviatedNumber }}
-    </p>
-    <p>
-      <mat-icon
-        inline
-        aria-hidden="false"
-        aria-label="timer icon"
-        fontSet="material-icons-outlined"
-      >
-        timer
-      </mat-icon>
-      {{ (track().duration | duration) || '00:00' }}
-    </p>
+    </button>
   </div>
-  <button matIconButton aria-label="Track playback control button" (click)="playClick.emit()">
-    <mat-icon fontSet="material-icons-outlined">
-      {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
-    </mat-icon>
-  </button>
 </div>

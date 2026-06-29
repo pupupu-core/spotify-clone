@@ -3,11 +3,11 @@
 @use 'src/styles/mixins';
 
 .track-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
   align-items: center;
-  justify-content: space-between;
 
-  height: 100%;
   padding: 10px 20px;
   border-radius: variables.$radius-xl;
 
@@ -47,8 +47,15 @@
       .author-name {
         @include mixins.font-md;
 
+        overflow: hidden;
+
+        max-width: 210px;
+
         text-decoration: underline;
         text-decoration-color: transparent;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
         transition: all 0.2s ease-in-out;
 
         &:hover {
@@ -59,13 +66,23 @@
 
       .track-name {
         @include mixins.font-sm;
+
+        overflow: hidden;
+        max-width: 210px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
 
+  .track-right {
+    display: flex;
+    gap: 50px;
+  }
+
   .track-info {
     display: flex;
-    gap: clamp(10px, 6vw, 50px);
+    gap: 50px;
     align-items: center;
 
     p {
