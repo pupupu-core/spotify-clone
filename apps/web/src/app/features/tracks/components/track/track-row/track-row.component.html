@@ -22,31 +22,29 @@
       <h4 class="track-name">{{ track().name || 'Track name' }}</h4>
     </div>
   </div>
-  <div class="track-right">
-    <div class="track-info">
-      <p>
-        <mat-icon
-          inline
-          aria-hidden="false"
-          aria-label="headphones icon"
-          fontSet="material-icons-outlined"
-        >
-          headphones
-        </mat-icon>
-        {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
-      </p>
-      <p>
-        <mat-icon
-          inline
-          aria-hidden="false"
-          aria-label="timer icon"
-          fontSet="material-icons-outlined"
-        >
-          timer
-        </mat-icon>
-        {{ (track().duration | duration) || '00:00' }}
-      </p>
-    </div>
+  <div class="track-info">
+    <p>
+      <mat-icon
+        inline
+        aria-hidden="false"
+        aria-label="headphones icon"
+        fontSet="material-icons-outlined"
+      >
+        headphones
+      </mat-icon>
+      {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
+    </p>
+    <p>
+      <mat-icon
+        inline
+        aria-hidden="false"
+        aria-label="timer icon"
+        fontSet="material-icons-outlined"
+      >
+        timer
+      </mat-icon>
+      {{ (track().duration | duration) || '00:00' }}
+    </p>
     <button matIconButton aria-label="Track playback control button" (click)="playClick.emit()">
       <mat-icon fontSet="material-icons-outlined">
         {{ isPlaying() ? 'pause_circle' : 'play_circle' }}

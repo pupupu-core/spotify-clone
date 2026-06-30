@@ -68,29 +68,28 @@
         @include mixins.font-sm;
 
         overflow: hidden;
-        max-width: 210px;
+        max-width: 195px;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
     }
   }
 
-  .track-right {
-    display: flex;
-    gap: 50px;
-    justify-content: flex-end;
-  }
-
   .track-info {
-    display: flex;
-    gap: 50px;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center start;
+    justify-content: space-between;
 
     p {
       display: flex;
       gap: 5px;
       align-items: center;
       font-size: variables.$font-size-sm;
+    }
+
+    button {
+      justify-self: flex-end;
     }
   }
 }
