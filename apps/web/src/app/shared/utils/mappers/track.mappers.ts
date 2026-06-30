@@ -15,6 +15,6 @@ export function mapTrackResponseToTrackUI(track: TrackResponse): TrackUI {
     albumName: track.albumName,
     genres: track.musicInfo?.tags.genres,
     albumId: track.albumId,
-    stats: track.stats,
+    listenedTotal: track.stats?.listenedTotal,
   };
 }

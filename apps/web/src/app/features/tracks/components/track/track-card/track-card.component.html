@@ -44,7 +44,7 @@
         >
           headphones
         </mat-icon>
-        {{ 999950 | abbreviatedNumber }}
+        {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
       </p>
     </div>
   </div>

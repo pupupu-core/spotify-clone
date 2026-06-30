@@ -5,8 +5,8 @@ import { RouterLink } from '@angular/router';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { NgOptimizedImage } from '@angular/common';
 import { PLACEHOLDER_URL } from '~/core/constants/common.constants';
-import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
 import { DurationPipe } from '~/shared/pipes/duration.pipe';
+import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
 
 @Component({
   selector: 'ppf-tracks-row',
@@ -15,8 +15,8 @@ import { DurationPipe } from '~/shared/pipes/duration.pipe';
     MatIconButton,
     RouterLink,
     NgOptimizedImage,
-    AbbreviatedNumberPipe,
     DurationPipe,
+    AbbreviatedNumberPipe,
   ],
   templateUrl: './track-row.component.html',
   styleUrl: './track-row.component.scss',

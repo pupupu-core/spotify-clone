@@ -18,5 +18,6 @@ export function mapArtistTrackToTrackUI(
     audioUrl: track.audioUrl,
     albumName: track.albumName,
     albumId: track.albumId,
+    listenedTotal: track.listenedTotal,
   };
 }
