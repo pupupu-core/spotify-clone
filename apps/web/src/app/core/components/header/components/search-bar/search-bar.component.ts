@@ -15,7 +15,7 @@ import type { AutocompleteEntity, AutocompleteResponse } from '@streaming-servic
 import { catchError, concat, debounceTime, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { SearchApiService } from '~/core/services/search-api.service';
 
-interface ppfSearchBar {
+interface PpfSearchBar {
   searchQuery: FormControl<string>;
 }
 
@@ -59,7 +59,7 @@ export class SearchBarComponent {
   private readonly destroyRef = inject(DestroyRef);
   private readonly searchApi = inject(SearchApiService);
 
-  protected readonly ppfSearchBarGroup = new FormGroup<ppfSearchBar>({
+  protected readonly ppfSearchBarGroup = new FormGroup<PpfSearchBar>({
     searchQuery: new FormControl('', { nonNullable: true }),
   });
 
