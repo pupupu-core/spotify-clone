@@ -59,6 +59,7 @@ export class JamendoClient {
         fuzzytags: input.genres?.length ? input.genres.join('+') : undefined,
         type: input.type ?? 'single+albumtrack',
         include: input.include,
+        id: input.id,
       },
       schema: JamendoListTracksResponseSchema,
     }).then(mapToListTracks);

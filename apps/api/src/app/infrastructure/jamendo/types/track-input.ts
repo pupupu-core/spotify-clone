@@ -8,6 +8,7 @@ export interface JamendoListTracksInput {
   search?: string;
   genres?: string[];
   include?: JamendoListTracksInclude;
+  id?: number[];
 }
 
 export type JamendoListTracksOrder =
