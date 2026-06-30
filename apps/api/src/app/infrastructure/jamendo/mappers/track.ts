@@ -1,13 +1,15 @@
-import type {
+import {
   JamendoListTracksResponseDto,
   JamendoTrackDto,
   JamendoTrackMusicInfoDto,
   JamendoTrackMusicInfoTagsDto,
+  JamendoTrackStatsDto,
 } from '../dtos/track.dto';
-import type {
+import {
   JamendoTrack,
   JamendoTrackMusicInfo,
   JamendoTrackMusicInfoTags,
+  JamendoTrackStats,
 } from '../types/track';
 
 const mapToTrackMusicInfoTags = (dto: JamendoTrackMusicInfoTagsDto): JamendoTrackMusicInfoTags => {
@@ -15,6 +17,19 @@ const mapToTrackMusicInfoTags = (dto: JamendoTrackMusicInfoTagsDto): JamendoTrac
     genres: dto.genres,
     instruments: dto.instruments,
     varTags: dto.vartags,
+  };
+};
+
+const mapToTrackStats = (dto: JamendoTrackStatsDto): JamendoTrackStats => {
+  return {
+    downloadsTotal: dto.rate_downloads_total,
+    listenedTotal: dto.rate_listened_total,
+    playlisted: dto.playlisted,
+    favorited: dto.favorited,
+    likes: dto.likes,
+    dislikes: dto.dislikes,
+    averageNote: dto.avgnote,
+    notes: dto.notes,
   };
 };
 
@@ -53,6 +68,7 @@ export const mapToTrack = (dto: JamendoTrackDto): JamendoTrack => {
     musicInfo: dto.musicinfo ? mapToTrackMusicInfo(dto.musicinfo) : undefined,
     isAudioDownloadAllowed: dto.audiodownload_allowed,
     isFreeContent: dto.content_id_free,
+    stats: dto.stats ? mapToTrackStats(dto.stats) : undefined,
   };
 };
 

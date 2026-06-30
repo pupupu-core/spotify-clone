@@ -40,12 +40,12 @@ interface TrackMusicInfoTags {
 }
 
 interface TrackResponseStats {
-  rate_downloads_total: number;
-  rate_listened_total: number;
+  downloadsTotal: number;
+  listenedTotal: number;
   playlisted: number;
   favorited: number;
   likes: number;
   dislikes: number;
-  avgnote: number;
+  averageNote: number;
   notes: number;
 }
