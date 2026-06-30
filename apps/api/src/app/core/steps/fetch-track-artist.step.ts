@@ -12,10 +12,6 @@ export class FetchTrackArtistStep {
       artistId: [artistId],
     });
 
-    if (!artist) {
-      throw new Error('Artist not found');
-    }
-
     return artist;
   }
 }
