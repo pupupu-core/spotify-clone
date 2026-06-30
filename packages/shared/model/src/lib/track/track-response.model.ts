@@ -39,7 +39,7 @@ interface TrackMusicInfoTags {
   varTags: string[];
 }
 
-interface TrackResponseStats {
+export interface TrackResponseStats {
   downloadsTotal: number;
   listenedTotal: number;
   playlisted: number;

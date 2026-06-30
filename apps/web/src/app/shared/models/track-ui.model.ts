@@ -1,3 +1,5 @@
+import type { TrackResponseStats } from '@streaming-service/model';
+
 type TrackSource = 'jamendo' | 'userUpload';
 
 export interface TrackUI {
@@ -14,4 +16,5 @@ export interface TrackUI {
   genres?: string[];
   albumId: string;
   sourse?: TrackSource;
+  stats?: TrackResponseStats;
 }
