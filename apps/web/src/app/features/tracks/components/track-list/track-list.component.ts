@@ -3,10 +3,12 @@ import type { TrackListMode } from './models/mode.model';
 import { Track } from '../track/track';
 import { PpfPlayerService } from '../../../player/services/track-player.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'ppf-tracks-list',
-  imports: [Track],
+  imports: [Track, MatButton, MatIcon],
   templateUrl: './track-list.component.html',
   styleUrl: './track-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
