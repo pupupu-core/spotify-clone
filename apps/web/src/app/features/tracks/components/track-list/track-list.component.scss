@@ -5,6 +5,7 @@
 :host {
   display: block;
 
+  padding: variables.$space-16 variables.$space-14 variables.$space-12;
   border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
   border-radius: variables.$radius-xl;
 
@@ -14,12 +15,12 @@
 }
 
 .track-list {
+  overflow: hidden;
   display: grid;
   gap: variables.$space-18;
   align-items: start;
 
   height: 100%;
-  padding: variables.$space-16 variables.$space-14 variables.$space-12;
 
   &__title {
     @include mixins.font-lg;
@@ -33,7 +34,7 @@
     gap: variables.$space-8;
 
     min-height: 0;
-    max-height: 380px;
+    max-height: 580px;
     margin: 0;
     padding: 0 variables.$space-4 0 0;
 
