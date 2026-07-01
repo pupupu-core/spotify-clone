@@ -4,7 +4,7 @@ import type { Observable } from 'rxjs';
 import type { AlbumResponse } from '@streaming-service/model';
 import { APP_ENDPOINTS } from '~/core/config/endpoints.config';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AlbumApiService {
   private readonly http = inject(HttpClient);
 
