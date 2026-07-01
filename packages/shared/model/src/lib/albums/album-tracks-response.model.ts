@@ -21,4 +21,5 @@ export interface AlbumTrack {
   audioUrl: string;
   audioDownloadUrl: string;
   audioDownloadAllowed: boolean;
+  listenedTotal?: number;
 }
