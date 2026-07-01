@@ -237,13 +237,8 @@ export class PpfSearchPageComponent {
         }),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(({ status, query, tracks }) => {
-        this.searchStatus.set(status);
-        this.searchText.set(query);
-
-        if (status !== 'loading') {
-          this.trackList.set(tracks);
-        }
+      .subscribe(state => {
+        this.applySearchState(state);
       });
 
     afterNextRender(() => {
@@ -292,6 +287,14 @@ export class PpfSearchPageComponent {
     this.filterForm.controls.genres.setValue(
       this.selectedGenres().filter(clicked => clicked !== genre),
     );
+  }
+
+  protected playTrack(track: TrackResponse): void {
+    const sort = this.dataSource.sort;
+    const filteredTracks = [...this.dataSource.filteredData];
+    const playbackQueue = sort ? this.dataSource.sortData(filteredTracks, sort) : filteredTracks;
+
+    this.player.toggleTrackByID(track, playbackQueue);
   }
 
   private ppfFilterPredicate(track: TrackResponse, filterJson: string): boolean {
@@ -380,11 +383,12 @@ export class PpfSearchPageComponent {
     this.dataSource.filter = this.activeFilter();
   }
 
-  protected playTrack(track: TrackResponse): void {
-    const sort = this.dataSource.sort;
-    const filteredTracks = [...this.dataSource.filteredData];
-    const playbackQueue = sort ? this.dataSource.sortData(filteredTracks, sort) : filteredTracks;
+  private applySearchState({ status, query, tracks }: TrackSearchState): void {
+    this.searchStatus.set(status);
+    this.searchText.set(query);
 
-    this.player.toggleTrackByID(track, playbackQueue);
+    if (status !== 'loading') {
+      this.trackList.set(tracks);
+    }
   }
 }
