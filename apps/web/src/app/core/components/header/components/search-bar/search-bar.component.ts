@@ -64,13 +64,15 @@ export class SearchBarComponent {
     searchQuery: new FormControl('', { nonNullable: true }),
   });
 
-  protected readonly autocompleteState = toSignal(
+  private readonly autocompleteQuery =
     this.ppfSearchBarGroup.controls.searchQuery.valueChanges.pipe(
       map(value => value.trim()),
       distinctUntilChanged(),
       debounceTime(500),
-      switchMap(query => this.loadAutocompleteSuggestions(query)),
-    ),
+    );
+
+  protected readonly autocompleteState = toSignal(
+    this.autocompleteQuery.pipe(switchMap(query => this.loadAutocompleteSuggestions(query))),
     {
       initialValue: {
         status: 'idle',
