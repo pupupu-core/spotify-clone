@@ -201,20 +201,7 @@ export class PpfSearchPageComponent {
       this.pushQueryParmsToUrl();
     });
 
-    this.route.queryParamMap
-      .pipe(
-        map(params => (params.get(QUERY_PARAMETERS.SEARCH) ?? '').trim()),
-        distinctUntilChanged(),
-        switchMap(query => this.loadTracksByQueryChanges(query)),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(state => {
-        this.applySearchState(state);
-      });
-
-    afterNextRender(() => {
-      this.restoreStateFromQueryParameters();
-    });
+    this.provideTrackSearch();
 
     merge(
       this.filterForm.controls.genres.valueChanges,
@@ -393,5 +380,22 @@ export class PpfSearchPageComponent {
         ),
       ),
     );
+  }
+
+  private provideTrackSearch(): void {
+    this.route.queryParamMap
+      .pipe(
+        map(params => (params.get(QUERY_PARAMETERS.SEARCH) ?? '').trim()),
+        distinctUntilChanged(),
+        switchMap(query => this.loadTracksByQueryChanges(query)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(state => {
+        this.applySearchState(state);
+      });
+
+    afterNextRender(() => {
+      this.restoreStateFromQueryParameters();
+    });
   }
 }
