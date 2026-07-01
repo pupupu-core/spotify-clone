@@ -1,7 +1,19 @@
 <div class="toast">
-  <div class="content">
-    <p class="header"></p>
-    <p class="text"></p>
+  <div matSnackBarLabel class="content">
+    <p class="header">{{ payload.header }}</p>
+    <p class="text">{{ payload.text }}</p>
   </div>
-  <button type="button" class="close" (click)="this.closeToast.emit()"></button>
+
+  <div matSnackBarAction class="actions">
+    <button
+      matButton
+      matSnackBarAction
+      matIconButton
+      class="close"
+      type="button"
+      (click)="dismiss()"
+    >
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </div>
 </div>

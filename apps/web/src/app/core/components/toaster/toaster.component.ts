@@ -1,18 +1,28 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
-import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  MAT_SNACK_BAR_DATA,
+  MatSnackBarAction,
+  MatSnackBarLabel,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
+
 import type { ToastPayload } from './models/toaster.model';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'ppf-toaster',
+  selector: 'ppf-toaster-component',
+  imports: [MatSnackBarAction, MatSnackBarLabel, MatButton, MatIcon],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'toaster.component.html',
   styleUrl: 'toaster.component.scss',
 })
 export class PpfToasterComponent {
   private readonly ppfSnackBarRef = inject<MatSnackBarRef<PpfToasterComponent>>(MatSnackBarRef);
-  public readonly data = inject<ToastPayload>(MAT_SNACK_BAR_DATA);
-  public readonly closeToast = output<void>();
 
-  public readonly headerData = signal('hello').asReadonly();
-  public readonly textData = signal('hello!').asReadonly();
+  protected readonly payload = inject<ToastPayload>(MAT_SNACK_BAR_DATA);
+
+  protected dismiss(): void {
+    this.ppfSnackBarRef.dismiss();
+  }
 }
