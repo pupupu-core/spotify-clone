@@ -1,10 +1,12 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type { TrackResponse } from '@streaming-service/model';
 import { PpfAudioEngine } from './html-audio.service';
+import { PpfToasterService } from '~/core/services/ppf-toaster.service';
 
 @Injectable({ providedIn: 'root' })
 export class PpfPlayerService {
   private readonly engine = inject(PpfAudioEngine);
+  private readonly toaster = inject(PpfToasterService);
 
   public readonly queue = signal<TrackResponse[]>([]);
   public readonly index = signal<number | null>(null);
@@ -125,6 +127,7 @@ export class PpfPlayerService {
 
   public toggleMute(): void {
     this.engine.toggleMute();
+    this.toaster.default('Hello', 'audio is muted');
   }
 
   public toggleTrackByID(track: TrackResponse, tracks: TrackResponse[]): void {
