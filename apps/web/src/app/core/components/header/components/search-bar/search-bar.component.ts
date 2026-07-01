@@ -13,6 +13,7 @@ import {
 
 import type { AutocompleteEntity, AutocompleteResponse } from '@streaming-service/model';
 import { catchError, concat, debounceTime, distinctUntilChanged, map, of, switchMap } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { SearchApiService } from '~/core/services/search-api.service';
 
 interface PpfSearchBar {
@@ -68,33 +69,7 @@ export class SearchBarComponent {
       map(value => value.trim()),
       distinctUntilChanged(),
       debounceTime(500),
-      switchMap(query => {
-        if (query.length < 2) {
-          return of<AutocompleteState>({
-            status: 'idle',
-            response: EMPTY_AUTOCOMPLETE,
-          });
-        }
-
-        return concat(
-          of<AutocompleteState>({
-            status: 'loading',
-            response: EMPTY_AUTOCOMPLETE,
-          }),
-          this.searchApi.autocomplete(query).pipe(
-            map(response => ({
-              status: 'success',
-              response,
-            })),
-            catchError(() =>
-              of<AutocompleteState>({
-                status: 'error',
-                response: EMPTY_AUTOCOMPLETE,
-              }),
-            ),
-          ),
-        );
-      }),
+      switchMap(query => this.loadAutocompleteSuggestions(query)),
     ),
     {
       initialValue: {
@@ -148,5 +123,35 @@ export class SearchBarComponent {
     void this.router.navigate([ROUTES.SEARCH.to], {
       queryParams: { q: query },
     });
+  }
+
+  private loadAutocompleteSuggestions(query: string): Observable<AutocompleteState> {
+    if (query.length < 2) {
+      return of<AutocompleteState>({
+        status: 'idle',
+        response: EMPTY_AUTOCOMPLETE,
+      });
+    }
+
+    return concat(
+      of<AutocompleteState>({
+        status: 'loading',
+        response: EMPTY_AUTOCOMPLETE,
+      }),
+      this.searchApi.autocomplete(query).pipe(
+        map(
+          (response): AutocompleteState => ({
+            status: 'success',
+            response,
+          }),
+        ),
+        catchError(() =>
+          of<AutocompleteState>({
+            status: 'error',
+            response: EMPTY_AUTOCOMPLETE,
+          }),
+        ),
+      ),
+    );
   }
 }
