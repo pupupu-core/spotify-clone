@@ -1,4 +1,4 @@
-import type { AlbumTrack, ArtistAlbum } from '@streaming-service/model';
+import type { AlbumResponse, AlbumTrack, ArtistAlbum } from '@streaming-service/model';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 
@@ -18,33 +18,28 @@ export function mapAlbumArtistResponseToAlbumUI(
   };
 }
 
-export function mapAlbumResponseToAlbumUI(
-  artistAlbum: ArtistAlbum,
-  artistId: string,
-  artistName: string,
-  tracks: AlbumTrack[],
-): AlbumUI {
+export function mapAlbumResponseToAlbumUI(album: AlbumResponse): AlbumUI {
   return {
-    id: artistAlbum.albumId,
-    name: artistAlbum.albumName,
-    releaseDate: artistAlbum.releaseDate,
-    artistId: artistId,
-    artistName: artistName,
-    imageUrl: artistAlbum.albumImageUrl,
-    tracksCount: artistAlbum.tracksCount ?? 0,
-    tracks: tracks.map(track => mapAlbumTrackResponseToTrackUI(track)),
+    id: album.id,
+    name: album.name,
+    releaseDate: album.releaseDate,
+    artistId: album.artistId,
+    artistName: album.artistName,
+    imageUrl: album.imageUrl,
+    tracksCount: album.tracks.length ?? 0,
+    tracks: album.tracks.map(track => mapAlbumTrackResponseToTrackUI(track, album)),
   };
 }
 
-export function mapAlbumTrackResponseToTrackUI(track: AlbumTrack): TrackUI {
+export function mapAlbumTrackResponseToTrackUI(track: AlbumTrack, album: AlbumResponse): TrackUI {
   return {
     id: track.trackId,
     name: track.name,
     duration: Number(track.duration),
-    artistId: track.artistId,
-    artistName: track.artistName,
-    imageUrl: track.imageUrl,
-    albumImageUrl: track.albumImageUrl,
+    artistId: track.artistId ?? album.artistId,
+    artistName: track.artistName ?? album.artistName,
+    imageUrl: track.imageUrl ?? album.imageUrl,
+    albumImageUrl: track.albumImageUrl ?? album.imageUrl,
     audioUrl: track.audioUrl,
     listenedTotal: track.listenedTotal,
   };
