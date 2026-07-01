@@ -9,7 +9,7 @@ export class FetchTracksByIdStep {
   public async execute(trackIds: number[]): Promise<TrackResponse[]> {
     return await this.jamendoClient.listTracks({
       order: 'popularity_total',
-      include: 'stats',
+      include: ['stats'],
       id: trackIds,
     });
   }

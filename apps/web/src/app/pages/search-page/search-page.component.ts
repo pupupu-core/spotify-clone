@@ -24,11 +24,13 @@ import { MatSliderModule } from '@angular/material/slider';
 import { PpfPlayerService } from '~/features/player/services/track-player.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { catchError, concat, distinctUntilChanged, map, merge, of, switchMap } from 'rxjs';
 import type { Observable } from 'rxjs';
+import { catchError, concat, distinctUntilChanged, map, merge, of, switchMap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { TrackRowComponent } from '~/features/tracks/components/track/track-row/track-row.component';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
+import type { TrackResponse } from '@streaming-service/model';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -370,10 +372,10 @@ export class PpfSearchPageComponent {
         tracks: [],
       }),
       this.searchApi.tracks(query).pipe(
-        map<TrackUI[], TrackSearchState>(tracks => ({
+        map<TrackResponse[], TrackSearchState>(tracks => ({
           status: 'success',
           query,
-          tracks,
+          tracks: tracks.map(track => mapTrackResponseToTrackUI(track)),
         })),
         catchError(() =>
           of<TrackSearchState>({
