@@ -11,7 +11,7 @@ export class FetchSearchTracksStep {
       order: 'relevance',
       search: query,
       limit,
-      includeMusicInfo: true,
+      include: ['stats', 'musicinfo'],
     });
   }
 }
