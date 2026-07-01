@@ -1,0 +1,53 @@
+<!--TODO: заменить данные на input сигнал, после добавление интерфейсов-->
+<div class="playlist-card-container">
+  <div class="header">
+    @if (mode() === 'artist') {
+      <ng-container *ngTemplateOutlet="artisHeader" />
+    } @else if (mode() === 'library') {
+      <ng-container *ngTemplateOutlet="libraryHeader" />
+    }
+  </div>
+  <ng-content />
+  <div class="cover-container">
+    <img
+      [ngSrc]="album().imageUrl || PLACEHOLDER_URL_200"
+      alt="album name cover"
+      width="195"
+      height="195"
+    />
+  </div>
+  <div class="footer">
+    <p>{{ album().name || 'Album name' }}</p>
+    <button
+      matIconButton
+      aria-label="View playlist details"
+      (click)="playlistClick.emit()"
+      class="details-button"
+    >
+      <mat-icon fontSet="material-icons-outlined">outbound</mat-icon>
+    </button>
+  </div>
+</div>
+
+<ng-template #artisHeader>
+  <p>
+    <mat-icon inline>calendar_month</mat-icon>
+    <span>{{ (album().releaseDate | date: 'mediumDate') || 'No data' }}</span>
+  </p>
+  <p>
+    <mat-icon inline>music_note</mat-icon>
+    <span>{{ album().tracksCount || '0' }} tracks</span>
+  </p>
+</ng-template>
+
+<ng-template #libraryHeader>
+  <p>
+    <mat-icon inline>timer</mat-icon>
+    <!--    TODO: исправить на реальные данные-->
+    <span>{{ '0' | duration }}</span>
+  </p>
+  <p>
+    <mat-icon inline>music_note</mat-icon>
+    <span>{{ album().tracksCount || '0' }} tracks</span>
+  </p>
+</ng-template>

@@ -9,13 +9,23 @@ export const buildApiPath = ({
   prefix = '/api',
   version = '/v1',
   path,
+  dynamicParams,
 }: {
   origin?: string;
   prefix?: string | null;
   version?: string;
   path: string;
+  dynamicParams?: Record<string, string>;
 }): string => {
-  const segments = prefix === null ? [version, path] : [prefix, version, path];
+  let finalPath = path;
+
+  if (dynamicParams) {
+    Object.entries(dynamicParams).forEach(([key, value]) => {
+      finalPath = finalPath.split(`:${key}`).join(value);
+    });
+  }
+
+  const segments = prefix === null ? [version, finalPath] : [prefix, version, finalPath];
   const pathname = `/${segments
     .map(segment => segment.replace(/^\/+|\/+$/g, ''))
     .filter(Boolean)

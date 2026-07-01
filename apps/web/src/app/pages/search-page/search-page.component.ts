@@ -12,8 +12,8 @@ import {
 import { SearchApiService } from '~/core/services/search-api.service';
 import { MatFormField, MatInput, MatInputModule, MatLabel } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSort, MatSortModule } from '@angular/material/sort';
 import type { Sort } from '@angular/material/sort';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
@@ -21,14 +21,14 @@ import type { MatAutocompleteSelectedEvent } from '@angular/material/autocomplet
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
-import { PpfPlayerService } from '../../features/player/services/track-player.service';
-import type { TrackResponse } from '@streaming-service/model';
+import { PpfPlayerService } from '~/features/player/services/track-player.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { catchError, concat, distinctUntilChanged, map, merge, of, switchMap } from 'rxjs';
 import type { Observable } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { TrackRowComponent } from '../../features/tracks/components/track/track-row/track-row.component';
+import { TrackRowComponent } from '~/features/tracks/components/track/track-row/track-row.component';
+import type { TrackUI } from '~/shared/models/track-ui.model';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -49,7 +49,7 @@ interface SearchFilterForm {
 interface TrackSearchState {
   status: 'error' | 'idle' | 'loading' | 'success';
   query: string;
-  tracks: TrackResponse[];
+  tracks: TrackUI[];
 }
 
 const QUERY_PARAMETERS = {
@@ -95,7 +95,7 @@ export class PpfSearchPageComponent {
 
   private readonly destroyRef = inject(DestroyRef);
 
-  public readonly trackList = signal<TrackResponse[]>([]);
+  public readonly trackList = signal<TrackUI[]>([]);
   private readonly searchApi = inject(SearchApiService);
 
   public readonly paginatorPageSize = PAGE_SIZE;
@@ -251,7 +251,7 @@ export class PpfSearchPageComponent {
     );
   }
 
-  protected playTrack(track: TrackResponse): void {
+  protected playTrack(track: TrackUI): void {
     const sort = this.dataSource.sort;
     const filteredTracks = [...this.dataSource.filteredData];
     const playbackQueue = sort ? this.dataSource.sortData(filteredTracks, sort) : filteredTracks;
@@ -259,7 +259,7 @@ export class PpfSearchPageComponent {
     this.player.toggleTrackByID(track, playbackQueue);
   }
 
-  private ppfFilterPredicate(track: TrackResponse, filterJson: string): boolean {
+  private ppfFilterPredicate(track: TrackUI, filterJson: string): boolean {
     if (!filterJson) {
       return true;
     }
@@ -272,17 +272,17 @@ export class PpfSearchPageComponent {
     );
   }
 
-  private isMatchesGenre(track: TrackResponse, genres: string[]): boolean {
+  private isMatchesGenre(track: TrackUI, genres: string[]): boolean {
     if (genres.length === 0) {
       return true;
     }
 
-    const trackGenres = (track?.musicInfo?.tags.genres ?? []).map((g: string) => g.toLowerCase());
+    const trackGenres = (track?.genres ?? []).map((g: string) => g.toLowerCase());
 
     return genres.some(genre => trackGenres.includes(genre.toLowerCase()));
   }
 
-  private isMatchesDuration(track: TrackResponse, min: number, max: number): boolean {
+  private isMatchesDuration(track: TrackUI, min: number, max: number): boolean {
     const trackDuration = Number(track.duration);
 
     return trackDuration >= min && trackDuration <= max;
@@ -370,7 +370,7 @@ export class PpfSearchPageComponent {
         tracks: [],
       }),
       this.searchApi.tracks(query).pipe(
-        map<TrackResponse[], TrackSearchState>(tracks => ({
+        map<TrackUI[], TrackSearchState>(tracks => ({
           status: 'success',
           query,
           tracks,

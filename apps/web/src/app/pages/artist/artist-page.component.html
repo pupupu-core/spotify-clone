@@ -1,35 +1,37 @@
 <!--TODO: добавить данные после добавления интерфейса-->
-<div class="artist-container">
-  <div class="artist-info">
-    <div class="avatar">
-      <img
-        ngSrc="/img/artist-avatar-mock.png"
-        alt="artist avatar image"
-        width="150"
-        height="150"
-        priority
-      />
-    </div>
-    <div class="artist-meta">
-      <div class="albums-count">
-        <mat-icon inline fontSet="material-icons-outlined" aria-label="music album icon">
-          library_music
-        </mat-icon>
-        <span>10 albums</span>
+@if (store.isLoading()) {
+  <div class="loader">
+    <mat-spinner />
+  </div>
+} @else {
+  <div class="artist-container">
+    <div class="artist-info">
+      <div class="avatar">
+        <img
+          [ngSrc]="store.coverUrl() || PLACEHOLDER_URL"
+          alt="artist avatar image"
+          width="150"
+          height="150"
+          priority
+        />
       </div>
-      <h2 class="name">Artist Name</h2>
+      <div class="artist-meta">
+        <div class="albums-count">
+          <mat-icon inline fontSet="material-icons-outlined" aria-label="music album icon">
+            library_music
+          </mat-icon>
+          <span>{{ store.albumsCount() || '0' }} albums</span>
+        </div>
+        <h2 class="name">{{ store.name() || 'Artist name' }}</h2>
+      </div>
+      <div class="biography">
+        <h3>Artist biography:</h3>
+        <p>{{ store.biography() || 'This artist doesn’t have a biography yet.' }}</p>
+      </div>
     </div>
-    <!--    TODO: если ничего нет добавить проверку и не рендерить-->
-    <div class="biography">
-      <h3>Artist Name biography:</h3>
-      <p>
-        Sodales vitae nec non vulputate accumsan justo sodales vel nec lacinia cras non sed ut. Nunc
-        platea justo sit lorem morbi cursus pellentesque pellentesque dictum.
-      </p>
+    <div class="artist-catalog">
+      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />
+      <ppf-playlist-shelf mode="artist" title="Artist Albums" [albumsList]="store.albums()" />
     </div>
   </div>
-  <div class="artist-catalog">
-    <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="trackList()" />
-    <ppf-playlist-shelf title="Artist Albums" />
-  </div>
-</div>
+}

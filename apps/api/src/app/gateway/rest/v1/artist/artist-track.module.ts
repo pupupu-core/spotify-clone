@@ -4,10 +4,17 @@ import { ArtistTrackController } from '$/gateway/rest/v1/artist/artist-track.con
 import { Module } from '@nestjs/common';
 import { GetTrackArtistWorkflow } from '$/core/workflows/artist/get-track-artist.workflow';
 import { FetchTrackArtistStep } from '$/core/steps/fetch-track-artist.step';
+import { GetTracksByIdWorkflow } from '$/core/workflows/track/get-tracks-by-id.workflow';
+import { FetchTracksByIdStep } from '$/core/steps/fetch-tracks-by-id.step';
 
 @Module({
   imports: [JamendoModule, AuthTokenModule],
   controllers: [ArtistTrackController],
-  providers: [GetTrackArtistWorkflow, FetchTrackArtistStep],
+  providers: [
+    GetTrackArtistWorkflow,
+    FetchTrackArtistStep,
+    GetTracksByIdWorkflow,
+    FetchTracksByIdStep,
+  ],
 })
 export class ArtistTrackModule {}

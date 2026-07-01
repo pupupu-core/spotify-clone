@@ -37,6 +37,42 @@ export const APP_ENDPOINTS = {
       path: API_ENDPOINTS.ACCOUNT.ME.clientUrl,
     }),
   },
+  ARTIST: {
+    MUSIC_INFO: (artistId: string) =>
+      buildApiPath({
+        origin: environment.apiOrigin,
+        prefix: null,
+        version: API_VERSION,
+        path: API_ENDPOINTS.ARTIST.MUSIC_INFO.clientUrl,
+        dynamicParams: { artistId },
+      }),
+    TRACKS: (artistId: string) =>
+      buildApiPath({
+        origin: environment.apiOrigin,
+        prefix: null,
+        version: API_VERSION,
+        path: API_ENDPOINTS.ARTIST.TRACKS.clientUrl,
+        dynamicParams: { artistId },
+      }),
+    ALBUMS: (artistId: string) =>
+      buildApiPath({
+        origin: environment.apiOrigin,
+        prefix: null,
+        version: API_VERSION,
+        path: API_ENDPOINTS.ARTIST.ALBUMS.clientUrl,
+        dynamicParams: { artistId },
+      }),
+  },
+  ALBUMS: {
+    TRACKS: (albumId: string) =>
+      buildApiPath({
+        origin: environment.apiOrigin,
+        prefix: null,
+        version: API_VERSION,
+        path: API_ENDPOINTS.ALBUMS.TRACKS.clientUrl,
+        dynamicParams: { albumId },
+      }),
+  },
   SEARCH: {
     AUTOCOMPLETE: buildApiPath({
       origin: environment.apiOrigin,
