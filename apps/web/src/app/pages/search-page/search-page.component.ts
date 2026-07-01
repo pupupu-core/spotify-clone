@@ -203,6 +203,10 @@ export class PpfSearchPageComponent {
 
     this.provideTrackSearch();
 
+    afterNextRender(() => {
+      this.restoreStateFromQueryParameters();
+    });
+
     merge(
       this.filterForm.controls.genres.valueChanges,
       this.filterForm.controls.minDuration.valueChanges,
@@ -393,9 +397,5 @@ export class PpfSearchPageComponent {
       .subscribe(state => {
         this.applySearchState(state);
       });
-
-    afterNextRender(() => {
-      this.restoreStateFromQueryParameters();
-    });
   }
 }
