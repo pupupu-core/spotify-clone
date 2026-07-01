@@ -4,7 +4,7 @@ import { MatIconButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { NgOptimizedImage } from '@angular/common';
-import { PLACEHOLDER_URL } from '~/core/constants/common.constants';
+import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
 import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
 
@@ -29,5 +29,5 @@ export class TrackRowComponent {
   public readonly playClick = output<void>();
 
   protected readonly highlighted = computed(() => this.isActive() ?? this.isPlaying());
-  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL;
+  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
 }

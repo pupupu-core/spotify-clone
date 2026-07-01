@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { PLACEHOLDER_URL } from '~/core/constants/common.constants';
+import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
 import { ArtistApiService } from '~/features/artist/services/artist-api.service';
 
 @Component({
@@ -43,5 +43,5 @@ export class ArtistPageComponent {
     });
   }
 
-  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL;
+  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
 }

@@ -5,7 +5,7 @@ import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { NgOptimizedImage } from '@angular/common';
-import { PLACEHOLDER_URL } from '~/core/constants/common.constants';
+import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
 
 @Component({
   selector: 'ppf-tracks-card',
@@ -18,5 +18,5 @@ export class TrackCardComponent {
   public readonly isPlaying = input.required<boolean>();
   public readonly track = input.required<TrackUI>();
   public readonly playClick = output<void>();
-  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL;
+  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
 }

@@ -1,4 +1,4 @@
-@use '../../../../../../styles/variables';
+@use 'src/styles/variables';
 
 .search-bar {
   --mat-form-field-outlined-container-shape: #{variables.$radius-2xl};
