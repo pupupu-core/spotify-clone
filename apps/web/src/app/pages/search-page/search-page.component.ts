@@ -26,6 +26,7 @@ import type { TrackResponse } from '@streaming-service/model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { catchError, concat, distinctUntilChanged, map, merge, of, switchMap } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { TrackRowComponent } from '../../features/tracks/components/track/track-row/track-row.component';
 
@@ -204,37 +205,7 @@ export class PpfSearchPageComponent {
       .pipe(
         map(params => (params.get(QUERY_PARAMETERS.SEARCH) ?? '').trim()),
         distinctUntilChanged(),
-        switchMap(query => {
-          if (query.length === 0) {
-            return of<TrackSearchState>({
-              status: 'idle',
-              query,
-              tracks: [],
-            });
-          }
-
-          return concat(
-            of<TrackSearchState>({
-              status: 'loading',
-              query,
-              tracks: [],
-            }),
-            this.searchApi.tracks(query).pipe(
-              map<TrackResponse[], TrackSearchState>(tracks => ({
-                status: 'success',
-                query,
-                tracks,
-              })),
-              catchError(() =>
-                of<TrackSearchState>({
-                  status: 'error',
-                  query,
-                  tracks: [],
-                }),
-              ),
-            ),
-          );
-        }),
+        switchMap(query => this.loadTracksByQueryChanges(query)),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(state => {
@@ -390,5 +361,37 @@ export class PpfSearchPageComponent {
     if (status !== 'loading') {
       this.trackList.set(tracks);
     }
+  }
+
+  private loadTracksByQueryChanges(query: string): Observable<TrackSearchState> {
+    if (query.length === 0) {
+      return of<TrackSearchState>({
+        status: 'idle',
+        query,
+        tracks: [],
+      });
+    }
+
+    return concat(
+      of<TrackSearchState>({
+        status: 'loading',
+        query,
+        tracks: [],
+      }),
+      this.searchApi.tracks(query).pipe(
+        map<TrackResponse[], TrackSearchState>(tracks => ({
+          status: 'success',
+          query,
+          tracks,
+        })),
+        catchError(() =>
+          of<TrackSearchState>({
+            status: 'error',
+            query,
+            tracks: [],
+          }),
+        ),
+      ),
+    );
   }
 }
