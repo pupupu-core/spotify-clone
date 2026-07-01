@@ -40,12 +40,12 @@ async function bootstrap(): Promise<void> {
 
   initSwagger(app);
 
-  await app.listen(APP_CONFIG.http.port, APP_CONFIG.http.host);
+  await app.listen(APP_CONFIG.server.port, APP_CONFIG.server.host);
 
   Logger.log(
     `
-      Backend is online: http://localhost:${APP_CONFIG.http.port}${APP_CONFIG.restGateway.pathPrefix}
-      Swagger is online: http://localhost:${APP_CONFIG.http.port}${APP_CONFIG.restGateway.pathPrefix}/docs
+      Backend is online: http://localhost:${APP_CONFIG.server.port}${APP_CONFIG.restGateway.pathPrefix}
+      Swagger is online: http://localhost:${APP_CONFIG.server.port}${APP_CONFIG.restGateway.pathPrefix}/docs
     `,
   );
 }

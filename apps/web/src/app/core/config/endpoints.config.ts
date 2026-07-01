@@ -73,4 +73,18 @@ export const APP_ENDPOINTS = {
         dynamicParams: { albumId },
       }),
   },
+  SEARCH: {
+    AUTOCOMPLETE: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.SEARCH.AUTOCOMPLETE.clientUrl,
+    }),
+    TRACKS: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.SEARCH.TRACKS.clientUrl,
+    }),
+  },
 } as const;
