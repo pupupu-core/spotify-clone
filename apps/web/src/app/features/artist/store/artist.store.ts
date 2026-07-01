@@ -2,7 +2,7 @@ import { patchState, signalStore, withComputed, withMethods, withState } from '@
 import type { ArtistPageState } from '~/features/artist/store/artist.state';
 import { initialState } from '~/features/artist/store/artist.state';
 import { computed, inject } from '@angular/core';
-import { ArtistApiService } from '~/core/services/artist-api.service';
+import { ArtistApiService } from '~/features/artist/services/artist-api.service';
 import { forkJoin, map, pipe, switchMap, tap } from 'rxjs';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';

@@ -8,7 +8,7 @@ import type {
 } from '@streaming-service/model';
 import { APP_ENDPOINTS } from '~/core/config/endpoints.config';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ArtistApiService {
   private readonly http = inject(HttpClient);
 

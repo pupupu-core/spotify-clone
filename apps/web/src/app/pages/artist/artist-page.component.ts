@@ -9,6 +9,7 @@ import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { PLACEHOLDER_URL } from '~/core/constants/common.constants';
+import { ArtistApiService } from '~/features/artist/services/artist-api.service';
 
 @Component({
   selector: 'ppf-artist-page',
@@ -19,7 +20,7 @@ import { PLACEHOLDER_URL } from '~/core/constants/common.constants';
     PlaylistShelfComponent,
     MatProgressSpinner,
   ],
-  providers: [ArtistPageStore],
+  providers: [ArtistPageStore, ArtistApiService],
   templateUrl: './artist-page.component.html',
   styleUrl: './artist-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
