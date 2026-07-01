@@ -354,7 +354,7 @@ export class PpfSearchPageComponent {
     }
   }
 
-  private loadTracksByQueryChanges(query: string): Observable<TrackSearchState> {
+  private loadTracksByQueryChanges$(query: string): Observable<TrackSearchState> {
     if (query.length === 0) {
       return of<TrackSearchState>({
         status: 'idle',
@@ -391,7 +391,7 @@ export class PpfSearchPageComponent {
       .pipe(
         map(params => (params.get(QUERY_PARAMETERS.SEARCH) ?? '').trim()),
         distinctUntilChanged(),
-        switchMap(query => this.loadTracksByQueryChanges(query)),
+        switchMap(query => this.loadTracksByQueryChanges$(query)),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(state => {

@@ -64,7 +64,7 @@ export class SearchBarComponent {
     searchQuery: new FormControl('', { nonNullable: true }),
   });
 
-  private readonly autocompleteQuery =
+  private readonly autocompleteQuery$ =
     this.ppfSearchBarGroup.controls.searchQuery.valueChanges.pipe(
       map(value => value.trim()),
       distinctUntilChanged(),
@@ -72,7 +72,7 @@ export class SearchBarComponent {
     );
 
   protected readonly autocompleteState = toSignal(
-    this.autocompleteQuery.pipe(switchMap(query => this.loadAutocompleteSuggestions(query))),
+    this.autocompleteQuery$.pipe(switchMap(query => this.loadAutocompleteSuggestions$(query))),
     {
       initialValue: {
         status: 'idle',
@@ -127,7 +127,7 @@ export class SearchBarComponent {
     });
   }
 
-  private loadAutocompleteSuggestions(query: string): Observable<AutocompleteState> {
+  private loadAutocompleteSuggestions$(query: string): Observable<AutocompleteState> {
     if (query.length < 2) {
       return of<AutocompleteState>({
         status: 'idle',
