@@ -23,6 +23,10 @@ export class GetTracksAlbumWorkflow {
       tracks: response.tracks.map(track => ({
         ...track,
         listenedTotal: tracksMap.get(track.trackId).stats.listenedTotal,
+        artistId: tracksMap.get(track.trackId).artistId,
+        artistName: tracksMap.get(track.trackId).artistName,
+        imageUrl: tracksMap.get(track.trackId).imageUrl,
+        albumImageUrl: tracksMap.get(track.trackId).albumImageUrl,
       })),
     };
   }

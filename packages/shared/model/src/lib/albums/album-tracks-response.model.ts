@@ -22,4 +22,8 @@ export interface AlbumTrack {
   audioDownloadUrl: string;
   audioDownloadAllowed: boolean;
   listenedTotal?: number;
+  artistId: string;
+  artistName: string;
+  imageUrl: string;
+  albumImageUrl: string;
 }

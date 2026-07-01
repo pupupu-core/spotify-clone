@@ -6,13 +6,13 @@ export interface TrackUI {
   duration: number;
   artistId: string;
   artistName: string;
-  releaseDate: string;
+  releaseDate?: string;
   imageUrl: string;
   albumImageUrl: string;
   audioUrl: string;
-  albumName: string;
+  albumName?: string;
   genres?: string[];
-  albumId: string;
+  albumId?: string;
   sourse?: TrackSource;
   listenedTotal?: number;
 }
