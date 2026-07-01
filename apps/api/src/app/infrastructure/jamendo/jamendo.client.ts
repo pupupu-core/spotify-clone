@@ -113,6 +113,7 @@ export class JamendoClient {
       queryParams: {
         order: input.order,
         id: input.albumsId,
+        imagesize: input.imagesize,
       },
       schema: JamendoAlbumsResponseSchema,
     }).then(mapToAlbumsResponse);
