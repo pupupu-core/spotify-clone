@@ -1,0 +1,81 @@
+@use 'src/styles/variables';
+
+:host {
+  --surface-track-list-bg: rgb(from var(--mat-sys-tertiary) r g b / 30%);
+}
+
+.album-page {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cover {
+  width: 500px;
+  height: 500px;
+  border-radius: variables.$radius-xl;
+  background-color: var(--mat-sys-on-primary);
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: variables.$radius-xl;
+    object-fit: cover;
+  }
+}
+
+.album-info {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.album-description {
+  display: grid;
+  grid-template:
+    'release release artist artist' 70px
+    'title   title   title  duration' 70px
+    / 1fr 1fr 1fr 1fr;
+  gap: 8px;
+
+  .release {
+    grid-area: release;
+  }
+
+  .artist-name {
+    grid-area: artist;
+  }
+
+  .album-name {
+    grid-area: title;
+  }
+
+  .total-duration {
+    grid-area: duration;
+  }
+
+  p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    border-radius: variables.$radius-xl;
+  }
+
+  .release,
+  .total-duration {
+    border: 1px solid var(--mat-sys-tertiary);
+    font-size: variables.$font-size-md;
+  }
+
+  .artist-name {
+    font-size: variables.$font-size-lg;
+    color: var(--mat-sys-surface);
+    background-color: var(--mat-sys-tertiary);
+  }
+
+  .album-name {
+    font-size: variables.$font-size-lg;
+    background-color: var(--mat-sys-primary-container);
+  }
+}

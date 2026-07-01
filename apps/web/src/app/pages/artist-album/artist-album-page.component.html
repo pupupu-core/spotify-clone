@@ -1,0 +1,33 @@
+@if (store.isLoading()) {
+  <div class="loader">
+    <mat-spinner />
+  </div>
+} @else {
+  <div class="album-page">
+    <div class="album-info">
+      <div class="cover">
+        <img
+          [ngSrc]="store.imageUrl() || PLACEHOLDER_URL_XL"
+          alt="album cover"
+          width="500"
+          height="500"
+          priority
+        />
+      </div>
+      <div class="album-description">
+        <p class="release">
+          Release date: <br />
+          {{ (store.releaseDate() | date: 'mediumDate') || 'Date not found' }}
+        </p>
+        <p class="artist-name">{{ store.artistName() || 'Artist Name' }}</p>
+        <p class="album-name">{{ store.name() || 'Album Name' }}</p>
+        <p class="total-duration">{{ (store.totalDuration() | duration) || '0s' }}</p>
+      </div>
+    </div>
+    <ppf-tracks-list
+      mode="list"
+      [title]="store.name() ?? 'Album Name'"
+      [trackList]="store.tracks()"
+    />
+  </div>
+}
