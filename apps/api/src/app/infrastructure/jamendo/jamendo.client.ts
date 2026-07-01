@@ -57,6 +57,7 @@ export class JamendoClient {
         offset: input.offset,
         search: input.search,
         fuzzytags: input.genres?.length ? input.genres.join('+') : undefined,
+        include: input.includeMusicInfo ? 'musicinfo' : undefined,
         type: input.type ?? 'single+albumtrack',
       },
       schema: JamendoListTracksResponseSchema,

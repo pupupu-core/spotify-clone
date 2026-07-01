@@ -19,3 +19,15 @@
     margin-right: 10px;
   }
 }
+
+.entity {
+  font-size: variables.$font-size-sm;
+  opacity: 0.5;
+}
+
+.search-status {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  opacity: 0.5;
+}

@@ -1,15 +1,15 @@
-<div class="search-page__wrapper mat-elevation-z8">
+<div class="wrapper mat-elevation-z8">
   <form
     [formGroup]="filterForm"
-    class="search-page__panels"
+    class="panels"
     matSort
     (matSortChange)="ppfOnSortChange($event)"
     [matSortActive]="sortBy()"
     [matSortDirection]="sortDir()"
   >
-    <section class="search-page__panel search-page__panel-duration">
-      <div class="search-page__panel-durs">
-        <div class="search-page__dur-row">
+    <section class="panel panel-duration">
+      <div class="panel-durs">
+        <div class="dur-row">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-icon
               matPrefix
@@ -25,7 +25,7 @@
               matInput
               id="min-dur"
               type="number"
-              class="search-page__dur-input"
+              class="dur-input"
               min="this.inputMinValue"
               max="this.inputMaxValue"
               [value]="minDuration()"
@@ -48,7 +48,7 @@
           </mat-form-field>
         </div>
 
-        <div class="search-page__dur-row">
+        <div class="dur-row">
           <mat-form-field appearance="outline" subscriptSizing="dynamic">
             <mat-icon
               matPrefix
@@ -64,7 +64,7 @@
               matInput
               id="max-dur"
               type="number"
-              class="search-page__dur-input"
+              class="dur-input"
               min="0"
               max="1200"
               [value]="maxDuration()"
@@ -87,7 +87,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="search-page__panel-dur-slider">
+      <div class="panel-dur-slider">
         <mat-slider [min]="this.inputMinValue" [max]="this.inputMaxValue">
           <input
             matSliderStartThumb
@@ -105,12 +105,8 @@
       </div>
     </section>
 
-    <section class="search-page__panel search-page__panel-genres">
-      <mat-form-field
-        appearance="outline"
-        class="search-page__genre-field"
-        subscriptSizing="dynamic"
-      >
+    <section class="panel panel-genres">
+      <mat-form-field appearance="outline" class="genre-field" subscriptSizing="dynamic">
         <input
           matInput
           [formControl]="tagInputControl"
@@ -145,11 +141,11 @@
       }
     </section>
 
-    <section class="search-page__panel-sort">
-      <span id="search-sort-label" class="search-page__sort-label">Sorting by:</span>
+    <section class="panel-sort">
+      <span id="search-sort-label" class="sort-label">Sorting by:</span>
       <button
         type="button"
-        class="search-page__sort-button"
+        class="sort-button"
         mat-sort-header="play_count"
         sortActionDescription="Sort by popularity"
       >
@@ -157,7 +153,7 @@
       </button>
       <button
         type="button"
-        class="search-page__sort-button"
+        class="sort-button"
         mat-sort-header="duration"
         sortActionDescription="Sort by duration"
       >
@@ -165,7 +161,7 @@
       </button>
       <button
         type="button"
-        class="search-page__sort-button"
+        class="sort-button"
         mat-sort-header="artist_meta"
         sortActionDescription="Sort by name"
       >
@@ -173,7 +169,14 @@
       </button>
     </section>
   </form>
-  <div class="search-page__table-wrap">
+
+  @if (searchStatus() === 'loading') {
+    <p class="status">Loading tracks…</p>
+  } @else if (searchStatus() === 'error') {
+    <p class="status status--error">Yay. Ratelimit. Please try again.</p>
+  }
+
+  <div class="table-wrap">
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="track">
         <td mat-cell *matCellDef="let track">
@@ -188,7 +191,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell search-page__empty" colspan="6">
+        <td class="mat-cell empty" colspan="6">
           @if (searchText()) {
             No tracks matching to query "{{ searchText() }}" and applied filters
           } @else {

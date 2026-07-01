@@ -9,7 +9,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { TrackService } from '../../features/tracks/services/track.mock.service';
+import { SearchApiService } from '~/core/services/search-api.service';
 import { MatFormField, MatInput, MatInputModule, MatLabel } from '@angular/material/input';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -25,7 +25,8 @@ import { PpfPlayerService } from '../../features/player/services/track-player.se
 import type { TrackResponse } from '@streaming-service/model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { map, merge } from 'rxjs';
+import { catchError, concat, distinctUntilChanged, map, merge, of, switchMap } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { TrackRowComponent } from '../../features/tracks/components/track/track-row/track-row.component';
 
@@ -33,18 +34,22 @@ const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'h
 const PAGE_SIZE = 4;
 
 interface TrackFilter {
-  searchQuery: string;
   genres: string[];
   minDuration: number;
   maxDuration: number;
 }
 
 interface SearchFilterForm {
-  searchQuery: FormControl<string>;
   genreQuery: FormControl<string>;
   genres: FormControl<string[]>;
   minDuration: FormControl<number | null>;
   maxDuration: FormControl<number | null>;
+}
+
+interface TrackSearchState {
+  status: 'error' | 'idle' | 'loading' | 'success';
+  query: string;
+  tracks: TrackResponse[];
 }
 
 const QUERY_PARAMETERS = {
@@ -85,13 +90,14 @@ const INPUT_MAX_DURATION = 1200;
 })
 export class PpfSearchPageComponent {
   protected readonly player = inject(PpfPlayerService);
-  private readonly trackService = inject(TrackService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   private readonly destroyRef = inject(DestroyRef);
 
-  public readonly trackList = this.trackService.trackList;
+  public readonly trackList = signal<TrackResponse[]>([]);
+  private readonly searchApi = inject(SearchApiService);
+
   public readonly paginatorPageSize = PAGE_SIZE;
   public readonly inputMaxValue = INPUT_MAX_DURATION;
   public readonly inputMinValue = INPUT_MIN_DURATION;
@@ -102,9 +108,6 @@ export class PpfSearchPageComponent {
   public readonly paginator = viewChild(MatPaginator);
 
   protected readonly filterForm = new FormGroup<SearchFilterForm>({
-    searchQuery: new FormControl(this.params.get(QUERY_PARAMETERS.SEARCH) ?? '', {
-      nonNullable: true,
-    }),
     genreQuery: new FormControl('', { nonNullable: true }),
     genres: new FormControl(this.parseGenres(this.params.get(QUERY_PARAMETERS.GENRES)), {
       nonNullable: true,
@@ -133,6 +136,8 @@ export class PpfSearchPageComponent {
     this.parseNumber(this.params.get(QUERY_PARAMETERS.PAGE), 0),
   );
 
+  protected readonly searchStatus = signal<TrackSearchState['status']>('idle');
+
   protected readonly minDuration = computed(
     () => this.filterFormValue().minDuration ?? INPUT_MIN_DURATION,
   );
@@ -140,7 +145,7 @@ export class PpfSearchPageComponent {
   protected readonly maxDuration = computed(
     () => this.filterFormValue().maxDuration ?? INPUT_MAX_DURATION,
   );
-  protected readonly searchText = computed(() => this.filterFormValue().searchQuery);
+  protected readonly searchText = signal(this.params.get(QUERY_PARAMETERS.SEARCH) ?? '');
   protected readonly selectedGenres = computed(() => this.filterFormValue().genres);
 
   protected readonly filteredGenres = computed(() => {
@@ -154,7 +159,6 @@ export class PpfSearchPageComponent {
 
   private readonly activeFilter = computed<string>(() =>
     JSON.stringify({
-      searchQuery: this.searchText().trim().toLowerCase(),
       genres: this.selectedGenres(),
       minDuration: this.minDuration(),
       maxDuration: this.maxDuration(),
@@ -197,12 +201,13 @@ export class PpfSearchPageComponent {
       this.pushQueryParmsToUrl();
     });
 
+    this.provideTrackSearch();
+
     afterNextRender(() => {
       this.restoreStateFromQueryParameters();
     });
 
     merge(
-      this.filterForm.controls.searchQuery.valueChanges,
       this.filterForm.controls.genres.valueChanges,
       this.filterForm.controls.minDuration.valueChanges,
       this.filterForm.controls.maxDuration.valueChanges,
@@ -246,6 +251,14 @@ export class PpfSearchPageComponent {
     );
   }
 
+  protected playTrack(track: TrackResponse): void {
+    const sort = this.dataSource.sort;
+    const filteredTracks = [...this.dataSource.filteredData];
+    const playbackQueue = sort ? this.dataSource.sortData(filteredTracks, sort) : filteredTracks;
+
+    this.player.toggleTrackByID(track, playbackQueue);
+  }
+
   private ppfFilterPredicate(track: TrackResponse, filterJson: string): boolean {
     if (!filterJson) {
       return true;
@@ -254,19 +267,9 @@ export class PpfSearchPageComponent {
     const filter: TrackFilter = JSON.parse(filterJson) as TrackFilter;
 
     return (
-      this.isMatchesSearchQuery(track, filter.searchQuery) &&
       this.isMatchesGenre(track, filter.genres) &&
       this.isMatchesDuration(track, filter.minDuration, filter.maxDuration)
     );
-  }
-  private isMatchesSearchQuery(track: TrackResponse, searchQuery: string): boolean {
-    if (!searchQuery) {
-      return true;
-    }
-
-    const trackMeta = [track.name, track.artistName, track.albumName].join(' ').toLowerCase();
-
-    return trackMeta.includes(searchQuery);
   }
 
   private isMatchesGenre(track: TrackResponse, genres: string[]): boolean {
@@ -315,8 +318,8 @@ export class PpfSearchPageComponent {
     void this.router.navigate([], {
       relativeTo: this.route,
       replaceUrl: true,
+      queryParamsHandling: 'merge',
       queryParams: {
-        [QUERY_PARAMETERS.SEARCH]: this.searchText() || null,
         [QUERY_PARAMETERS.GENRES]: this.selectedGenres().length
           ? this.selectedGenres().join(',')
           : null,
@@ -342,11 +345,57 @@ export class PpfSearchPageComponent {
     this.dataSource.filter = this.activeFilter();
   }
 
-  protected playTrack(track: TrackResponse): void {
-    const sort = this.dataSource.sort;
-    const filteredTracks = [...this.dataSource.filteredData];
-    const playbackQueue = sort ? this.dataSource.sortData(filteredTracks, sort) : filteredTracks;
+  private applySearchState({ status, query, tracks }: TrackSearchState): void {
+    this.searchStatus.set(status);
+    this.searchText.set(query);
 
-    this.player.toggleTrackByID(track, playbackQueue);
+    if (status !== 'loading') {
+      this.trackList.set(tracks);
+    }
+  }
+
+  private loadTracksByQueryChanges$(query: string): Observable<TrackSearchState> {
+    if (query.length === 0) {
+      return of<TrackSearchState>({
+        status: 'idle',
+        query,
+        tracks: [],
+      });
+    }
+
+    return concat(
+      of<TrackSearchState>({
+        status: 'loading',
+        query,
+        tracks: [],
+      }),
+      this.searchApi.tracks(query).pipe(
+        map<TrackResponse[], TrackSearchState>(tracks => ({
+          status: 'success',
+          query,
+          tracks,
+        })),
+        catchError(() =>
+          of<TrackSearchState>({
+            status: 'error',
+            query,
+            tracks: [],
+          }),
+        ),
+      ),
+    );
+  }
+
+  private provideTrackSearch(): void {
+    this.route.queryParamMap
+      .pipe(
+        map(params => (params.get(QUERY_PARAMETERS.SEARCH) ?? '').trim()),
+        distinctUntilChanged(),
+        switchMap(query => this.loadTracksByQueryChanges$(query)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(state => {
+        this.applySearchState(state);
+      });
   }
 }

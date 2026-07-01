@@ -10,6 +10,7 @@ import { ArtistTrackModule } from '$/gateway/rest/v1/artist/artist-track.module'
 import { ArtistAlbumModule } from '$/gateway/rest/v1/artist/artist-album.module';
 import { AlbumTracksModule } from '$/gateway/rest/v1/albums/album-tracks.module';
 import { ArtistMusicInfoModule } from '$/gateway/rest/v1/artist/artist-music-info.module';
+import { SearchModule } from '$/gateway/rest/v1/search/search.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ArtistMusicInfoModule } from '$/gateway/rest/v1/artist/artist-music-inf
     ArtistAlbumModule,
     AlbumTracksModule,
     ArtistMusicInfoModule,
+    SearchModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {
