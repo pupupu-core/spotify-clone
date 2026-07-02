@@ -5,10 +5,18 @@ import { GetTracksAlbumWorkflow } from '$/core/workflows/albums/get-tracks-album
 import { FetchTracksAlbumStep } from '$/core/steps/fetch-tracks-album.step';
 import { AccessTokenGuard } from '$/gateway/rest/guards/access-token.guard';
 import { AlbumTracksController } from '$/gateway/rest/v1/albums/album-tracks.controller';
+import { GetTracksByIdWorkflow } from '$/core/workflows/track/get-tracks-by-id.workflow';
+import { FetchTracksByIdStep } from '$/core/steps/fetch-tracks-by-id.step';
 
 @Module({
   imports: [JamendoModule, AuthTokenModule],
   controllers: [AlbumTracksController],
-  providers: [GetTracksAlbumWorkflow, FetchTracksAlbumStep, AccessTokenGuard],
+  providers: [
+    GetTracksAlbumWorkflow,
+    FetchTracksAlbumStep,
+    AccessTokenGuard,
+    GetTracksByIdWorkflow,
+    FetchTracksByIdStep,
+  ],
 })
 export class AlbumTracksModule {}

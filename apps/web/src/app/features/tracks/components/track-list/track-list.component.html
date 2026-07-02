@@ -7,8 +7,8 @@
     </button>
   </div>
 
-  <ul class="track-list__items">
-    @if (trackList().length > 0) {
+  @if (trackList().length > 0) {
+    <ng-template #trackItems>
       @for (track of trackList(); track track.id) {
         <li class="track-list__item">
           <ppf-tracks
@@ -19,8 +19,18 @@
           />
         </li>
       }
+    </ng-template>
+
+    @if (ulMode() === 'numbered') {
+      <ol class="track-list__items track-list-numbered">
+        <ng-container [ngTemplateOutlet]="trackItems" />
+      </ol>
     } @else {
-      <li class="tracks-empty">No tracks available yet.</li>
+      <ul class="track-list__items">
+        <ng-container [ngTemplateOutlet]="trackItems" />
+      </ul>
     }
-  </ul>
+  } @else {
+    <div class="tracks-empty">No tracks available yet.</div>
+  }
 </section>

@@ -63,6 +63,14 @@ export const appRoutes: Route[] = [
             ({ ArtistPageComponent }) => ArtistPageComponent,
           ),
       },
+      {
+        path: ROUTES.ARTIST_ALBUM.path,
+        title: ROUTES.ARTIST_ALBUM.meta.title,
+        loadComponent: () =>
+          import('~/pages/artist-album/artist-album-page.component').then(
+            ({ ArtistAlbumPageComponent }) => ArtistAlbumPageComponent,
+          ),
+      },
     ],
   },
   {

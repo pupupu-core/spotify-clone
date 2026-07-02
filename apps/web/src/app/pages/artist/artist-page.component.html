@@ -1,7 +1,7 @@
 <!--TODO: добавить данные после добавления интерфейса-->
 @if (store.isLoading()) {
   <ppf-loader>
-    <p>Loading artist page...</p>
+    <p>Loading artist...</p>
   </ppf-loader>
 } @else {
   <div class="artist-container">
@@ -30,8 +30,18 @@
       </div>
     </div>
     <div class="artist-catalog">
-      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />
-      <ppf-playlist-shelf mode="artist" title="Artist Albums" [albumsList]="store.albums()" />
+      <ppf-tracks-list
+        mode="list"
+        title="Popular tracks"
+        [trackList]="store.popularTracks()"
+        ulMode="unnumbered"
+      />
+      <ppf-playlist-shelf
+        mode="artist"
+        title="Artist Albums"
+        [albumsList]="store.albums()"
+        (playlistClick)="redirectToAlbumPage($event)"
+      />
     </div>
   </div>
 }

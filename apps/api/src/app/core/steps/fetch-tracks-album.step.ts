@@ -10,6 +10,7 @@ export class FetchTracksAlbumStep {
     const [trackList] = await this.jamendoClient.listTracksAlbums({
       order: 'track_position',
       albumsId: [albumId],
+      imagesize: 500,
     });
 
     if (!trackList) {

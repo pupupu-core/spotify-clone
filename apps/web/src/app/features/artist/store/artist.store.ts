@@ -9,7 +9,7 @@ import {
   mapArtistMusicInfoResponse,
   mapArtistTrackToTrackUI,
 } from '~/shared/utils/mappers/artist.mappers';
-import { mapAlbumResponseToAlbumUI } from '~/shared/utils/mappers/album.mappers';
+import { mapAlbumArtistResponseToAlbumUI } from '~/shared/utils/mappers/album.mappers';
 
 export const ArtistPageStore = signalStore(
   withState(initialState),
@@ -24,6 +24,7 @@ export const ArtistPageStore = signalStore(
         tap(() => {
           patchState(store, {
             isLoading: true,
+            error: null,
           });
         }),
 
@@ -41,7 +42,7 @@ export const ArtistPageStore = signalStore(
               ),
 
               albums: ArtistAlbums.albums.map(album =>
-                mapAlbumResponseToAlbumUI(album, ArtistAlbums.id, ArtistAlbums.name),
+                mapAlbumArtistResponseToAlbumUI(album, ArtistAlbums.id, ArtistAlbums.name),
               ),
             })),
 

@@ -5,6 +5,7 @@ import {
   inject,
   input,
   NgZone,
+  output,
   viewChild,
 } from '@angular/core';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
@@ -22,6 +23,7 @@ export class PlaylistShelfComponent implements AfterViewInit, OnDestroy {
   public readonly title = input.required<string>();
   public readonly albumsList = input.required<AlbumUI[]>();
   public readonly mode = input.required<AlbumCardMode>();
+  protected readonly playlistClick = output<string>();
 
   private readonly zone = inject(NgZone);
 

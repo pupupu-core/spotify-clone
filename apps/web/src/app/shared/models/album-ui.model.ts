@@ -1,3 +1,5 @@
+import type { TrackUI } from '~/shared/models/track-ui.model';
+
 export interface AlbumUI {
   id: string;
   name: string;
@@ -6,4 +8,5 @@ export interface AlbumUI {
   artistName?: string;
   imageUrl?: string;
   tracksCount: number;
+  tracks?: TrackUI[];
 }

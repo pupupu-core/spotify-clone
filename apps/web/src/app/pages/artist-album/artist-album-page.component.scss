@@ -1,0 +1,95 @@
+@use 'src/styles/variables';
+
+:host {
+  --surface-track-list-bg: rgb(from var(--mat-sys-tertiary) r g b / 30%);
+}
+
+.album-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  justify-content: space-between;
+  justify-items: stretch;
+}
+
+.cover {
+  width: 500px;
+  height: 500px;
+  border-radius: variables.$radius-xl;
+  background-color: var(--mat-sys-on-primary);
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: variables.$radius-xl;
+    object-fit: cover;
+  }
+}
+
+.album-info {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-self: center;
+
+  max-width: 500px;
+}
+
+.album-description {
+  display: grid;
+  grid-template:
+    'release release artist artist' 70px
+    'title   title   title  duration' 70px
+    / 1fr 1fr 1fr 1fr;
+  gap: 10px;
+
+  p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px 5px;
+    border-radius: variables.$radius-xl;
+  }
+
+  .release {
+    grid-area: release;
+  }
+
+  .total-duration {
+    grid-area: duration;
+  }
+
+  .release,
+  .total-duration {
+    border: 1px solid var(--mat-sys-tertiary);
+    font-size: variables.$font-size-md;
+  }
+
+  .artist-name {
+    grid-area: artist;
+    font-size: variables.$font-size-lg;
+    color: var(--mat-sys-surface);
+    background-color: var(--mat-sys-tertiary);
+
+    span {
+      overflow: hidden;
+      max-width: 240px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .album-name {
+    grid-area: title;
+    font-size: variables.$font-size-lg;
+    background-color: var(--mat-sys-primary-container);
+
+    span {
+      overflow: hidden;
+      max-width: 360px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
