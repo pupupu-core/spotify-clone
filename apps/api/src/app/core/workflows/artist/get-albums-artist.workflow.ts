@@ -22,6 +22,7 @@ export class GetAlbumArtistWorkflow {
       albums: artistAlbums.albums.map(album => ({
         ...album,
         tracksCount: albumsMap.get(album.albumId)?.tracks.length ?? 0,
+        albumImageUrl: albumsMap.get(album.albumId)?.imageUrl ?? album.albumImageUrl,
       })),
     };
   }
