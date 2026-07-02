@@ -62,3 +62,12 @@
     border-radius: radius-sm;
   }
 }
+
+.mat-mdc-snack-bar-container.ppf-toaster-panel {
+  --mat-snack-bar-container-color: transparent;
+
+  .mat-mdc-snackbar-surface {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}

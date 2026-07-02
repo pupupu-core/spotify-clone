@@ -1,12 +1,63 @@
 @use '../../../../styles/mixins';
 @use '../../../../styles/variables';
 
-.toast {
-  display: flex;
-  flex-direction: row;
+:host {
+  display: block;
+
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-xl;
+
+  background: var(--mat-sys-on-primary);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
 }
 
-.content {
+.wrapper {
+  padding: variables.$space-16;
+}
+
+.toast {
   display: flex;
   flex-direction: column;
+
+  padding: variables.$space-16;
+  border: 2px dashed var(--toaster-accent);
+  border-radius: variables.$radius-lg;
+
+  color: white;
+
+  &--info {
+    --toaster-accent: #2486ad;
+  }
+
+  &--warn {
+    --toaster-accent: #ad8526;
+  }
+
+  &--error {
+    --toaster-accent: #882828;
+  }
+
+  &--success {
+    --toaster-accent: #229452;
+  }
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header {
+  @include mixins.font-xl;
+}
+
+.text {
+  @include mixins.font-md;
+}
+
+.close {
+  color: black;
 }

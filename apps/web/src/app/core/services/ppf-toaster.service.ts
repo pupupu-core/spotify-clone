@@ -8,7 +8,7 @@ import type {
   ToastType,
 } from '../components/toaster/models/toaster.model';
 
-const DEFAULT_DURATION_MS = 10_000;
+const DEFAULT_DURATION_MS = 10_0000;
 
 @Injectable({ providedIn: 'root' })
 export class PpfToasterService {
@@ -72,6 +72,7 @@ export class PpfToasterService {
       duration: options.durationMs ?? DEFAULT_DURATION_MS,
       horizontalPosition: 'end',
       verticalPosition: 'bottom',
+      panelClass: 'ppf-toaster-panel',
     });
   }
 }

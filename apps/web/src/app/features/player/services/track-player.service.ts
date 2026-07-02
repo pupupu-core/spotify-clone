@@ -127,7 +127,7 @@ export class PpfPlayerService {
 
   public toggleMute(): void {
     this.engine.toggleMute();
-    this.toaster.default('Hello', 'audio is muted');
+    this.toaster.error('Hello', 'audio is muted');
   }
 
   public toggleTrackByID(track: TrackResponse, tracks: TrackResponse[]): void {
