@@ -19,8 +19,12 @@
           Release date: <br />
           {{ (store.releaseDate() | date: 'mediumDate') || 'Date not found' }}
         </p>
-        <p class="artist-name">{{ store.artistName() || 'Artist Name' }}</p>
-        <p class="album-name">{{ store.name() || 'Album Name' }}</p>
+        <p class="artist-name">
+          <span>{{ store.artistName() || 'Artist Name' }}</span>
+        </p>
+        <p class="album-name">
+          <span>{{ store.name() || 'Album Name' }}</span>
+        </p>
         <p class="total-duration">{{ (store.totalDuration() | duration) || '0s' }}</p>
       </div>
     </div>
