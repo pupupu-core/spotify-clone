@@ -1,6 +1,6 @@
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { computed, inject } from '@angular/core';
-import { initialState } from '~/features/artistAlbum/store/artistAlbum.state';
+import { initialState } from '~/features/artistAlbum/store/artist-album.state';
 import { AlbumApiService } from '~/features/artistAlbum/service/album-api.service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, switchMap, tap } from 'rxjs';
@@ -12,7 +12,10 @@ export const ArtistAlbumPageStore = signalStore(
 
   withComputed(store => ({
     totalDuration: computed(() =>
-      [...store.tracks().map(track => track.duration)].reduce((acc, cur) => acc + cur, 0),
+      store
+        .tracks()
+        .map(track => track.duration)
+        .reduce((acc, cur) => acc + cur, 0),
     ),
   })),
 
