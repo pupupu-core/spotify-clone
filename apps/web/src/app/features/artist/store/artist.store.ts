@@ -24,6 +24,7 @@ export const ArtistPageStore = signalStore(
         tap(() => {
           patchState(store, {
             isLoading: true,
+            error: null,
           });
         }),
 
