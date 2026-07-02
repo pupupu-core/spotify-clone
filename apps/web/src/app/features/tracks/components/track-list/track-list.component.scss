@@ -47,6 +47,11 @@
   &__item {
     border-radius: variables.$radius-xl;
   }
+
+  &-numbered {
+    padding: revert;
+    list-style: auto;
+  }
 }
 
 .header {
@@ -69,7 +74,9 @@
   box-shadow: none;
 }
 
-.track-list-numbered {
-  padding: revert;
-  list-style: auto;
+.sort-button {
+  --mat-fab-container-color: transparent;
+
+  color: var(--mat-sys-tertiary);
+  box-shadow: none;
 }
