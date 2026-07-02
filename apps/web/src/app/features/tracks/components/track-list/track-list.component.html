@@ -1,7 +1,7 @@
 <section class="track-list">
   <div class="header">
     <h2 class="track-list__title">{{ title() }}</h2>
-    @if (pageMode() === 'library') {
+    @if (sortMode() === 'sort') {
       <button matFab extended (click)="toggleSort()" class="sort-button">
         <mat-icon>{{ direction() === 'asc' ? 'north' : 'south' }}</mat-icon>
         Last Played

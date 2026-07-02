@@ -7,7 +7,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import type { PageMode, TrackListMode, UlMode } from './models/mode.model';
+import type { SortMode, TrackListMode, UlMode } from './models/mode.model';
 import { Track } from '../track/track';
 import { PpfPlayerService } from '../../../player/services/track-player.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
@@ -28,7 +28,7 @@ export class TrackListComponent {
   public readonly trackList = input.required<TrackUI[]>();
   public readonly mode = input<TrackListMode>('list');
   public readonly ulMode = input.required<UlMode>();
-  public readonly pageMode = input<PageMode>();
+  public readonly sortMode = input<SortMode>();
   protected readonly player = inject(PpfPlayerService);
   protected readonly trackView = computed(() => (this.mode() === 'grid' ? 'card' : 'row'));
   protected readonly sortChange = output<'asc' | 'desc'>();

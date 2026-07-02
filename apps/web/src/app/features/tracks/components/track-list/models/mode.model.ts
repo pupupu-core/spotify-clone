@@ -1,3 +1,3 @@
 export type TrackListMode = 'list' | 'grid';
 export type UlMode = 'unnumbered' | 'numbered';
-export type PageMode = 'library';
+export type SortMode = 'sort';
