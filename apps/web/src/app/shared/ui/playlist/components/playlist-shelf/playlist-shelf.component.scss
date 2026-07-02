@@ -2,6 +2,7 @@
 @use 'src/styles/variables';
 
 :host {
+  display: block;
   border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
   border-radius: variables.$radius-xl;
   background-color: var(--surface-playlist-shelf-bg);

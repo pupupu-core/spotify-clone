@@ -1,1 +1,25 @@
-<p>library-page works!</p>
+<div class="library-page">
+  <div class="main-content">
+    <div class="welcome">
+      HELLO!<br />
+      <span>We tuned the sound just for you,</span><br />
+      {{ 'USER NAME' }}.
+    </div>
+    <button class="upload-button" matFab extended>
+      <div>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="upload track icon"
+          fontSet="material-icons-outlined"
+        >
+          cloud_upload
+        </mat-icon>
+        <span>upload new track</span>
+      </div>
+    </button>
+    <ppf-playlist-shelf class="playlist" title="My Playlist" mode="library" [albumsList]="[]" />
+  </div>
+  <div class="recently-played">
+    <ppf-tracks-list ulMode="unnumbered" [trackList]="[]" mode="list" title="Recently played" />
+  </div>
+</div>

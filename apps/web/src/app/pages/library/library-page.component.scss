@@ -1,0 +1,80 @@
+@use 'src/styles/variables';
+@use 'src/styles/mixins';
+
+:host {
+  --surface-playlist-shelf-bg: var(--mat-sys-secondary);
+  --surface-track-list-bg: rgb(from var(--mat-sys-on-primary) r g b / 50%);
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.library-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  min-height: 600px;
+}
+
+.main-content {
+  display: grid;
+  grid-template:
+    'welcome welcome upload' 200px
+    'playlist playlist playlist' 380px / 200px 200px 200px;
+  gap: 20px;
+}
+
+.welcome {
+  @include mixins.font-xl;
+
+  grid-area: welcome;
+
+  padding: 25px;
+  border: 1px solid var(--mat-sys-surface);
+  border-radius: variables.$radius-xl;
+
+  color: var(--mat-sys-surface);
+
+  background: rgb(from var(--mat-sys-primary-fixed-dim) r g b / 30%);
+
+  span {
+    @include mixins.font-xs;
+  }
+}
+
+.upload-button {
+  @include mixins.font-md;
+
+  --mat-fab-container-color: rgb(from var(--mat-sys-tertiary) r g b / 30%);
+  --mat-fab-extended-container-height: 100%;
+  --mat-fab-foreground-color: var(--mat-sys-tertiary);
+
+  grid-area: upload;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+  }
+
+  mat-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 70px;
+  }
+
+  &:hover {
+    background-color: rgb(from var(--mat-sys-secondary) r g b / 30%);
+
+    mat-icon {
+      transform: translateY(-5px);
+    }
+  }
+}
+
+.playlist {
+  grid-area: playlist;
+  color: var(--mat-sys-surface);
+}

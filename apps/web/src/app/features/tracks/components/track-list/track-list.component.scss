@@ -5,6 +5,7 @@
 :host {
   display: block;
 
+  height: 100%;
   padding: variables.$space-16 variables.$space-14 variables.$space-12;
   border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
   border-radius: variables.$radius-xl;
