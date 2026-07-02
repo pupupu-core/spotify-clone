@@ -26,7 +26,7 @@
     </div>
     <ppf-tracks-list
       mode="list"
-      [title]="store.name() ?? 'Album Name'"
+      [title]="(store.name() ?? 'Album Name') + ':'"
       [trackList]="store.tracks()"
       ulMode="numbered"
     />
