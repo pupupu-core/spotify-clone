@@ -25,7 +25,7 @@
         <p class="album-name">
           <span>{{ store.name() || 'Album Name' }}</span>
         </p>
-        <p class="total-duration">{{ (store.totalDuration() | duration) || '0s' }}</p>
+        <p class="total-duration">{{ (store.totalDuration() | duration: 'fullTime') || '0s' }}</p>
       </div>
     </div>
     <ppf-tracks-list
