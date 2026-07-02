@@ -34,8 +34,7 @@
     display: grid;
     gap: variables.$space-8;
 
-    min-height: 0;
-    max-height: 580px;
+    height: 100%;
     margin: 0;
     padding: 0 variables.$space-4 0 0;
 
