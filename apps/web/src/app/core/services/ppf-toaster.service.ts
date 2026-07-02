@@ -14,24 +14,44 @@ const DEFAULT_DURATION_MS = 10_000;
 export class PpfToasterService {
   private readonly snackBar = inject(MatSnackBar);
 
-  public show(
-    payload: ToastPayload,
-    options: ToastOptions = {},
-  ): MatSnackBarRef<PpfToasterComponent> {
-    return this.snackBar.openFromComponent(PpfToasterComponent, {
-      data: payload,
-      duration: options.durationMs ?? DEFAULT_DURATION_MS,
-      horizontalPosition: 'end',
-      verticalPosition: 'bottom',
-    });
-  }
-
   public default(
     header: string,
     text: string,
     options?: ToastOptions,
   ): MatSnackBarRef<PpfToasterComponent> {
     return this.open('default', header, text, options);
+  }
+
+  public info(
+    header: string,
+    text: string,
+    options?: ToastOptions,
+  ): MatSnackBarRef<PpfToasterComponent> {
+    return this.show({ type: 'info', header, text }, options);
+  }
+
+  public warn(
+    header: string,
+    text: string,
+    options?: ToastOptions,
+  ): MatSnackBarRef<PpfToasterComponent> {
+    return this.show({ type: 'warn', header, text }, options);
+  }
+
+  public error(
+    header: string,
+    text: string,
+    options?: ToastOptions,
+  ): MatSnackBarRef<PpfToasterComponent> {
+    return this.show({ type: 'error', header, text }, options);
+  }
+
+  public success(
+    header: string,
+    text: string,
+    options?: ToastOptions,
+  ): MatSnackBarRef<PpfToasterComponent> {
+    return this.show({ type: 'success', header, text }, options);
   }
 
   private open(
@@ -41,5 +61,17 @@ export class PpfToasterService {
     options?: ToastOptions,
   ): MatSnackBarRef<PpfToasterComponent> {
     return this.show({ type, header, text }, options);
+  }
+
+  private show(
+    payload: ToastPayload,
+    options: ToastOptions = {},
+  ): MatSnackBarRef<PpfToasterComponent> {
+    return this.snackBar.openFromComponent(PpfToasterComponent, {
+      data: payload,
+      duration: options.durationMs ?? DEFAULT_DURATION_MS,
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom',
+    });
   }
 }
