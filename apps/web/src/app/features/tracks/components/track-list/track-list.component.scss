@@ -17,6 +17,7 @@
 .track-list {
   overflow: hidden;
   display: grid;
+  grid-template-rows: max-content;
   gap: variables.$space-18;
   align-items: start;
 
@@ -66,4 +67,9 @@
   --mat-button-filled-container-shape: #{variables.$radius-md};
 
   box-shadow: none;
+}
+
+.track-list-numbered {
+  padding: revert;
+  list-style: auto;
 }

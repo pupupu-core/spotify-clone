@@ -30,7 +30,12 @@
       </div>
     </div>
     <div class="artist-catalog">
-      <ppf-tracks-list mode="list" title="Popular tracks" [trackList]="store.popularTracks()" />
+      <ppf-tracks-list
+        mode="list"
+        title="Popular tracks"
+        [trackList]="store.popularTracks()"
+        ulMode="unnumbered"
+      />
       <ppf-playlist-shelf
         mode="artist"
         title="Artist Albums"

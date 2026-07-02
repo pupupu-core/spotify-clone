@@ -7,7 +7,7 @@
     </button>
   </div>
 
-  <ul class="track-list__items">
+  <ng-template #trackItems>
     @if (trackList().length > 0) {
       @for (track of trackList(); track track.id) {
         <li class="track-list__item">
@@ -22,5 +22,15 @@
     } @else {
       <li class="tracks-empty">No tracks available yet.</li>
     }
-  </ul>
+  </ng-template>
+
+  @if (ulMode() === 'numbered') {
+    <ol class="track-list__items track-list-numbered">
+      <ng-container [ngTemplateOutlet]="trackItems" />
+    </ol>
+  } @else {
+    <ul class="track-list__items">
+      <ng-container [ngTemplateOutlet]="trackItems" />
+    </ul>
+  }
 </section>
