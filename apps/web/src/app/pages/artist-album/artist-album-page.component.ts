@@ -8,11 +8,11 @@ import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { PLACEHOLDER_URL_XL } from '~/core/constants/common.constants';
 import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 
 @Component({
   selector: 'ppf-artist-album',
-  imports: [NgOptimizedImage, DatePipe, DurationPipe, TrackListComponent, MatProgressSpinner],
+  imports: [NgOptimizedImage, DatePipe, DurationPipe, TrackListComponent, LoaderComponent],
   providers: [ArtistAlbumPageStore, AlbumApiService],
   templateUrl: './artist-album-page.component.html',
   styleUrl: './artist-album-page.component.scss',
