@@ -2,6 +2,10 @@
 
 :host {
   --surface-track-list-bg: rgb(from var(--mat-sys-tertiary) r g b / 30%);
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .album-page {
