@@ -1,0 +1,22 @@
+@use 'src/styles/variables';
+
+:host {
+  --mat-progress-spinner-active-indicator-color: var(--mat-sys-tertiary);
+
+  display: flex;
+  flex: 1;
+}
+
+.loader {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+
+  .loading-text {
+    font-size: variables.$font-size-xl;
+    text-transform: uppercase;
+  }
+}

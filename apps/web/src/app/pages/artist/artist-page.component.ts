@@ -7,19 +7,13 @@ import { ArtistPageStore } from '~/features/artist/store/artist.store';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
 import { ArtistApiService } from '~/features/artist/services/artist-api.service';
+import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 
 @Component({
   selector: 'ppf-artist-page',
-  imports: [
-    NgOptimizedImage,
-    MatIcon,
-    TrackListComponent,
-    PlaylistShelfComponent,
-    MatProgressSpinner,
-  ],
+  imports: [NgOptimizedImage, MatIcon, TrackListComponent, PlaylistShelfComponent, LoaderComponent],
   providers: [ArtistPageStore, ArtistApiService],
   templateUrl: './artist-page.component.html',
   styleUrl: './artist-page.component.scss',

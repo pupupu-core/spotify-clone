@@ -1,8 +1,8 @@
 <!--TODO: добавить данные после добавления интерфейса-->
 @if (store.isLoading()) {
-  <div class="loader">
-    <mat-spinner />
-  </div>
+  <ppf-loader>
+    <p>Loading artist page...</p>
+  </ppf-loader>
 } @else {
   <div class="artist-container">
     <div class="artist-info">
