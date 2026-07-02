@@ -16,9 +16,23 @@
 }
 
 .title {
-  @include mixins.font-lg;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
+
+  h2 {
+    @include mixins.font-lg;
+  }
+
+  .new-playlist-btn {
+    @include mixins.font-md;
+
+    --mat-fab-container-color: transparent;
+    --mat-fab-foreground-color: var(--mat-sys-surface);
+
+    box-shadow: none;
+  }
 }
 
 .playlist-shelf-inner {
