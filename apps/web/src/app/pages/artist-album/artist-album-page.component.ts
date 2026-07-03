@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
-import { ArtistAlbumPageStore } from '~/features/artistAlbum/store/artistAlbum.store';
+import { ArtistAlbumPageStore } from '~/features/artistAlbum/store/artis-album.store';
 import { AlbumApiService } from '~/features/artistAlbum/service/album-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
