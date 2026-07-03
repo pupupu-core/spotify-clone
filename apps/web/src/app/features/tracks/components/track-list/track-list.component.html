@@ -1,10 +1,17 @@
 <section class="track-list">
   <div class="header">
     <h2 class="track-list__title">{{ title() }}</h2>
-    <button matButton="filled" class="action-play-btn" (click)="playAllClick()">
-      <mat-icon fontSet="material-icons-outlined">play_arrow</mat-icon>
-      Play All
-    </button>
+    @if (sortMode() === 'sort') {
+      <button matFab extended (click)="toggleSort()" class="sort-button">
+        <mat-icon>{{ direction() === 'asc' ? 'north' : 'south' }}</mat-icon>
+        Last Played
+      </button>
+    } @else {
+      <button matButton="filled" class="action-play-btn" (click)="playAllClick()">
+        <mat-icon fontSet="material-icons-outlined">play_arrow</mat-icon>
+        Play All
+      </button>
+    }
   </div>
 
   @if (trackList().length > 0) {
