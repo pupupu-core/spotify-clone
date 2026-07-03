@@ -1,0 +1,6 @@
+@use 'src/styles/variables';
+
+.create-playlist-dialog {
+  border-radius: variables.$radius-xl;
+  background: var(--mat-sys-secondary);
+}
