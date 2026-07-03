@@ -27,7 +27,7 @@ export class TrackListComponent {
   public readonly title = input<string>('Tracks');
   public readonly trackList = input.required<TrackUI[]>();
   public readonly mode = input<TrackListMode>('list');
-  public readonly ulMode = input.required<UlMode>();
+  public readonly ulMode = input<UlMode>('unnumbered');
   public readonly sortMode = input<SortMode>();
   protected readonly player = inject(PpfPlayerService);
   protected readonly trackView = computed(() => (this.mode() === 'grid' ? 'card' : 'row'));

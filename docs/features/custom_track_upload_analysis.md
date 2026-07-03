@@ -248,7 +248,7 @@ uploadTrack()
 #### Progress Bar (HTTP events)
 
 ```typescript
-// tracks.service.ts
+// tracks.services.ts
 upload(formData: FormData): Observable<HttpEvent<Track>> {
   return this.http.post<Track>('/api/tracks/upload', formData, {
     reportProgress: true,

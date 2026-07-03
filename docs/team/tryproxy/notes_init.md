@@ -101,11 +101,11 @@ pnpm exec nx g @nx/angular:pipe
 - generate service to project path
 
 ```bash
-pnpm exec nx g @nx/angular:service api --project=data-access --path=packages/client/data-access/src/lib
+pnpm exec nx g @nx/angular:services api --project=data-access --path=packages/client/data-access/src/lib
 ```
 
 ```bash
-pnpm exec nx g @nx/angular:service api --project=web --path=apps/web/src/app/core/services
+pnpm exec nx g @nx/angular:services api --project=web --path=apps/web/src/app/core/services
 ```
 
 - set up proxy
@@ -118,7 +118,7 @@ idiomatic
 ```bash
 pnpm exec nx g @nx/nest:module entity --project=api
 pnpm exec nx g @nx/nest:controller entity --project=api --skipTests
-pnpm exec nx g @nx/nest:service entity --project=api --skipTests
+pnpm exec nx g @nx/nest:services entity --project=api --skipTests
 ```
 
 ---
@@ -126,7 +126,7 @@ pnpm exec nx g @nx/nest:service entity --project=api --skipTests
 custom
 
 ```bash
-pnpm exec nx g @nx/nest:service infrastructure/storage/audio-storage --project=api --skipTests
-pnpm exec nx g @nx/nest:service infrastructure/prisma/prisma --project=api --skipTests
-pnpm exec nx g @nx/nest:service infrastructure/clients/spotify/spotify --project=api --skipTests
+pnpm exec nx g @nx/nest:services infrastructure/storage/audio-storage --project=api --skipTests
+pnpm exec nx g @nx/nest:services infrastructure/prisma/prisma --project=api --skipTests
+pnpm exec nx g @nx/nest:services infrastructure/clients/spotify/spotify --project=api --skipTests
 ```

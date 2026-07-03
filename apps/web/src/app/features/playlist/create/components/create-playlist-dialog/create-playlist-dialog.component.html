@@ -1,1 +1,45 @@
-<p>create-playlist-dialog works!</p>
+<mat-dialog-content>
+  <button matIconButton aria-label="Example icon button with a vertical three dot icon">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="playlist-info">
+    <button class="upload-cover" matFab extended>
+      <div>
+        <mat-icon
+          aria-hidden="false"
+          aria-label="upload track icon"
+          fontSet="material-icons-outlined"
+        >
+          image_arrow_up
+        </mat-icon>
+        <span>upload playlist cover</span>
+      </div>
+    </button>
+    <div class="playlist-fields">
+      <mat-form-field>
+        <mat-label>Playlist Name</mat-label>
+        <input matInput />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Playlist description</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="search-track">
+    <!--    TODO: вынести серч бар в feature/components?  shared/components?-->
+    <mat-form-field appearance="outline" class="search-bar" subscriptSizing="dynamic">
+      <input
+        class="search-input"
+        matInput
+        type="search"
+        placeholder="Start for search songs, albums, authors..."
+        autocomplete="off"
+      />
+      <button type="submit" matSuffix matIconButton aria-label="Search button">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <ppf-tracks-list [trackList]="[]" mode="list" />
+  </div>
+</mat-dialog-content>
