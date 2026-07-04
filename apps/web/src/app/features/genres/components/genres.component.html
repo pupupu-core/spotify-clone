@@ -4,7 +4,12 @@
   <ul class="list">
     @for (genre of genreList(); track genre) {
       <li class="genre">
-        <button class="chip" type="button">
+        <button
+          class="chip"
+          type="button"
+          [routerLink]="routes.SEARCH.to"
+          [queryParams]="{ genres: genre }"
+        >
           <span>{{ genre }}</span>
         </button>
       </li>
