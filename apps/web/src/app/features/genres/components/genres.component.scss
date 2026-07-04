@@ -1,0 +1,33 @@
+@use 'src/styles/variables';
+@use 'src/styles/mixins';
+
+:host {
+  @include mixins.glass-transparent;
+
+  display: block;
+  padding: variables.$space-16;
+  border-radius: variables.$radius-xl;
+}
+
+.title {
+  @include mixins.font-lg;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$space-8;
+
+  padding: 0;
+
+  list-style: none;
+}
+
+.chip {
+  @include mixins.glass-transparent;
+
+  cursor: pointer;
+  padding: variables.$space-8 variables.$space-14;
+  border-radius: variables.$radius-md;
+  background: transparent;
+}
