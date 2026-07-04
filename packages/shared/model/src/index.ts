@@ -13,3 +13,4 @@ export * from './lib/track/upload-track-response.model';
 export * from './lib/track/community-tracks-response.model';
 export * from './lib/account/account-track-me-response.model';
 export * from './lib/search/autocomplete-response.model';
+export * from './lib/playlist/playlist.model';

@@ -52,6 +52,29 @@ export const API_ENDPOINTS = {
       clientUrl: '/tracks/:trackId',
     },
   },
+  PLAYLIST: {
+    basePath: 'playlists',
+    LIST: {
+      serverPath: '',
+      clientUrl: '/playlists',
+    },
+    CREATE: {
+      serverPath: '',
+      clientUrl: '/playlists',
+    },
+    DETAIL: {
+      serverPath: ':playlistId',
+      clientUrl: '/playlists/:playlistId',
+    },
+    UPDATE: {
+      serverPath: ':playlistId',
+      clientUrl: '/playlists/:playlistId',
+    },
+    DELETE: {
+      serverPath: ':playlistId',
+      clientUrl: '/playlists/:playlistId',
+    },
+  },
   ARTIST: {
     basePath: 'artists',
     TRACKS: {
