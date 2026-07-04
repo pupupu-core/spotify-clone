@@ -10,8 +10,6 @@
   border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
   border-radius: variables.$radius-xl;
 
-  /* background: var(--surface-track-list-bg); */
-
   @include mixins.glass-transparent;
 
   backdrop-filter: blur(12px);
