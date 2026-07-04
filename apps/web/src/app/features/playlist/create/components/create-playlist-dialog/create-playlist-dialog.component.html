@@ -1,33 +1,39 @@
 <mat-dialog-content class="create-playlist-dialog">
-  <button matIconButton aria-label="Example icon button with a vertical three dot icon">
-    <mat-icon>close</mat-icon>
-  </button>
+  <mat-dialog-actions class="close-container">
+    <button matIconButton aria-label="Close create playlist button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
   <div class="playlist-info">
-    <button class="upload-cover" matFab extended>
-      <div>
-        <mat-icon
-          aria-hidden="false"
-          aria-label="upload track icon"
-          fontSet="material-icons-outlined"
-        >
-          image_arrow_up
-        </mat-icon>
-        <span>upload playlist cover</span>
-      </div>
+    <button class="upload-cover-button" matFab extended>
+      @if (mockCoverPreview()) {
+        <img src="/img/album-bg-mock.png" alt="" />
+      } @else {
+        <div class="button-content">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="upload track icon"
+            fontSet="material-icons-outlined"
+          >
+            image_arrow_up
+          </mat-icon>
+          <span>upload playlist cover</span>
+        </div>
+      }
     </button>
     <div class="playlist-fields">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Playlist Name</mat-label>
         <input matInput />
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Playlist description</mat-label>
         <textarea matInput></textarea>
       </mat-form-field>
     </div>
   </div>
   <div class="search-track">
-    <!--    TODO: вынести серч бар в feature/components?  shared/components?-->
+    <!--    TODO: вынести search бар в feature/components? и добавить сюда-->
     <mat-form-field appearance="outline" class="search-bar" subscriptSizing="dynamic">
       <input
         class="search-input"
@@ -42,4 +48,8 @@
     </mat-form-field>
     <ppf-tracks-list [trackList]="[]" mode="list" headerControl="noControl" title="Search result" />
   </div>
+  <mat-dialog-actions>
+    <button matButton="tonal">Basic</button>
+    <button matButton="filled">Basic</button>
+  </mat-dialog-actions>
 </mat-dialog-content>

@@ -22,6 +22,8 @@ export class LibraryPageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.dialog.open(CreatePlaylistDialogComponent);
+    this.dialog.open(CreatePlaylistDialogComponent, {
+      minWidth: 670,
+    });
   }
 }

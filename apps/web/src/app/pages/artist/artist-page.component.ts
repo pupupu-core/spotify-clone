@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { PlaylistShelfComponent } from '~/shared/ui/playlist/components/playlist-shelf/playlist-shelf.component';
@@ -11,10 +10,11 @@ import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
 import { ArtistApiService } from '~/features/artist/services/artist-api.service';
 import { APP_ROUTES } from '~/core/tokens/app-routes.token';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'ppf-artist-page',
-  imports: [NgOptimizedImage, MatIcon, TrackListComponent, PlaylistShelfComponent, LoaderComponent],
+  imports: [MatIcon, TrackListComponent, PlaylistShelfComponent, LoaderComponent, NgOptimizedImage],
   providers: [ArtistPageStore, ArtistApiService],
   templateUrl: './artist-page.component.html',
   styleUrl: './artist-page.component.scss',

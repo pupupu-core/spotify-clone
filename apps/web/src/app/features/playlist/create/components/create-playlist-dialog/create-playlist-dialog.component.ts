@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatDialogContent } from '@angular/material/dialog';
-import { MatFabButton, MatIconButton } from '@angular/material/button';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { MatDialogActions, MatDialogContent } from '@angular/material/dialog';
+import { MatButton, MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatFormField, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,10 +18,14 @@ import { TrackListComponent } from '~/features/tracks/components/track-list/trac
     MatInput,
     MatSuffix,
     ReactiveFormsModule,
+    MatDialogActions,
     TrackListComponent,
+    MatButton,
   ],
   templateUrl: './create-playlist-dialog.component.html',
   styleUrl: './create-playlist-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlaylistDialogComponent {}
+export class CreatePlaylistDialogComponent {
+  protected readonly mockCoverPreview = signal<boolean>(false);
+}

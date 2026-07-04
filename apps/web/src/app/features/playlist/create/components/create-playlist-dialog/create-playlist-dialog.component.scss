@@ -1,6 +1,73 @@
 @use 'src/styles/variables';
 
+:host {
+  --mat-icon-color: var(--mat-sys-surface);
+  --mat-dialog-container-max-width: 1000px;
+}
+
 .create-playlist-dialog {
   border-radius: variables.$radius-xl;
   background: var(--mat-sys-secondary);
+}
+
+.close-container {
+  --mat-dialog-actions-padding: 0px;
+}
+
+.playlist-info {
+  --mat-form-field-outlined-outline-color: var(--mat-sys-surface);
+  --mat-form-field-outlined-label-text-color: var(--mat-sys-surface);
+  --mat-form-field-outlined-focus-label-text-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-focus-outline-color: var(--mat-sys-tertiary);
+  --mat-fab-container-color: rgb(from var(--mat-sys-tertiary) r g b / 50%);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 30px;
+
+  .upload-cover-button {
+    height: 100%;
+
+    .button-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+
+      color: var(--mat-sys-surface);
+    }
+  }
+
+  .playlist-fields {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.search-track {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 10px;
+}
+
+.search-bar {
+  --mat-icon-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-outline-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-label-text-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-input-text-placeholder-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-focus-outline-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-input-text-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-container-shape: #{variables.$radius-2xl};
+}
+
+ppf-tracks-list {
+  min-width: 630px;
+  min-height: 250px;
+  border: none;
+
+  color: var(--mat-sys-tertiary);
+
+  box-shadow: none;
 }
