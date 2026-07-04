@@ -1,6 +1,20 @@
-<ppf-tracks-list
-  title="Popular Tracks"
-  [trackList]="trackList()"
-  class="popular-tracks"
-  ulMode="unnumbered"
-/>
+<div class="home-page">
+  <ppf-tracks-list
+    title="Popular Tracks"
+    [trackList]="trackList()"
+    class="popular-tracks"
+    ulMode="unnumbered"
+  />
+  <ppf-tracks-list
+    title="New Releases"
+    [trackList]="trackList()"
+    class="new-releases"
+    ulMode="unnumbered"
+  />
+  <ppf-tracks-list
+    title="Genre Pick"
+    [trackList]="trackList()"
+    class="genre-pick"
+    ulMode="unnumbered"
+  />
+</div>

@@ -1,3 +1,36 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.home-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: 3fr 1fr;
+  gap: 24px;
+
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.home-page > * {
+  min-height: 0;
+}
+
 .popular-tracks {
-  --surface-track-list-bg: rgb(from var(--mat-sys-primary-container) r g b / 40%);
+  grid-column: 1;
+  grid-row: 1 / -1;
+}
+
+.new-releases {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.genre-pick {
+  grid-column: 2;
+  grid-row: 2;
 }
