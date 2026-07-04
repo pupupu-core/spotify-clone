@@ -25,21 +25,22 @@ import { MatSortModule } from '@angular/material/sort';
 })
 export class TrackListComponent {
   public readonly title = input<string>('Tracks');
-  public readonly trackList = input.required<TrackUI[]>();
+  public readonly trackList = input.required<TrackUI[] | null>();
   public readonly mode = input<TrackListMode>('list');
   public readonly ulMode = input.required<UlMode>();
   public readonly sortMode = input<SortMode>();
+  protected readonly tracks = computed(() => this.trackList() ?? []);
   protected readonly player = inject(PpfPlayerService);
   protected readonly trackView = computed(() => (this.mode() === 'grid' ? 'card' : 'row'));
   protected readonly sortChange = output<'asc' | 'desc'>();
   protected readonly direction = signal<'asc' | 'desc'>('desc');
 
   protected playAllClick(): void {
-    this.player.playTracks(this.trackList());
+    this.player.playTracks(this.tracks());
   }
 
   protected playTrackClick(track: TrackUI): void {
-    this.player.toggleTrackByID(track, this.trackList());
+    this.player.toggleTrackByID(track, this.tracks());
   }
 
   public toggleSort(): void {
