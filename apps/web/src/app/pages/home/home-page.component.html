@@ -1,15 +1,23 @@
-<div class="home-page">
-  <ppf-tracks-list
-    title="Popular Tracks"
-    [trackList]="popularTracks()"
-    class="popular-tracks"
-    ulMode="unnumbered"
-  />
-  <ppf-tracks-list
-    title="New Releases"
-    [trackList]="newReleaseTracks()"
-    class="new-releases"
-    ulMode="unnumbered"
-  />
-  <ppf-genres [genreList]="genres()" class="genres" ulMode="unnumbered" />
-</div>
+<mat-grid-list class="home-page" cols="2" rowHeight="fit" gutterSize="24px">
+  <mat-grid-tile rowspan="4">
+    <ppf-tracks-list
+      title="Popular Tracks"
+      [trackList]="popularTracks()"
+      class="tile-content"
+      ulMode="unnumbered"
+    />
+  </mat-grid-tile>
+
+  <mat-grid-tile rowspan="3">
+    <ppf-tracks-list
+      title="New Releases"
+      [trackList]="newReleaseTracks()"
+      class="tile-content"
+      ulMode="unnumbered"
+    />
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <ppf-genres [genreList]="genres()" class="tile-content" ulMode="unnumbered" />
+  </mat-grid-tile>
+</mat-grid-list>

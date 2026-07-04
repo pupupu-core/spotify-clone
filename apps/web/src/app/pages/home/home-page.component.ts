@@ -10,10 +10,11 @@ import { GenresComponent } from '~/features/genres/components/genres.component';
 import { GenresService } from '~/features/genres/services/genres.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
   selector: 'ppf-home-page',
-  imports: [TrackListComponent, GenresComponent],
+  imports: [TrackListComponent, GenresComponent, MatGridListModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
