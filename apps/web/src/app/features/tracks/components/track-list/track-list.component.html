@@ -14,9 +14,9 @@
     }
   </div>
 
-  @if (tracks().length > 0) {
+  @if (trackList().length > 0) {
     <ng-template #trackItems>
-      @for (track of tracks(); track track.id) {
+      @for (track of trackList(); track track.id) {
         <li class="track-list__item">
           <ppf-tracks
             [isPlaying]="player.current()?.id === track.id && player.isPlaying()"

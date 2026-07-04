@@ -29,18 +29,17 @@ export class TrackListComponent {
   public readonly mode = input<TrackListMode>('list');
   public readonly ulMode = input.required<UlMode>();
   public readonly sortMode = input<SortMode>();
-  protected readonly tracks = computed(() => this.trackList() ?? []);
   protected readonly player = inject(PpfPlayerService);
   protected readonly trackView = computed(() => (this.mode() === 'grid' ? 'card' : 'row'));
   protected readonly sortChange = output<'asc' | 'desc'>();
   protected readonly direction = signal<'asc' | 'desc'>('desc');
 
   protected playAllClick(): void {
-    this.player.playTracks(this.tracks());
+    this.player.playTracks(this.trackList());
   }
 
   protected playTrackClick(track: TrackUI): void {
-    this.player.toggleTrackByID(track, this.tracks());
+    this.player.toggleTrackByID(track, this.trackList());
   }
 
   public toggleSort(): void {
