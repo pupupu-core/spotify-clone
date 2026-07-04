@@ -1,35 +1,29 @@
-<mat-grid-list class="home-page" cols="2" rowHeight="fit" gutterSize="24px">
-  <mat-grid-tile rowspan="4">
-    @if (discoverStatus() === 'error') {
-      <p class="tile-status">Error loading discover page</p>
-    } @else if (discoverStatus() === 'loading') {
-      <ppf-loader class="tile-content" />
-    } @else {
+@if (discoverStatus() === 'error') {
+  <p class="tile-status">Error loading discover page</p>
+} @else if (discoverStatus() === 'loading') {
+  <ppf-loader class="tile-content">Getting your music ready...</ppf-loader>
+} @else {
+  <mat-grid-list class="home-page" cols="2" rowHeight="fit" gutterSize="24px">
+    <mat-grid-tile rowspan="4">
       <ppf-tracks-list
         title="Popular Tracks"
         [trackList]="popularTracks()"
         class="tile-content"
         ulMode="unnumbered"
       />
-    }
-  </mat-grid-tile>
+    </mat-grid-tile>
 
-  <mat-grid-tile rowspan="3">
-    @if (discoverStatus() === 'error') {
-      <p class="tile-status">Error loading new release tracks</p>
-    } @else if (discoverStatus() === 'loading') {
-      <ppf-loader class="tile-content" />
-    } @else {
+    <mat-grid-tile rowspan="3">
       <ppf-tracks-list
         title="New Releases"
         [trackList]="newReleaseTracks()"
         class="tile-content"
         ulMode="unnumbered"
       />
-    }
-  </mat-grid-tile>
+    </mat-grid-tile>
 
-  <mat-grid-tile>
-    <ppf-genres [genreList]="genres()" class="tile-content" />
-  </mat-grid-tile>
-</mat-grid-list>
+    <mat-grid-tile>
+      <ppf-genres [genreList]="genres()" class="tile-content" />
+    </mat-grid-tile>
+  </mat-grid-list>
+}
