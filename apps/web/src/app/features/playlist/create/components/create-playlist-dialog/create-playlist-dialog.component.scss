@@ -24,10 +24,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 30px;
+
+  width: 390px;
+  margin: 0 auto 30px;
 
   .upload-cover-button {
-    height: 100%;
+    width: 170px;
+    height: 170px;
 
     .button-content {
       display: flex;
@@ -63,6 +66,8 @@
 }
 
 ppf-tracks-list {
+  display: grid;
+
   min-width: 630px;
   min-height: 250px;
   border: none;
