@@ -13,6 +13,7 @@ describe('TrackListComponent', () => {
 
     fixture = TestBed.createComponent(TrackListComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('trackList', []);
     fixture.detectChanges();
   });
 

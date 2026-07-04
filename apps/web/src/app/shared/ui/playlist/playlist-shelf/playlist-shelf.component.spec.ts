@@ -13,6 +13,7 @@ describe('PlaylistShelfComponent', () => {
 
     fixture = TestBed.createComponent(PlaylistShelfComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('title', 'Featured playlists');
     fixture.detectChanges();
   });
 
