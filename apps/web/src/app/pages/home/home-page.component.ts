@@ -1,5 +1,5 @@
 import type { OnInit } from '@angular/core';
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { TrackListComponent } from '../../features/tracks/components/track-list/track-list.component';
 import { TrackService } from '../../features/tracks/services/track.mock.service';
 import type { AccountMeResponse } from '@streaming-service/model';
@@ -8,6 +8,8 @@ import { AccountApiService } from '~/core/services/account-api.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GenresComponent } from '~/features/genres/components/genres.component';
 import { GenresService } from '~/features/genres/services/genres.service';
+import type { TrackUI } from '~/shared/models/track-ui.model';
+import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 
 @Component({
   selector: 'ppf-home-page',
@@ -22,7 +24,8 @@ export class HomePageComponent implements OnInit {
   // FOR DEBUG to showcase me endpoint
   private readonly destroyRef = inject(DestroyRef);
 
-  public readonly trackList = this.trackService.trackList;
+  public readonly popularTracks = signal<TrackUI[] | null>(null);
+  public readonly newReleaseTracks = signal<TrackUI[] | null>(null);
   public readonly genres = this.genresService.genreList;
 
   // FOR DEBUG to showcase me endpoint
@@ -35,6 +38,22 @@ export class HomePageComponent implements OnInit {
 
   // FOR DEBUG to showcase me endpoint
   public ngOnInit(): void {
+    this.trackService
+      .fetchDiscover()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        tap(discovery => {
+          this.popularTracks.set(discovery.popularTracks.map(mapTrackResponseToTrackUI));
+          this.newReleaseTracks.set(discovery.newReleases.map(mapTrackResponseToTrackUI));
+        }),
+        catchError(error => {
+          console.error(error);
+
+          return EMPTY;
+        }),
+      )
+      .subscribe();
+
     this.fetchMeAccount()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
