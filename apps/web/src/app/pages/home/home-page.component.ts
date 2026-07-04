@@ -6,20 +6,24 @@ import type { AccountMeResponse } from '@streaming-service/model';
 import { catchError, EMPTY, type Observable, tap } from 'rxjs';
 import { AccountApiService } from '~/core/services/account-api.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { GenresComponent } from '~/features/genres/components/genres.component';
+import { GenresService } from '~/features/genres/services/genres.service';
 
 @Component({
   selector: 'ppf-home-page',
-  imports: [TrackListComponent],
+  imports: [TrackListComponent, GenresComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent implements OnInit {
   private readonly trackService = inject(TrackService);
+  private readonly genresService = inject(GenresService);
   // FOR DEBUG to showcase me endpoint
   private readonly destroyRef = inject(DestroyRef);
 
   public readonly trackList = this.trackService.trackList;
+  public readonly genres = this.genresService.genreList;
 
   // FOR DEBUG to showcase me endpoint
   private readonly accountSession = inject(AccountApiService);
