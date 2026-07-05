@@ -4,12 +4,12 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-dialog-actions>
-  <form class="playlist-info">
+  <form class="playlist-info" [formGroup]="playlistCreateForm">
     <div class="upload-cover-container">
-      @if (mockCoverPreview()) {
-        <img src="/img/album-bg-mock.png" alt="" />
-      } @else {
-        <label for="player-cover" class="input-content">
+      <label for="player-cover" class="input-content">
+        @if (coverPreview()) {
+          <img [src]="coverPreview()" alt="" />
+        } @else {
           <mat-icon
             aria-hidden="false"
             aria-label="upload track icon"
@@ -18,18 +18,18 @@
             image_arrow_up
           </mat-icon>
           <span>upload playlist cover</span>
-        </label>
-        <input type="file" id="player-cover" class="hidden" (change)="setCover($event)" />
-      }
+        }
+      </label>
+      <input type="file" id="player-cover" class="hidden" (change)="setCover($event)" />
     </div>
     <div class="playlist-fields">
       <mat-form-field appearance="outline">
         <mat-label>Playlist Name</mat-label>
-        <input matInput />
+        <input matInput formControlName="playlistName" />
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Playlist description</mat-label>
-        <textarea matInput></textarea>
+        <textarea matInput formControlName="playlistDescription"></textarea>
       </mat-form-field>
     </div>
   </form>

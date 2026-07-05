@@ -1,3 +1,4 @@
+import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -26,25 +27,40 @@ import { TrackListComponent } from '~/features/tracks/components/track-list/trac
   styleUrl: './create-playlist-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlaylistDialogComponent {
-  protected readonly mockCoverPreview = signal<boolean>(false);
-  public file?: File;
+export class CreatePlaylistDialogComponent implements OnInit {
+  // TODO: добавить логику создания при появление бэка
+  protected readonly coverPreview = signal<string>('');
 
-  public readonly playlistCreateForm = new FormGroup({
-    coverFile: new FormControl([null]),
-    playlistName: new FormControl(''),
-    playlistDescription: new FormControl(''),
-  });
+  public readonly playlistCreateForm = new FormGroup(
+    {
+      coverFile: new FormControl<null | File>(null),
+      playlistName: new FormControl(''),
+      playlistDescription: new FormControl(''),
+    },
+    { updateOn: 'blur' },
+  );
 
-  public setCover(eventOrFile: File | Event): void {
-    if (eventOrFile instanceof Event) {
-      const target: HTMLInputElement = eventOrFile.target as HTMLInputElement;
+  public setCover(event: Event): void {
+    const target: HTMLInputElement = event.target as HTMLInputElement;
 
-      if (target.files) {
-        this.file = target.files[0];
-      }
-    } else {
-      this.file = eventOrFile;
+    const file = target.files?.[0] ?? this.playlistCreateForm.get('coverFile')?.value ?? null;
+
+    this.playlistCreateForm.patchValue({
+      coverFile: file,
+    });
+
+    if (!file) {
+      this.coverPreview.set('');
+
+      return;
     }
+
+    this.coverPreview.set(URL.createObjectURL(file));
+  }
+
+  public ngOnInit(): void {
+    this.playlistCreateForm.valueChanges.subscribe(value => {
+      console.log('FORM>>>', value);
+    });
   }
 }
