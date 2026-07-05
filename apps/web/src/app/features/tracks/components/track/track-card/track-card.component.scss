@@ -105,6 +105,7 @@
 
       .play-count {
         border-radius: variables.$radius-md;
+        color: var(--mat-sys-on-primary-container);
         background-color: var(--mat-sys-primary-container);
       }
     }
