@@ -31,6 +31,7 @@ import { TrackRowComponent } from '~/features/tracks/components/track/track-row/
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import type { TrackResponse } from '@streaming-service/model';
+import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -85,6 +86,7 @@ const INPUT_MAX_DURATION = 1200;
     MatInputModule,
     MatFormFieldModule,
     TrackRowComponent,
+    LoaderComponent,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
