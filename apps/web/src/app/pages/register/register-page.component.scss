@@ -15,6 +15,10 @@
   padding-inline: variables.$space-16;
 }
 
+.auth-label {
+  color: var(--mat-sys-on-surface);
+}
+
 .auth-link {
   --mat-button-text-label-text-color: var(--mat-sys-tertiary);
 
