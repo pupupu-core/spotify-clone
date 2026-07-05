@@ -1,7 +1,7 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { TRACK_MOCK } from '~/core/mocks/tracks.mocks';
-
+import { provideRouter } from '@angular/router';
 import { Track } from './track';
 
 describe('Track', () => {
@@ -11,6 +11,7 @@ describe('Track', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Track],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Track);
