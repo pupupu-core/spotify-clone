@@ -1,6 +1,6 @@
-@use '../../../../../styles/variables';
-@use '../../../../../styles/colors';
-@use '../../../../../styles/mixins';
+@use 'src/styles/variables';
+@use 'src/styles/colors';
+@use 'src/styles/mixins';
 @use '@angular/material' as mat;
 
 :host {

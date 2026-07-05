@@ -1,4 +1,4 @@
-@use '../../../../../../styles/variables';
+@use 'src/styles/variables';
 
 .search-bar {
   --mat-form-field-outlined-container-shape: #{variables.$radius-2xl};
@@ -18,4 +18,16 @@
   button {
     margin-right: 10px;
   }
+}
+
+.entity {
+  font-size: variables.$font-size-sm;
+  opacity: 0.5;
+}
+
+.search-status {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  opacity: 0.5;
 }

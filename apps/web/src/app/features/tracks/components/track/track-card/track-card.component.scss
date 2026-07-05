@@ -1,14 +1,11 @@
-@use '../../../../../../styles/variables';
-@use '../../../../../../styles/colors';
-@use '../../../../../../styles/mixins';
+@use 'src/styles/variables';
+@use 'src/styles/colors';
+@use 'src/styles/mixins';
 
 .track-container {
-  cursor: pointer;
-
   display: flex;
   gap: 5px;
   align-items: stretch;
-
   border-radius: variables.$radius-xl;
 
   &:hover {
@@ -23,6 +20,7 @@
     position: relative;
     width: 130px;
     height: 130px;
+    background-color: var(--mat-sys-on-primary);
 
     img {
       width: 100%;
@@ -50,6 +48,15 @@
     .author-track-name {
       .author-name {
         @include mixins.font-md;
+
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          color: var(--mat-sys-on-surface);
+          text-decoration-color: var(--mat-sys-on-surface);
+        }
       }
 
       .track-name {

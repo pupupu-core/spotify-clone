@@ -2,7 +2,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
 import { Controller, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { API_ENDPOINTS } from '@streaming-service/config';
-import { GetTracksAlbumWorkflow } from '$/core/workflows/albums/get-tracks-albums.workflow';
+import { GetTracksAlbumWorkflow } from '$/core/workflows/albums/get-tracks-album.workflow';
 import { AlbumResponse } from '@streaming-service/model';
 
 @ApiTags(OPENAPI_CONFIG.tags.album)

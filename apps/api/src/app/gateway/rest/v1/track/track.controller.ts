@@ -7,18 +7,20 @@ import {
   Delete,
   FileTypeValidator,
   Get,
+  Headers,
   HttpCode,
   HttpStatus,
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
   Post,
+  Res,
   StreamableFile,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { API_ENDPOINTS, UPLOAD_TRACK_CONSTRAINTS } from '@streaming-service/config';
 import {
   CommunityTracksResponse,
@@ -34,6 +36,8 @@ import { UploadTrackApiBodyOpenApiSchema } from './openapi/upload-track-api-body
 import { DeleteTrackWorkflow } from '$/core/workflows/track/delete-track.workflow';
 import { RetrieveTrackAudioWorkflow } from '$/core/workflows/track/retrieve-track-audio.workflow';
 import { ListCommunityTracksWorkflow } from '$/core/workflows/track/list-community-tracks.workflow';
+import { TrackStreamService } from './track-stream.service';
+import { type Response } from 'express';
 
 @ApiTags(OPENAPI_CONFIG.tags.track)
 @Controller({
@@ -47,6 +51,7 @@ export class TrackController {
     private readonly deleteTrackWorkflow: DeleteTrackWorkflow,
     private readonly retrieveTrackAudioWorkflow: RetrieveTrackAudioWorkflow,
     private readonly listCommunityTracksWorkflow: ListCommunityTracksWorkflow,
+    private readonly trackStreamService: TrackStreamService,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -100,16 +105,20 @@ export class TrackController {
     return await this.deleteTrackWorkflow.execute({ accountId, trackId });
   }
 
-  @HttpCode(HttpStatus.OK)
+  @ApiHeader({
+    name: 'range',
+    required: false,
+    description: 'Optional byte range, for example: bytes=0-1023',
+  })
   @Get(API_ENDPOINTS.TRACK.AUDIO.serverPath)
-  public async audio(@Param('trackId') trackId: string): Promise<StreamableFile> {
-    const audio = await this.retrieveTrackAudioWorkflow.execute({ trackId });
+  public async audio(
+    @Param('trackId') trackId: string,
+    @Headers('range') rangeHeader: string | undefined,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<StreamableFile> {
+    const audio = await this.retrieveTrackAudioWorkflow.execute({ trackId, rangeHeader });
 
-    return new StreamableFile(audio.body, {
-      type: audio.contentType ?? 'audio/mpeg',
-      length: audio.contentLength,
-      disposition: 'inline',
-    });
+    return this.trackStreamService.createResponse(response, audio);
   }
 
   @HttpCode(HttpStatus.OK)

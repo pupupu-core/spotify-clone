@@ -8,8 +8,8 @@ export class FetchTrackDiscoveryStep {
 
   public async execute(): Promise<TrackDiscoveryResponse> {
     const [popularTracks, newReleases] = await Promise.all([
-      this.jamendoClient.listTracks({ order: 'popularity_total', limit: 10 }),
-      this.jamendoClient.listTracks({ order: 'releasedate_desc', limit: 10 }),
+      this.jamendoClient.listTracks({ order: 'popularity_total', limit: 10, include: ['stats'] }),
+      this.jamendoClient.listTracks({ order: 'releasedate_desc', limit: 10, include: ['stats'] }),
     ]);
 
     // TODO

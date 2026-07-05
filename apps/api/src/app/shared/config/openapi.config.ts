@@ -9,5 +9,6 @@ export const OPENAPI_CONFIG = {
     track: 'Track',
     artist: 'Artist',
     album: 'Album',
+    search: 'Search',
   },
 } as const;

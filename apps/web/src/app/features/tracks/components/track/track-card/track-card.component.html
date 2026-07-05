@@ -1,6 +1,12 @@
 <div class="track-container" [class.track-container--playing]="isPlaying()">
   <div class="album-cover">
-    <img [src]="track().albumImageUrl || track().imageUrl" alt="" />
+    <img
+      [ngSrc]="track().imageUrl || track().albumImageUrl || PLACEHOLDER_URL"
+      [alt]="track().albumName || track().imageUrl + ' cover'"
+      width="70"
+      height="70"
+      loading="lazy"
+    />
     <button
       matIconButton
       aria-label="control button"
@@ -38,7 +44,7 @@
         >
           headphones
         </mat-icon>
-        {{ 999950 | abbreviatedNumber }}
+        {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
       </p>
     </div>
   </div>

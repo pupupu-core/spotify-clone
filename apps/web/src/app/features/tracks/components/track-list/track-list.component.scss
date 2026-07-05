@@ -5,6 +5,8 @@
 :host {
   display: block;
 
+  height: 100%;
+  padding: variables.$space-16 variables.$space-14 variables.$space-12;
   border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
   border-radius: variables.$radius-xl;
 
@@ -14,10 +16,13 @@
 }
 
 .track-list {
+  overflow: hidden;
   display: grid;
+  grid-template-rows: max-content;
   gap: variables.$space-18;
-  min-height: 0;
-  padding: variables.$space-16 variables.$space-14 variables.$space-12;
+  align-items: start;
+
+  height: 100%;
 
   &__title {
     @include mixins.font-lg;
@@ -30,8 +35,7 @@
     display: grid;
     gap: variables.$space-8;
 
-    min-height: 0;
-    max-height: 380px;
+    height: 100%;
     margin: 0;
     padding: 0 variables.$space-4 0 0;
 
@@ -43,18 +47,36 @@
   &__item {
     border-radius: variables.$radius-xl;
   }
+
+  &-numbered {
+    padding: revert;
+    list-style: auto;
+  }
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
 
-  .action-play-btn {
-    --mat-button-filled-container-color: var(--mat-sys-secondary-container);
-    --mat-button-filled-label-text-color: var(--mat-sys-tertiary);
-    --mat-button-filled-container-shape: #{variables.$radius-md};
+.tracks-empty {
+  @include mixins.font-lg;
 
-    box-shadow: none;
-  }
+  margin: auto;
+}
+
+.action-play-btn {
+  --mat-button-filled-container-color: var(--mat-sys-secondary-container);
+  --mat-button-filled-label-text-color: var(--mat-sys-tertiary);
+  --mat-button-filled-container-shape: #{variables.$radius-md};
+
+  box-shadow: none;
+}
+
+.sort-button {
+  --mat-fab-container-color: transparent;
+
+  color: var(--mat-sys-tertiary);
+  box-shadow: none;
 }

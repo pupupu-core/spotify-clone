@@ -16,6 +16,7 @@ import { RetrieveTrackAudioWorkflow } from '$/core/workflows/track/retrieve-trac
 import { RetrieveTrackAudioStep } from '$/core/steps/retrieve-track-audio.step';
 import { ListCommunityTracksWorkflow } from '$/core/workflows/track/list-community-tracks.workflow';
 import { ListCommunityTracksStep } from '$/core/steps/list-community-tracks.step';
+import { TrackStreamService } from './track-stream.service';
 
 @Module({
   imports: [JamendoModule, AuthTokenModule, PrismaModule, StorageModule],
@@ -32,6 +33,7 @@ import { ListCommunityTracksStep } from '$/core/steps/list-community-tracks.step
     DeleteTrackStep,
     RetrieveTrackAudioStep,
     ListCommunityTracksStep,
+    TrackStreamService,
   ],
 })
 export class TrackModule {}

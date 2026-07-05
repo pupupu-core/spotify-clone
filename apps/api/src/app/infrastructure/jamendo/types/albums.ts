@@ -1,6 +1,6 @@
 export interface JamendoAlbumTrack {
   count: string;
-  albumId: string;
+  trackId: string;
   position: string;
   name: string;
   duration: string;

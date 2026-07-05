@@ -1,6 +1,7 @@
 export interface JamendoAlbumsInput {
-  order: JamendoAlbumsOrder;
+  order?: JamendoAlbumsOrder;
   albumsId: number[];
+  imagesize?: JamendoImageSize;
 }
 
 export type JamendoAlbumsOrder =
@@ -21,3 +22,23 @@ type JamendoAlbumsTextOrderField =
   | 'track_position';
 
 type JamendoAlbumsRatingOrder = 'popularity_total' | 'popularity_month' | 'popularity_week';
+
+type JamendoImageSize =
+  | 25
+  | 35
+  | 50
+  | 55
+  | 60
+  | 65
+  | 70
+  | 75
+  | 85
+  | 100
+  | 130
+  | 150
+  | 200
+  | 300
+  | 400
+  | 500
+  | 600
+  | number;
