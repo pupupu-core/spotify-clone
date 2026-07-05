@@ -85,3 +85,20 @@ flowchart TD
 ### Generate
 
 Generator examples are documented in [docs/generators.md](./docs/generators.md).
+
+### Meeting Notes
+
+Regular team syncs were conducted during the project.
+
+- [Team Sync](https://docs.google.com/document/d/1FJNDPLdOQbJG7UnyvCVwCOvd43HrvQtS86Qxx85Qp84/edit?tab=t.i7fg7ool7utd)
+- [Team Sync](https://docs.google.com/document/d/1FJNDPLdOQbJG7UnyvCVwCOvd43HrvQtS86Qxx85Qp84/edit?tab=t.0)
+
+### Demo Video
+
+A short video demonstrating the main application states:
+
+- Loading
+- Error
+- 404 Not Found
+
+[demo link]()
