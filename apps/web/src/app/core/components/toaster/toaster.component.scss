@@ -2,12 +2,17 @@
 @use '../../../../styles/variables';
 
 :host {
+  position: relative;
+
+  overflow: hidden;
   display: block;
 
+  width: var(--ppf-toaster-width, 240px);
+  height: var(--ppf-toaster-height, 120px);
   border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
   border-radius: variables.$radius-xl;
 
-  background: var(--mat-sys-on-primary);
+  background: rgb(from var(--mat-sys-primary-container) r g b / 50%);
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
 }
@@ -17,14 +22,25 @@
 }
 
 .toast {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: variables.$space-8;
 
-  padding: variables.$space-16;
-  border: 2px dashed var(--toaster-accent);
-  border-radius: variables.$radius-lg;
+  height: 100%;
 
   color: white;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+
+    width: variables.$space-12;
+
+    background: var(--toaster-accent);
+  }
 
   &--info {
     --toaster-accent: #2486ad;
@@ -35,7 +51,7 @@
   }
 
   &--error {
-    --toaster-accent: #882828;
+    --toaster-accent: var(--mat-sys-error);
   }
 
   &--success {
@@ -51,7 +67,10 @@
 }
 
 .header {
-  @include mixins.font-xl;
+  @include mixins.font-lg;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .text {
@@ -59,5 +78,25 @@
 }
 
 .close {
-  color: black;
+  --mat-icon-button-state-layer-size: 36px;
+  --mat-icon-button-touch-target-size: 36px;
+  --mat-icon-button-icon-size: 20px;
+
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+
+  padding: 0;
+
+  color: var(--mat-sys-on-surface);
+
+  mat-icon {
+    display: block;
+
+    width: 20px;
+    height: 20px;
+
+    font-size: 20px;
+    line-height: 20px;
+  }
 }

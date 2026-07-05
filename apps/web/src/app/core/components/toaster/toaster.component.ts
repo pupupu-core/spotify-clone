@@ -7,12 +7,12 @@ import {
 } from '@angular/material/snack-bar';
 
 import type { ToastPayload } from './models/toaster.model';
+import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'ppf-toaster-component',
-  imports: [MatSnackBarAction, MatSnackBarLabel, MatButton, MatIcon],
+  imports: [MatSnackBarAction, MatSnackBarLabel, MatIcon, MatIconButton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'toaster.component.html',
   styleUrl: 'toaster.component.scss',
