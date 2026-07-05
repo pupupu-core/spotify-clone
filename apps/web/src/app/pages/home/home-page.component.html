@@ -1,6 +1,30 @@
-<ppf-tracks-list
-  title="Popular Tracks"
-  [trackList]="trackList()"
-  class="popular-tracks"
-  ulMode="unnumbered"
-/>
+@if (discoverStatus() === 'error') {
+  <p class="tile-status">Error loading discover page</p>
+} @else if (discoverStatus() === 'loading') {
+  <ppf-loader class="tile-content">Getting your music ready...</ppf-loader>
+} @else {
+  <mat-grid-list class="home-page" cols="2" rowHeight="fit" gutterSize="24px">
+    <mat-grid-tile rowspan="4">
+      <ppf-tracks-list
+        title="Popular Tracks"
+        [trackList]="popularTracks()"
+        class="tile-content popular-tracks"
+        ulMode="unnumbered"
+      />
+    </mat-grid-tile>
+
+    <mat-grid-tile rowspan="3">
+      <ppf-tracks-list
+        title="New Releases"
+        [trackList]="newReleaseTracks()"
+        class="tile-content new-releases"
+        mode="grid"
+        ulMode="unnumbered"
+      />
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <ppf-genres [genreList]="genres()" class="tile-content" />
+    </mat-grid-tile>
+  </mat-grid-list>
+}

@@ -3,8 +3,8 @@
     <img
       [ngSrc]="track().imageUrl || track().albumImageUrl || PLACEHOLDER_URL"
       [alt]="track().albumName || track().imageUrl + ' cover'"
-      width="70"
-      height="70"
+      width="120"
+      height="120"
       loading="lazy"
     />
     <button
@@ -20,7 +20,13 @@
   </div>
   <div class="description">
     <div class="author-track-name">
-      <h3 class="author-name">{{ track().artistName }}</h3>
+      <h3 class="author-name">
+        @if (track().sourse !== 'userUpload') {
+          <a [routerLink]="routes.ARTIST.to(track().artistId)">{{ track().artistName }}</a>
+        } @else {
+          <span>{{ track().artistName }}</span>
+        }
+      </h3>
       <h4 class="track-name">{{ track().name }}</h4>
     </div>
     <div class="stats-container">

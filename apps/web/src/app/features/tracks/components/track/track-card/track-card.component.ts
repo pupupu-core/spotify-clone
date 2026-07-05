@@ -6,10 +6,19 @@ import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { NgOptimizedImage } from '@angular/common';
 import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
+import { RouterLink } from '@angular/router';
+import { ROUTES } from '~/core/config/routes.config';
 
 @Component({
   selector: 'ppf-tracks-card',
-  imports: [MatIcon, MatIconButton, DurationPipe, AbbreviatedNumberPipe, NgOptimizedImage],
+  imports: [
+    MatIcon,
+    MatIconButton,
+    DurationPipe,
+    AbbreviatedNumberPipe,
+    NgOptimizedImage,
+    RouterLink,
+  ],
   templateUrl: './track-card.component.html',
   styleUrl: './track-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,4 +28,5 @@ export class TrackCardComponent {
   public readonly track = input.required<TrackUI>();
   public readonly playClick = output<void>();
   protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
+  protected readonly routes = ROUTES;
 }
