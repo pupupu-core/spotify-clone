@@ -4,4 +4,7 @@
   [error]="formError()"
 />
 
-<a [routerLink]="routes.AUTH.LOGIN.to">Log in</a>
+<div class="auth-switch">
+  <span>Already have an account?</span>
+  <a class="auth-link" [routerLink]="routes.AUTH.LOGIN.to">Log in</a>
+</div>

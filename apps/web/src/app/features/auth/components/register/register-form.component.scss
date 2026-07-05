@@ -1,4 +1,36 @@
+@use 'src/styles/variables';
+@use 'src/styles/mixins';
+
 :host {
-  display: flex;
-  flex-direction: column;
+  @include mixins.glass-transparent;
+
+  display: block;
+  inline-size: min(420px, calc(100vw - (variables.$space-24 * 2)));
+  padding: variables.$space-24;
+  border-radius: variables.$radius-xl;
+}
+
+.register-form {
+  display: grid;
+  gap: variables.$space-16;
+  inline-size: 100%;
+}
+
+mat-form-field {
+  --mat-form-field-outlined-container-shape: #{variables.$radius-sm};
+
+  width: 100%;
+  inline-size: 100%;
+}
+
+mat-error {
+  white-space: normal;
+}
+
+.submit-button {
+  --mat-button-filled-container-shape: #{variables.$radius-sm};
+
+  width: 100%;
+  inline-size: 100%;
+  min-height: 44px;
 }
