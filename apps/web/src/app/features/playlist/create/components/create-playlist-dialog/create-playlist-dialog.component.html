@@ -7,9 +7,7 @@
   <form class="playlist-info" [formGroup]="playlistCreateForm">
     <div class="upload-cover-container">
       <label for="player-cover" class="input-content">
-        @if (coverPreview()) {
-          <img [src]="coverPreview()" alt="" />
-        } @else {
+        <div class="input-hint" [class.input-hint--with-cover]="coverPreview()">
           <mat-icon
             aria-hidden="false"
             aria-label="upload track icon"
@@ -18,6 +16,10 @@
             image_arrow_up
           </mat-icon>
           <span>upload playlist cover</span>
+        </div>
+
+        @if (coverPreview()) {
+          <img [src]="coverPreview()" alt="" />
         }
       </label>
       <input type="file" id="player-cover" class="hidden" (change)="setCover($event)" />

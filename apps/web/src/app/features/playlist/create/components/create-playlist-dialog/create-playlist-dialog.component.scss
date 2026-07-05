@@ -49,11 +49,7 @@
     .input-content {
       cursor: pointer;
 
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      justify-content: center;
+      position: relative;
 
       width: 100%;
       height: 100%;
@@ -64,6 +60,25 @@
         width: variables.$font-size-xxl;
         height: variables.$font-size-xxl;
         font-size: variables.$font-size-xxl;
+      }
+
+      .input-hint {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        width: max-content;
+
+        &--with-cover {
+          --mat-icon-color: rgb(from var(--mat-sys-tertiary) r g b / 70%);
+
+          color: rgb(from var(--mat-sys-tertiary) r g b / 70%);
+        }
       }
     }
 
