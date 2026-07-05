@@ -34,3 +34,7 @@ mat-error {
   inline-size: 100%;
   min-height: 44px;
 }
+
+.submit-button--error {
+  @include mixins.shake;
+}

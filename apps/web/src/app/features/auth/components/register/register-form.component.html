@@ -33,6 +33,7 @@
 
   <button
     class="submit-button"
+    [class.submit-button--error]="error()"
     matButton="filled"
     type="submit"
     [disabled]="isLoading() || form.invalid"
