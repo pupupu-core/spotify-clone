@@ -19,7 +19,7 @@
         </div>
 
         @if (coverPreview()) {
-          <img [src]="coverPreview()" alt="" />
+          <img [src]="coverPreview()" alt="cover preview" />
         }
       </label>
       <input type="file" id="player-cover" class="hidden" (change)="setCover($event)" />
