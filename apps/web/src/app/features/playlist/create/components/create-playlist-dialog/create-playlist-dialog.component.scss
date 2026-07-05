@@ -97,6 +97,15 @@
   .playlist-fields {
     display: flex;
     flex-direction: column;
+
+    .description-field {
+      resize: none;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 }
 
