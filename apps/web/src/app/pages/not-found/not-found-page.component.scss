@@ -1,0 +1,95 @@
+@use 'src/styles/mixins';
+@use 'src/styles/variables';
+
+:host {
+  display: block;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: variables.$space-16;
+
+  color: var(--mat-sys-tertiary);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgb(from var(--mat-sys-primary-container) r g b / 72%),
+      rgb(from var(--mat-sys-surface) r g b / 40%)
+    ),
+    url('/img/nav-home.png') center / cover no-repeat;
+}
+
+.page {
+  @include mixins.glass-transparent;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: min(100%, 640px);
+  padding: clamp(3.5rem, 5vw, 6rem) clamp(3rem, 4vw, 5rem);
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-2xl;
+
+  text-align: center;
+
+  background: rgb(from var(--mat-sys-primary-container) r g b / 50%);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 24px 80px rgb(0 0 0 / 24%),
+    inset 0 1px 0 rgb(from var(--mat-sys-tertiary) r g b / 16%);
+}
+
+.not-found {
+  @include mixins.font-sm;
+
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.n404 {
+  @include mixins.font-xl;
+
+  font-size: clamp(10rem, 24vw, 13rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.message {
+  @include mixins.font-lg;
+
+  max-width: 410px;
+  margin-top: variables.$space-16;
+  line-height: 1.5;
+  color: rgb(from var(--mat-sys-tertiary) r g b / 82%);
+}
+
+.link {
+  @include mixins.font-md;
+
+  margin-top: 28px;
+  padding: variables.$space-12 variables.$space-18;
+  border: 1px solid rgb(from var(--mat-sys-tertiary) r g b / 60%);
+  border-radius: variables.$radius-xl;
+
+  color: var(--mat-sys-primary-container);
+
+  background: var(--mat-sys-tertiary);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    color: var(--mat-sys-tertiary);
+    background: rgb(from var(--mat-sys-primary-container) r g b / 50%);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
