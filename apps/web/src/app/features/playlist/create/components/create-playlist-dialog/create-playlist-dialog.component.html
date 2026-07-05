@@ -4,12 +4,12 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-dialog-actions>
-  <div class="playlist-info">
+  <form class="playlist-info">
     <div class="upload-cover-container">
       @if (mockCoverPreview()) {
         <img src="/img/album-bg-mock.png" alt="" />
       } @else {
-        <label for="player-cover" class="empty-content">
+        <label for="player-cover" class="input-content">
           <mat-icon
             aria-hidden="false"
             aria-label="upload track icon"
@@ -19,7 +19,7 @@
           </mat-icon>
           <span>upload playlist cover</span>
         </label>
-        <input type="file" id="player-cover" class="hidden" />
+        <input type="file" id="player-cover" class="hidden" (change)="setCover($event)" />
       }
     </div>
     <div class="playlist-fields">
@@ -32,7 +32,7 @@
         <textarea matInput></textarea>
       </mat-form-field>
     </div>
-  </div>
+  </form>
   <div class="search-track">
     <!--    TODO: вынести search бар в feature/components? и добавить сюда-->
     <mat-form-field appearance="outline" class="search-bar" subscriptSizing="dynamic">
