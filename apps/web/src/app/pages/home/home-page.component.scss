@@ -20,3 +20,13 @@
 .tile-status {
   margin: 0;
 }
+
+.popular-tracks {
+  --surface-track-list-bg: rgb(from var(--mat-sys-on-primary) r g b / 50%);
+}
+
+.new-releases {
+  --surface-track-list-bg: var(--mat-sys-secondary);
+
+  color: var(--mat-sys-surface);
+}

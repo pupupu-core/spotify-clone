@@ -3,6 +3,8 @@
 @use 'src/styles/mixins';
 
 :host {
+  @include mixins.glass-transparent;
+
   display: block;
 
   height: 100%;
@@ -10,8 +12,7 @@
   border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
   border-radius: variables.$radius-xl;
 
-  @include mixins.glass-transparent;
-
+  background: var(--surface-track-list-bg);
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
 }
@@ -32,6 +33,8 @@
   }
 
   &__items {
+    @include mixins.scrollbar-thin(rgb(from var(--mat-sys-on-surface) r g b / 85%));
+
     overflow-y: auto;
     display: grid;
     gap: variables.$space-8;
@@ -41,8 +44,6 @@
     padding: 0 variables.$space-4 0 0;
 
     list-style: none;
-
-    @include mixins.scrollbar-thin(rgb(from var(--mat-sys-on-surface) r g b / 85%));
   }
 
   &__item {
