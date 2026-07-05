@@ -25,7 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 })
 export class TrackListComponent {
   public readonly title = input<string>('Tracks');
-  public readonly trackList = input.required<TrackUI[]>();
+  public readonly trackList = input<TrackUI[]>([]);
   public readonly mode = input<TrackListMode>('list');
   public readonly ulMode = input.required<UlMode>();
   public readonly sortMode = input<SortMode>();

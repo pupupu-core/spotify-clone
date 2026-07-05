@@ -87,4 +87,12 @@ export const APP_ENDPOINTS = {
       path: API_ENDPOINTS.SEARCH.TRACKS.clientUrl,
     }),
   },
+  DISCOVER: {
+    TRACKS: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.TRACK.DISCOVERY.clientUrl,
+    }),
+  },
 } as const;

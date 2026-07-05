@@ -1,13 +1,13 @@
 <section class="track-list">
   <div class="header">
-    <h2 class="track-list__title">{{ title() }}</h2>
+    <h2 class="title">{{ title() }}</h2>
     @if (sortMode() === 'sort') {
       <button matFab extended (click)="toggleSort()" class="sort-button">
         <mat-icon>{{ direction() === 'asc' ? 'north' : 'south' }}</mat-icon>
         Last Played
       </button>
     } @else {
-      <button matButton="filled" class="action-play-btn" (click)="playAllClick()">
+      <button matButton="filled" class="play-button" (click)="playAllClick()">
         <mat-icon fontSet="material-icons-outlined">play_arrow</mat-icon>
         Play All
       </button>
@@ -17,7 +17,7 @@
   @if (trackList().length > 0) {
     <ng-template #trackItems>
       @for (track of trackList(); track track.id) {
-        <li class="track-list__item">
+        <li class="item">
           <ppf-tracks
             [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
             [track]="track"
@@ -29,15 +29,15 @@
     </ng-template>
 
     @if (ulMode() === 'numbered') {
-      <ol class="track-list__items track-list-numbered">
+      <ol class="items items--numbered" [class.items--grid]="mode() === 'grid'">
         <ng-container [ngTemplateOutlet]="trackItems" />
       </ol>
     } @else {
-      <ul class="track-list__items">
+      <ul class="items" [class.items--grid]="mode() === 'grid'">
         <ng-container [ngTemplateOutlet]="trackItems" />
       </ul>
     }
   } @else {
-    <div class="tracks-empty">No tracks available yet.</div>
+    <div class="empty">No tracks available yet.</div>
   }
 </section>
