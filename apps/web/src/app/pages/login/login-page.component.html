@@ -1,3 +1,6 @@
 <ppf-login-form (formSubmit)="login($event)" [isLoading]="isFormLoading()" [error]="formError()" />
 
-<a [routerLink]="routes.AUTH.REGISTER.to">Create account</a>
+<div class="auth-switch">
+  <span class="auth-label">No account yet?</span>
+  <a class="auth-link" [routerLink]="routes.AUTH.REGISTER.to">Create account</a>
+</div>
