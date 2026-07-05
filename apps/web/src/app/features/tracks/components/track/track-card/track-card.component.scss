@@ -22,10 +22,10 @@
     position: relative;
 
     overflow: hidden;
-    flex: 0 0 88px;
+    flex: 0 0 120px;
 
     aspect-ratio: 1 / 1;
-    width: 88px;
+    width: 120px;
     border-radius: variables.$radius-md;
 
     background-color: var(--mat-sys-on-primary);
@@ -44,8 +44,11 @@
       --mat-icon-button-container-shape: #{variables.$radius-md};
 
       position: absolute;
-      right: 10px;
-      bottom: 10px;
+      right: variables.$space-8;
+      bottom: variables.$space-8;
+
+      color: var(--mat-sys-on-surface);
+
       backdrop-filter: blur(4px);
     }
   }
@@ -79,6 +82,12 @@
           color: var(--mat-sys-on-surface);
           text-decoration-color: var(--mat-sys-on-surface);
         }
+
+        a {
+          cursor: pointer;
+          color: inherit;
+          text-decoration: inherit;
+        }
       }
 
       .track-name {
@@ -105,7 +114,7 @@
 
       .play-count {
         border-radius: variables.$radius-md;
-        color: var(--mat-sys-on-primary-container);
+        color: var(--mat-sys-on-surface);
         background-color: var(--mat-sys-primary-container);
       }
     }
