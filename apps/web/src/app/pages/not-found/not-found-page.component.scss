@@ -5,18 +5,12 @@
   display: block;
   display: grid;
   place-items: center;
+
   min-height: 100vh;
+  min-height: 100%;
   padding: variables.$space-16;
 
   color: var(--mat-sys-tertiary);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgb(from var(--mat-sys-primary-container) r g b / 72%),
-      rgb(from var(--mat-sys-surface) r g b / 40%)
-    ),
-    url('/img/nav-home.png') center / cover no-repeat;
 }
 
 .page {
