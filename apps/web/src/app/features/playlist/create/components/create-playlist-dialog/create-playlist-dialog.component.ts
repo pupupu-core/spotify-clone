@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { MatDialogActions, MatDialogContent } from '@angular/material/dialog';
+import { MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
 import { MatButton, MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatFormField, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
@@ -21,6 +21,7 @@ import { TrackListComponent } from '~/features/tracks/components/track-list/trac
     MatDialogActions,
     TrackListComponent,
     MatButton,
+    MatDialogClose,
   ],
   templateUrl: './create-playlist-dialog.component.html',
   styleUrl: './create-playlist-dialog.component.scss',

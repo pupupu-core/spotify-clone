@@ -1,11 +1,18 @@
 @use 'src/styles/variables';
+@use 'src/styles/mixins';
 
 :host {
   --mat-icon-color: var(--mat-sys-surface);
-  --mat-dialog-container-max-width: 1000px;
+  --mat-form-field-outlined-outline-color: var(--mat-sys-surface);
+  --mat-form-field-outlined-label-text-color: var(--mat-sys-surface);
+  --mat-form-field-outlined-focus-label-text-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-focus-outline-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-input-text-color: var(--mat-sys-tertiary);
+  --mat-form-field-outlined-input-text-placeholder-color: var(--mat-sys-surface);
 }
 
 .create-playlist-dialog {
+  max-height: 100%;
   border-radius: variables.$radius-xl;
   background: var(--mat-sys-secondary);
 }
@@ -15,12 +22,6 @@
 }
 
 .playlist-info {
-  --mat-form-field-outlined-outline-color: var(--mat-sys-surface);
-  --mat-form-field-outlined-label-text-color: var(--mat-sys-surface);
-  --mat-form-field-outlined-focus-label-text-color: var(--mat-sys-tertiary);
-  --mat-form-field-outlined-focus-outline-color: var(--mat-sys-tertiary);
-  --mat-fab-container-color: rgb(from var(--mat-sys-tertiary) r g b / 50%);
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -28,17 +29,34 @@
   width: 390px;
   margin: 0 auto 30px;
 
-  .upload-cover-button {
+  .upload-cover-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     width: 170px;
     height: 170px;
+    border-radius: variables.$radius-lg;
 
-    .button-content {
+    background: rgb(from var(--mat-sys-tertiary) r g b / 50%);
+
+    .empty-content {
       display: flex;
       flex-direction: column;
       gap: 20px;
       align-items: center;
 
       color: var(--mat-sys-surface);
+
+      mat-icon {
+        width: variables.$font-size-xxl;
+        height: variables.$font-size-xxl;
+        font-size: variables.$font-size-xxl;
+      }
+    }
+
+    .hidden {
+      display: none;
     }
   }
 
@@ -56,13 +74,16 @@
 }
 
 .search-bar {
-  --mat-icon-color: var(--mat-sys-tertiary);
-  --mat-form-field-outlined-outline-color: var(--mat-sys-tertiary);
-  --mat-form-field-outlined-label-text-color: var(--mat-sys-tertiary);
-  --mat-form-field-outlined-input-text-placeholder-color: var(--mat-sys-tertiary);
-  --mat-form-field-outlined-focus-outline-color: var(--mat-sys-tertiary);
-  --mat-form-field-outlined-input-text-color: var(--mat-sys-tertiary);
   --mat-form-field-outlined-container-shape: #{variables.$radius-2xl};
+
+  &:hover,
+  &:focus-within,
+  &:focus,
+  &:active,
+  &:focus-visible {
+    --mat-form-field-outlined-input-text-placeholder-color: var(--mat-sys-tertiary);
+    --mat-icon-color: var(--mat-sys-tertiary);
+  }
 }
 
 ppf-tracks-list {
@@ -72,7 +93,13 @@ ppf-tracks-list {
   min-height: 250px;
   border: none;
 
-  color: var(--mat-sys-tertiary);
+  color: var(--mat-sys-surface);
 
   box-shadow: none;
+}
+
+.actions-buttons {
+  .cancel {
+    color: var(--mat-sys-surface);
+  }
 }

@@ -1,15 +1,15 @@
 <mat-dialog-content class="create-playlist-dialog">
-  <mat-dialog-actions class="close-container">
+  <mat-dialog-actions class="close-container" [mat-dialog-close]="true">
     <button matIconButton aria-label="Close create playlist button">
       <mat-icon>close</mat-icon>
     </button>
   </mat-dialog-actions>
   <div class="playlist-info">
-    <button class="upload-cover-button" matFab extended>
+    <div class="upload-cover-container">
       @if (mockCoverPreview()) {
         <img src="/img/album-bg-mock.png" alt="" />
       } @else {
-        <div class="button-content">
+        <label for="player-cover" class="empty-content">
           <mat-icon
             aria-hidden="false"
             aria-label="upload track icon"
@@ -18,9 +18,10 @@
             image_arrow_up
           </mat-icon>
           <span>upload playlist cover</span>
-        </div>
+        </label>
+        <input type="file" id="player-cover" class="hidden" />
       }
-    </button>
+    </div>
     <div class="playlist-fields">
       <mat-form-field appearance="outline">
         <mat-label>Playlist Name</mat-label>
@@ -48,8 +49,8 @@
     </mat-form-field>
     <ppf-tracks-list [trackList]="[]" mode="list" headerControl="noControl" title="Search result" />
   </div>
-  <mat-dialog-actions>
-    <button matButton="tonal">Basic</button>
-    <button matButton="filled">Basic</button>
+  <mat-dialog-actions class="actions-buttons">
+    <button matButton="text" [mat-dialog-close]="true" class="cancel">Cancel</button>
+    <button matButton="tonal" class="create">Create</button>
   </mat-dialog-actions>
 </mat-dialog-content>

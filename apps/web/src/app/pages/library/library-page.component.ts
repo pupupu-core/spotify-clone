@@ -18,12 +18,16 @@ export class LibraryPageComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
 
   public openPlaylistForm(): void {
-    this.dialog.open(CreatePlaylistDialogComponent);
+    this.dialog.open(CreatePlaylistDialogComponent, {
+      minWidth: 670,
+      minHeight: 'min-content',
+    });
   }
 
   public ngOnInit(): void {
     this.dialog.open(CreatePlaylistDialogComponent, {
       minWidth: 670,
+      minHeight: 'min-content',
     });
   }
 }
