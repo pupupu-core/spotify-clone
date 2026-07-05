@@ -1,15 +1,13 @@
-@use '../../../../../../styles/variables';
-@use '../../../../../../styles/colors';
-@use '../../../../../../styles/mixins';
+@use 'src/styles/variables';
+@use 'src/styles/colors';
+@use 'src/styles/mixins';
 
 .track-container {
-  cursor: pointer;
-
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
   align-items: center;
-  justify-content: space-between;
 
-  height: 100%;
   padding: 10px 20px;
   border-radius: variables.$radius-xl;
 
@@ -33,6 +31,9 @@
       width: 70px;
       height: 70px;
       margin-right: 10px;
+      border-radius: variables.$radius-md;
+
+      background-color: var(--mat-sys-on-primary);
 
       img {
         width: 100%;
@@ -45,24 +46,50 @@
     .track-text {
       .author-name {
         @include mixins.font-md;
+
+        overflow: hidden;
+
+        max-width: 210px;
+
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          color: var(--mat-sys-on-surface);
+          text-decoration-color: var(--mat-sys-on-surface);
+        }
       }
 
       .track-name {
         @include mixins.font-sm;
+
+        overflow: hidden;
+        max-width: 195px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
 
   .track-info {
-    display: flex;
-    gap: clamp(10px, 6vw, 50px);
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center start;
+    justify-content: space-between;
 
     p {
       display: flex;
       gap: 5px;
       align-items: center;
       font-size: variables.$font-size-sm;
+    }
+
+    button {
+      justify-self: flex-end;
     }
   }
 }

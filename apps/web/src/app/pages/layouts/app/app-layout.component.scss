@@ -1,4 +1,15 @@
-.page-container {
-  max-width: 1300px;
-  margin: auto;
+:host {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.page-content {
+  flex: 1;
+
+  width: min(100%, 1300px);
+  min-height: 0;
+  margin: 0 auto;
+  padding: 24px 16px;
 }

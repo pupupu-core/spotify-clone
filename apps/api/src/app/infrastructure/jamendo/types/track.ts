@@ -21,6 +21,7 @@ export interface JamendoTrack {
   musicInfo?: JamendoTrackMusicInfo;
   isAudioDownloadAllowed: boolean;
   isFreeContent: boolean;
+  stats?: JamendoTrackStats;
 }
 
 export interface JamendoTrackMusicInfo {
@@ -36,4 +37,15 @@ export interface JamendoTrackMusicInfoTags {
   genres: string[];
   instruments: string[];
   varTags: string[];
+}
+
+export interface JamendoTrackStats {
+  downloadsTotal: number;
+  listenedTotal: number;
+  playlisted: number;
+  favorited: number;
+  likes: number;
+  dislikes: number;
+  averageNote: number;
+  notes: number;
 }

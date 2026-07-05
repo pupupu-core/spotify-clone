@@ -21,6 +21,7 @@ export interface TrackResponse {
   musicInfo?: TrackMusicInfo;
   isAudioDownloadAllowed: boolean;
   isFreeContent: boolean;
+  stats?: TrackResponseStats;
 }
 
 interface TrackMusicInfo {
@@ -36,4 +37,15 @@ interface TrackMusicInfoTags {
   genres: string[];
   instruments: string[];
   varTags: string[];
+}
+
+export interface TrackResponseStats {
+  downloadsTotal: number;
+  listenedTotal: number;
+  playlisted: number;
+  favorited: number;
+  likes: number;
+  dislikes: number;
+  averageNote: number;
+  notes: number;
 }

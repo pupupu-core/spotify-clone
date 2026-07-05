@@ -1,0 +1,51 @@
+@use 'src/styles/mixins';
+@use 'src/styles/variables';
+
+:host {
+  display: block;
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-xl;
+  background-color: var(--surface-playlist-shelf-bg);
+}
+
+.playlist-shelf {
+  display: grid;
+  align-items: start;
+  height: 100%;
+  padding: 15px 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  h2 {
+    @include mixins.font-lg;
+  }
+
+  .new-playlist-btn {
+    @include mixins.font-md;
+
+    --mat-fab-container-color: transparent;
+    --mat-fab-foreground-color: var(--mat-sys-surface);
+
+    box-shadow: none;
+  }
+}
+
+.playlist-shelf-inner {
+  @include mixins.scrollbar-thin(var(--mat-sys-on-surface));
+
+  overflow: auto;
+  display: flex;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.albums-empty {
+  @include mixins.font-lg;
+
+  margin: auto;
+}

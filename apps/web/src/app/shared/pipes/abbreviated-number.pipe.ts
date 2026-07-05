@@ -8,7 +8,10 @@ const DIGITS_PER_GROUP = 3;
   name: 'abbreviatedNumber',
 })
 export class AbbreviatedNumberPipe implements PipeTransform {
-  transform(value: number): string {
+  transform(value: number | undefined): string {
+    if (value === undefined || value === null) {
+      return '';
+    }
     const suffixes = ['', 'K', 'M', 'B', 'T', 'Q', 'Qa'];
     const length = value.toString().length;
     let group = Math.floor((length - 1) / DIGITS_PER_GROUP);

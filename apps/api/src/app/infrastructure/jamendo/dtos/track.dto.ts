@@ -16,6 +16,17 @@ const JamendoTrackMusicInfoSchema = z.object({
   tags: JamendoTrackMusicInfoTagsSchema,
 });
 
+const JamendoTrackStatsSchema = z.object({
+  rate_downloads_total: z.number(),
+  rate_listened_total: z.number(),
+  playlisted: z.number(),
+  favorited: z.number(),
+  likes: z.number(),
+  dislikes: z.number(),
+  avgnote: z.number(),
+  notes: z.number(),
+});
+
 const JamendoTrackSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -39,6 +50,7 @@ const JamendoTrackSchema = z.object({
   musicinfo: JamendoTrackMusicInfoSchema.optional(),
   audiodownload_allowed: z.boolean(),
   content_id_free: z.boolean(),
+  stats: JamendoTrackStatsSchema.optional(),
 });
 
 export const JamendoListTracksResponseSchema = createJamendoResponseSchema(
@@ -47,5 +59,6 @@ export const JamendoListTracksResponseSchema = createJamendoResponseSchema(
 
 export type JamendoTrackMusicInfoTagsDto = z.infer<typeof JamendoTrackMusicInfoTagsSchema>;
 export type JamendoTrackMusicInfoDto = z.infer<typeof JamendoTrackMusicInfoSchema>;
+export type JamendoTrackStatsDto = z.infer<typeof JamendoTrackStatsSchema>;
 export type JamendoTrackDto = z.infer<typeof JamendoTrackSchema>;
 export type JamendoListTracksResponseDto = z.infer<typeof JamendoListTracksResponseSchema>;

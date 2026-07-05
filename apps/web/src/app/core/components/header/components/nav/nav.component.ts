@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ROUTES } from '../../../../config/routes.config';
@@ -49,6 +49,17 @@ export class NavComponent {
   protected readonly hoveredRouter = signal<string>(this.router.url);
   protected readonly navItems = NAV_ITEMS;
   protected readonly APP_NAME = APP_NAME;
+
+  constructor() {
+    effect(() => {
+      const imagePath = NAV_ITEMS.map(item => item.backgroundImage);
+      const currentUrl = this.router.url;
+
+      if (!imagePath.includes(currentUrl)) {
+        this.hoveredRouter.set(NAV_ITEMS[0].backgroundImage);
+      }
+    });
+  }
 
   protected logout(): void {
     this.authSession

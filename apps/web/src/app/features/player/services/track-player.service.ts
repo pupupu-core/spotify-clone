@@ -1,21 +1,19 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import type { TrackResponse } from '@streaming-service/model';
 import { PpfAudioEngine } from './html-audio.service';
-import { PpfToasterService } from '~/core/services/ppf-toaster.service';
+import type { TrackUI } from '~/shared/models/track-ui.model';
 
 @Injectable({ providedIn: 'root' })
 export class PpfPlayerService {
   private readonly engine = inject(PpfAudioEngine);
-  private readonly toaster = inject(PpfToasterService);
 
-  public readonly queue = signal<TrackResponse[]>([]);
+  public readonly queue = signal<TrackUI[]>([]);
   public readonly index = signal<number | null>(null);
   public readonly position = this.engine.position;
   public readonly duration = this.engine.duration;
 
   public readonly isMuted = this.engine.isMuted;
 
-  public readonly current = computed<TrackResponse | null>(() => {
+  public readonly current = computed<TrackUI | null>(() => {
     const i = this.index();
 
     if (i === null) {
@@ -33,7 +31,7 @@ export class PpfPlayerService {
     this.engine.onEnded(() => this.next());
   }
 
-  public playTracks(tracks: TrackResponse[], startIndex = 0): void {
+  public playTracks(tracks: TrackUI[], startIndex = 0): void {
     if (tracks.length === 0) {
       return;
     }
@@ -129,7 +127,7 @@ export class PpfPlayerService {
     this.engine.toggleMute();
   }
 
-  public toggleTrackByID(track: TrackResponse, tracks: TrackResponse[]): void {
+  public toggleTrackByID(track: TrackUI, tracks: TrackUI[]): void {
     if (this.current()?.id === track.id) {
       this.toggle();
 
@@ -188,7 +186,7 @@ export class PpfPlayerService {
     this.index.set(null);
   }
 
-  private removeTrackAtIndex(index: number): TrackResponse[] {
+  private removeTrackAtIndex(index: number): TrackUI[] {
     return this.queue().filter((_, queueIndex) => queueIndex !== index);
   }
 

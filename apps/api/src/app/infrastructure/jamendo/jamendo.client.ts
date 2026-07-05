@@ -57,7 +57,9 @@ export class JamendoClient {
         offset: input.offset,
         search: input.search,
         fuzzytags: input.genres?.length ? input.genres.join('+') : undefined,
+        include: input.include,
         type: input.type ?? 'single+albumtrack',
+        id: input.id,
       },
       schema: JamendoListTracksResponseSchema,
     }).then(mapToListTracks);
@@ -73,21 +75,19 @@ export class JamendoClient {
       path: 'artists/tracks',
       queryParams: {
         order: input.order,
-        limit: input.limit ?? 10,
         id: input.artistId,
       },
       schema: JamendoArtistListTracksResponseSchema,
     }).then(mapToArtistTracksResponse);
   }
 
-  public async listPopularArtistAlbums(
+  public async listArtistAlbums(
     input: JamendoArtistAlbumsInput,
   ): Promise<JamendoArtistAlbumsList[]> {
     return this.get({
       path: 'artists/albums',
       queryParams: {
         order: input.order,
-        limit: input.limit ?? 10,
         id: input.artistId,
       },
       schema: JamendoArtistListAlbumsResponseSchema,
@@ -113,6 +113,7 @@ export class JamendoClient {
       queryParams: {
         order: input.order,
         id: input.albumsId,
+        imagesize: input.imagesize,
       },
       schema: JamendoAlbumsResponseSchema,
     }).then(mapToAlbumsResponse);

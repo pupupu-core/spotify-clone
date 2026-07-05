@@ -20,4 +20,5 @@ export interface ArtistTrack {
   audioUrl: string;
   audioDownloadUrl: string;
   audioDownloadAllowed: boolean;
+  listenedTotal?: number;
 }

@@ -13,7 +13,7 @@ export interface AlbumResponse {
 
 export interface AlbumTrack {
   count: string;
-  albumId: string;
+  trackId: string;
   position: string;
   name: string;
   duration: string;
@@ -21,4 +21,9 @@ export interface AlbumTrack {
   audioUrl: string;
   audioDownloadUrl: string;
   audioDownloadAllowed: boolean;
+  listenedTotal?: number;
+  artistId?: string;
+  artistName?: string;
+  imageUrl?: string;
+  albumImageUrl?: string;
 }

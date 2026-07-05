@@ -1,3 +1,8 @@
+/**
+ * Reads a required environment variable.
+ *
+ * Throws during application startup when the variable is missing or empty.
+ */
 export const getEnvOrThrow = (envName: string): string => {
   const value = process.env[envName];
 

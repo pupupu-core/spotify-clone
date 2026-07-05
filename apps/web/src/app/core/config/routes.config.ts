@@ -55,6 +55,14 @@ export const ROUTES = {
       title: 'Artist',
     },
   },
+  ARTIST_ALBUM: {
+    path: 'album/:albumId',
+    to: (albumId: string) => `/album/${albumId}`,
+    meta: {
+      label: 'Album page',
+      title: 'Album',
+    },
+  },
   ABOUT_US: {
     path: 'about-us',
     to: '/about-us',

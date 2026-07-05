@@ -4,6 +4,10 @@
 :host {
   --surface-track-list-bg: rgb(from var(--mat-sys-secondary) r g b / 40%);
   --surface-playlist-shelf-bg: rgb(from var(--mat-sys-primary-container) r g b / 40%);
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .artist-container {
@@ -21,6 +25,8 @@
 .avatar {
   width: 150px;
   height: 150px;
+  border-radius: variables.$radius-xl;
+  background-color: var(--mat-sys-on-primary);
 
   img {
     border-radius: variables.$radius-xl;
@@ -33,7 +39,6 @@
   flex-direction: column;
   gap: 10px;
   align-items: flex-start;
-  justify-content: center;
 
   .albums-count {
     display: flex;
@@ -61,6 +66,8 @@
 }
 
 .biography {
+  flex: 1;
+
   min-height: 100%;
   padding: 10px 20px;
   border: 1px solid var(--mat-sys-surface);
@@ -78,7 +85,11 @@
 .artist-catalog {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 450px;
   gap: 20px;
+
+  min-height: 450px;
+
   color: white;
 
   ppf-playlist-shelf {

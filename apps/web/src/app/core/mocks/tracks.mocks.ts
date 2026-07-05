@@ -36,6 +36,16 @@ export const TRACK_MOCK: TrackResponse = {
   musicInfo: MUSIC_INFO_DATA_MOCK,
   isAudioDownloadAllowed: true,
   isFreeContent: false,
+  stats: {
+    downloadsTotal: 0,
+    listenedTotal: 0,
+    playlisted: 0,
+    favorited: 0,
+    likes: 0,
+    dislikes: 0,
+    averageNote: 0,
+    notes: 0,
+  },
 };
 
 export const TRACKS_MOCK: TrackResponse[] = Array.from({ length: 10 }, (_, index) => ({
@@ -44,3 +54,14 @@ export const TRACKS_MOCK: TrackResponse[] = Array.from({ length: 10 }, (_, index
   name: `${TRACK_MOCK.name} ${index + 1}`,
   position: index + 1,
 }));
+
+export const MUSIC_GENRES_MOCK = [
+  'funk',
+  'rock',
+  'pop',
+  'jazz',
+  'classical',
+  'electronic',
+  'hiphop',
+  'ambient',
+] as const;
