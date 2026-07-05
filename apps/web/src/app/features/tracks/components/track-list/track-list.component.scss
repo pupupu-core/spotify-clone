@@ -20,40 +20,47 @@
 .track-list {
   overflow: hidden;
   display: grid;
-  grid-template-rows: max-content;
+  grid-template-rows: auto minmax(0, 1fr);
   gap: variables.$space-18;
   align-items: start;
 
   height: 100%;
+  min-height: 0;
+}
 
-  &__title {
-    @include mixins.font-lg;
+.title {
+  @include mixins.font-lg;
 
-    line-height: 1.1;
+  line-height: 1.1;
+}
+
+.items {
+  @include mixins.scrollbar-thin(rgb(from var(--mat-sys-on-surface) r g b / 85%));
+
+  overflow-y: auto;
+  display: grid;
+  gap: variables.$space-8;
+
+  height: 100%;
+  margin: 0;
+  padding: 0 variables.$space-4 0 0;
+
+  list-style: none;
+
+  &--grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: variables.$space-18;
+    align-content: start;
   }
 
-  &__items {
-    @include mixins.scrollbar-thin(rgb(from var(--mat-sys-on-surface) r g b / 85%));
-
-    overflow-y: auto;
-    display: grid;
-    gap: variables.$space-8;
-
-    height: 100%;
-    margin: 0;
-    padding: 0 variables.$space-4 0 0;
-
-    list-style: none;
-  }
-
-  &__item {
-    border-radius: variables.$radius-xl;
-  }
-
-  &-numbered {
+  &--numbered {
     padding: revert;
     list-style: auto;
   }
+}
+
+.item {
+  border-radius: variables.$radius-xl;
 }
 
 .header {
@@ -62,13 +69,13 @@
   justify-content: space-between;
 }
 
-.tracks-empty {
+.empty {
   @include mixins.font-lg;
 
   margin: auto;
 }
 
-.action-play-btn {
+.play-button {
   --mat-button-filled-container-color: var(--mat-sys-secondary-container);
   --mat-button-filled-label-text-color: var(--mat-sys-tertiary);
   --mat-button-filled-container-shape: #{variables.$radius-md};
