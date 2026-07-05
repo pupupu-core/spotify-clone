@@ -192,20 +192,24 @@
 
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell empty" colspan="6">
-          @if (searchText()) {
-            No tracks matching to query "{{ searchText() }}" and applied filters
+          @if (searchStatus() === 'idle') {
+            Enter a track, artist, album, or tag in the search bar to get started.
+          } @else if (searchText()) {
+            No tracks matching query "{{ searchText() }}" and applied filters.
           } @else {
-            No tracks matching to applied filters
+            No tracks matching the selected genres and filters.
           }
         </td>
       </tr>
     </table>
   </div>
 
-  <mat-paginator
-    [pageSize]="this.paginatorPageSize"
-    showFirstLastButtons
-    hidePageSize
-    (page)="ppfOnPageChange($event.pageIndex)"
-  />
+  @if (searchStatus() === 'success') {
+    <mat-paginator
+      [pageSize]="this.paginatorPageSize"
+      showFirstLastButtons
+      hidePageSize
+      (page)="ppfOnPageChange($event.pageIndex)"
+    />
+  }
 </div>
