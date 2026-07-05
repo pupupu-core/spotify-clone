@@ -56,19 +56,12 @@ export const TRACKS_MOCK: TrackResponse[] = Array.from({ length: 10 }, (_, index
 }));
 
 export const MUSIC_GENRES_MOCK = [
-  'Rock',
-  'Latin',
-  'Pop',
-  'Electronic',
-  'Hip-Hop',
-  'Jazz',
-  'Funk',
-  'Ambient',
-  'Classical',
-  'Blues',
-  'Reggae',
-  'Metal',
-  'Punk',
-  'Soul',
-  'House',
+  'funk',
+  'rock',
+  'pop',
+  'jazz',
+  'classical',
+  'electronic',
+  'hiphop',
+  'ambient',
 ] as const;
