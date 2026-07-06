@@ -48,8 +48,8 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Skip web unit tests
-        run: echo "Tests are temporarily disabled"
+      - name: Test web with coverage report
+        run: pnpm test:web:coverage
 
       - name: Test utils
         run: pnpm test:utils
