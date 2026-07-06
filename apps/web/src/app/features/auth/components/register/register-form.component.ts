@@ -40,7 +40,7 @@ export class RegisterFormComponent {
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).*$/),
       ],
     ],
-    username: ['', [Validators.required]],
+    username: [''],
   });
 
   protected submit(): void {
