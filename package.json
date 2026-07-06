@@ -50,6 +50,7 @@
     "db:studio": "DATABASE_URL=postgresql://pupufy_app:postgres@localhost:5432/pupufy prisma studio",
     "db:up": "docker compose up -d db",
     "test:web": "nx run web:test",
+    "test:web:coverage": "nx run web:test:coverage",
     "test:web:watch": "nx run web:test-watch",
     "test:utils": "nx run utils:test",
     "test:utils:watch": "nx run utils:test-watch",
