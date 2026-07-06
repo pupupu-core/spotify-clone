@@ -1,4 +1,3 @@
-import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
 import { MatButton, MatIconButton } from '@angular/material/button';
@@ -32,7 +31,7 @@ const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/avif', 'image/webp'];
   styleUrl: './create-playlist-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlaylistDialogComponent implements OnInit {
+export class CreatePlaylistDialogComponent {
   // TODO: добавить логику создания при появление бэка
   protected readonly coverPreview = signal<string>('');
 
@@ -64,11 +63,5 @@ export class CreatePlaylistDialogComponent implements OnInit {
     }
 
     this.coverPreview.set(URL.createObjectURL(file));
-  }
-
-  public ngOnInit(): void {
-    this.playlistCreateForm.valueChanges.subscribe(value => {
-      console.log('FORM>>>', value);
-    });
   }
 }
