@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatError, MatFormField, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
 import { AUTH_CONSTRAINTS } from '@streaming-service/config';
 import type { RegisterRequest } from '@streaming-service/model';
 import { SubmitButtonTextPipe } from '~/shared/pipes/submit-button-text.pipe';
@@ -16,6 +17,9 @@ import { SubmitButtonTextPipe } from '~/shared/pipes/submit-button-text.pipe';
     MatInput,
     MatLabel,
     MatError,
+    MatIcon,
+    MatIconButton,
+    MatSuffix,
   ],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.scss',
@@ -26,10 +30,10 @@ export class RegisterFormComponent {
 
   public readonly isLoading = input.required<boolean>();
   public readonly error = input.required<string | null>();
-  protected readonly authConstraints = AUTH_CONSTRAINTS;
-
   public readonly formSubmit = output<RegisterRequest>();
 
+  protected readonly authConstraints = AUTH_CONSTRAINTS;
+  protected readonly isPasswordVisible = signal(false);
   protected readonly form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: [
@@ -42,6 +46,10 @@ export class RegisterFormComponent {
     ],
     username: [''],
   });
+
+  protected togglePasswordVisibility(): void {
+    this.isPasswordVisible.set(!this.isPasswordVisible());
+  }
 
   protected submit(): void {
     if (this.isLoading()) {

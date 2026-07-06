@@ -11,7 +11,25 @@
 
   <mat-form-field appearance="outline" subscriptSizing="dynamic">
     <mat-label>Password</mat-label>
-    <input matInput type="password" formControlName="password" autocomplete="current-password" />
+    <input
+      matInput
+      [type]="isPasswordVisible() ? 'text' : 'password'"
+      formControlName="password"
+      autocomplete="current-password"
+    />
+
+    <button
+      class="password-toggle"
+      matIconButton
+      matSuffix
+      type="button"
+      (click)="togglePasswordVisibility()"
+    >
+      <mat-icon fontSet="material-icons-outlined">
+        {{ isPasswordVisible() ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+    </button>
+
     @if (form.controls.password.errors?.['required']) {
       <mat-error>Password is required</mat-error>
     }

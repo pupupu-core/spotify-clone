@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatError, MatFormField, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
 import type { LoginRequest } from '@streaming-service/model';
 import { SubmitButtonTextPipe } from '~/shared/pipes/submit-button-text.pipe';
 
@@ -15,6 +16,9 @@ import { SubmitButtonTextPipe } from '~/shared/pipes/submit-button-text.pipe';
     MatInput,
     MatLabel,
     MatError,
+    MatIcon,
+    MatIconButton,
+    MatSuffix,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
@@ -25,13 +29,17 @@ export class LoginFormComponent {
 
   public readonly isLoading = input.required<boolean>();
   public readonly error = input.required<string | null>();
-
   public readonly formSubmit = output<LoginRequest>();
 
+  protected readonly isPasswordVisible = signal(false);
   protected readonly form = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
+
+  protected togglePasswordVisibility(): void {
+    this.isPasswordVisible.set(!this.isPasswordVisible());
+  }
 
   protected submit(): void {
     if (this.isLoading()) {

@@ -38,3 +38,7 @@ mat-error {
 .submit-button--error {
   @include mixins.shake;
 }
+
+.password-toggle {
+  margin-inline-end: variables.$space-8;
+}
