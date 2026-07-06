@@ -1,12 +1,40 @@
+@use 'src/styles/variables';
+
 :host {
   display: grid;
   place-items: center;
   min-height: 100vh;
-  padding: 24px;
 }
 
 .auth-layout {
   display: grid;
+  gap: variables.$space-8;
   place-items: center;
-  padding: 24px;
+}
+
+.demo-login {
+  display: flex;
+  gap: variables.$space-12;
+  align-items: baseline;
+  justify-content: center;
+
+  inline-size: min(420px, calc(100vw - (variables.$space-24 * 2)));
+  padding-inline: variables.$space-16;
+}
+
+.demo-label {
+  color: var(--mat-sys-on-surface);
+}
+
+.demo-button {
+  --mat-button-outlined-container-shape: #{variables.$radius-sm};
+  --mat-button-outlined-label-text-color: var(--mat-sys-tertiary);
+  --mat-button-outlined-outline-color: rgb(from var(--mat-sys-tertiary) r g b / 45%);
+
+  min-width: auto;
+}
+
+.demo-button:hover {
+  --mat-button-outlined-label-text-color: var(--mat-sys-on-surface);
+  --mat-button-outlined-outline-color: rgb(from var(--mat-sys-on-surface) r g b / 55%);
 }

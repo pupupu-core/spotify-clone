@@ -10,7 +10,7 @@ export const AUTH_CONSTRAINTS = {
     minLength: 3,
   },
   username: {
-    minLength: 3,
+    minLength: 1,
   },
 };
 

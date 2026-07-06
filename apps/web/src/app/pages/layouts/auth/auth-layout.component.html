@@ -1,3 +1,16 @@
 <main class="auth-layout">
+  <div class="demo-login">
+    <span class="demo-label">Just exploring?</span>
+    <button
+      class="demo-button"
+      matButton="outlined"
+      type="button"
+      [disabled]="isDemoLoading()"
+      (click)="loginDemo()"
+    >
+      Try demo account
+    </button>
+  </div>
+
   <router-outlet />
 </main>
