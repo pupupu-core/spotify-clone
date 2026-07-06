@@ -26,7 +26,7 @@
       </label>
       <input
         type="file"
-        accept=".png, .jpeg, .avif, .jpg"
+        accept=".png, .jpeg, .jpg, .webp, .avif"
         id="player-cover"
         class="hidden"
         (change)="setCover($event)"
@@ -52,6 +52,12 @@
         @let maxSize = coverControl.getError('fileSize').max;
 
         <span>File size is {{ fileSize }}MB, but maximum allowed is {{ maxSize }}MB.</span>
+      }
+      @if (coverControl.hasError('fileTypes')) {
+        @let fileType = coverControl.getError('fileTypes').actualType;
+        @let validTypes = coverControl.getError('fileTypes').validTypes;
+
+        <span>File type is {{ fileType }}, but ожидаемые is {{ validTypes }}.</span>
       }
     </p>
   </form>
