@@ -79,14 +79,14 @@ export const appRoutes: Route[] = [
             ({ LibraryPageComponent }) => LibraryPageComponent,
           ),
       },
+      {
+        path: ROUTES.NOT_FOUND.path,
+        title: ROUTES.NOT_FOUND.meta.title,
+        loadComponent: () =>
+          import('./pages/not-found/not-found-page.component').then(
+            ({ NotFoundPageComponent }) => NotFoundPageComponent,
+          ),
+      },
     ],
-  },
-  {
-    path: '**',
-    title: ROUTES.NOT_FOUND.meta.title,
-    loadComponent: () =>
-      import('./pages/not-found/not-found-page.component').then(
-        ({ NotFoundPageComponent }) => NotFoundPageComponent,
-      ),
   },
 ];
