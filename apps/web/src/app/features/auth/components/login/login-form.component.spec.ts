@@ -13,6 +13,8 @@ describe('LoginFormComponent', () => {
 
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('isLoading', false);
+    fixture.componentRef.setInput('error', null);
     fixture.detectChanges();
   });
 

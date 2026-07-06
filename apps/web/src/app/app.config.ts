@@ -13,6 +13,7 @@ import { inject } from '@angular/core';
 import { AuthSessionService } from './core/stores/auth-session.service';
 import { catchError, firstValueFrom, of } from 'rxjs';
 import { accessTokenInterceptor } from './core/interceptors/access-token.interceptor';
+import { httpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withInterceptors([accessTokenInterceptor])),
+    provideHttpClient(withInterceptors([accessTokenInterceptor, httpErrorInterceptor])),
     ...ppfTranslocoConfig,
   ],
 };

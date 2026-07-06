@@ -1,0 +1,102 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/variables';
+
+:host {
+  position: relative;
+
+  overflow: hidden;
+  display: block;
+
+  width: var(--ppf-toaster-width, 240px);
+  height: var(--ppf-toaster-height, 120px);
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-xl;
+
+  background: rgb(from var(--mat-sys-primary-container) r g b / 50%);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+}
+
+.wrapper {
+  padding: variables.$space-16;
+}
+
+.toast {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: variables.$space-8;
+
+  height: 100%;
+
+  color: white;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+
+    width: variables.$space-12;
+
+    background: var(--toaster-accent);
+  }
+
+  &--info {
+    --toaster-accent: #2486ad;
+  }
+
+  &--warn {
+    --toaster-accent: #ad8526;
+  }
+
+  &--error {
+    --toaster-accent: var(--mat-sys-error);
+  }
+
+  &--success {
+    --toaster-accent: #229452;
+  }
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header {
+  @include mixins.font-lg;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text {
+  @include mixins.font-md;
+}
+
+.close {
+  --mat-icon-button-state-layer-size: 36px;
+  --mat-icon-button-touch-target-size: 36px;
+  --mat-icon-button-icon-size: 20px;
+
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+
+  padding: 0;
+
+  color: var(--mat-sys-on-surface);
+
+  mat-icon {
+    display: block;
+
+    width: 20px;
+    height: 20px;
+
+    font-size: 20px;
+    line-height: 20px;
+  }
+}

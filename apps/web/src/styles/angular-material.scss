@@ -53,3 +53,26 @@
     border-radius: variables.$radius-sm;
   }
 }
+
+.mat-mdc-snack-bar-container.ppf-toaster-panel {
+  --mat-snack-bar-container-color: transparent;
+  --ppf-toaster-width: 450px;
+  --ppf-toaster-height: 150px;
+
+  width: var(--ppf-toaster-width);
+  min-width: var(--ppf-toaster-width);
+  max-width: var(--ppf-toaster-width);
+  height: var(--ppf-toaster-height);
+
+  .mat-mdc-snackbar-surface {
+    min-width: 0;
+    height: 100%;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .mdc-snackbar__label {
+    padding-top: variables.$space-10;
+    padding-bottom: 0;
+  }
+}

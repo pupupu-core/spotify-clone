@@ -1,5 +1,6 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { SearchBarComponent } from './search-bar.component';
 
 describe('SearchBarComponent', () => {
@@ -9,6 +10,7 @@ describe('SearchBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SearchBarComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SearchBarComponent);

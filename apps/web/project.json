@@ -121,14 +121,35 @@
     "test": {
       "executor": "@angular/build:unit-test",
       "options": {
+        "runner": "vitest",
         "watch": false,
-        "coverage": true
+        "coverage": false
+      },
+      "configurations": {
+        "coverage": {
+          "coverage": true,
+          "coverageInclude": ["apps/web/src/app/**/*.ts"],
+          "coverageExclude": [
+            "apps/web/src/app/**/*.spec.ts",
+            "apps/web/src/app/**/*.model.ts",
+            "apps/web/src/app/**/index.ts"
+          ],
+          "coverageReporters": ["text-summary", "html", "lcov"],
+          "coverageThresholds": {
+            "statements": 60,
+            "branches": 50,
+            "functions": 40,
+            "lines": 60
+          }
+        }
       }
     },
     "test-watch": {
       "executor": "@angular/build:unit-test",
       "options": {
-        "watch": true
+        "runner": "vitest",
+        "watch": true,
+        "coverage": false
       }
     },
     "serve-static": {

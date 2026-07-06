@@ -31,6 +31,7 @@ import { TrackRowComponent } from '~/features/tracks/components/track/track-row/
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import type { TrackResponse } from '@streaming-service/model';
+import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -52,6 +53,11 @@ interface TrackSearchState {
   status: 'error' | 'idle' | 'loading' | 'success';
   query: string;
   tracks: TrackUI[];
+}
+
+interface TrackSearchFilters {
+  query: string;
+  genreSearchSelected: string;
 }
 
 const QUERY_PARAMETERS = {
@@ -85,6 +91,7 @@ const INPUT_MAX_DURATION = 1200;
     MatInputModule,
     MatFormFieldModule,
     TrackRowComponent,
+    LoaderComponent,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
@@ -356,8 +363,13 @@ export class PpfSearchPageComponent {
     }
   }
 
-  private loadTracksByQueryChanges$(query: string): Observable<TrackSearchState> {
-    if (query.length === 0) {
+  private loadTracksByQueryChanges$({
+    query,
+    genreSearchSelected,
+  }: TrackSearchFilters): Observable<TrackSearchState> {
+    const searchCriteria = query || genreSearchSelected;
+
+    if (searchCriteria.length === 0) {
       return of<TrackSearchState>({
         status: 'idle',
         query,
@@ -371,7 +383,7 @@ export class PpfSearchPageComponent {
         query,
         tracks: [],
       }),
-      this.searchApi.tracks(query).pipe(
+      this.searchApi.tracks(searchCriteria).pipe(
         map<TrackResponse[], TrackSearchState>(tracks => ({
           status: 'success',
           query,
@@ -391,9 +403,23 @@ export class PpfSearchPageComponent {
   private provideTrackSearch(): void {
     this.route.queryParamMap
       .pipe(
-        map(params => (params.get(QUERY_PARAMETERS.SEARCH) ?? '').trim()),
-        distinctUntilChanged(),
-        switchMap(query => this.loadTracksByQueryChanges$(query)),
+        map(params => {
+          const query = (params.get(QUERY_PARAMETERS.SEARCH) ?? '').trim();
+
+          return {
+            query,
+            genreSearchSelected:
+              query.length === 0
+                ? this.parseGenres(params.get(QUERY_PARAMETERS.GENRES)).join(' ')
+                : '',
+          };
+        }),
+        distinctUntilChanged(
+          (previous, current) =>
+            previous.query === current.query &&
+            previous.genreSearchSelected === current.genreSearchSelected,
+        ),
+        switchMap(criteria => this.loadTracksByQueryChanges$(criteria)),
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(state => {

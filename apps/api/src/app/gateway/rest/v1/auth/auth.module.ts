@@ -16,6 +16,7 @@ import { RegisterUserWorkflow } from '$/core/workflows/auth/register-user.workfl
 import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
 import { FindActiveAuthSessionStep } from '$/core/steps/find-active-auth-session.step';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
+import { UpsertAccountProfileStep } from '$/core/steps/upsert-account-profile.step';
 
 @Module({
   imports: [PrismaModule, AuthTokenModule],
@@ -35,6 +36,7 @@ import { AccessTokenGuard } from '../../guards/access-token.guard';
     CreateLocalAccountStep,
     AuthCookieService,
     FindActiveAuthSessionStep,
+    UpsertAccountProfileStep,
   ],
 })
 export class AuthModule {}
