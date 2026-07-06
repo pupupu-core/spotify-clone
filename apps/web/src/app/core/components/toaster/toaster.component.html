@@ -1,0 +1,22 @@
+<div class="wrapper">
+  <div [class]="'toast toast--' + payload.type">
+    <div class="head" matSnackBarLabel>
+      <p class="header">{{ payload.header }}</p>
+      <div matSnackBarAction class="action">
+        <button
+          matButton
+          matSnackBarAction
+          matIconButton
+          class="close"
+          type="button"
+          (click)="dismiss()"
+        >
+          <mat-icon fontSet="material-icons-outlined">close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div matSnackBarLabel>
+      <p class="text">{{ payload.text }}</p>
+    </div>
+  </div>
+</div>
