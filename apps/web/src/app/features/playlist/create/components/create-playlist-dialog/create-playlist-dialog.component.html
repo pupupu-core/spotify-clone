@@ -20,7 +20,7 @@
           <span>upload playlist cover</span>
         </div>
 
-        @if (coverPreview()) {
+        @if (coverPreview() && coverControl.valid) {
           <img [src]="coverPreview()" alt="cover preview" />
         }
       </label>
@@ -46,20 +46,19 @@
         ></textarea>
       </mat-form-field>
     </div>
-    <p class="file-error">
+    <div class="file-error">
       @if (coverControl.hasError('fileSize')) {
-        @let fileSize = coverControl.getError('fileSize').actual.toFixed(1);
-        @let maxSize = coverControl.getError('fileSize').max;
-
-        <span>File size is {{ fileSize }}MB, but maximum allowed is {{ maxSize }}MB.</span>
+        <p>
+          File size is {{ coverError().fileSizeError.actual }}MB, but maximum allowed is
+          {{ coverError().fileSizeError.max }}MB.
+        </p>
       }
       @if (coverControl.hasError('fileTypes')) {
-        @let fileType = coverControl.getError('fileTypes').actualType;
-        @let validTypes = coverControl.getError('fileTypes').validTypes;
-
-        <span>File type is {{ fileType }}, but ожидаемые is {{ validTypes }}.</span>
+        Invalid file type. Uploaded:
+        {{ coverError().fileTypeError.actualType || 'unrecognized type' }}, expected:
+        {{ coverError().fileTypeError.validTypes }}.
       }
-    </p>
+    </div>
   </form>
   <div class="search-track">
     <!--    TODO: вынести search бар в feature/components? и добавить сюда-->
