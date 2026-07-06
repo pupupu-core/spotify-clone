@@ -1,4 +1,10 @@
-<ppf-login-form (formSubmit)="login($event)" [isLoading]="isFormLoading()" [error]="formError()" />
+<ppf-login-form
+  (formSubmit)="login($event)"
+  [isLoading]="isFormLoading()"
+  [error]="formError()"
+  [showSupportHint]="shouldShowSupport()"
+  [supportLink]="routes.ABOUT_US.to"
+/>
 
 <div class="auth-switch">
   <span class="auth-label">No account yet?</span>

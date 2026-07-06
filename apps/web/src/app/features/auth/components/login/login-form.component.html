@@ -35,6 +35,15 @@
     }
   </mat-form-field>
 
+  @if (showSupportHint()) {
+    @if (supportLink(); as link) {
+      <p class="support">
+        <span>Need help?</span>
+        <a class="support-link" [routerLink]="link">Contact us</a>
+      </p>
+    }
+  }
+
   <button
     class="submit-button"
     [class.submit-button--error]="error()"

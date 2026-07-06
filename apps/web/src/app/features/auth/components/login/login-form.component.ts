@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatError, MatFormField, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
+import { RouterLink } from '@angular/router';
 import type { LoginRequest } from '@streaming-service/model';
 import { SubmitButtonTextPipe } from '~/shared/pipes/submit-button-text.pipe';
 
@@ -19,6 +20,7 @@ import { SubmitButtonTextPipe } from '~/shared/pipes/submit-button-text.pipe';
     MatIcon,
     MatIconButton,
     MatSuffix,
+    RouterLink,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
@@ -29,6 +31,8 @@ export class LoginFormComponent {
 
   public readonly isLoading = input.required<boolean>();
   public readonly error = input.required<string | null>();
+  public readonly showSupportHint = input(false);
+  public readonly supportLink = input<string | null>(null);
   public readonly formSubmit = output<LoginRequest>();
 
   protected readonly isPasswordVisible = signal(false);

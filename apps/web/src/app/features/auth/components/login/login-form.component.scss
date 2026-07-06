@@ -42,3 +42,13 @@ mat-error {
 .password-toggle {
   margin-inline-end: variables.$space-8;
 }
+
+.support {
+  display: flex;
+  gap: variables.$space-8;
+  color: rgb(from var(--mat-sys-on-surface) r g b / 72%);
+}
+
+.support-link {
+  color: var(--mat-sys-tertiary);
+}

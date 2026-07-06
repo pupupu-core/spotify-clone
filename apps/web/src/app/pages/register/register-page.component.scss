@@ -10,13 +10,13 @@
   display: flex;
   gap: variables.$space-12;
   align-items: baseline;
-  justify-self: end;
+  justify-self: center;
 
   padding-inline: variables.$space-16;
 }
 
 .auth-label {
-  color: var(--mat-sys-on-surface);
+  color: rgb(from var(--mat-sys-on-surface) r g b / 72%);
 }
 
 .auth-link {
