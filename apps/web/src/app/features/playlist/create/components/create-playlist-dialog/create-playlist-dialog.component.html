@@ -1,3 +1,5 @@
+@let coverControl = playlistCreateForm.controls['coverFile'];
+
 <mat-dialog-content class="create-playlist-dialog">
   <mat-dialog-actions class="close-container" [mat-dialog-close]="true">
     <button matIconButton aria-label="Close create playlist button">
@@ -22,7 +24,13 @@
           <img [src]="coverPreview()" alt="cover preview" />
         }
       </label>
-      <input type="file" id="player-cover" class="hidden" (change)="setCover($event)" />
+      <input
+        type="file"
+        accept=".png, .jpeg, .avif, .jpg"
+        id="player-cover"
+        class="hidden"
+        (change)="setCover($event)"
+      />
     </div>
     <div class="playlist-fields">
       <mat-form-field appearance="outline">
@@ -38,6 +46,14 @@
         ></textarea>
       </mat-form-field>
     </div>
+    <p class="file-error">
+      @if (coverControl.hasError('fileSize')) {
+        @let fileSize = coverControl.getError('fileSize').actual.toFixed(1);
+        @let maxSize = coverControl.getError('fileSize').max;
+
+        <span>File size is {{ fileSize }}MB, but maximum allowed is {{ maxSize }}MB.</span>
+      }
+    </p>
   </form>
   <div class="search-track">
     <!--    TODO: вынести search бар в feature/components? и добавить сюда-->
@@ -57,6 +73,6 @@
   </div>
   <mat-dialog-actions class="actions-buttons">
     <button matButton="text" [mat-dialog-close]="true" class="cancel">Cancel</button>
-    <button matButton="tonal" class="create">Create</button>
+    <button matButton="tonal" class="create" [disabled]="playlistCreateForm.invalid">Create</button>
   </mat-dialog-actions>
 </mat-dialog-content>

@@ -6,6 +6,9 @@ import { MatIcon } from '@angular/material/icon';
 import { MatFormField, MatInput, MatLabel, MatSuffix } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
+import { fileSizeValidator } from '~/shared/validators/file-size.validator';
+
+const MAX_SIZE_COVER_MB = 3;
 
 @Component({
   selector: 'ppf-create-playlist-dialog',
@@ -33,7 +36,7 @@ export class CreatePlaylistDialogComponent implements OnInit {
 
   public readonly playlistCreateForm = new FormGroup(
     {
-      coverFile: new FormControl<null | File>(null),
+      coverFile: new FormControl<null | File>(null, [fileSizeValidator(MAX_SIZE_COVER_MB)]),
       playlistName: new FormControl(''),
       playlistDescription: new FormControl(''),
     },
