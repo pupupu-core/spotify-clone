@@ -9,9 +9,9 @@ export interface UserState {
   // TODO: обновить userPlaylist при появлении бэка
   userPlaylist: [];
   recentlyPlayed: TrackUI[];
-  isLoadingProfile: boolean | null;
-  isLoadingPlaylists: boolean | null;
-  isLoadingRecentlyPlayed: boolean | null;
+  isLoadingProfile: boolean;
+  isLoadingPlaylists: boolean;
+  isLoadingRecentlyPlayed: boolean;
   error: string | null;
 }
 
