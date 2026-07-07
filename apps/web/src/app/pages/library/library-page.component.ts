@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { PlaylistShelfComponent } from '~/shared/ui/playlist/components/playlist-shelf/playlist-shelf.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePlaylistDialogComponent } from '~/features/playlist/create/components/create-playlist-dialog/create-playlist-dialog.component';
+import { UserStore } from '~/core/stores/user/user.store';
 
 @Component({
   selector: 'ppf-library-page',
@@ -15,6 +16,13 @@ import { CreatePlaylistDialogComponent } from '~/features/playlist/create/compon
 })
 export class LibraryPageComponent {
   private readonly dialog = inject(MatDialog);
+  protected readonly store = inject(UserStore);
+
+  constructor() {
+    effect(() => {
+      this.store.loadUserProfile();
+    });
+  }
 
   public openPlaylistForm(): void {
     this.dialog.open(CreatePlaylistDialogComponent, {
