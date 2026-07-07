@@ -1,7 +1,7 @@
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { computed, inject } from '@angular/core';
-import { initialState } from '~/features/artistAlbum/store/artist-album.state';
-import { AlbumApiService } from '~/features/artistAlbum/service/album-api.service';
+import { initialState } from '~/features/artis-album/store/artist-album.state';
+import { AlbumApiService } from '~/features/artis-album/service/album-api.service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, switchMap, tap } from 'rxjs';
 import { mapAlbumResponseToAlbumUI } from '~/shared/utils/mappers/album.mappers';

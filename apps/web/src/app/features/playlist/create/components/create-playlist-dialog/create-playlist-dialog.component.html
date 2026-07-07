@@ -1,0 +1,82 @@
+@let coverControl = playlistCreateForm.controls['coverFile'];
+
+<mat-dialog-content class="create-playlist-dialog">
+  <mat-dialog-actions class="close-container" [mat-dialog-close]="true">
+    <button matIconButton aria-label="Close create playlist button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
+  <form class="playlist-info" [formGroup]="playlistCreateForm">
+    <div class="upload-cover-container">
+      <label for="player-cover" class="input-content">
+        <div class="input-hint" [class.input-hint--with-cover]="coverPreview()">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="upload track icon"
+            fontSet="material-icons-outlined"
+          >
+            image_arrow_up
+          </mat-icon>
+          <span>upload playlist cover</span>
+        </div>
+
+        @if (coverPreview() && coverControl.valid) {
+          <img [src]="coverPreview()" alt="cover preview" />
+        }
+      </label>
+      <input
+        type="file"
+        [accept]="VALID_FILE_TYPE.join(', ')"
+        id="player-cover"
+        class="hidden"
+        (change)="setCover($event)"
+      />
+    </div>
+    <div class="playlist-fields">
+      <mat-form-field appearance="outline">
+        <mat-label>Playlist Name</mat-label>
+        <input matInput formControlName="playlistName" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Playlist description</mat-label>
+        <textarea
+          matInput
+          formControlName="playlistDescription"
+          class="description-field"
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <div class="file-error">
+      @if (coverControl.hasError('fileSize')) {
+        <p>
+          File size is {{ coverError().fileSizeError.actual }}MB, but maximum allowed is
+          {{ coverError().fileSizeError.max }}MB.
+        </p>
+      }
+      @if (coverControl.hasError('fileTypes')) {
+        Invalid file type, expected:
+        {{ coverError().fileTypeError.validTypes }}.
+      }
+    </div>
+  </form>
+  <div class="search-track">
+    <!--    TODO: вынести search бар в feature/components? и добавить сюда-->
+    <mat-form-field appearance="outline" class="search-bar" subscriptSizing="dynamic">
+      <input
+        class="search-input"
+        matInput
+        type="search"
+        placeholder="Start for search songs, albums, authors..."
+        autocomplete="off"
+      />
+      <button type="submit" matSuffix matIconButton aria-label="Search button">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+    <ppf-tracks-list [trackList]="[]" mode="list" headerControl="noControl" title="Search result" />
+  </div>
+  <mat-dialog-actions class="actions-buttons">
+    <button matButton="text" [mat-dialog-close]="true" class="cancel">Cancel</button>
+    <button matButton="tonal" class="create" [disabled]="playlistCreateForm.invalid">Create</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

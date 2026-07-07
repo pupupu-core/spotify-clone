@@ -17,11 +17,17 @@
         <span>upload new track</span>
       </div>
     </button>
-    <ppf-playlist-shelf class="playlist" title="My Playlist" mode="library" [albumsList]="[]" />
+    <ppf-playlist-shelf
+      class="playlist"
+      title="My Playlist"
+      mode="library"
+      [albumsList]="[]"
+      (createNew)="openPlaylistForm()"
+    />
   </div>
   <div class="recently-played">
     <ppf-tracks-list
-      sortMode="sort"
+      headerControl="sort"
       ulMode="unnumbered"
       [trackList]="[]"
       mode="list"
