@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -14,20 +15,18 @@ import { UserStore } from '~/core/stores/user/user.store';
   styleUrl: './library-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LibraryPageComponent {
+export class LibraryPageComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
   protected readonly store = inject(UserStore);
-
-  constructor() {
-    effect(() => {
-      this.store.loadUserProfile();
-    });
-  }
 
   public openPlaylistForm(): void {
     this.dialog.open(CreatePlaylistDialogComponent, {
       minWidth: 670,
       minHeight: 'min-content',
     });
+  }
+
+  public ngOnInit(): void {
+    this.store.loadUserProfile();
   }
 }
