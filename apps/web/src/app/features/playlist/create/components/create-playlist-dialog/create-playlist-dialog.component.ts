@@ -74,7 +74,7 @@ export class CreatePlaylistDialogComponent {
 
   private readonly coverControl = this.playlistCreateForm.controls['coverFile'];
   public readonly coverFileStatus = toSignal(
-    this.playlistCreateForm.statusChanges.pipe(startWith(this.coverControl.status)),
+    this.coverControl.statusChanges.pipe(startWith(this.coverControl.status)),
   );
   protected readonly coverError = computed<CoverErrors>(() => {
     this.coverFileStatus();
