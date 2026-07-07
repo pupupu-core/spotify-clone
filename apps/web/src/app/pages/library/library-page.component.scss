@@ -35,11 +35,14 @@
   border-radius: variables.$radius-xl;
 
   color: var(--mat-sys-surface);
+  text-transform: uppercase;
 
   background: rgb(from var(--mat-sys-primary-fixed-dim) r g b / 30%);
 
   span {
     @include mixins.font-xs;
+
+    text-transform: none;
   }
 }
 
