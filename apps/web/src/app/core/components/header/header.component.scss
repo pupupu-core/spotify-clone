@@ -1,5 +1,11 @@
 @use 'src/styles/mixins';
 
+:host {
+  display: block;
+  width: 100%;
+  max-width: 2000px;
+}
+
 .app-header {
   display: flex;
   align-items: center;
