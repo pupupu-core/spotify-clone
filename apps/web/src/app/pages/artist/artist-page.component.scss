@@ -81,6 +81,13 @@
   h3 {
     @include mixins.font-lg;
   }
+
+  p {
+    @include mixins.scrollbar-thin(var(--mat-sys-surface));
+
+    overflow: auto;
+    max-height: 150px;
+  }
 }
 
 .artist-catalog {
