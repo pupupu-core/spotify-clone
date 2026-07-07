@@ -6,9 +6,8 @@
   --surface-playlist-shelf-bg: rgb(from var(--mat-sys-primary-container) r g b / 40%);
 
   display: flex;
-  flex: 1;
   flex-direction: column;
-  height: 100%;
+  width: 100%;
 }
 
 .artist-container {
@@ -80,6 +79,13 @@
 
   h3 {
     @include mixins.font-lg;
+  }
+
+  p {
+    @include mixins.scrollbar-thin(var(--mat-sys-surface));
+
+    overflow: auto;
+    max-height: 150px;
   }
 }
 
