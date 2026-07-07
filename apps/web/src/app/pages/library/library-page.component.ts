@@ -1,4 +1,3 @@
-import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { MatFabButton } from '@angular/material/button';
@@ -14,17 +13,10 @@ import { CreatePlaylistDialogComponent } from '~/features/playlist/create/compon
   styleUrl: './library-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LibraryPageComponent implements OnInit {
+export class LibraryPageComponent {
   private readonly dialog = inject(MatDialog);
 
   public openPlaylistForm(): void {
-    this.dialog.open(CreatePlaylistDialogComponent, {
-      minWidth: 670,
-      minHeight: 'min-content',
-    });
-  }
-
-  public ngOnInit(): void {
     this.dialog.open(CreatePlaylistDialogComponent, {
       minWidth: 670,
       minHeight: 'min-content',
