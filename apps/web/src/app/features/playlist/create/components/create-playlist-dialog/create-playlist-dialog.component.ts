@@ -58,6 +58,7 @@ interface FileTypeValidationError {
 })
 export class CreatePlaylistDialogComponent {
   // TODO: добавить логику создания при появление бэка
+  protected readonly VALID_FILE_TYPE = VALID_FILE_TYPE;
   protected readonly coverPreview = signal<string>('');
 
   public readonly playlistCreateForm = new FormGroup(
