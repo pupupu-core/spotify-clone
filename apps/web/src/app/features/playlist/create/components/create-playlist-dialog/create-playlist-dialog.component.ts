@@ -9,6 +9,7 @@ import { fileSizeValidator } from '~/shared/validators/file-size.validator';
 import { fileTypeValidator } from '~/shared/validators/file-type.validator';
 import { startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { SearchBarComponent } from '~/features/search-bar/search-bar.component';
 
 const MAX_SIZE_COVER_MB = 3;
 const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/avif', 'image/webp', 'image/jpeg'];
@@ -51,6 +52,7 @@ interface FileTypeValidationError {
     TrackListComponent,
     MatButton,
     MatDialogClose,
+    SearchBarComponent,
   ],
   templateUrl: './create-playlist-dialog.component.html',
   styleUrl: './create-playlist-dialog.component.scss',
