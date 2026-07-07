@@ -49,7 +49,7 @@
     <div class="file-error">
       @if (coverControl.hasError('fileSize')) {
         <p>
-          File size is {{ coverControl.getError('fileSize').actual }}MB, but maximum allowed is
+          File size is {{ coverError().fileSizeError.actual }}MB, but maximum allowed is
           {{ coverError().fileSizeError.max }}MB.
         </p>
       }
