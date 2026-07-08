@@ -5,6 +5,6 @@
       <h1>{{ APP_NAME }}</h1>
     </a>
   </div>
-  <ppf-search-bar />
+  <ppf-search-bar [value]="searchQuery()" (querySubmit)="search($event)" />
   <ppf-nav-control (navControlClick)="openDialog('300ms', '300ms')" />
 </header>
