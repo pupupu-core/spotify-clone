@@ -54,13 +54,17 @@ export const API_ENDPOINTS = {
   },
   PLAYLIST: {
     basePath: 'playlists',
+    CREATE: {
+      serverPath: '',
+      clientUrl: '/playlists',
+    },
     LIST: {
       serverPath: '',
       clientUrl: '/playlists',
     },
-    CREATE: {
-      serverPath: '',
-      clientUrl: '/playlists',
+    COMMUNITY: {
+      serverPath: 'community',
+      clientUrl: '/playlists/community',
     },
     DETAIL: {
       serverPath: ':playlistId',
@@ -73,6 +77,18 @@ export const API_ENDPOINTS = {
     DELETE: {
       serverPath: ':playlistId',
       clientUrl: '/playlists/:playlistId',
+    },
+    ADD_ENTRY: {
+      serverPath: ':playlistId/entries',
+      clientUrl: '/playlists/:playlistId/entries',
+    },
+    REMOVE_ENTRY: {
+      serverPath: ':playlistId/entries/:entryId',
+      clientUrl: '/playlists/:playlistId/entries/:entryId',
+    },
+    REORDER_ENTRIES: {
+      serverPath: ':playlistId/entries/order',
+      clientUrl: '/playlists/:playlistId/entries/order',
     },
   },
   ARTIST: {
