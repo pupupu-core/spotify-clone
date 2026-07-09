@@ -1,7 +1,9 @@
 import type { OnInit } from '@angular/core';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { APP_NAME } from '~/core/constants/common.constants';
-import { NgOptimizedImage } from '@angular/common';
+import { LowerCasePipe, NgOptimizedImage } from '@angular/common';
+import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatDivider } from '@angular/material/list';
 
 type DeveloperId = 'firstDeveloper' | 'secondDeveloper' | 'thirdDeveloper' | 'fourthDeveloper';
 
@@ -13,18 +15,19 @@ interface DeveloperInfo {
   githubLink: string;
   imgUrl: string;
   badge: string[];
+  responsibilites: string[];
+  stacks: string[];
 }
 
 @Component({
   selector: 'ppf-about-us-page',
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, MatCard, MatCardContent, MatDivider, LowerCasePipe, MatCardTitle],
   templateUrl: './about-us-page.component.html',
   styleUrl: './about-us-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutUsPageComponent implements OnInit {
   protected readonly APP_NAME = APP_NAME;
-
   public readonly developers: DeveloperInfo[] = [
     {
       name: 'Anastasia',
@@ -36,6 +39,15 @@ export class AboutUsPageComponent implements OnInit {
       githubLink: 'https://github.com/savryna',
       imgUrl: 'https://avatars.githubusercontent.com/u/123760669?v=4',
       badge: ['UI/UX', 'Frontend', 'Backend'],
+      responsibilites: [
+        'Figma mockup',
+        'Reusable UI components',
+        'Artist, Album, Library, and About Us pages',
+        'Playlist creation and editing',
+        'NgRx Signal Store',
+        'Backend endpoint integration',
+      ],
+      stacks: ['Angular', 'NgRx', 'Figma', 'NestJs', 'RxJs'],
     },
     {
       name: 'Hanna',
@@ -47,6 +59,14 @@ export class AboutUsPageComponent implements OnInit {
       githubLink: 'https://github.com/khasekai',
       imgUrl: 'https://avatars.githubusercontent.com/u/58516288?v=4',
       badge: ['Team Lead', 'Mentoring'],
+      responsibilites: [
+        'Team mentoring',
+        'Task planning and distribution',
+        'Technical guidance',
+        'Learning materials preparation',
+        'Trello management',
+      ],
+      stacks: ['Angular', 'Trello', 'Figma'],
     },
     {
       name: 'Vsevolod',
@@ -58,6 +78,16 @@ export class AboutUsPageComponent implements OnInit {
       githubLink: 'https://github.com/shoblinsky',
       imgUrl: 'https://avatars.githubusercontent.com/u/123806946?v=4',
       badge: ['Frontend', 'Backend', 'Testing'],
+      responsibilites: [
+        'Search page',
+        '404 page',
+        'Music player widget',
+        'Playback queue component',
+        'Recently played queue',
+        'Unit testing setup',
+        'Backend endpoint integration',
+      ],
+      stacks: ['Angular', 'RxJs', 'Vitest', 'NestJs'],
     },
     {
       name: 'Nikita',
@@ -69,8 +99,18 @@ export class AboutUsPageComponent implements OnInit {
       githubLink: 'https://github.com/tryproxy',
       imgUrl: 'https://avatars.githubusercontent.com/u/56947738?v=4',
       badge: ['Frontend', 'Backend', 'Infrastructure'],
+      responsibilites: [
+        'Backend architecture and core API setup',
+        'Database design and Prisma schema',
+        'Swagger setup',
+        'Authentication flow',
+        'Discovery page',
+        'User track upload',
+      ],
+      stacks: ['Angular', 'RxJs', 'NestJs', 'Docker', 'Prisma', 'Swagger'],
     },
   ];
+  public readonly selectedDeveloper = signal<DeveloperInfo | null>(this.developers[0]);
 
   public ngOnInit(): void {
     document.body.style.overflow = 'hidden';
