@@ -1,6 +1,10 @@
 @use 'src/styles/variables';
 @use 'src/styles/mixins';
 
+:host {
+  position: fixed;
+}
+
 .about-us {
   display: grid;
   grid-template-columns: 600px 150px 510px;
@@ -79,11 +83,12 @@
   background: #ede4d0;
 }
 
-.greeting-card {
+.developer-card {
   display: flex;
   align-items: center;
   justify-content: center;
 
+  padding: 20px;
   border-radius: variables.$radius-xl;
 
   background: var(--mat-sys-surface);
@@ -105,5 +110,39 @@
   100% {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+.animate-card {
+  --start-x: 0;
+  --start-y: 0;
+
+  transform: translate(var(--start-x), var(--start-y));
+  animation: card-enter 1s cubic-bezier(0.22, 1.25, 0.36, 1) forwards;
+}
+
+.meet-team {
+  --start-x: -150%;
+}
+
+.gratitude {
+  --start-y: 150%;
+}
+
+.team-member {
+  --start-y: -150%;
+}
+
+.developer-card {
+  --start-x: 150%;
+}
+
+@keyframes card-enter {
+  from {
+    transform: translate(var(--start-x), var(--start-y));
+  }
+
+  to {
+    transform: translate(0, 0);
   }
 }
