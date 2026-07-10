@@ -63,7 +63,7 @@
         [class.bottom-third]="idx === 2"
         [class.bottom-fourth]="idx === 3"
         [developer]="developer"
-        [selectedDeveloper]="selectedDeveloper()"
+        [selectedDeveloper]="selectedDeveloper() || null"
         (setDeveloper)="selectedDeveloper.set(developer)"
       />
     }
