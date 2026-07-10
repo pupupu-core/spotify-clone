@@ -30,7 +30,7 @@ li {
     flex-direction: column;
     gap: 10px;
 
-    .developer-image {
+    .image {
       margin: 0 auto;
       border-radius: variables.$radius-lg;
     }
@@ -85,12 +85,10 @@ li {
 
 @keyframes slide-fade {
   from {
-    transform: translateY(20px);
     opacity: 0;
   }
 
   to {
-    transform: translateY(0);
     opacity: 1;
   }
 }

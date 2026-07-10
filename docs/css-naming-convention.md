@@ -107,7 +107,7 @@ Angular изолирует стили компонента, поэтому до�
 
 ```html
 
-<button class="active">
+<button class="active-preview">
 ```
 
 ```html

@@ -100,78 +100,6 @@ mat-card-title {
   justify-content: space-between;
 }
 
-.team-member {
-  cursor: pointer;
-
-  display: flex;
-  gap: 10px;
-
-  padding: 15px;
-  border: 1px rgb(255 255 255 / 0%);
-  border-style: ridge none none ridge;
-  border-radius: variables.$radius-lg;
-
-  color: var(--mat-sys-surface);
-
-  background: rgb(from var(--mat-sys-secondary) r g b / 50%);
-
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    border: 1px rgb(249 249 249 / 52%);
-    border-style: ridge none none ridge;
-
-    background: rgb(from var(--mat-sys-tertiary) r g b / 35%);
-    backdrop-filter: blur(12px);
-    box-shadow:
-      0 8px 30px rgb(0 0 0 / 25%),
-      inset 0 1px 0 rgb(255 255 255 / 20%);
-  }
-}
-
-.active {
-  transform: scale(1.03);
-
-  border: 1px rgb(249 249 249 / 52%);
-  border-style: ridge none none ridge;
-
-  background: rgb(from var(--mat-sys-tertiary) r g b / 45%);
-  backdrop-filter: blur(12px);
-  box-shadow:
-    0 8px 30px rgb(0 0 0 / 25%),
-    inset 0 1px 0 rgb(255 255 255 / 20%);
-}
-
-.developer-info {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-around;
-
-  .developer-name {
-    @include mixins.font-lg;
-  }
-}
-
-.developer-image {
-  margin: 0 auto;
-  border-radius: variables.$radius-lg;
-}
-
-.developer-badges {
-  @include mixins.font-sm;
-
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-
-  .badge {
-    padding: 10px;
-    border-radius: variables.$radius-sm;
-    background: rgb(from var(--mat-sys-tertiary) r g b / 70%);
-  }
-}
-
 .discover-card {
   .empty {
     @include mixins.font-lg;
@@ -188,7 +116,7 @@ mat-card-title {
 
     font-family: Notable, sans-serif;
 
-    background: var(--mat-sys-surface);
+    background: #081524;
 
     animation: show 0.5s;
   }
@@ -216,34 +144,39 @@ mat-card-title {
 
 .meet-team {
   --start-x: -150%;
+  --start-y: -120px;
 }
 
 .gratitude {
   --start-y: 150%;
 }
 
-.team-member {
-  --start-y: -150%;
-}
-
 .discover-card {
   --start-x: 150%;
+  --start-y: 20%;
 }
 
-.first {
+.top-first {
   --start-y: -350%;
+  --start-x: 20px;
+
+  animation-delay: 0.1s;
 }
 
-.second {
+.top-second {
+  --start-x: 120px;
   --start-y: -150%;
 }
 
-.third {
+.bottom-third {
   --start-y: 150%;
 }
 
-.fourth {
+.bottom-fourth {
   --start-y: 350%;
+  --start-x: -120px;
+
+  animation-delay: 0.1s;
 }
 
 @keyframes card-enter {

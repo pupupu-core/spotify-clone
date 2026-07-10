@@ -48,36 +48,20 @@
       </a>
     </div>
   </div>
-  <ul class="teams animate-card">
+  <div class="teams animate-card">
     @for (developer of developers; track developer.id; let idx = $index) {
-      <li
-        class="team-member animate-card"
-        [class.first]="idx === 0"
-        [class.second]="idx === 1"
-        [class.third]="idx === 2"
-        [class.fourth]="idx === 3"
-        (mouseenter)="selectedDeveloper.set(developer)"
-        [class.active]="selectedDeveloper()?.id === developer.id"
-      >
-        <img
-          class="developer-image"
-          [ngSrc]="developer.imgUrl"
-          [alt]="developer.name + 'github image'"
-          width="120"
-          height="120"
-          priority
-        />
-        <div class="developer-info">
-          <h3 class="developer-name">{{ developer.name }}</h3>
-          <ul class="developer-badges">
-            @for (badge of developer.badge; track $index) {
-              <li class="badge">{{ badge }}</li>
-            }
-          </ul>
-        </div>
-      </li>
+      <ppf-card-developer-preview
+        class="animate-card"
+        [class.top-first]="idx === 0"
+        [class.top-second]="idx === 1"
+        [class.bottom-third]="idx === 2"
+        [class.bottom-fourth]="idx === 3"
+        [developer]="developer"
+        [selectedDeveloper]="selectedDeveloper()"
+        (setDeveloper)="selectedDeveloper.set(developer)"
+      />
     }
-  </ul>
+  </div>
   <div class="discover-card animate-card">
     @if (selectedDeveloper(); as developer) {
       <ppf-card-developer [developer]="developer" (closeDeveloper)="selectedDeveloper.set(null)" />

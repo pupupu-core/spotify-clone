@@ -1,0 +1,74 @@
+@use 'src/styles/variables';
+@use 'src/styles/mixins';
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+.card-preview {
+  cursor: pointer;
+
+  display: flex;
+  gap: 10px;
+
+  padding: 15px;
+  border: 1px solid rgb(255 255 255 / 0%);
+  border-radius: variables.$radius-lg;
+
+  color: var(--mat-sys-surface);
+
+  background: rgb(from var(--mat-sys-secondary) r g b / 80%);
+
+  transition: all 0.2s ease-in-out;
+
+  .image {
+    border-radius: variables.$radius-lg;
+  }
+
+  &.inactive-preview {
+    opacity: 0.75;
+  }
+
+  &.active-preview {
+    transform: scale(1.03);
+
+    border: 1px rgb(249 249 249 / 52%);
+    border-style: ridge none none ridge;
+
+    background: rgb(from var(--mat-sys-tertiary) r g b / 40%);
+    backdrop-filter: blur(12px);
+    box-shadow:
+      0 8px 30px rgb(0 0 0 / 25%),
+      inset 0 1px 0 rgb(255 255 255 / 20%);
+  }
+}
+
+.developer-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  .name {
+    @include mixins.font-lg;
+  }
+}
+
+.badges {
+  @include mixins.font-sm;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .badge {
+    padding: 10px;
+    border: 1px solid rgb(255 255 255 / 30%);
+    border-radius: variables.$radius-sm;
+    background: rgb(from var(--mat-sys-tertiary) r g b / 70%);
+  }
+}
