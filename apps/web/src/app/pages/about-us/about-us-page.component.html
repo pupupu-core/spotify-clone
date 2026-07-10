@@ -5,16 +5,22 @@
         Hello from <span>the {{ APP_NAME }}</span> team!
       </h2>
       <p>
-        We are Nikita, Vsevolod, Anastasia, and Anna - the developers behind this music application.
+        We are Vsevolod, Nikita, Anna and Anastasia - the developers behind this music application.
       </p>
-      <div>
+      <p>
         <span>Yes, the name looks similar to </span>
-        <a class="spotify-logo" href="https://open.spotify.com/" target="_blank">
-          <img ngSrc="/img/spotify-logo.webp" alt="spotify logo" width="16" height="16" />
+        <a class="spotify-link" href="https://open.spotify.com/" target="_blank">
+          <img
+            class="logo-img"
+            ngSrc="/img/spotify-logo.webp"
+            alt="spotify logo"
+            width="16"
+            height="16"
+          />
           <span>Spotify</span>
         </a>
         <span> - and that’s a hint at what inspired us.🤫</span>
-      </div>
+      </p>
     </div>
     <div class="gratitude animate-card">
       <p>
@@ -38,7 +44,7 @@
         It was more than just a project - it was an experience that helped us grow as developers and
         as a team.
       </p>
-      <a href="https://rs.school/courses/angular" class="rss-logo" target="_blank">
+      <a href="https://rs.school/courses/angular" class="rss-logo-link" target="_blank">
         <img
           ngSrc="/img/rss-logo.svg"
           alt="The Rolling Scopes School logo"
@@ -48,7 +54,7 @@
       </a>
     </div>
   </div>
-  <div class="teams animate-card">
+  <div class="teams-preview animate-card">
     @for (developer of developers; track developer.id; let idx = $index) {
       <ppf-card-developer-preview
         class="animate-card"
@@ -62,7 +68,7 @@
       />
     }
   </div>
-  <div class="discover-card animate-card">
+  <div class="discover-card animate-card" [class.discover-card--empty]="!selectedDeveloper()">
     @if (selectedDeveloper(); as developer) {
       <ppf-card-developer [developer]="developer" (closeDeveloper)="selectedDeveloper.set(null)" />
     } @else {
