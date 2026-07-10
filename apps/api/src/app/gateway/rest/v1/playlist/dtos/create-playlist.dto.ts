@@ -5,8 +5,19 @@ import {
   PlaylistTrackReference,
   PlaylistVisibility,
 } from '@streaming-service/model';
-import { Transform } from 'class-transformer';
-import { IsArray, IsIn, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsArray,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+  MinLength,
+  ValidateIf,
+  ValidateNested,
+} from 'class-validator';
 import { trimPlaylistTextField } from '../transformers/create-playlist.transformer';
 
 export class CreatePlaylistDto implements CreatePlaylistRequest {
@@ -30,5 +41,21 @@ export class CreatePlaylistDto implements CreatePlaylistRequest {
 
   @ApiProperty({ required: true, example: [{ source: 'jamendo', externalId: '' }] })
   @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => PlaylistTrackReferenceDto)
   public tracks: PlaylistTrackReference[];
+}
+
+class PlaylistTrackReferenceDto {
+  @IsIn(['jamendo', 'userUpload'])
+  public source: 'jamendo' | 'userUpload';
+
+  @ValidateIf(ref => ref.source === 'jamendo')
+  @IsString()
+  @IsNotEmpty()
+  public externalId?: string;
+
+  @ValidateIf(ref => ref.source === 'userUpload')
+  @IsUUID()
+  public trackId?: string;
 }
