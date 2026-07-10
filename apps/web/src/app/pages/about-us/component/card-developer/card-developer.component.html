@@ -10,9 +10,9 @@
       alt="{{ developer().name }} developer avatar"
       width="150"
       height="150"
-      class="image"
+      class="cover"
     />
-    <a [href]="developer().githubLink" target="_blank" class="link">
+    <a [href]="developer().githubLink" target="_blank" class="github-link">
       <img
         height="24"
         width="24"
@@ -21,7 +21,7 @@
       />
       <mat-card-title class="name">{{ developer().fullName }}</mat-card-title>
     </a>
-    <div class="description">
+    <div>
       {{ developer().description }}
     </div>
     <mat-divider />
@@ -29,13 +29,13 @@
       <mat-card-title class="title">Keys Responsibilities</mat-card-title>
       <ul class="responsibilities-list">
         @for (responsibility of developer().responsibilites; track $index) {
-          <li class="responsibility">{{ responsibility }}</li>
+          <li>{{ responsibility }}</li>
         }
       </ul>
     </div>
     <mat-divider />
     <div class="tech-stack">
-      <mat-card-title class="title">Tech Stack</mat-card-title>
+      <mat-card-title>Tech Stack</mat-card-title>
       <ul class="stack-list">
         @for (stack of developer().stacks; track $index) {
           <li class="stack-badge">
@@ -45,7 +45,7 @@
               [ngSrc]="
                 `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${(stack | lowercase)}/${(stack | lowercase)}-original.svg`
               "
-              alt="icon"
+              alt="technology logo"
             />
             <span>{{ stack }}</span>
           </li>
