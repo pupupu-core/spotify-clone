@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import type { DeveloperInfo } from '~/pages/about-us/about-us-page.component';
 import { NgOptimizedImage } from '@angular/common';
+import type { DeveloperInfo } from '~/pages/about-us/models/developer.model';
 
 @Component({
   selector: 'ppf-card-developer-preview',

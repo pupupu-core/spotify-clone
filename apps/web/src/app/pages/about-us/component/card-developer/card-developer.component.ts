@@ -4,7 +4,7 @@ import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/
 import { MatDivider } from '@angular/material/list';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
-import type { DeveloperInfo } from '~/pages/about-us/about-us-page.component';
+import type { DeveloperInfo } from '~/pages/about-us/models/developer.model';
 
 @Component({
   selector: 'ppf-card-developer',

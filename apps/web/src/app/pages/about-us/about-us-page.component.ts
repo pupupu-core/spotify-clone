@@ -4,20 +4,7 @@ import { APP_NAME } from '~/core/constants/common.constants';
 import { NgOptimizedImage } from '@angular/common';
 import { CardDeveloperComponent } from '~/pages/about-us/component/card-developer/card-developer.component';
 import { CardDeveloperPreviewComponent } from '~/pages/about-us/component/card-developer-preview/card-developer-preview.component';
-
-type DeveloperId = 'firstDeveloper' | 'secondDeveloper' | 'thirdDeveloper' | 'fourthDeveloper';
-
-export interface DeveloperInfo {
-  name: string;
-  fullName: string;
-  id: DeveloperId;
-  description: string;
-  githubLink: string;
-  imgUrl: string;
-  badge: string[];
-  responsibilities: string[];
-  stacks?: string[];
-}
+import type { DeveloperInfo } from '~/pages/about-us/models/developer.model';
 
 @Component({
   selector: 'ppf-about-us-page',
