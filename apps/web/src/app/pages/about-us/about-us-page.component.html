@@ -76,62 +76,7 @@
   </ul>
   <div class="discover-card animate-card">
     @if (selectedDeveloper(); as developer) {
-      <mat-card class="developer-card">
-        <mat-card-actions align="end">
-          <button matIconButton (click)="selectedDeveloper.set(null)">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-card-actions>
-        <mat-card-content class="content">
-          <img
-            [ngSrc]="developer.imgUrl"
-            alt="{{ developer.name }} developer avatar"
-            width="150"
-            height="150"
-            class="developer-image"
-          />
-          <a [href]="developer.githubLink" target="_blank" class="link">
-            <img
-              height="24"
-              width="24"
-              ngSrc="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
-              alt="icon"
-            />
-            <mat-card-title class="name">{{ developer.fullName }}</mat-card-title>
-          </a>
-          <div class="description">
-            {{ developer.description }}
-          </div>
-          <mat-divider />
-          <div class="responsibilities">
-            <mat-card-title class="title">Keys Responsibilities</mat-card-title>
-            <ul class="responsibilities-list">
-              @for (responsibility of developer.responsibilites; track $index) {
-                <li class="responsibility">{{ responsibility }}</li>
-              }
-            </ul>
-          </div>
-          <mat-divider />
-          <div class="tech-stack">
-            <mat-card-title class="title">Tech Stack</mat-card-title>
-            <ul class="stack-list">
-              @for (stack of developer.stacks; track $index) {
-                <li class="stack-badge">
-                  <img
-                    height="16"
-                    width="16"
-                    [ngSrc]="
-                      `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${(stack | lowercase)}/${(stack | lowercase)}-original.svg`
-                    "
-                    alt="icon"
-                  />
-                  <span>{{ stack }}</span>
-                </li>
-              }
-            </ul>
-          </div>
-        </mat-card-content>
-      </mat-card>
+      <ppf-card-developer [developer]="developer" (closeDeveloper)="selectedDeveloper.set(null)" />
     } @else {
       <div class="empty">
         discover <br />

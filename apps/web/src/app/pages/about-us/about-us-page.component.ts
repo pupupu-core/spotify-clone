@@ -1,15 +1,12 @@
 import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { APP_NAME } from '~/core/constants/common.constants';
-import { LowerCasePipe, NgOptimizedImage } from '@angular/common';
-import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
-import { MatDivider } from '@angular/material/list';
-import { MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
+import { NgOptimizedImage } from '@angular/common';
+import { CardDeveloperComponent } from '~/pages/about-us/component/card-developer/card-developer.component';
 
 type DeveloperId = 'firstDeveloper' | 'secondDeveloper' | 'thirdDeveloper' | 'fourthDeveloper';
 
-interface DeveloperInfo {
+export interface DeveloperInfo {
   name: string;
   fullName: string;
   id: DeveloperId;
@@ -23,17 +20,7 @@ interface DeveloperInfo {
 
 @Component({
   selector: 'ppf-about-us-page',
-  imports: [
-    NgOptimizedImage,
-    MatCard,
-    MatCardContent,
-    MatDivider,
-    LowerCasePipe,
-    MatCardTitle,
-    MatCardActions,
-    MatIconButton,
-    MatIcon,
-  ],
+  imports: [NgOptimizedImage, CardDeveloperComponent],
   templateUrl: './about-us-page.component.html',
   styleUrl: './about-us-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

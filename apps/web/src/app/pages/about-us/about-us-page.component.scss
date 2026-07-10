@@ -173,11 +173,6 @@ mat-card-title {
 }
 
 .discover-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: variables.$radius-xl;
-
   .empty {
     @include mixins.font-lg;
 
@@ -196,70 +191,6 @@ mat-card-title {
     background: var(--mat-sys-surface);
 
     animation: show 0.5s;
-  }
-}
-
-.developer-card {
-  width: 100%;
-  height: 100%;
-  border-radius: variables.$radius-xl;
-
-  color: var(--mat-sys-surface);
-
-  background: rgb(from var(--mat-sys-on-background) r g b / 60%);
-
-  .link {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .name {
-    @include mixins.font-lg;
-
-    font-weight: 500;
-    color: var(--mat-sys-on-secondary);
-  }
-}
-
-.responsibilities {
-  .responsibilities-list {
-    padding-left: 15px;
-  }
-
-  .responsibility {
-    list-style-type: initial;
-  }
-}
-
-.tech-stack {
-  .title {
-    margin-bottom: 10px;
-  }
-
-  .stack-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-
-    .stack-badge {
-      @include mixins.font-sm;
-
-      display: flex;
-      gap: 5px;
-      align-items: center;
-
-      padding: 8px;
-      border-radius: variables.$radius-md;
-
-      background: rgb(from var(--mat-sys-secondary-container) r g b / 50%);
-    }
   }
 }
 
