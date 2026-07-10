@@ -13,7 +13,7 @@ export interface PlaylistResponse {
   entries: PlaylistEntry[];
 }
 
-interface PlaylistEntry {
+export interface PlaylistEntry {
   id: string;
   position: number;
   addedAt: string;
