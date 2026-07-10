@@ -2,8 +2,10 @@ import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { APP_NAME } from '~/core/constants/common.constants';
 import { LowerCasePipe, NgOptimizedImage } from '@angular/common';
-import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
+import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MatDivider } from '@angular/material/list';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 type DeveloperId = 'firstDeveloper' | 'secondDeveloper' | 'thirdDeveloper' | 'fourthDeveloper';
 
@@ -21,7 +23,17 @@ interface DeveloperInfo {
 
 @Component({
   selector: 'ppf-about-us-page',
-  imports: [NgOptimizedImage, MatCard, MatCardContent, MatDivider, LowerCasePipe, MatCardTitle],
+  imports: [
+    NgOptimizedImage,
+    MatCard,
+    MatCardContent,
+    MatDivider,
+    LowerCasePipe,
+    MatCardTitle,
+    MatCardActions,
+    MatIconButton,
+    MatIcon,
+  ],
   templateUrl: './about-us-page.component.html',
   styleUrl: './about-us-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +53,6 @@ export class AboutUsPageComponent implements OnInit {
       badge: ['UI/UX', 'Frontend', 'Backend'],
       responsibilites: [
         'Figma mockup',
-        'Reusable UI components',
         'Artist, Album, Library, and About Us pages',
         'Playlist creation and editing',
         'NgRx Signal Store',
@@ -79,8 +90,7 @@ export class AboutUsPageComponent implements OnInit {
       imgUrl: 'https://avatars.githubusercontent.com/u/123806946?v=4',
       badge: ['Frontend', 'Backend', 'Testing'],
       responsibilites: [
-        'Search page',
-        '404 page',
+        'Search, 404 page',
         'Music player widget',
         'Playback queue component',
         'Recently played queue',
@@ -97,20 +107,19 @@ export class AboutUsPageComponent implements OnInit {
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt ducimus esse est ex in neque non quis ' +
         'rerum tempora voluptatibus?',
       githubLink: 'https://github.com/tryproxy',
-      imgUrl: 'https://avatars.githubusercontent.com/u/56947738?v=4',
+      imgUrl: '/img/trypoxy-img.jpg',
       badge: ['Frontend', 'Backend', 'Infrastructure'],
       responsibilites: [
         'Backend architecture and core API setup',
         'Database design and Prisma schema',
         'Swagger setup',
-        'Authentication flow',
-        'Discovery page',
+        'Registration, Login and Discovery page',
         'User track upload',
       ],
-      stacks: ['Angular', 'RxJs', 'NestJs', 'Docker', 'Prisma', 'Swagger'],
+      stacks: ['Angular', 'RxJs', 'NestJs', 'Docker', 'Prisma', 'PostgreSQL', 'Swagger'],
     },
   ];
-  public readonly selectedDeveloper = signal<DeveloperInfo | null>(this.developers[0]);
+  public readonly selectedDeveloper = signal<DeveloperInfo | null>(null);
 
   public ngOnInit(): void {
     document.body.style.overflow = 'hidden';

@@ -50,7 +50,11 @@
   </div>
   <ul class="teams animate-card">
     @for (developer of developers; track developer.id) {
-      <li class="team-member" (mouseenter)="selectedDeveloper.set(developer)">
+      <li
+        class="team-member"
+        (mouseenter)="selectedDeveloper.set(developer)"
+        [class.active]="selectedDeveloper()?.id === developer.id"
+      >
         <img
           class="developer-image"
           [ngSrc]="developer.imgUrl"
@@ -73,6 +77,11 @@
   <div class="discover-card animate-card">
     @if (selectedDeveloper(); as developer) {
       <mat-card class="developer-card">
+        <mat-card-actions align="end">
+          <button matIconButton (click)="selectedDeveloper.set(null)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-card-actions>
         <mat-card-content class="content">
           <img
             [ngSrc]="developer.imgUrl"
@@ -81,7 +90,15 @@
             height="150"
             class="developer-image"
           />
-          <mat-card-title class="name">{{ developer.fullName }}</mat-card-title>
+          <a [href]="developer.githubLink" target="_blank" class="link">
+            <img
+              height="24"
+              width="24"
+              ngSrc="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
+              alt="icon"
+            />
+            <mat-card-title class="name">{{ developer.fullName }}</mat-card-title>
+          </a>
           <div class="description">
             {{ developer.description }}
           </div>
