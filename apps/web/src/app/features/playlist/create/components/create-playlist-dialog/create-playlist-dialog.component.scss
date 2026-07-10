@@ -140,9 +140,6 @@
 }
 
 ppf-tracks-list {
-  @include mixins.scrollbar-thin(var(--mat-sys-surface));
-
-  overflow-y: auto;
   display: grid;
 
   min-width: 630px;
