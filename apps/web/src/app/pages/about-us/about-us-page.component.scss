@@ -230,6 +230,22 @@ mat-card-title {
   --start-x: 150%;
 }
 
+.first {
+  --start-y: -350%;
+}
+
+.second {
+  --start-y: -150%;
+}
+
+.third {
+  --start-y: 150%;
+}
+
+.fourth {
+  --start-y: 350%;
+}
+
 @keyframes card-enter {
   from {
     transform: translate(var(--start-x), var(--start-y));

@@ -49,9 +49,13 @@
     </div>
   </div>
   <ul class="teams animate-card">
-    @for (developer of developers; track developer.id) {
+    @for (developer of developers; track developer.id; let idx = $index) {
       <li
-        class="team-member"
+        class="team-member animate-card"
+        [class.first]="idx === 0"
+        [class.second]="idx === 1"
+        [class.third]="idx === 2"
+        [class.fourth]="idx === 3"
         (mouseenter)="selectedDeveloper.set(developer)"
         [class.active]="selectedDeveloper()?.id === developer.id"
       >
