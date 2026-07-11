@@ -9,12 +9,14 @@ import { PrismaModule } from '$/infrastructure/prisma/prisma.module';
 import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
 import { ListAccountPlaylistsStep } from '$/core/steps/list-account-playlists.step';
 import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
+import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.workflow';
 
 @Module({
   imports: [PrismaModule, JamendoModule, AuthTokenModule],
   controllers: [PlyalistController],
   providers: [
     CreatePlaylistWorkflow,
+    GetPlaylistWorkflow,
     ListAccountPlaylistsWorkflow,
     ResolvePlaylistTrackReferencesStep,
     CreateAccountPlaylistStep,

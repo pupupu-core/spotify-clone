@@ -1,5 +1,14 @@
 import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { CreatePlaylistDto } from './dtos/create-playlist.dto';
@@ -9,6 +18,7 @@ import { PlaylistResponseDto } from './dtos/playlist-response.dto';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
 import { CurrentAccountId } from '../../decorators/current-account-id.decorator';
 import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
+import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.playlist)
 @ApiCreatedResponse({
@@ -22,8 +32,17 @@ import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-acc
 export class PlyalistController {
   constructor(
     private readonly createPlaylistWorkflow: CreatePlaylistWorkflow,
+    private readonly getPlaylistWorkflow: GetPlaylistWorkflow,
     private readonly listAccountPlaylistsWorkflow: ListAccountPlaylistsWorkflow,
   ) {}
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get(API_ENDPOINTS.PLAYLIST.LIST.serverPath)
+  public async list(@CurrentAccountId() accountId: string): Promise<PlaylistsPreviewResponse> {
+    return await this.listAccountPlaylistsWorkflow.execute({ accountId });
+  }
 
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
@@ -42,8 +61,11 @@ export class PlyalistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
-  @Get(API_ENDPOINTS.PLAYLIST.LIST.serverPath)
-  public async list(@CurrentAccountId() accountId: string): Promise<PlaylistsPreviewResponse> {
-    return await this.listAccountPlaylistsWorkflow.execute({ accountId });
+  @Get(API_ENDPOINTS.PLAYLIST.DETAIL.serverPath)
+  public async detail(
+    @CurrentAccountId() accountId: string,
+    @Param('playlistId') playlistId: string,
+  ): Promise<PlaylistResponse> {
+    return await this.getPlaylistWorkflow.execute({ accountId, playlistId });
   }
 }

@@ -91,8 +91,8 @@ export class RetrieveOwnedPlaylistStep {
           coverUrl: entry.track.coverUrl,
           audioUrl:
             entry.track.source === TrackSource.JAMENDO
-              ? this.buildUploadedTrackAudioUrl(entry.id)
-              : entry.track.audioUrl,
+              ? entry.track.audioUrl
+              : this.buildUploadedTrackAudioUrl(entry.track.id),
         },
       })),
     };
