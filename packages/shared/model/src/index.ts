@@ -16,3 +16,4 @@ export * from './lib/search/autocomplete-response.model';
 export * from './lib/playlist/create-playlist-request.model';
 export * from './lib/playlist/playlist-response.model';
 export * from './lib/playlist/playlist.common.model';
+export * from './lib/playlist/playlists-preview-response.model';
