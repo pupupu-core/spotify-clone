@@ -1,13 +1,14 @@
 import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { CreatePlaylistDto } from './dtos/create-playlist.dto';
-import { PlaylistResponse } from '@streaming-service/model';
+import { PlaylistResponse, PlaylistsPreviewResponse } from '@streaming-service/model';
 import { CreatePlaylistWorkflow } from '$/core/workflows/playlist/create-playlist.workflow';
 import { PlaylistResponseDto } from './dtos/playlist-response.dto';
 import { AccessTokenGuard } from '../../guards/access-token.guard';
 import { CurrentAccountId } from '../../decorators/current-account-id.decorator';
+import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.playlist)
 @ApiCreatedResponse({
@@ -19,7 +20,10 @@ import { CurrentAccountId } from '../../decorators/current-account-id.decorator'
   version: '1',
 })
 export class PlyalistController {
-  constructor(private readonly createPlaylistWorkflow: CreatePlaylistWorkflow) {}
+  constructor(
+    private readonly createPlaylistWorkflow: CreatePlaylistWorkflow,
+    private readonly listAccountPlaylistsWorkflow: ListAccountPlaylistsWorkflow,
+  ) {}
 
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
@@ -33,5 +37,13 @@ export class PlyalistController {
       accountId,
       ...dto,
     });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get(API_ENDPOINTS.PLAYLIST.LIST.serverPath)
+  public async list(@CurrentAccountId() accountId: string): Promise<PlaylistsPreviewResponse> {
+    return await this.listAccountPlaylistsWorkflow.execute({ accountId });
   }
 }

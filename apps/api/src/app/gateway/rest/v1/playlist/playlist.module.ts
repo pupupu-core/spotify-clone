@@ -7,15 +7,19 @@ import { RetrieveOwnedPlaylistStep } from '$/core/steps/retrieve-owned-playlist.
 import { JamendoModule } from '$/infrastructure/jamendo/jamendo.module';
 import { PrismaModule } from '$/infrastructure/prisma/prisma.module';
 import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
+import { ListAccountPlaylistsStep } from '$/core/steps/list-account-playlists.step';
+import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
 
 @Module({
   imports: [PrismaModule, JamendoModule, AuthTokenModule],
   controllers: [PlyalistController],
   providers: [
     CreatePlaylistWorkflow,
+    ListAccountPlaylistsWorkflow,
     ResolvePlaylistTrackReferencesStep,
     CreateAccountPlaylistStep,
     RetrieveOwnedPlaylistStep,
+    ListAccountPlaylistsStep,
   ],
 })
 export class PlaylistModule {}
