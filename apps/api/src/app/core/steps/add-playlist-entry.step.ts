@@ -1,6 +1,8 @@
 import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+const PLAYLIST_ENTRY_POSITION_STEP = 100;
+
 interface AddPlaylistEntryInput {
   accountId: string;
   playlistId: string;
@@ -43,7 +45,7 @@ export class AddPlaylistEntryStep {
         data: {
           playlistId,
           trackId,
-          position: (lastEntry?.position ?? -1) + 1,
+          position: (lastEntry?.position ?? 0) + PLAYLIST_ENTRY_POSITION_STEP,
         },
       });
     });
