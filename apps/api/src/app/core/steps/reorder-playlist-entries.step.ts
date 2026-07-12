@@ -1,7 +1,6 @@
 import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-
-const PLAYLIST_ENTRY_POSITION_STEP = 100;
+import { PLAYLIST_ENTRY_POSITION_STEP } from '../models/playlist/constants';
 
 interface ReorderPlaylistEntriesInput {
   accountId: string;
