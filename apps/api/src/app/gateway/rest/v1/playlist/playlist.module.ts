@@ -10,6 +10,8 @@ import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
 import { ListAccountPlaylistsStep } from '$/core/steps/list-account-playlists.step';
 import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
 import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.workflow';
+import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlist.workflow';
+import { DeleteAccountPlaylistStep } from '$/core/steps/delete-account-playlist';
 
 @Module({
   imports: [PrismaModule, JamendoModule, AuthTokenModule],
@@ -18,6 +20,8 @@ import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.work
     CreatePlaylistWorkflow,
     GetPlaylistWorkflow,
     ListAccountPlaylistsWorkflow,
+    DeletePlaylistWorkflow,
+    DeleteAccountPlaylistStep,
     ResolvePlaylistTrackReferencesStep,
     CreateAccountPlaylistStep,
     RetrieveOwnedPlaylistStep,

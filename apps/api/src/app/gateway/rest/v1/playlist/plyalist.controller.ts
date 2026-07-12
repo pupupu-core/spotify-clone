@@ -2,6 +2,7 @@ import { OPENAPI_CONFIG } from '$/shared/config/openapi.config';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -19,12 +20,9 @@ import { AccessTokenGuard } from '../../guards/access-token.guard';
 import { CurrentAccountId } from '../../decorators/current-account-id.decorator';
 import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
 import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.workflow';
+import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlist.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.playlist)
-@ApiCreatedResponse({
-  description: 'Playlist created successfully',
-  type: PlaylistResponseDto,
-})
 @Controller({
   path: API_ENDPOINTS.PLAYLIST.basePath,
   version: '1',
@@ -34,6 +32,7 @@ export class PlyalistController {
     private readonly createPlaylistWorkflow: CreatePlaylistWorkflow,
     private readonly getPlaylistWorkflow: GetPlaylistWorkflow,
     private readonly listAccountPlaylistsWorkflow: ListAccountPlaylistsWorkflow,
+    private readonly deletePlaylistWorkflow: DeletePlaylistWorkflow,
   ) {}
 
   @ApiBearerAuth()
@@ -44,6 +43,10 @@ export class PlyalistController {
     return await this.listAccountPlaylistsWorkflow.execute({ accountId });
   }
 
+  @ApiCreatedResponse({
+    description: 'Playlist created successfully',
+    type: PlaylistResponseDto,
+  })
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.CREATED)
@@ -67,5 +70,16 @@ export class PlyalistController {
     @Param('playlistId') playlistId: string,
   ): Promise<PlaylistResponse> {
     return await this.getPlaylistWorkflow.execute({ accountId, playlistId });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(API_ENDPOINTS.PLAYLIST.DELETE.serverPath)
+  public async delete(
+    @CurrentAccountId() accountId: string,
+    @Param('playlistId') playlistId: string,
+  ): Promise<void> {
+    return await this.deletePlaylistWorkflow.execute({ accountId, playlistId });
   }
 }
