@@ -14,6 +14,8 @@ import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlis
 import { DeleteAccountPlaylistStep } from '$/core/steps/delete-account-playlist';
 import { ListCommunityPlaylistsWorkflow } from '$/core/workflows/playlist/list-community-playlists.workflow';
 import { ListCommunityPlaylistsStep } from '$/core/steps/list-community-playlists.step';
+import { UpdatePlaylistWorkflow } from '$/core/workflows/playlist/update-playlist.workflow';
+import { UpdatePlaylistStep } from '$/core/steps/update-playlist.step';
 
 @Module({
   imports: [PrismaModule, JamendoModule, AuthTokenModule],
@@ -24,12 +26,14 @@ import { ListCommunityPlaylistsStep } from '$/core/steps/list-community-playlist
     ListAccountPlaylistsWorkflow,
     DeletePlaylistWorkflow,
     ListCommunityPlaylistsWorkflow,
+    UpdatePlaylistWorkflow,
     ListCommunityPlaylistsStep,
     DeleteAccountPlaylistStep,
     ResolvePlaylistTrackReferencesStep,
     CreateAccountPlaylistStep,
     RetrieveOwnedPlaylistStep,
     ListAccountPlaylistsStep,
+    UpdatePlaylistStep,
   ],
 })
 export class PlaylistModule {}

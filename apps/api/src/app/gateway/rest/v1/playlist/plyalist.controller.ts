@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
@@ -22,6 +23,8 @@ import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-acc
 import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.workflow';
 import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlist.workflow';
 import { ListCommunityPlaylistsWorkflow } from '$/core/workflows/playlist/list-community-playlists.workflow';
+import { UpdatePlaylistDto } from './dtos/update-playlist.dto';
+import { UpdatePlaylistWorkflow } from '$/core/workflows/playlist/update-playlist.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.playlist)
 @Controller({
@@ -35,6 +38,7 @@ export class PlyalistController {
     private readonly listAccountPlaylistsWorkflow: ListAccountPlaylistsWorkflow,
     private readonly deletePlaylistWorkflow: DeletePlaylistWorkflow,
     private readonly listCommunityPlaylistsWorkflow: ListCommunityPlaylistsWorkflow,
+    private readonly updatePlaylistWorkflow: UpdatePlaylistWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -78,6 +82,18 @@ export class PlyalistController {
     @Param('playlistId') playlistId: string,
   ): Promise<PlaylistResponse> {
     return await this.getPlaylistWorkflow.execute({ accountId, playlistId });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  @Put(API_ENDPOINTS.PLAYLIST.UPDATE.serverPath)
+  public async update(
+    @CurrentAccountId() accountId: string,
+    @Param('playlistId') playlistId: string,
+    @Body() dto: UpdatePlaylistDto,
+  ): Promise<PlaylistResponse> {
+    return await this.updatePlaylistWorkflow.execute({ accountId, playlistId, ...dto });
   }
 
   @ApiBearerAuth()
