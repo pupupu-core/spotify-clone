@@ -7,6 +7,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Put,
   UseGuards,
@@ -142,7 +143,7 @@ export class PlyalistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
-  @Put(API_ENDPOINTS.PLAYLIST.REORDER_ENTRIES.serverPath)
+  @Patch(API_ENDPOINTS.PLAYLIST.REORDER_ENTRIES.serverPath)
   public async reorderEntries(
     @CurrentAccountId() accountId: string,
     @Param('playlistId') playlistId: string,
