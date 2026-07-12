@@ -21,6 +21,7 @@ import { CurrentAccountId } from '../../decorators/current-account-id.decorator'
 import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
 import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.workflow';
 import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlist.workflow';
+import { ListCommunityPlaylistsWorkflow } from '$/core/workflows/playlist/list-community-playlists.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.playlist)
 @Controller({
@@ -33,7 +34,14 @@ export class PlyalistController {
     private readonly getPlaylistWorkflow: GetPlaylistWorkflow,
     private readonly listAccountPlaylistsWorkflow: ListAccountPlaylistsWorkflow,
     private readonly deletePlaylistWorkflow: DeletePlaylistWorkflow,
+    private readonly listCommunityPlaylistsWorkflow: ListCommunityPlaylistsWorkflow,
   ) {}
+
+  @HttpCode(HttpStatus.OK)
+  @Get(API_ENDPOINTS.PLAYLIST.COMMUNITY.serverPath)
+  public async community(): Promise<PlaylistsPreviewResponse> {
+    return await this.listCommunityPlaylistsWorkflow.execute();
+  }
 
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
