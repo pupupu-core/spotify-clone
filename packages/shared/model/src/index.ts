@@ -19,3 +19,4 @@ export * from './lib/playlist/playlist.common.model';
 export * from './lib/playlist/playlists-preview-response.model';
 export * from './lib/playlist/update-playlist-request.model';
 export * from './lib/playlist/add-playlist-entry-request.model';
+export * from './lib/playlist/reorder-playlist-entries-request.model';
