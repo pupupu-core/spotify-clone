@@ -20,6 +20,8 @@ import { AddPlaylistEntryWorkflow } from '$/core/workflows/playlist/add-playlist
 import { AddPlaylistEntryStep } from '$/core/steps/add-playlist-entry.step';
 import { RemovePlaylistEntryWorkflow } from '$/core/workflows/playlist/remove-playlist-entry.workflow';
 import { RemovePlaylistEntryStep } from '$/core/steps/remove-playlist-entry.step';
+import { ReorderPlaylistEntriesWorkflow } from '$/core/workflows/playlist/reorder-playlist-entries.workflow';
+import { ReorderPlaylistEntriesStep } from '$/core/steps/reorder-playlist-entries.step';
 
 @Module({
   imports: [PrismaModule, JamendoModule, AuthTokenModule],
@@ -33,6 +35,7 @@ import { RemovePlaylistEntryStep } from '$/core/steps/remove-playlist-entry.step
     UpdatePlaylistWorkflow,
     AddPlaylistEntryWorkflow,
     RemovePlaylistEntryWorkflow,
+    ReorderPlaylistEntriesWorkflow,
     ListCommunityPlaylistsStep,
     DeleteAccountPlaylistStep,
     ResolvePlaylistTrackReferencesStep,
@@ -42,6 +45,7 @@ import { RemovePlaylistEntryStep } from '$/core/steps/remove-playlist-entry.step
     UpdatePlaylistStep,
     AddPlaylistEntryStep,
     RemovePlaylistEntryStep,
+    ReorderPlaylistEntriesStep,
   ],
 })
 export class PlaylistModule {}

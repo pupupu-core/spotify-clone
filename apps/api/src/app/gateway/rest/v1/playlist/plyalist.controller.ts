@@ -28,6 +28,8 @@ import { UpdatePlaylistWorkflow } from '$/core/workflows/playlist/update-playlis
 import { AddPlaylistEntryDto } from './dtos/add-playlist-entry.dto';
 import { AddPlaylistEntryWorkflow } from '$/core/workflows/playlist/add-playlist-entry.workflow';
 import { RemovePlaylistEntryWorkflow } from '$/core/workflows/playlist/remove-playlist-entry.workflow';
+import { ReorderPlaylistEntriesDto } from './dtos/reorder-playlist-entries.dto';
+import { ReorderPlaylistEntriesWorkflow } from '$/core/workflows/playlist/reorder-playlist-entries.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.playlist)
 @Controller({
@@ -44,6 +46,7 @@ export class PlyalistController {
     private readonly updatePlaylistWorkflow: UpdatePlaylistWorkflow,
     private readonly addPlaylistEntryWorkflow: AddPlaylistEntryWorkflow,
     private readonly removePlaylistEntryWorkflow: RemovePlaylistEntryWorkflow,
+    private readonly reorderPlaylistEntriesWorkflow: ReorderPlaylistEntriesWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -134,5 +137,23 @@ export class PlyalistController {
     @Param('entryId') entryId: string,
   ): Promise<PlaylistResponse> {
     return await this.removePlaylistEntryWorkflow.execute({ accountId, playlistId, entryId });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  @Put(API_ENDPOINTS.PLAYLIST.REORDER_ENTRIES.serverPath)
+  public async reorderEntries(
+    @CurrentAccountId() accountId: string,
+    @Param('playlistId') playlistId: string,
+    @Body() dto: ReorderPlaylistEntriesDto,
+  ): Promise<PlaylistResponse> {
+    return this.reorderPlaylistEntriesWorkflow.execute({
+      accountId,
+      playlistId,
+      entryId: dto.entryId,
+      beforeEntryId: dto.beforeEntryId,
+      afterEntryId: dto.afterEntryId,
+    });
   }
 }
