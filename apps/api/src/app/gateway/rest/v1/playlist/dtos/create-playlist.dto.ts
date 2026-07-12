@@ -9,16 +9,14 @@ import { Transform, Type } from 'class-transformer';
 import {
   IsArray,
   IsIn,
-  IsNotEmpty,
   IsOptional,
   IsString,
-  IsUUID,
   MaxLength,
   MinLength,
-  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { trimPlaylistTextField } from '../transformers/create-playlist.transformer';
+import { PlaylistTrackReferenceDto } from './playlist-track-reference.dto';
 
 export class CreatePlaylistDto implements CreatePlaylistRequest {
   @ApiProperty({ required: true, example: 'My playlist for studying' })
@@ -39,23 +37,31 @@ export class CreatePlaylistDto implements CreatePlaylistRequest {
   @IsIn(['private', 'public', 'unlisted'])
   public visibility?: PlaylistVisibility;
 
-  @ApiProperty({ required: true, example: [{ source: 'jamendo', externalId: '' }] })
+  @ApiProperty({
+    required: true,
+    example: [{ source: 'jamendo', externalId: '2332430' }],
+    type: 'array',
+    items: {
+      oneOf: [
+        {
+          type: 'object',
+          properties: {
+            source: { type: 'string', example: 'jamendo' },
+            externalId: { type: 'string', example: '2332430' },
+          },
+        },
+        {
+          type: 'object',
+          properties: {
+            source: { type: 'string', example: 'userUpload' },
+            trackId: { type: 'string', example: '4f2f98c8-28f4-4f2e-8c9c-4ac4d23a6e34' },
+          },
+        },
+      ],
+    },
+  })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => PlaylistTrackReferenceDto)
   public tracks: PlaylistTrackReference[];
-}
-
-class PlaylistTrackReferenceDto {
-  @IsIn(['jamendo', 'userUpload'])
-  public source: 'jamendo' | 'userUpload';
-
-  @ValidateIf(ref => ref.source === 'jamendo')
-  @IsString()
-  @IsNotEmpty()
-  public externalId?: string;
-
-  @ValidateIf(ref => ref.source === 'userUpload')
-  @IsUUID()
-  public trackId?: string;
 }

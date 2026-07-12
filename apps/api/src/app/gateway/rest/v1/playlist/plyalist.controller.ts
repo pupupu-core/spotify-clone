@@ -25,6 +25,8 @@ import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlis
 import { ListCommunityPlaylistsWorkflow } from '$/core/workflows/playlist/list-community-playlists.workflow';
 import { UpdatePlaylistDto } from './dtos/update-playlist.dto';
 import { UpdatePlaylistWorkflow } from '$/core/workflows/playlist/update-playlist.workflow';
+import { AddEntryDto } from './dtos/add-entry.dto';
+import { AddPlaylistEntryWorkflow } from '$/core/workflows/playlist/add-playlist-entry.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.playlist)
 @Controller({
@@ -39,6 +41,7 @@ export class PlyalistController {
     private readonly deletePlaylistWorkflow: DeletePlaylistWorkflow,
     private readonly listCommunityPlaylistsWorkflow: ListCommunityPlaylistsWorkflow,
     private readonly updatePlaylistWorkflow: UpdatePlaylistWorkflow,
+    private readonly addPlaylistEntryWorkflow: AddPlaylistEntryWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -105,5 +108,17 @@ export class PlyalistController {
     @Param('playlistId') playlistId: string,
   ): Promise<void> {
     return await this.deletePlaylistWorkflow.execute({ accountId, playlistId });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.CREATED)
+  @Post(API_ENDPOINTS.PLAYLIST.ADD_ENTRY.serverPath)
+  public async addEntry(
+    @CurrentAccountId() accountId: string,
+    @Param('playlistId') playlistId: string,
+    @Body() dto: AddEntryDto,
+  ): Promise<PlaylistResponse> {
+    return await this.addPlaylistEntryWorkflow.execute({ accountId, playlistId, ...dto });
   }
 }
