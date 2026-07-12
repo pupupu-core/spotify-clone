@@ -25,8 +25,9 @@ import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlis
 import { ListCommunityPlaylistsWorkflow } from '$/core/workflows/playlist/list-community-playlists.workflow';
 import { UpdatePlaylistDto } from './dtos/update-playlist.dto';
 import { UpdatePlaylistWorkflow } from '$/core/workflows/playlist/update-playlist.workflow';
-import { AddEntryDto } from './dtos/add-entry.dto';
+import { AddPlaylistEntryDto } from './dtos/add-playlist-entry.dto';
 import { AddPlaylistEntryWorkflow } from '$/core/workflows/playlist/add-playlist-entry.workflow';
+import { RemovePlaylistEntryWorkflow } from '$/core/workflows/playlist/remove-playlist-entry.workflow';
 
 @ApiTags(OPENAPI_CONFIG.tags.playlist)
 @Controller({
@@ -42,6 +43,7 @@ export class PlyalistController {
     private readonly listCommunityPlaylistsWorkflow: ListCommunityPlaylistsWorkflow,
     private readonly updatePlaylistWorkflow: UpdatePlaylistWorkflow,
     private readonly addPlaylistEntryWorkflow: AddPlaylistEntryWorkflow,
+    private readonly removePlaylistEntryWorkflow: RemovePlaylistEntryWorkflow,
   ) {}
 
   @HttpCode(HttpStatus.OK)
@@ -117,8 +119,20 @@ export class PlyalistController {
   public async addEntry(
     @CurrentAccountId() accountId: string,
     @Param('playlistId') playlistId: string,
-    @Body() dto: AddEntryDto,
+    @Body() dto: AddPlaylistEntryDto,
   ): Promise<PlaylistResponse> {
     return await this.addPlaylistEntryWorkflow.execute({ accountId, playlistId, ...dto });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  @Delete(API_ENDPOINTS.PLAYLIST.REMOVE_ENTRY.serverPath)
+  public async removeEntry(
+    @CurrentAccountId() accountId: string,
+    @Param('playlistId') playlistId: string,
+    @Param('entryId') entryId: string,
+  ): Promise<PlaylistResponse> {
+    return await this.removePlaylistEntryWorkflow.execute({ accountId, playlistId, entryId });
   }
 }
