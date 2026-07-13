@@ -5,7 +5,7 @@ import { NgClass, NgOptimizedImage } from '@angular/common';
 import { CardDeveloperComponent } from '~/pages/about-us/component/card-developer/card-developer.component';
 import { CardDeveloperPreviewComponent } from '~/pages/about-us/component/card-developer-preview/card-developer-preview.component';
 import type { DeveloperInfo } from '~/pages/about-us/models/developer.model';
-import { DEVELOPERS } from '~/pages/about-us/constants/data';
+import { DEVELOPERS } from '~/pages/about-us/constants/data.constants';
 import { DeveloperPositionsPipe } from '~/pages/about-us/pipes/developer-positions.pipe';
 
 @Component({
