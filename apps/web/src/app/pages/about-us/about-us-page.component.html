@@ -58,10 +58,7 @@
     @for (developer of developers; track developer.id; let idx = $index) {
       <ppf-card-developer-preview
         class="animate-card"
-        [class.top-first]="idx === 0"
-        [class.top-second]="idx === 1"
-        [class.bottom-third]="idx === 2"
-        [class.bottom-fourth]="idx === 3"
+        [ngClass]="idx | developerPositions"
         [developer]="developer"
         [selectedDeveloper]="selectedDeveloper()"
         (setDeveloper)="selectedDeveloper.set(developer)"
