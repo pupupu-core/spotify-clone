@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import type { DeveloperInfo } from '~/pages/about-us/models/developer.model';
 
@@ -13,4 +13,5 @@ export class CardDeveloperPreviewComponent {
   public readonly developer = input.required<DeveloperInfo>();
   public readonly selectedDeveloper = input.required<DeveloperInfo | null>();
   public readonly setDeveloper = output();
+  public readonly isActive = computed(() => this.selectedDeveloper()?.id === this.developer().id);
 }
