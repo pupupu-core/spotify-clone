@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UPLOAD_TRACK_CONSTRAINTS } from '@streaming-service/config';
 import { UploadTrackRequest } from '@streaming-service/model';
-import { IsOptional, MaxLength, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { ArrayMaxSize, IsArray, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class UploadDto implements UploadTrackRequest {
   @ApiProperty({ example: 'Gift Horse' })
@@ -24,4 +25,17 @@ export class UploadDto implements UploadTrackRequest {
 
   @ApiProperty({ example: false })
   public isPrivate: boolean;
+
+  @ApiProperty({ example: ['Rock', 'Post-Punk'], required: false })
+  @IsOptional()
+  @Transform(({ value }: { value: unknown }) => {
+    const arr = Array.isArray(value) ? (value as string[]) : ([value].filter(Boolean) as string[]);
+
+    return arr.flatMap(v => (typeof v === 'string' ? v.split(',').map(s => s.trim()) : v));
+  })
+  @IsArray()
+  @ArrayMaxSize(UPLOAD_TRACK_CONSTRAINTS.genres.maxCount)
+  @IsString({ each: true })
+  @MaxLength(UPLOAD_TRACK_CONSTRAINTS.genres.maxLength, { each: true })
+  public genres?: string[];
 }

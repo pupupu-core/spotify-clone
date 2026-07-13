@@ -27,6 +27,10 @@ export const UPLOAD_TRACK_CONSTRAINTS = {
     minLength: 1,
     maxLength: 120,
   },
+  genres: {
+    maxCount: 5,
+    maxLength: 30,
+  },
   limits: {
     maxFileSizeBytes: 10 * 1024 * 1024, // 10MB
     typeRegex: /^audio\/(mpeg|mp3|wav|ogg|flac|aac|x-m4a|mp4)$/,

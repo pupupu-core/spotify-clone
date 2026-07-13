@@ -19,6 +19,7 @@ interface UploadTrackStepInput {
   albumName?: string;
   isSingle: boolean;
   isPrivate: boolean;
+  genres?: string[];
 }
 
 @Injectable()
@@ -34,6 +35,7 @@ export class UploadTrackStep {
     title,
     artistName,
     albumName,
+    genres,
     // TODO: Add Track.visibility and Track.releaseType to schema
     // Map isPrivate/isSingle request flags to those fields in future
   }: UploadTrackStepInput): Promise<UploadTrackResponse> {
@@ -88,6 +90,18 @@ export class UploadTrackStep {
             uploadedByAccountId: accountId,
             audioFileId: storedFile.id,
             albumName,
+            genres: genres?.length
+              ? {
+                  create: genres.map(genreName => ({
+                    genre: {
+                      connectOrCreate: {
+                        where: { name: genreName.toLowerCase() },
+                        create: { name: genreName.toLowerCase() },
+                      },
+                    },
+                  })),
+                }
+              : undefined,
           },
           select: {
             id: true,
@@ -96,6 +110,15 @@ export class UploadTrackStep {
             audioFileId: true,
             albumName: true,
             source: true,
+            genres: {
+              select: {
+                genre: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
           },
         });
       });
@@ -108,6 +131,7 @@ export class UploadTrackStep {
         albumName: track.albumName,
         // TODO: refactor with correct type or enum later
         source: 'userUpload',
+        genres: track.genres?.map(g => g.genre.name),
       };
     } catch (error) {
       // Future FailTrackAudioUploadStep

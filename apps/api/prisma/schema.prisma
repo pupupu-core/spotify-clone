@@ -193,6 +193,7 @@ model Track {
   likedBy              LikedTrack[]
   playbackHistory      PlaybackHistory[]
   recentlyPlayedTracks RecentlyPlayedTrack[]
+  genres               TrackGenre[]
 
   @@unique([source, externalId])
   @@index([creatorProfileId])
@@ -211,6 +212,23 @@ model LikedTrack {
 
   @@id([accountId, trackId])
   @@index([trackId])
+}
+
+model Genre {
+  id     String       @id @default(uuid())
+  name   String       @unique
+  tracks TrackGenre[]
+}
+
+model TrackGenre {
+  trackId String
+  track   Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  genreId String
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([trackId, genreId])
+  @@index([genreId])
 }
 
 // PLAYLIST
@@ -292,7 +310,6 @@ model PlaybackHistory {
   @@index([accountId, playedAt])
   @@index([trackId])
 }
-
 
 // STORAGE
 enum StoredFileUploadStatus {

@@ -10,6 +10,7 @@ interface UploadTrackCommand {
   albumName?: string;
   isSingle: boolean;
   isPrivate: boolean;
+  genres?: string[];
 }
 
 @Injectable()
