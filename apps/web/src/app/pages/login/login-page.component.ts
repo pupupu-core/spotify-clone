@@ -30,7 +30,7 @@ export class LoginPageComponent {
 
   protected readonly failedLoginCount = signal(0);
   protected readonly shouldShowSupport = computed(
-    () => this.failedLoginCount() >= APP_CONFIG.AUTH.failedRetriesAllowed,
+    () => this.failedLoginCount() >= APP_CONFIG.AUTH.failedAttemptsBeforeSupportHint,
   );
   protected readonly routes = inject(APP_ROUTES);
   protected readonly isFormLoading = signal(false);

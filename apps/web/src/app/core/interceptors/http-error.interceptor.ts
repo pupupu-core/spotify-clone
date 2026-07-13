@@ -4,6 +4,7 @@ import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 
 import { PpfToasterService } from '../services/ppf-toaster.service';
+import { APP_ENDPOINTS } from '../config/endpoints.config';
 
 interface ErrorBody {
   readonly message: unknown;
@@ -15,7 +16,7 @@ const getErrorTitle = (error: HttpErrorResponse): string => {
   }
 
   if (error.status === 401) {
-    return 'You are not logged in!';
+    return 'Authentication failed';
   }
 
   if (error.status >= 500) {
@@ -30,6 +31,13 @@ export const httpErrorInterceptor: HttpInterceptorFn = (request, next) => {
 
   return next(request).pipe(
     catchError((error: unknown) => {
+      if (
+        error instanceof HttpErrorResponse &&
+        error.status === 401 &&
+        request.url === APP_ENDPOINTS.AUTH.REFRESH
+      ) {
+        return throwError(() => error);
+      }
       if (error instanceof HttpErrorResponse) {
         toaster.error(getErrorTitle(error), getHttpErrorMessage(error));
       }
