@@ -1,8 +1,4 @@
-export type DeveloperId =
-  | 'firstDeveloper'
-  | 'secondDeveloper'
-  | 'thirdDeveloper'
-  | 'fourthDeveloper';
+export type DeveloperId = 'anastasia' | 'hanna' | 'vsevolod' | 'nikita';
 
 export interface DeveloperInfo {
   name: string;

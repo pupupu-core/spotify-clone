@@ -4,7 +4,7 @@ export const DEVELOPERS: DeveloperInfo[] = [
   {
     name: 'Anastasia',
     fullName: 'Anastasia Savrukhina',
-    id: 'firstDeveloper',
+    id: 'anastasia',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt ducimus esse est ex in neque non quis ' +
       'rerum tempora voluptatibus?',
@@ -26,7 +26,7 @@ export const DEVELOPERS: DeveloperInfo[] = [
   {
     name: 'Hanna',
     fullName: 'Hanna Surmach',
-    id: 'secondDeveloper',
+    id: 'hanna',
     description: '"World\'s best boss" - I think that pretty much sums it up',
     githubLink: 'https://github.com/khasekai',
     imgUrl: 'https://avatars.githubusercontent.com/u/58516288?v=4',
@@ -43,7 +43,7 @@ export const DEVELOPERS: DeveloperInfo[] = [
   {
     name: 'Nikita',
     fullName: 'Nikita Melnikov',
-    id: 'thirdDeveloper',
+    id: 'nikita',
     description:
       'Creates the best endpoints, possibly ever. Very secure, very scalable, very lightly documented. And that is not him saying it. People are saying it. Very smart people. The best people. They look at the code, they look at the speed, and they say, “Nobody ships like this guy. Nobody.”',
     githubLink: 'https://github.com/tryproxy',
@@ -65,7 +65,7 @@ export const DEVELOPERS: DeveloperInfo[] = [
   {
     name: 'Vsevolod',
     fullName: 'Vsevolod Timoshenko',
-    id: 'fourthDeveloper',
+    id: 'vsevolod',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt ducimus esse est ex in neque non quis ' +
       'rerum tempora voluptatibus?',
