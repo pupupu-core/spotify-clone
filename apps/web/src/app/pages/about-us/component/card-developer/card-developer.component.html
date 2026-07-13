@@ -4,7 +4,7 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-card-actions>
-  <mat-card-content class="content">
+  <mat-card-header class="card-header">
     <img
       [ngSrc]="developer().imgUrl"
       alt="{{ developer().name }} developer avatar"
@@ -12,6 +12,8 @@
       height="150"
       class="cover"
     />
+  </mat-card-header>
+  <mat-card-content class="content">
     <a [href]="developer().githubLink" target="_blank" class="github-link">
       <img height="24" width="24" [ngSrc]="githubIconUrl" alt="icon" />
       <mat-card-title class="name">{{ developer().fullName }}</mat-card-title>

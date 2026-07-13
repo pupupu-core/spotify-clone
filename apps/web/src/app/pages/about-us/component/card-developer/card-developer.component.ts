@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
-import { MatCard, MatCardActions, MatCardContent, MatCardTitle } from '@angular/material/card';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardTitle,
+} from '@angular/material/card';
 import { MatDivider } from '@angular/material/list';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
@@ -22,6 +28,7 @@ interface StackBadges {
     MatIcon,
     MatIconButton,
     NgOptimizedImage,
+    MatCardHeader,
   ],
   templateUrl: './card-developer.component.html',
   styleUrl: './card-developer.component.scss',

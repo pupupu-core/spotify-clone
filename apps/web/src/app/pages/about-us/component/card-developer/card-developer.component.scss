@@ -16,10 +16,8 @@ ul {
     flex-direction: column;
     gap: 10px;
 
-    .cover {
-      margin: 0 auto;
-      border-radius: variables.$radius-lg;
-    }
+    max-height: 460px;
+    padding-top: 10px;
 
     .github-link {
       display: flex;
@@ -44,6 +42,21 @@ ul {
       }
     }
   }
+}
+
+.card-header {
+  padding: 0;
+
+  .cover {
+    margin: 0 auto;
+    border-radius: variables.$radius-lg;
+  }
+}
+
+.responsibilities {
+  @include mixins.scrollbar-thin(var(--mat-sys-surface));
+
+  overflow-y: auto;
 }
 
 .tech-stack {
