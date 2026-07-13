@@ -54,6 +54,8 @@ export class TrackController {
     private readonly trackStreamService: TrackStreamService,
   ) {}
 
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
   @Get(API_ENDPOINTS.TRACK.DISCOVERY.serverPath)
   public async discovery(): Promise<TrackDiscoveryResponse> {
