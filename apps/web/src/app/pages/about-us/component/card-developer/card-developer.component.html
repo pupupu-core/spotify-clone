@@ -13,12 +13,7 @@
       class="cover"
     />
     <a [href]="developer().githubLink" target="_blank" class="github-link">
-      <img
-        height="24"
-        width="24"
-        ngSrc="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
-        alt="icon"
-      />
+      <img height="24" width="24" [ngSrc]="githubIconUrl" alt="icon" />
       <mat-card-title class="name">{{ developer().fullName }}</mat-card-title>
     </a>
     <div>
@@ -38,17 +33,10 @@
       <div class="tech-stack">
         <mat-card-title>Tech Stack</mat-card-title>
         <ul class="stack-list">
-          @for (stack of developer().stacks; track $index) {
+          @for (stack of stackBagdes(); track $index) {
             <li class="stack-badge">
-              <img
-                height="16"
-                width="16"
-                [ngSrc]="
-                  `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${(stack | lowercase)}/${(stack | lowercase)}-original.svg`
-                "
-                alt="technology logo"
-              />
-              <span>{{ stack }}</span>
+              <img height="16" width="16" [ngSrc]="stack.url" alt="technology logo" />
+              <span>{{ stack.name }}</span>
             </li>
           }
         </ul>
