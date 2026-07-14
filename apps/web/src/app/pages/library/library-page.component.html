@@ -3,7 +3,7 @@
     <div class="welcome">
       HELLO!<br />
       <span>We tuned the sound just for you,</span><br />
-      {{ 'USER NAME' }}.
+      {{ store.displayName() || 'Listener' }}.
     </div>
     <button class="upload-button" matFab extended>
       <div>
