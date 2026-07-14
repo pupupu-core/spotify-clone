@@ -10,7 +10,7 @@ import {
   StoredFileVisibility,
   TrackSource,
   TrackStatus,
-} from '../../../../generated/prisma/enums';
+} from '../../../../../generated/prisma/enums';
 import { randomUUID } from 'node:crypto';
 
 interface UploadTrackStepInput {
