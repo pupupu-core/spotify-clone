@@ -6,8 +6,7 @@ export const DEVELOPERS: DeveloperInfo[] = [
     fullName: 'Anastasia Savrukhina',
     id: 'anastasia',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt ducimus esse est ex in neque non quis ' +
-      'rerum tempora voluptatibus?',
+      'I thought the hardest part of the project would be the application architecture. Then there was CSS.',
     githubLink: 'https://github.com/savryna',
     imgUrl: 'https://avatars.githubusercontent.com/u/123760669?v=4',
     badge: ['UI/UX', 'Frontend', 'Backend'],
