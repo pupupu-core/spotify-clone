@@ -1,6 +1,6 @@
 import { CoreError } from '$/core/errors/core.error';
 import { InvalidCredentialsError } from '$/core/errors/invalid-credentials.error';
-import { InvalidPlaylistTrackReferenceError } from '$/core/errors/invalid-paylist-track-reference.error';
+import { InvalidPlaylistTrackReferenceError } from '$/core/errors/invalid-playlist-track-reference.error';
 import { LocalEmailAlreadyTakenError } from '$/core/errors/local-email-already-taken.error';
 import {
   ArgumentsHost,

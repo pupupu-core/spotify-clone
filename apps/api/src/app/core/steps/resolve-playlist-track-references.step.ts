@@ -3,7 +3,7 @@ import type { JamendoTrack } from '$/infrastructure/jamendo/types/track';
 import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import type { PlaylistTrackReference } from '@streaming-service/model';
-import { InvalidPlaylistTrackReferenceError } from '../errors/invalid-paylist-track-reference.error';
+import { InvalidPlaylistTrackReferenceError } from '../errors/invalid-playlist-track-reference.error';
 import { TrackSource, TrackStatus } from '../../../../generated/prisma/enums';
 
 interface ResolvePlaylistTrackReferencesInput {
