@@ -37,7 +37,7 @@ import { ReorderPlaylistEntriesWorkflow } from '$/core/workflows/playlist/reorde
   path: API_ENDPOINTS.PLAYLIST.basePath,
   version: '1',
 })
-export class PlyalistController {
+export class PlaylistController {
   constructor(
     private readonly createPlaylistWorkflow: CreatePlaylistWorkflow,
     private readonly getPlaylistWorkflow: GetPlaylistWorkflow,

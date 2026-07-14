@@ -1,4 +1,4 @@
-import { AtLeastOneField } from '$/gateway/rest/validators/at-least-one-field.validators';
+import { AtLeastOneField } from '$/gateway/rest/validators/at-least-one-field.validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { PLAYLIST_CONSTRAINTS } from '@streaming-service/config';
 import { PlaylistVisibility, UpdatePlaylistRequest } from '@streaming-service/model';
