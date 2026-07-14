@@ -12,7 +12,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { API_ENDPOINTS } from '@streaming-service/config';
 import { CreatePlaylistDto } from './dtos/create-playlist.dto';
 import { PlaylistResponse, PlaylistsPreviewResponse } from '@streaming-service/model';
@@ -51,6 +51,7 @@ export class PlaylistController {
   ) {}
 
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'List public community playlists' })
   @Get(API_ENDPOINTS.PLAYLIST.COMMUNITY.serverPath)
   public async community(): Promise<PlaylistsPreviewResponse> {
     return await this.listCommunityPlaylistsWorkflow.execute();
@@ -59,6 +60,7 @@ export class PlaylistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'List current account playlists' })
   @Get(API_ENDPOINTS.PLAYLIST.LIST.serverPath)
   public async list(@CurrentAccountId() accountId: string): Promise<PlaylistsPreviewResponse> {
     return await this.listAccountPlaylistsWorkflow.execute({ accountId });
@@ -71,6 +73,7 @@ export class PlaylistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Create a playlist' })
   @Post(API_ENDPOINTS.PLAYLIST.CREATE.serverPath)
   public async create(
     @CurrentAccountId() accountId: string,
@@ -85,6 +88,7 @@ export class PlaylistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get playlist details' })
   @Get(API_ENDPOINTS.PLAYLIST.DETAIL.serverPath)
   public async detail(
     @CurrentAccountId() accountId: string,
@@ -96,6 +100,7 @@ export class PlaylistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Update playlist metadata' })
   @Put(API_ENDPOINTS.PLAYLIST.UPDATE.serverPath)
   public async update(
     @CurrentAccountId() accountId: string,
@@ -108,6 +113,7 @@ export class PlaylistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete a playlist' })
   @Delete(API_ENDPOINTS.PLAYLIST.DELETE.serverPath)
   public async delete(
     @CurrentAccountId() accountId: string,
@@ -119,6 +125,7 @@ export class PlaylistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Add track to playlist' })
   @Post(API_ENDPOINTS.PLAYLIST.ADD_ENTRY.serverPath)
   public async addEntry(
     @CurrentAccountId() accountId: string,
@@ -131,6 +138,7 @@ export class PlaylistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Remove track from playlist' })
   @Delete(API_ENDPOINTS.PLAYLIST.REMOVE_ENTRY.serverPath)
   public async removeEntry(
     @CurrentAccountId() accountId: string,
@@ -143,6 +151,7 @@ export class PlaylistController {
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Reorder playlist tracks' })
   @Patch(API_ENDPOINTS.PLAYLIST.REORDER_ENTRIES.serverPath)
   public async reorderEntries(
     @CurrentAccountId() accountId: string,
