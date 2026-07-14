@@ -16,6 +16,7 @@ export const UserStore = signalStore(
         tap(() => {
           patchState(store, {
             isLoadingProfile: true,
+            error: null,
           });
         }),
 
