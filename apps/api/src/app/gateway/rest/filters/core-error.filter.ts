@@ -1,8 +1,10 @@
 import { CoreError } from '$/core/errors/core.error';
 import { InvalidCredentialsError } from '$/core/errors/invalid-credentials.error';
+import { InvalidPlaylistTrackReferenceError } from '$/core/errors/invalid-paylist-track-reference.error';
 import { LocalEmailAlreadyTakenError } from '$/core/errors/local-email-already-taken.error';
 import {
   ArgumentsHost,
+  BadRequestException,
   Catch,
   ConflictException,
   ExceptionFilter,
@@ -31,6 +33,19 @@ export class CoreErrorFilter extends BaseExceptionFilter implements ExceptionFil
       super.catch(
         new UnauthorizedException({
           statusCode: HttpStatus.UNAUTHORIZED,
+          code: error.code,
+          message: error.message,
+        }),
+        host,
+      );
+
+      return;
+    }
+
+    if (error instanceof InvalidPlaylistTrackReferenceError) {
+      super.catch(
+        new BadRequestException({
+          statusCode: HttpStatus.BAD_REQUEST,
           code: error.code,
           message: error.message,
         }),

@@ -35,7 +35,7 @@ export class ResolvePlaylistTrackReferencesStep {
             break;
 
           default:
-            throw new InvalidPlaylistTrackReferenceError(`Unknown track reference source`);
+            throw new InvalidPlaylistTrackReferenceError();
         }
 
         return acc;
