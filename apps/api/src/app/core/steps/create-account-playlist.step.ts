@@ -2,6 +2,7 @@ import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { PlaylistVisibility } from '@streaming-service/model';
 import { mapPlaylistVisibilityToPrisma } from '../mappers/prisma/playlist-visibility.mapper';
+import { PLAYLIST_ENTRY_POSITION_STEP } from '../models/playlist/constants';
 
 interface CreateAccountPlaylistInput {
   accountId: string;
@@ -35,7 +36,7 @@ export class CreateAccountPlaylistStep {
         entries: {
           create: trackIds.map((id, index) => ({
             trackId: id,
-            position: index,
+            position: (index + 1) * PLAYLIST_ENTRY_POSITION_STEP,
           })),
         },
       },

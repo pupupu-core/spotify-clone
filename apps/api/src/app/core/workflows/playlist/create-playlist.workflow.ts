@@ -31,14 +31,6 @@ export class CreatePlaylistWorkflow {
     description,
     visibility,
   }: CreatePlaylistCommand): Promise<PlaylistResponse> {
-    // TODO: Refactor into business-level atomic steps
-    // 1. ResolvePlaylistTrackReferencesStep
-    //    Converts Jamendo/uploaded track references into local Track ids.
-    // 2. CreateAccountPlaylistStep
-    //    Creates the playlist and ordered entries in one DB transaction.
-    // 3. RetrieveOwnedPlaylistStep
-    //    Returns the created playlist with ordered entries for the response.
-
     const trackIds = await this.resolvePlaylistTrackReferencesStep.execute({ tracks });
 
     const { playlistId } = await this.createAccountPlaylistStep.execute({
