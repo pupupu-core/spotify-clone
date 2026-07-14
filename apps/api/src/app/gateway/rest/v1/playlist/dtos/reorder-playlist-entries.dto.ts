@@ -1,3 +1,4 @@
+import { ExactlyOneField } from '$/gateway/rest/validators/exactly-one-field.validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ReorderPlaylistEntriesRequest } from '@streaming-service/model';
 import { IsOptional, IsUUID } from 'class-validator';
@@ -25,4 +26,9 @@ export class ReorderPlaylistEntriesDto implements ReorderPlaylistEntriesRequest 
   @IsOptional()
   @IsUUID()
   public afterEntryId?: string;
+
+  @ExactlyOneField(['beforeEntryId', 'afterEntryId'], {
+    message: 'Exactly one of beforeEntryId or afterEntryId is required.',
+  })
+  private readonly reorderTarget?: never;
 }
