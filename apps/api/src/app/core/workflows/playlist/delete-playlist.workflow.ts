@@ -1,4 +1,4 @@
-import { DeleteAccountPlaylistStep } from '$/core/steps/delete-account-playlist';
+import { DeleteAccountPlaylistStep } from '$/core/steps/delete-account-playlist.step';
 import { Injectable } from '@nestjs/common';
 
 interface DeletePlaylistCommand {

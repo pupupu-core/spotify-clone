@@ -12,7 +12,7 @@ import { ListAccountPlaylistsStep } from '$/core/steps/list-account-playlists.st
 import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
 import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.workflow';
 import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlist.workflow';
-import { DeleteAccountPlaylistStep } from '$/core/steps/delete-account-playlist';
+import { DeleteAccountPlaylistStep } from '$/core/steps/delete-account-playlist.step';
 import { ListCommunityPlaylistsWorkflow } from '$/core/workflows/playlist/list-community-playlists.workflow';
 import { ListCommunityPlaylistsStep } from '$/core/steps/list-community-playlists.step';
 import { UpdatePlaylistWorkflow } from '$/core/workflows/playlist/update-playlist.workflow';
