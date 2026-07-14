@@ -9,7 +9,7 @@ export interface AccountTrack {
   title: string;
   artistName: string | null;
   albumName: string | null;
-  genre: string | null;
+  genres: string[];
   audioUrl: string | null;
   createdAt: string;
   status: AccountTrackStatus;

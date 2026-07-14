@@ -36,6 +36,15 @@ export class ListCommunityTracksStep {
         artistName: true,
         albumName: true,
         createdAt: true,
+        genres: {
+          select: {
+            genre: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -45,7 +54,7 @@ export class ListCommunityTracksStep {
         title: track.title,
         artistName: track.artistName,
         albumName: track.albumName,
-        genre: null,
+        genres: track.genres.map(tg => tg.genre.name),
         audioUrl: buildApiPath({
           origin: APP_CONFIG.restGateway.publicOrigin,
           prefix: null,

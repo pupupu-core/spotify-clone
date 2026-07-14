@@ -11,6 +11,10 @@ describe('normalizeGenres', () => {
     ]);
   });
 
+  it('deduplicates case and whitespace variations', () => {
+    expect(normalizeGenres(['Rock', 'rock', 'ROCK', '  rock  '])).toEqual(['rock']);
+  });
+
   it('returns an empty array for undefined or empty input', () => {
     expect(normalizeGenres(undefined)).toEqual([]);
     expect(normalizeGenres([])).toEqual([]);

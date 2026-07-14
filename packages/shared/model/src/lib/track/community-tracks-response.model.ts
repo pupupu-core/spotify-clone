@@ -7,7 +7,7 @@ export interface CommunityTrack {
   title: string;
   artistName: string | null;
   albumName: string | null;
-  genre: string | null;
+  genres: string[];
   audioUrl: string;
   createdAt: string;
 }

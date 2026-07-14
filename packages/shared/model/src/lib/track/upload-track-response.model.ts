@@ -7,5 +7,5 @@ export interface UploadTrackResponse {
   albumName: string | null;
   audioFileId: string;
   source: TrackSource;
-  genres?: string[];
+  genres: string[];
 }
