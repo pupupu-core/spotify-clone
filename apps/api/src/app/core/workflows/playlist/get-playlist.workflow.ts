@@ -1,4 +1,4 @@
-import { RetrieveOwnedPlaylistStep } from '$/core/steps/retrieve-owned-playlist.step';
+import { RetrieveAccessiblePlaylistStep } from '$/core/steps/retrieve-accessible-playlist.step';
 import { Injectable } from '@nestjs/common';
 import type { PlaylistResponse } from '@streaming-service/model';
 
@@ -9,9 +9,11 @@ interface GetPlaylistQuery {
 
 @Injectable()
 export class GetPlaylistWorkflow {
-  public constructor(private readonly retrieveOwnedPlaylistStep: RetrieveOwnedPlaylistStep) {}
+  public constructor(
+    private readonly retrieveAccessiblePlaylistStep: RetrieveAccessiblePlaylistStep,
+  ) {}
 
   public async execute({ accountId, playlistId }: GetPlaylistQuery): Promise<PlaylistResponse> {
-    return await this.retrieveOwnedPlaylistStep.execute({ accountId, playlistId });
+    return await this.retrieveAccessiblePlaylistStep.execute({ accountId, playlistId });
   }
 }
