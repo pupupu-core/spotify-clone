@@ -32,3 +32,17 @@ export const UPLOAD_TRACK_CONSTRAINTS = {
     typeRegex: /^audio\/(mpeg|mp3|wav|ogg|flac|aac|x-m4a|mp4)$/,
   },
 };
+
+export const PLAYLIST_CONSTRAINTS = {
+  name: {
+    minLength: 1,
+    maxLength: 120,
+  },
+  description: {
+    maxLength: 500,
+  },
+  tracks: {
+    minCount: 1,
+    maxCount: 500,
+  },
+};

@@ -10,5 +10,6 @@ export const OPENAPI_CONFIG = {
     artist: 'Artist',
     album: 'Album',
     search: 'Search',
+    playlist: 'Playlist',
   },
 } as const;

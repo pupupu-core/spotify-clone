@@ -1,0 +1,53 @@
+import { Module } from '@nestjs/common';
+import { PlaylistController } from './playlist.controller';
+import { CreatePlaylistWorkflow } from '$/core/workflows/playlist/create-playlist.workflow';
+import { ResolvePlaylistTrackReferencesStep } from '$/core/steps/resolve-playlist-track-references.step';
+import { CreateAccountPlaylistStep } from '$/core/steps/create-account-playlist.step';
+import { RetrieveOwnedPlaylistStep } from '$/core/steps/retrieve-owned-playlist.step';
+import { RetrieveAccessiblePlaylistStep } from '$/core/steps/retrieve-accessible-playlist.step';
+import { JamendoModule } from '$/infrastructure/jamendo/jamendo.module';
+import { PrismaModule } from '$/infrastructure/prisma/prisma.module';
+import { AuthTokenModule } from '$/infrastructure/token/auth-token.module';
+import { ListAccountPlaylistsStep } from '$/core/steps/list-account-playlists.step';
+import { ListAccountPlaylistsWorkflow } from '$/core/workflows/playlist/list-account-playlists.workflow';
+import { GetPlaylistWorkflow } from '$/core/workflows/playlist/get-playlist.workflow';
+import { DeletePlaylistWorkflow } from '$/core/workflows/playlist/delete-playlist.workflow';
+import { DeleteAccountPlaylistStep } from '$/core/steps/delete-account-playlist.step';
+import { ListCommunityPlaylistsWorkflow } from '$/core/workflows/playlist/list-community-playlists.workflow';
+import { ListCommunityPlaylistsStep } from '$/core/steps/list-community-playlists.step';
+import { UpdatePlaylistWorkflow } from '$/core/workflows/playlist/update-playlist.workflow';
+import { UpdatePlaylistStep } from '$/core/steps/update-playlist.step';
+import { AddPlaylistEntryWorkflow } from '$/core/workflows/playlist/add-playlist-entry.workflow';
+import { AddPlaylistEntryStep } from '$/core/steps/add-playlist-entry.step';
+import { RemovePlaylistEntryWorkflow } from '$/core/workflows/playlist/remove-playlist-entry.workflow';
+import { RemovePlaylistEntryStep } from '$/core/steps/remove-playlist-entry.step';
+import { ReorderPlaylistEntriesWorkflow } from '$/core/workflows/playlist/reorder-playlist-entries.workflow';
+import { ReorderPlaylistEntriesStep } from '$/core/steps/reorder-playlist-entries.step';
+
+@Module({
+  imports: [PrismaModule, JamendoModule, AuthTokenModule],
+  controllers: [PlaylistController],
+  providers: [
+    CreatePlaylistWorkflow,
+    GetPlaylistWorkflow,
+    ListAccountPlaylistsWorkflow,
+    DeletePlaylistWorkflow,
+    ListCommunityPlaylistsWorkflow,
+    UpdatePlaylistWorkflow,
+    AddPlaylistEntryWorkflow,
+    RemovePlaylistEntryWorkflow,
+    ReorderPlaylistEntriesWorkflow,
+    ListCommunityPlaylistsStep,
+    DeleteAccountPlaylistStep,
+    ResolvePlaylistTrackReferencesStep,
+    CreateAccountPlaylistStep,
+    RetrieveOwnedPlaylistStep,
+    RetrieveAccessiblePlaylistStep,
+    ListAccountPlaylistsStep,
+    UpdatePlaylistStep,
+    AddPlaylistEntryStep,
+    RemovePlaylistEntryStep,
+    ReorderPlaylistEntriesStep,
+  ],
+})
+export class PlaylistModule {}
