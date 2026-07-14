@@ -29,9 +29,21 @@ export class UploadDto implements UploadTrackRequest {
   @ApiProperty({ example: ['Rock', 'Post-Punk'], required: false })
   @IsOptional()
   @Transform(({ value }: { value: unknown }) => {
-    const arr = Array.isArray(value) ? (value as string[]) : ([value].filter(Boolean) as string[]);
+    if (Array.isArray(value)) {
+      return value
+        .flatMap(item => (typeof item === 'string' ? item.split(',') : []))
+        .map(item => item.trim())
+        .filter(item => item.length > 0);
+    }
 
-    return arr.flatMap(v => (typeof v === 'string' ? v.split(',').map(s => s.trim()) : v));
+    if (typeof value === 'string') {
+      return value
+        .split(',')
+        .map(item => item.trim())
+        .filter(item => item.length > 0);
+    }
+
+    return [];
   })
   @IsArray()
   @ArrayMaxSize(UPLOAD_TRACK_CONSTRAINTS.genres.maxCount)

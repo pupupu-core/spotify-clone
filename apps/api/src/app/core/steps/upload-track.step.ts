@@ -2,6 +2,8 @@ import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { S3StorageService } from '$/infrastructure/storage/s3-storage.service';
 import { Injectable } from '@nestjs/common';
 import { UploadTrackResponse } from '@streaming-service/model';
+
+import { normalizeGenres } from './normalize-genres';
 import {
   StoredFileKind,
   StoredFileUploadStatus,
@@ -57,6 +59,8 @@ export class UploadTrackStep {
       },
     });
 
+    const normalizedGenres = normalizeGenres(genres);
+
     try {
       const uploaded = await this.storage.uploadObject({
         buffer: file.buffer,
@@ -90,13 +94,13 @@ export class UploadTrackStep {
             uploadedByAccountId: accountId,
             audioFileId: storedFile.id,
             albumName,
-            genres: genres?.length
+            genres: normalizedGenres.length
               ? {
-                  create: genres.map(genreName => ({
+                  create: normalizedGenres.map(genreName => ({
                     genre: {
                       connectOrCreate: {
-                        where: { name: genreName.toLowerCase() },
-                        create: { name: genreName.toLowerCase() },
+                        where: { name: genreName },
+                        create: { name: genreName },
                       },
                     },
                   })),
