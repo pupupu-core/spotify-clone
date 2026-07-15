@@ -15,5 +15,12 @@ export const UploadTrackApiBodyOpenApiSchema = {
     albumName: {
       type: 'string',
     },
+    genres: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+      example: ['Rock', 'Post-Punk'],
+    },
   },
 };

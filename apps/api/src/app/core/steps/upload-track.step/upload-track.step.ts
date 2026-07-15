@@ -2,13 +2,15 @@ import { PrismaService } from '$/infrastructure/prisma/prisma.service';
 import { S3StorageService } from '$/infrastructure/storage/s3-storage.service';
 import { Injectable } from '@nestjs/common';
 import { UploadTrackResponse } from '@streaming-service/model';
+
+import { normalizeGenres } from './normalize-genres';
 import {
   StoredFileKind,
   StoredFileUploadStatus,
   StoredFileVisibility,
   TrackSource,
   TrackStatus,
-} from '../../../../generated/prisma/enums';
+} from '../../../../../generated/prisma/enums';
 import { randomUUID } from 'node:crypto';
 
 interface UploadTrackStepInput {
@@ -19,6 +21,7 @@ interface UploadTrackStepInput {
   albumName?: string;
   isSingle: boolean;
   isPrivate: boolean;
+  genres?: string[];
 }
 
 @Injectable()
@@ -34,6 +37,7 @@ export class UploadTrackStep {
     title,
     artistName,
     albumName,
+    genres,
     // TODO: Add Track.visibility and Track.releaseType to schema
     // Map isPrivate/isSingle request flags to those fields in future
   }: UploadTrackStepInput): Promise<UploadTrackResponse> {
@@ -54,6 +58,8 @@ export class UploadTrackStep {
         id: true,
       },
     });
+
+    const normalizedGenres = normalizeGenres(genres);
 
     try {
       const uploaded = await this.storage.uploadObject({
@@ -88,6 +94,18 @@ export class UploadTrackStep {
             uploadedByAccountId: accountId,
             audioFileId: storedFile.id,
             albumName,
+            genres: normalizedGenres.length
+              ? {
+                  create: normalizedGenres.map(genreName => ({
+                    genre: {
+                      connectOrCreate: {
+                        where: { name: genreName },
+                        create: { name: genreName },
+                      },
+                    },
+                  })),
+                }
+              : undefined,
           },
           select: {
             id: true,
@@ -96,6 +114,15 @@ export class UploadTrackStep {
             audioFileId: true,
             albumName: true,
             source: true,
+            genres: {
+              select: {
+                genre: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
           },
         });
       });
@@ -108,6 +135,7 @@ export class UploadTrackStep {
         albumName: track.albumName,
         // TODO: refactor with correct type or enum later
         source: 'userUpload',
+        genres: track.genres?.map(g => g.genre.name),
       };
     } catch (error) {
       // Future FailTrackAudioUploadStep

@@ -1,4 +1,4 @@
-import { UploadTrackStep } from '$/core/steps/upload-track.step';
+import { UploadTrackStep } from '$/core/steps/upload-track.step/upload-track.step';
 import { Injectable } from '@nestjs/common';
 import { UploadTrackResponse } from '@streaming-service/model';
 
@@ -10,6 +10,7 @@ interface UploadTrackCommand {
   albumName?: string;
   isSingle: boolean;
   isPrivate: boolean;
+  genres?: string[];
 }
 
 @Injectable()
