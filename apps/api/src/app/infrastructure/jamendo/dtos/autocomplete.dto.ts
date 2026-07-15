@@ -1,5 +1,11 @@
 import { z } from 'zod';
 import { createJamendoResponseSchema } from '$/infrastructure/jamendo/dtos/common.dto';
+import type { JamendoResponseHeadersDto } from '$/infrastructure/jamendo/dtos/common.dto';
+
+interface JamendoAutocompleteNormalizedResponseDto {
+  headers: JamendoResponseHeadersDto;
+  results: JamendoAutocompleteResultsDto;
+}
 
 export const JamendoAutocompleteMatchSchema = z.object({
   match: z.string(),
@@ -13,8 +19,21 @@ export const JamendoAutocompleteResultsSchema = z.object({
   albums: z.array(JamendoAutocompleteMatchSchema).optional(),
 });
 
-export const JamendoAutocompleteResponseSchema = createJamendoResponseSchema(
+const JamendoAutocompleteEmptyResultsSchema = z.tuple([]);
+const JamendoAutocompleteRawResultsSchema = z.union([
   JamendoAutocompleteResultsSchema,
+  JamendoAutocompleteEmptyResultsSchema,
+]);
+
+type JamendoAutocompleteResultsDto = z.infer<typeof JamendoAutocompleteResultsSchema>;
+
+export const JamendoAutocompleteResponseSchema = createJamendoResponseSchema(
+  JamendoAutocompleteRawResultsSchema,
+).transform(
+  (dto): JamendoAutocompleteNormalizedResponseDto => ({
+    headers: dto.headers,
+    results: Array.isArray(dto.results) ? {} : dto.results,
+  }),
 );
 
 export type JamendoAutocompleteResponseDto = z.infer<typeof JamendoAutocompleteResponseSchema>;
