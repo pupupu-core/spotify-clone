@@ -1,4 +1,4 @@
-type TrackSource = 'jamendo' | 'userUpload';
+import type { TrackSource } from '@streaming-service/model';
 
 export interface TrackUI {
   id: string;

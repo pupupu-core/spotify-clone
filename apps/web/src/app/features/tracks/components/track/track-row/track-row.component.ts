@@ -7,6 +7,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
 import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'ppf-tracks-row',
@@ -17,6 +18,7 @@ import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
     NgOptimizedImage,
     DurationPipe,
     AbbreviatedNumberPipe,
+    MatTooltip,
   ],
   templateUrl: './track-row.component.html',
   styleUrl: './track-row.component.scss',
