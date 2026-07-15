@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { vi } from 'vitest';
 import { TRACK_MOCK } from '~/core/mocks/tracks.mocks';
 import { SearchApiService } from '~/core/services/search-api.service';
+import { INCLUDE_UPLOADS_STORAGE_KEY } from '~/core/services/search-preferences.service';
 import { PpfPlayerService } from '~/features/player/services/track-player.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
@@ -29,6 +30,7 @@ describe('PpfSearchPageComponent', () => {
   let router: Router;
 
   beforeEach(async () => {
+    localStorage.clear();
     searchApi = {
       tracks: vi.fn<SearchApiService['tracks']>().mockReturnValue(of([TRACK_MOCK])),
     };
@@ -62,10 +64,25 @@ describe('PpfSearchPageComponent', () => {
   it('loads query results and renders them in the DOM', () => {
     const element = fixture.nativeElement as HTMLElement;
 
-    expect(searchApi.tracks).toHaveBeenCalledWith('iamretard');
+    expect(searchApi.tracks).toHaveBeenCalledWith('iamretard', { includeUploads: false });
     expect(component.trackList()).toHaveLength(1);
     expect(element.textContent).toContain(TRACK_MOCK.name);
     expect(element.textContent).toContain(TRACK_MOCK.artistName);
+  });
+
+  it('persists the upload preference and repeats the search with uploads enabled', async () => {
+    const checkbox = fixture.nativeElement.querySelector(
+      '.panel-uploads input[type="checkbox"]',
+    ) as HTMLInputElement | null;
+
+    expect(checkbox).not.toBeNull();
+
+    checkbox?.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(localStorage.getItem(INCLUDE_UPLOADS_STORAGE_KEY)).toBe('true');
+    expect(searchApi.tracks).toHaveBeenLastCalledWith('iamretard', { includeUploads: true });
   });
 
   it('filters tracks by genre and duration', () => {
