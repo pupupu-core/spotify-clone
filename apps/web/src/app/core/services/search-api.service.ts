@@ -4,6 +4,11 @@ import type { AutocompleteResponse, TrackResponse } from '@streaming-service/mod
 import type { Observable } from 'rxjs';
 import { APP_ENDPOINTS } from '~/core/config/endpoints.config';
 
+interface TrackSearchOptions {
+  includeUploads?: boolean;
+  limit?: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SearchApiService {
   private readonly http = inject(HttpClient);
@@ -14,8 +19,14 @@ export class SearchApiService {
     return this.http.get<AutocompleteResponse>(APP_ENDPOINTS.SEARCH.AUTOCOMPLETE, { params });
   }
 
-  public tracks(query: string, limit = 50): Observable<TrackResponse[]> {
-    const params = new HttpParams().set('query', query).set('limit', limit);
+  public tracks(
+    query: string,
+    { includeUploads = false, limit = 50 }: TrackSearchOptions = {},
+  ): Observable<TrackResponse[]> {
+    const params = new HttpParams()
+      .set('query', query)
+      .set('limit', limit)
+      .set('includeUploads', includeUploads);
 
     return this.http.get<TrackResponse[]>(APP_ENDPOINTS.SEARCH.TRACKS, { params });
   }
