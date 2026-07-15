@@ -1,4 +1,4 @@
-type TrackSource = 'jamendo' | 'userUpload';
+export type TrackSource = 'jamendo' | 'userUpload';
 
 export interface UploadTrackResponse {
   id: string;
