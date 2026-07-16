@@ -15,26 +15,38 @@
   </div>
 
   @if (trackList().length > 0) {
-    <ng-template #trackItems>
-      @for (track of trackList(); track track.id) {
-        <li class="item">
-          <ppf-tracks
-            [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
-            [track]="track"
-            [view]="trackView()"
-            (playClick)="playTrackClick(track)"
-          />
-        </li>
-      }
-    </ng-template>
-
     @if (ulMode() === 'numbered') {
       <ol class="items items--numbered" [class.items--grid]="mode() === 'grid'">
-        <ng-container [ngTemplateOutlet]="trackItems" />
+        @for (track of trackList(); track track.id) {
+          <li class="item">
+            <ppf-tracks
+              [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
+              [track]="track"
+              [view]="trackView()"
+              (playClick)="playTrackClick(track)"
+            />
+          </li>
+        }
       </ol>
     } @else {
-      <ul class="items" [class.items--grid]="mode() === 'grid'">
-        <ng-container [ngTemplateOutlet]="trackItems" />
+      <ul
+        class="items"
+        [class.items--grid]="mode() === 'grid'"
+        cdkDropList
+        cdkDropListDisabled="false"
+        [cdkDropListData]="trackList()"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (track of trackList(); track track.id) {
+          <li class="item" cdkDrag cdkDragDisabled="false">
+            <ppf-tracks
+              [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
+              [track]="track"
+              [view]="trackView()"
+              (playClick)="playTrackClick(track)"
+            />
+          </li>
+        }
       </ul>
     }
   } @else {
