@@ -1,5 +1,19 @@
 <div class="track-container" [class.track-container--playing]="highlighted()">
   <div class="track-content">
+    @if (playlistEditMode()) {
+      <div class="actions actions--edit-mode">
+        <button
+          matIconButton
+          aria-label="Track playback control button"
+          (click)="removeClick.emit()"
+        >
+          <mat-icon fontSet="material-icons-outlined"> close </mat-icon>
+        </button>
+        <button matIconButton aria-label="Track add control button">
+          <mat-icon fontSet="material-icons-outlined"> drag_handle </mat-icon>
+        </button>
+      </div>
+    }
     <div class="album-cover">
       <img
         [ngSrc]="track().imageUrl || track().albumImageUrl || PLACEHOLDER_URL"
@@ -22,33 +36,44 @@
       <h4 class="track-name">{{ track().name || 'Track name' }}</h4>
     </div>
   </div>
-  <div class="track-info">
-    <p>
-      <mat-icon
-        inline
-        aria-hidden="false"
-        aria-label="headphones icon"
-        fontSet="material-icons-outlined"
-      >
-        headphones
-      </mat-icon>
-      {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
-    </p>
-    <p>
-      <mat-icon
-        inline
-        aria-hidden="false"
-        aria-label="timer icon"
-        fontSet="material-icons-outlined"
-      >
-        timer
-      </mat-icon>
-      {{ (track().duration | duration) || '00:00' }}
-    </p>
-    <button matIconButton aria-label="Track playback control button" (click)="playClick.emit()">
-      <mat-icon fontSet="material-icons-outlined">
-        {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
-      </mat-icon>
-    </button>
+  <div class="track-info" [class.track-info--create-mode]="playlistCreateMode()">
+    @if (!playlistCreateMode()) {
+      <ng-container>
+        <p>
+          <mat-icon
+            inline
+            aria-hidden="false"
+            aria-label="headphones icon"
+            fontSet="material-icons-outlined"
+          >
+            headphones
+          </mat-icon>
+          {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
+        </p>
+        <p>
+          <mat-icon
+            inline
+            aria-hidden="false"
+            aria-label="timer icon"
+            fontSet="material-icons-outlined"
+          >
+            timer
+          </mat-icon>
+          {{ (track().duration | duration) || '00:00' }}
+        </p>
+      </ng-container>
+    }
+    <div class="actions actions--normal-mode">
+      <button matIconButton aria-label="Track playback control button" (click)="playClick.emit()">
+        <mat-icon fontSet="material-icons-outlined">
+          {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
+        </mat-icon>
+      </button>
+      <button matIconButton aria-label="Track add control button" (click)="addClick.emit()">
+        <mat-icon fontSet="material-icons-outlined">
+          {{ selectedForPlaylist() ? 'check_small' : 'add' }}
+        </mat-icon>
+      </button>
+    </div>
   </div>
 </div>
