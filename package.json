@@ -70,7 +70,6 @@
     "@angular-devkit/core": "~21.2.10",
     "@angular-devkit/schematics": "~21.2.10",
     "@angular/build": "~21.2.10",
-    "@angular/cdk": "~22.0.5",
     "@angular/cli": "~21.2.10",
     "@angular/compiler-cli": "~21.2.13",
     "@angular/language-service": "~21.2.13",
@@ -132,6 +131,7 @@
   },
   "dependencies": {
     "@angular/animations": "~21.2.13",
+    "@angular/cdk": "^21.2.14",
     "@angular/common": "~21.2.13",
     "@angular/compiler": "~21.2.13",
     "@angular/core": "~21.2.13",
