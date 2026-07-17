@@ -60,20 +60,20 @@
     </div>
   </form>
   <div class="search-track">
-    <!--    TODO: вынести search бар в feature/components? и добавить сюда-->
-    <mat-form-field appearance="outline" class="search-bar" subscriptSizing="dynamic">
-      <input
-        class="search-input"
-        matInput
-        type="search"
-        placeholder="Start for search songs, albums, authors..."
-        autocomplete="off"
+    <ppf-search-bar (querySubmit)="searchTracks($event)" />
+
+    @if (trackSearchState().status === 'loading') {
+      <ppf-loader />
+    } @else if (trackSearchState().status === 'error') {
+      <p>Please try again</p>
+    } @else {
+      <ppf-tracks-list
+        [trackList]="trackSearchState().tracks"
+        mode="list"
+        headerControl="noControl"
+        [title]="searchResultTitle()"
       />
-      <button type="submit" matSuffix matIconButton aria-label="Search button">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <ppf-tracks-list [trackList]="[]" mode="list" headerControl="noControl" title="Search result" />
+    }
   </div>
   <mat-dialog-actions class="actions-buttons">
     <button matButton="text" [mat-dialog-close]="true" class="cancel">Cancel</button>

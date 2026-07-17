@@ -25,12 +25,11 @@ import { PpfPlayerService } from '~/features/player/services/track-player.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import type { Observable } from 'rxjs';
-import { catchError, concat, distinctUntilChanged, map, merge, of, switchMap } from 'rxjs';
+import { catchError, distinctUntilChanged, map, merge, of, startWith, switchMap } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { TrackRowComponent } from '~/features/tracks/components/track/track-row/track-row.component';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
-import type { TrackResponse } from '@streaming-service/model';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
@@ -377,26 +376,26 @@ export class PpfSearchPageComponent {
       });
     }
 
-    return concat(
-      of<TrackSearchState>({
-        status: 'loading',
-        query,
-        tracks: [],
-      }),
-      this.searchApi.tracks(searchCriteria).pipe(
-        map<TrackResponse[], TrackSearchState>(tracks => ({
+    const baseState = { query, tracks: [] };
+
+    return this.searchApi.tracks(searchCriteria).pipe(
+      map(
+        (tracks): TrackSearchState => ({
           status: 'success',
           query,
-          tracks: tracks.map(track => mapTrackResponseToTrackUI(track)),
-        })),
-        catchError(() =>
-          of<TrackSearchState>({
-            status: 'error',
-            query,
-            tracks: [],
-          }),
-        ),
+          tracks: tracks.map(mapTrackResponseToTrackUI),
+        }),
       ),
+      catchError(() =>
+        of<TrackSearchState>({
+          ...baseState,
+          status: 'error',
+        }),
+      ),
+      startWith<TrackSearchState>({
+        ...baseState,
+        status: 'loading',
+      }),
     );
   }
 
