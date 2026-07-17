@@ -7,12 +7,11 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { fileSizeValidator } from '~/shared/validators/file-size.validator';
 import { fileTypeValidator } from '~/shared/validators/file-type.validator';
-import { catchError, concat, map, of, startWith, switchMap } from 'rxjs';
+import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import type { Observable } from 'rxjs';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SearchBarComponent } from '~/features/search-bar/search-bar.component';
 import { SearchApiService } from '~/core/services/search-api.service';
-import type { TrackResponse } from '@streaming-service/model';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
@@ -201,28 +200,26 @@ export class CreatePlaylistDialogComponent {
       return of(EMPTY_TRACK_SEARCH_STATE);
     }
 
-    // нужно отрефачить, но давайте потом
-    // если честно хорошо бы от автокомплита либо отказаться, он юзлес, либо вообще подумать как отменять его после эмита запроса
-    return concat(
-      of<TrackSearchState>({
-        status: 'loading',
-        query,
-        tracks: [],
-      }),
-      this.searchApi.tracks(query).pipe(
-        map<TrackResponse[], TrackSearchState>(tracks => ({
+    const baseState = { query, tracks: [] };
+
+    return this.searchApi.tracks(query).pipe(
+      map(
+        (tracks): TrackSearchState => ({
           status: 'success',
           query,
-          tracks: tracks.map(track => mapTrackResponseToTrackUI(track)),
-        })),
-        catchError(() =>
-          of<TrackSearchState>({
-            status: 'error',
-            query,
-            tracks: [],
-          }),
-        ),
+          tracks: tracks.map(mapTrackResponseToTrackUI),
+        }),
       ),
+      catchError(() =>
+        of<TrackSearchState>({
+          ...baseState,
+          status: 'error',
+        }),
+      ),
+      startWith<TrackSearchState>({
+        ...baseState,
+        status: 'loading',
+      }),
     );
   }
 }
