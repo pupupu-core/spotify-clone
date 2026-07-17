@@ -60,6 +60,7 @@ export class JamendoClient {
         include: input.include,
         type: input.type ?? 'single+albumtrack',
         id: input.id,
+        artistId: input.artistId,
       },
       schema: JamendoListTracksResponseSchema,
     }).then(mapToListTracks);

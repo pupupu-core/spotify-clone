@@ -6,6 +6,8 @@ import { GetTrackArtistWorkflow } from '$/core/workflows/artist/get-track-artist
 import { FetchTrackArtistStep } from '$/core/steps/fetch-track-artist.step';
 import { GetTracksByIdWorkflow } from '$/core/workflows/track/get-tracks-by-id.workflow';
 import { FetchTracksByIdStep } from '$/core/steps/fetch-tracks-by-id.step';
+import { GetTracksByArtistIdWorkflow } from '$/core/workflows/track/get-tracks-by-artist-id.workflow';
+import { FetchTrackByArtistIdStep } from '$/core/steps/fetch-track-by-artist-id.step';
 
 @Module({
   imports: [JamendoModule, AuthTokenModule],
@@ -15,6 +17,8 @@ import { FetchTracksByIdStep } from '$/core/steps/fetch-tracks-by-id.step';
     FetchTrackArtistStep,
     GetTracksByIdWorkflow,
     FetchTracksByIdStep,
+    GetTracksByArtistIdWorkflow,
+    FetchTrackByArtistIdStep,
   ],
 })
 export class ArtistTrackModule {}

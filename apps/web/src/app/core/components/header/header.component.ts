@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ROUTES } from '../../config/routes.config';
-import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { SearchBarComponent } from '~/features/search-bar/search-bar.component';
 import { NavControlComponent } from './components/nav-controll/nav-control.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NavComponent } from './components/nav/nav.component';
 import { APP_NAME } from '../../constants/common.constants';
+import { distinctUntilChanged, map } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'ppf-header',
@@ -18,7 +20,23 @@ import { APP_NAME } from '../../constants/common.constants';
 export class HeaderComponent {
   protected readonly ROUTES = ROUTES;
 
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly dialog = inject(MatDialog);
+  protected readonly searchQuery = signal('');
+
+  public constructor() {
+    this.route.queryParamMap
+      .pipe(
+        map(params => params.get('q') ?? ''),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(query => {
+        this.searchQuery.set(query);
+      });
+  }
 
   public openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(NavComponent, {
@@ -43,6 +61,18 @@ export class HeaderComponent {
 
   public closeDialog(): void {
     this.dialog.closeAll();
+  }
+
+  protected search(query: string): void {
+    const normalizedQuery = query.trim();
+
+    if (normalizedQuery.length === 0) {
+      return;
+    }
+
+    void this.router.navigate([ROUTES.SEARCH.to], {
+      queryParams: { q: normalizedQuery },
+    });
   }
 
   protected readonly APP_NAME = APP_NAME;

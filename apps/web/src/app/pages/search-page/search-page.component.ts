@@ -28,18 +28,17 @@ import type { Observable } from 'rxjs';
 import {
   catchError,
   combineLatest,
-  concat,
   distinctUntilChanged,
   map,
   merge,
   of,
+  startWith,
   switchMap,
 } from 'rxjs';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TrackRowComponent } from '~/features/tracks/components/track/track-row/track-row.component';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
-import type { TrackResponse } from '@streaming-service/model';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SearchPreferencesService } from '~/core/services/search-preferences.service';
@@ -400,26 +399,26 @@ export class PpfSearchPageComponent {
       });
     }
 
-    return concat(
-      of<TrackSearchState>({
-        status: 'loading',
-        query,
-        tracks: [],
-      }),
-      this.searchApi.tracks(searchCriteria, { includeUploads }).pipe(
-        map<TrackResponse[], TrackSearchState>(tracks => ({
+    const baseState = { query, tracks: [] };
+
+    return this.searchApi.tracks(searchCriteria, { includeUploads }).pipe(
+      map(
+        (tracks): TrackSearchState => ({
           status: 'success',
           query,
-          tracks: tracks.map(track => mapTrackResponseToTrackUI(track)),
-        })),
-        catchError(() =>
-          of<TrackSearchState>({
-            status: 'error',
-            query,
-            tracks: [],
-          }),
-        ),
+          tracks: tracks.map(mapTrackResponseToTrackUI),
+        }),
       ),
+      catchError(() =>
+        of<TrackSearchState>({
+          ...baseState,
+          status: 'error',
+        }),
+      ),
+      startWith<TrackSearchState>({
+        ...baseState,
+        status: 'loading',
+      }),
     );
   }
 

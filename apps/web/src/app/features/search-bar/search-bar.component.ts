@@ -1,11 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormField, MatInput, MatSuffix } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ROUTES } from '~/core/config/routes.config';
 import {
   MatAutocompleteModule,
   type MatAutocompleteSelectedEvent,
@@ -55,10 +61,10 @@ interface AutocompleteState {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBarComponent {
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly searchApi = inject(SearchApiService);
+
+  public readonly value = input<string>('');
+  public readonly querySubmit = output<string>();
 
   protected readonly ppfSearchBarGroup = new FormGroup<PpfSearchBar>({
     searchQuery: new FormControl('', { nonNullable: true }),
@@ -91,40 +97,33 @@ export class SearchBarComponent {
   );
 
   public constructor() {
-    this.route.queryParamMap
-      .pipe(
-        map(params => params.get('q') ?? ''),
-        distinctUntilChanged(),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(query => {
-        if (query !== this.ppfSearchBarGroup.controls.searchQuery.value) {
-          this.ppfSearchBarGroup.setValue({ searchQuery: query }, { emitEvent: false });
-        }
-      });
+    effect(() => {
+      const query = this.value();
+
+      if (query !== this.ppfSearchBarGroup.controls.searchQuery.value) {
+        this.ppfSearchBarGroup.setValue({ searchQuery: query }, { emitEvent: false });
+      }
+    });
   }
 
   protected selectSuggestion(event: MatAutocompleteSelectedEvent): void {
-    const value: unknown = event.option.value;
-    const stringifyValue = String(value);
-
-    this.navigateToSearch(stringifyValue);
+    this.emitSearchQuery(event.option.value);
   }
 
   protected submitSearch(): void {
-    this.navigateToSearch(this.ppfSearchBarGroup.controls.searchQuery.value);
+    this.emitSearchQuery(this.ppfSearchBarGroup.controls.searchQuery.value);
   }
 
-  private navigateToSearch(rawQuery: string): void {
-    const query = rawQuery.trim();
+  private emitSearchQuery(rawQuery: unknown): void {
+    this.querySubmit.emit(this.normalizeSearchQuery(rawQuery));
+  }
 
-    if (query.length === 0) {
-      return;
+  private normalizeSearchQuery(value: unknown): string {
+    if (typeof value !== 'string' && typeof value !== 'number') {
+      return '';
     }
 
-    void this.router.navigate([ROUTES.SEARCH.to], {
-      queryParams: { q: query },
-    });
+    return String(value).trim();
   }
 
   private loadAutocompleteSuggestions$(query: string): Observable<AutocompleteState> {
