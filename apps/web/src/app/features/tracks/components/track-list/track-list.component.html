@@ -43,6 +43,8 @@
               [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
               [track]="track"
               [view]="trackView()"
+              [playlistCreateMode]="playlistCreateMode()"
+              [playlistEditMode]="playlistEditMode()"
               (playClick)="playTrackClick(track)"
             />
           </li>

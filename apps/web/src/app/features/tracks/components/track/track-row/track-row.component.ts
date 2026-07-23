@@ -28,7 +28,7 @@ export class TrackRowComponent {
   public readonly track = input.required<TrackUI>();
   public readonly selectedForPlaylist = input(false);
   public readonly playlistCreateMode = input(false);
-  public readonly playlistEditMode = input(true);
+  public readonly playlistEditMode = input(false);
   public readonly playClick = output<void>();
   public readonly addClick = output<void>();
   public readonly removeClick = output<void>();
