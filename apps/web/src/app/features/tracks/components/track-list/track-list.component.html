@@ -33,12 +33,12 @@
         class="items"
         [class.items--grid]="mode() === 'grid'"
         cdkDropList
-        cdkDropListDisabled="false"
+        [cdkDropListDisabled]="!playlistEditMode()"
         [cdkDropListData]="trackList()"
         (cdkDropListDropped)="drop($event)"
       >
         @for (track of trackList(); track track.id) {
-          <li class="item" cdkDrag cdkDragDisabled="false">
+          <li class="item" cdkDrag [cdkDragDisabled]="!playlistEditMode()">
             <ppf-tracks
               [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
               [track]="track"
