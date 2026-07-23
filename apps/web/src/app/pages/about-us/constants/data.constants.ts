@@ -65,9 +65,7 @@ export const DEVELOPERS: DeveloperInfo[] = [
     name: 'Vsevolod',
     fullName: 'Vsevolod Timoshenko',
     id: 'vsevolod',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt ducimus esse est ex in neque non quis ' +
-      'rerum tempora voluptatibus?',
+    description: 'May sound retarded. Sometimes i am.',
     githubLink: 'https://github.com/shoblinsky',
     imgUrl: 'https://avatars.githubusercontent.com/u/123806946?v=4',
     badge: ['Frontend', 'Backend', 'Testing'],
