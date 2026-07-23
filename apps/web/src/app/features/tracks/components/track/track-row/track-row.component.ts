@@ -24,7 +24,6 @@ import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
 })
 export class TrackRowComponent {
   public readonly isPlaying = input.required<boolean>();
-  public readonly isActive = input<boolean | undefined>(undefined);
   public readonly track = input.required<TrackUI>();
   public readonly selectedForPlaylist = input(false);
   public readonly playlistCreateMode = input(false);
@@ -33,8 +32,6 @@ export class TrackRowComponent {
   public readonly addClick = output<void>();
   public readonly removeClick = output<void>();
 
-  protected readonly highlighted = computed(
-    () => (this.isActive() ?? false) || this.isPlaying() || this.selectedForPlaylist(),
-  );
+  protected readonly highlighted = computed(() => this.isPlaying() || this.selectedForPlaylist());
   protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
 }
