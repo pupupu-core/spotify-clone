@@ -1,0 +1,78 @@
+<div class="about-us">
+  <div class="welcome">
+    <div class="meet-team animate-card">
+      <h2 class="meet-team-title">
+        Hello from <span>the {{ APP_NAME }}</span> team!
+      </h2>
+      <p>
+        We are Vsevolod, Nikita, Anna and Anastasia - the developers behind this music application.
+      </p>
+      <p>
+        <span>Yes, the name looks similar to </span>
+        <a class="spotify-link" href="https://open.spotify.com/" target="_blank">
+          <img
+            class="logo-img"
+            ngSrc="/img/spotify-logo.webp"
+            alt="spotify logo"
+            width="16"
+            height="16"
+          />
+          <span>Spotify</span>
+        </a>
+        <span> - and that’s a hint at what inspired us.🤫</span>
+      </p>
+    </div>
+    <div class="gratitude animate-card">
+      <p>
+        <span>💛 Thank You, </span>
+        <a href="https://rs.school/courses/angular" class="rss-link" target="_blank">
+          <span>RSSchool</span>
+        </a>
+      </p>
+      <p>
+        This project was created as part of our learning journey at
+        <a href="https://rs.school/courses/angular" class="rss-link" target="_blank">
+          <span>RSSchool.</span>
+        </a>
+      </p>
+      <p>
+        We would like to thank our school, mentor, and everyone who supported us throughout this
+        experience. This project helped us improve our development skills while learning the value
+        of teamwork, collaboration, and shared decisions.
+      </p>
+      <p>
+        It was more than just a project - it was an experience that helped us grow as developers and
+        as a team.
+      </p>
+      <a href="https://rs.school/courses/angular" class="rss-logo-link" target="_blank">
+        <img
+          ngSrc="/img/rss-logo.svg"
+          alt="The Rolling Scopes School logo"
+          width="64"
+          height="64"
+        />
+      </a>
+    </div>
+  </div>
+  <div class="teams-preview animate-card">
+    @for (developer of developers; track developer.id; let idx = $index) {
+      <ppf-card-developer-preview
+        class="animate-card"
+        [ngClass]="idx | developerPositions"
+        [developer]="developer"
+        [selectedDeveloper]="selectedDeveloper()"
+        (setDeveloper)="selectedDeveloper.set(developer)"
+      />
+    }
+  </div>
+  <div class="discover-card animate-card" [class.discover-card--empty]="!selectedDeveloper()">
+    @if (selectedDeveloper(); as developer) {
+      <ppf-card-developer [developer]="developer" (closeDeveloper)="selectedDeveloper.set(null)" />
+    } @else {
+      <div class="empty">
+        discover <br />
+        the team
+      </div>
+    }
+  </div>
+</div>

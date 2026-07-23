@@ -1,0 +1,23 @@
+<div
+  class="card-preview"
+  (mouseenter)="setDeveloper.emit()"
+  [class.active-preview]="isActive()"
+  [class.inactive-preview]="selectedDeveloper() && selectedDeveloper()?.id !== developer().id"
+>
+  <img
+    class="cover"
+    [ngSrc]="developer().imgUrl"
+    [alt]="developer().name + 'github image'"
+    width="120"
+    height="120"
+    priority
+  />
+  <div class="developer-info">
+    <h3 class="name">{{ developer().name }}</h3>
+    <ul class="badges">
+      @for (badge of developer().badge; track $index) {
+        <li class="badge">{{ badge }}</li>
+      }
+    </ul>
+  </div>
+</div>

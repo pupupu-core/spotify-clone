@@ -80,6 +80,14 @@ export const appRoutes: Route[] = [
           ),
       },
       {
+        path: ROUTES.ABOUT_US.path,
+        title: ROUTES.ABOUT_US.meta.title,
+        loadComponent: () =>
+          import('~/pages/about-us/about-us-page.component').then(
+            ({ AboutUsPageComponent }) => AboutUsPageComponent,
+          ),
+      },
+      {
         path: ROUTES.NOT_FOUND.path,
         title: ROUTES.NOT_FOUND.meta.title,
         loadComponent: () =>

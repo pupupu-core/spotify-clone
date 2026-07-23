@@ -1,0 +1,96 @@
+@use 'src/styles/mixins';
+@use 'src/styles/variables';
+
+ul {
+  margin: 0;
+}
+
+.developer-card {
+  height: 100%;
+  border-radius: variables.$radius-xl;
+  color: var(--mat-sys-surface);
+  background: rgb(from var(--mat-sys-tertiary) r g b / 40%);
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    max-height: 460px;
+    padding-top: 10px;
+
+    .github-link {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      color: var(--mat-sys-on-secondary);
+      text-decoration: underline;
+      text-decoration-color: transparent;
+
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        text-decoration: underline;
+        text-decoration-color: var(--mat-sys-on-secondary);
+      }
+
+      .name {
+        @include mixins.font-lg;
+
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.card-header {
+  padding: 0;
+
+  .cover {
+    margin: 0 auto;
+    border-radius: variables.$radius-lg;
+  }
+}
+
+.responsibilities {
+  @include mixins.scrollbar-thin(var(--mat-sys-surface));
+
+  overflow-y: auto;
+}
+
+.tech-stack {
+  .stack-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0;
+
+    .stack-badge {
+      @include mixins.font-sm;
+
+      display: flex;
+      gap: 5px;
+      align-items: center;
+
+      padding: 8px;
+      border-radius: variables.$radius-sm;
+
+      background: rgb(from var(--mat-sys-tertiary) r g b / 70%);
+    }
+  }
+}
+
+.developer-card-animation {
+  animation: show 1s;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

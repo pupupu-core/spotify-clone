@@ -1,0 +1,180 @@
+@use 'src/styles/variables';
+@use 'src/styles/mixins';
+
+mat-card-title {
+  @include mixins.font-lg;
+}
+
+.about-us {
+  display: grid;
+  grid-template-columns: 4fr 400px 3fr;
+  gap: 20px;
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .logo-img {
+    margin-right: 5px;
+  }
+}
+
+.meet-team {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 2rem;
+  border-radius: variables.$radius-xl;
+
+  background: rgb(from var(--mat-sys-tertiary) r g b / 30%);
+
+  &-title span {
+    font-family: Notable, sans-serif;
+  }
+
+  .spotify-link {
+    display: inline;
+
+    span {
+      font-weight: bold;
+      color: #1ed760;
+    }
+  }
+}
+
+.gratitude {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 2rem;
+  border-radius: variables.$radius-xl;
+
+  background: var(--mat-sys-primary-container);
+
+  .rss-link {
+    span {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+
+  .rss-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      transition: filter 0.2s ease-in-out;
+
+      &:hover {
+        filter: grayscale(1);
+      }
+    }
+  }
+}
+
+.teams-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.discover-card {
+  &--empty {
+    padding: 20px;
+    border-radius: variables.$radius-xl;
+    background: #081524;
+  }
+
+  .empty {
+    @include mixins.font-lg;
+
+    user-select: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(255 255 255 / 20%);
+    border-radius: variables.$radius-xl;
+
+    font-family: Notable, sans-serif;
+
+    animation: show 0.5s;
+  }
+}
+
+@keyframes show {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-card {
+  --start-x: 0;
+  --start-y: 0;
+
+  transform: translate(var(--start-x), var(--start-y));
+  animation: card-enter 1s cubic-bezier(0.22, 1.25, 0.36, 1) forwards;
+}
+
+.meet-team {
+  --start-x: -150%;
+  --start-y: -120px;
+}
+
+.gratitude {
+  --start-y: 150%;
+}
+
+.discover-card {
+  --start-x: 150%;
+  --start-y: 20%;
+}
+
+.top-first {
+  --start-y: -350%;
+  --start-x: 20px;
+
+  animation-delay: 0.1s;
+}
+
+.top-second {
+  --start-x: 120px;
+  --start-y: -150%;
+}
+
+.bottom-third {
+  --start-y: 150%;
+}
+
+.bottom-fourth {
+  --start-y: 350%;
+  --start-x: -120px;
+
+  animation-delay: 0.1s;
+}
+
+@keyframes card-enter {
+  from {
+    transform: translate(var(--start-x), var(--start-y));
+  }
+
+  to {
+    transform: translate(0, 0);
+  }
+}
