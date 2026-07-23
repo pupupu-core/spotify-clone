@@ -15,10 +15,6 @@
 
   transition: background-color 0.2s ease;
 
-  &:hover {
-    background-color: colors.$mat-sys-primary-20;
-  }
-
   &--playing {
     background-color: colors.$mat-sys-primary-20;
   }
