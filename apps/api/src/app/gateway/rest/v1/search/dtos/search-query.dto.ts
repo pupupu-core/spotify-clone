@@ -1,6 +1,15 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 export class AutocompleteQueryDto {
   @ApiProperty({
@@ -42,6 +51,26 @@ export class TrackSearchQueryDto {
   public query: string;
 
   @ApiPropertyOptional({
+    description: "include the authenticated account's uploaded tracks",
+    type: Boolean,
+    default: false,
+  })
+  @Transform(({ value }: { value: unknown }) => {
+    if (value === true || value === 'true') {
+      return true;
+    }
+
+    if (value === false || value === 'false') {
+      return false;
+    }
+
+    return value;
+  })
+  @IsOptional()
+  @IsBoolean()
+  public includeUploads?: boolean;
+
+  @ApiPropertyOptional({
     description: 'maximum returned tracks',
     type: Number,
     minimum: 1,
@@ -49,6 +78,7 @@ export class TrackSearchQueryDto {
     default: 50,
   })
   @Type(() => Number)
+  @IsOptional()
   @IsInt()
   @Min(1)
   @Max(100)

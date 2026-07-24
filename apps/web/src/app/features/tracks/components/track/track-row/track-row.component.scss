@@ -97,3 +97,24 @@
 button {
   color: inherit;
 }
+
+.uploaded-badge {
+  cursor: help;
+
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+
+  &:focus-visible {
+    border-radius: variables.$radius-xs;
+    outline: 2px solid var(--mat-sys-on-surface);
+    outline-offset: 2px;
+  }
+
+  mat-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+}

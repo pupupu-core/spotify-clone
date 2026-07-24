@@ -25,12 +25,23 @@ import { PpfPlayerService } from '~/features/player/services/track-player.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import type { Observable } from 'rxjs';
-import { catchError, distinctUntilChanged, map, merge, of, startWith, switchMap } from 'rxjs';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import {
+  catchError,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  merge,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TrackRowComponent } from '~/features/tracks/components/track/track-row/track-row.component';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { SearchPreferencesService } from '~/core/services/search-preferences.service';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -55,6 +66,7 @@ interface TrackSearchState {
 }
 
 interface TrackSearchFilters {
+  includeUploads: boolean;
   query: string;
   genreSearchSelected: string;
 }
@@ -91,6 +103,7 @@ const INPUT_MAX_DURATION = 1200;
     MatFormFieldModule,
     TrackRowComponent,
     LoaderComponent,
+    MatCheckbox,
   ],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',
@@ -105,6 +118,7 @@ export class PpfSearchPageComponent {
 
   public readonly trackList = signal<TrackUI[]>([]);
   private readonly searchApi = inject(SearchApiService);
+  private readonly searchPreferences = inject(SearchPreferencesService);
 
   public readonly paginatorPageSize = PAGE_SIZE;
   public readonly inputMaxValue = INPUT_MAX_DURATION;
@@ -145,6 +159,8 @@ export class PpfSearchPageComponent {
   );
 
   protected readonly searchStatus = signal<TrackSearchState['status']>('idle');
+  protected readonly includeUploads = this.searchPreferences.includeUploads;
+  private readonly includeUploads$ = toObservable(this.includeUploads);
 
   protected readonly minDuration = computed(
     () => this.filterFormValue().minDuration ?? INPUT_MIN_DURATION,
@@ -267,6 +283,12 @@ export class PpfSearchPageComponent {
     this.player.toggleTrackByID(track, playbackQueue);
   }
 
+  protected setIncludeUploads(includeUploads: boolean): void {
+    this.searchPreferences.setIncludeUploads(includeUploads);
+    this.currentPageIndex.set(0);
+    this.resetPagination();
+  }
+
   private ppfFilterPredicate(track: TrackUI, filterJson: string): boolean {
     if (!filterJson) {
       return true;
@@ -363,6 +385,7 @@ export class PpfSearchPageComponent {
   }
 
   private loadTracksByQueryChanges$({
+    includeUploads,
     query,
     genreSearchSelected,
   }: TrackSearchFilters): Observable<TrackSearchState> {
@@ -378,7 +401,7 @@ export class PpfSearchPageComponent {
 
     const baseState = { query, tracks: [] };
 
-    return this.searchApi.tracks(searchCriteria).pipe(
+    return this.searchApi.tracks(searchCriteria, { includeUploads }).pipe(
       map(
         (tracks): TrackSearchState => ({
           status: 'success',
@@ -400,12 +423,13 @@ export class PpfSearchPageComponent {
   }
 
   private provideTrackSearch(): void {
-    this.route.queryParamMap
+    combineLatest([this.route.queryParamMap, this.includeUploads$])
       .pipe(
-        map(params => {
+        map(([params, includeUploads]) => {
           const query = (params.get(QUERY_PARAMETERS.SEARCH) ?? '').trim();
 
           return {
+            includeUploads,
             query,
             genreSearchSelected:
               query.length === 0
@@ -415,6 +439,7 @@ export class PpfSearchPageComponent {
         }),
         distinctUntilChanged(
           (previous, current) =>
+            previous.includeUploads === current.includeUploads &&
             previous.query === current.query &&
             previous.genreSearchSelected === current.genreSearchSelected,
         ),

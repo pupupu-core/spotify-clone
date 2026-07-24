@@ -4,6 +4,7 @@ import type { TrackResponse } from '@streaming-service/model';
 export function mapTrackResponseToTrackUI(track: TrackResponse): TrackUI {
   return {
     id: track.id,
+    sourse: track.source ?? 'jamendo',
     name: track.name,
     duration: track.duration,
     artistId: track.artistId,

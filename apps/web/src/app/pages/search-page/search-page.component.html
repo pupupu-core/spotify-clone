@@ -141,6 +141,12 @@
       }
     </section>
 
+    <section class="panel-uploads">
+      <mat-checkbox [checked]="includeUploads()" (change)="setIncludeUploads($event.checked)">
+        Include uploads into search
+      </mat-checkbox>
+    </section>
+
     <section class="panel-sort">
       <span id="search-sort-label" class="sort-label">Sorting by:</span>
       <button

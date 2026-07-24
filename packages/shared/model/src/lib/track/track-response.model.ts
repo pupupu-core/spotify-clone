@@ -1,5 +1,8 @@
+import type { TrackSource } from './upload-track-response.model';
+
 export interface TrackResponse {
   id: string;
+  source?: TrackSource;
   name: string;
   duration: number;
   artistId: string;
