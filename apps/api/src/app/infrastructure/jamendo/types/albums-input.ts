@@ -2,6 +2,7 @@ export interface JamendoAlbumsInput {
   order?: JamendoAlbumsOrder;
   albumsId: number[];
   imagesize?: JamendoImageSize;
+  limit?: number;
 }
 
 export type JamendoAlbumsOrder =
