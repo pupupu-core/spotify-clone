@@ -15,5 +15,10 @@ export class Track {
   public readonly track = input.required<TrackUI>();
   public readonly view = input.required<TrackMode>();
   public readonly isPlaying = input.required<boolean>();
+  public readonly selectedForPlaylist = input(false);
+  public readonly playlistCreateMode = input(false);
+  public readonly playlistEditMode = input(false);
   public readonly playClick = output<void>();
+  public readonly addClick = output<void>();
+  public readonly removeClick = output<void>();
 }
