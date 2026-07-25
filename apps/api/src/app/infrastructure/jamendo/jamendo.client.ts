@@ -116,6 +116,7 @@ export class JamendoClient {
         order: input.order,
         id: input.albumsId,
         imagesize: input.imagesize,
+        limit: input.limit,
       },
       schema: JamendoAlbumsResponseSchema,
     }).then(mapToAlbumsResponse);
