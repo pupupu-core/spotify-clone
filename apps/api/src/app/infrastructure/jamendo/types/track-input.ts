@@ -10,6 +10,7 @@ export interface JamendoListTracksInput {
   include?: JamendoListTracksInclude[];
   id?: number[];
   artistId?: number[];
+  albumId?: number[];
 }
 
 export type JamendoListTracksOrder =

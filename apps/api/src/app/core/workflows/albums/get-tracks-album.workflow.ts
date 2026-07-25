@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { FetchTracksAlbumStep } from '$/core/steps/fetch-tracks-album.step';
 import { AlbumResponse } from '@streaming-service/model';
-import { FetchTracksByIdStep } from '$/core/steps/fetch-tracks-by-id.step';
+import { FetchTrackByAlbumIdStep } from '$/core/steps/fetch-track-by-album-id.step';
 
 @Injectable()
 export class GetTracksAlbumWorkflow {
   public constructor(
     private readonly fetchTrackAlbumStep: FetchTracksAlbumStep,
-    private readonly fetTrackByIds: FetchTracksByIdStep,
+    private readonly fetTrackByAlbumId: FetchTrackByAlbumIdStep,
   ) {}
 
   public async execute(albumId: number): Promise<AlbumResponse> {
     const response = await this.fetchTrackAlbumStep.execute(albumId);
 
-    const trackIds = response.tracks.map(track => Number(track.trackId));
-    const tracks = await this.fetTrackByIds.execute(trackIds);
+    const tracks = await this.fetTrackByAlbumId.execute([albumId]);
 
     const tracksMap = new Map(tracks.map(track => [track.id, track]));
 

@@ -40,6 +40,7 @@
   overflow-y: auto;
   display: grid;
   gap: variables.$space-8;
+  align-content: start;
 
   height: 100%;
   margin: 0;
