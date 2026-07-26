@@ -15,4 +15,5 @@ export interface TrackUI {
   albumId?: string;
   sourse?: TrackSource;
   listenedTotal?: number;
+  waveformData?: string;
 }
