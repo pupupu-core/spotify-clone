@@ -127,16 +127,13 @@
         <span class="time time-duration">{{ player.duration() | duration }}</span>
       </div>
       <div class="input-wrapper">
-        <mat-slider>
+        <mat-slider [disabled]="!track" min="0" [max]="player.duration() || 0">
           <input
             matSliderThumb
             #seekSlider
             type="range"
-            min="0"
-            [max]="player.duration() || 0"
             [value]="player.position()"
             (input)="player.seek(seekSlider.valueAsNumber)"
-            [disabled]="!track"
           />
         </mat-slider>
       </div>
