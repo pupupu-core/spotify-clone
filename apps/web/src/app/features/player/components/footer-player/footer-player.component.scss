@@ -49,7 +49,7 @@
   z-index: 10;
 
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: space-between;
 }
 
@@ -81,12 +81,14 @@
 
 .progress {
   display: flex;
+  flex-basis: 100%;
   flex-direction: column;
+  align-items: center;
 }
 
 .time-wrapper {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
 }
 
 .section-wrapper {
@@ -97,15 +99,21 @@
 
 .controls,
 .progress,
-.volume {
+.volume,
+.playback-modes {
   display: flex;
   align-self: center;
+}
+
+.playback-modes {
+  align-items: center;
 }
 
 .section-wrapper,
 .controls,
 .progress,
-.volume {
+.volume,
+.playback-modes {
   position: relative;
   z-index: 2;
 }

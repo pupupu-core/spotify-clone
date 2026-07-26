@@ -79,6 +79,20 @@
       </button>
     </div>
 
+    <div class="playback-modes">
+      <button
+        matIconButton
+        type="button"
+        title="repeat"
+        [disabled]="!track"
+        (click)="player.toggleRepeatOne()"
+      >
+        <mat-icon fontSet="material-icons-outlined">
+          {{ player.isRepeatOneEnabled() ? 'repeat_one' : 'repeat' }}
+        </mat-icon>
+      </button>
+    </div>
+
     <div class="volume">
       <button matButton type="button" (click)="player.toggleMute()">
         @if (player.isMuted()) {

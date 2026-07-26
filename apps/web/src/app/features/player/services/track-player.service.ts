@@ -2,6 +2,8 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { PpfAudioEngine } from './html-audio.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 
+type PlayMode = 'default' | 'repeatOne';
+
 @Injectable({ providedIn: 'root' })
 export class PpfPlayerService {
   private readonly engine = inject(PpfAudioEngine);
@@ -12,6 +14,8 @@ export class PpfPlayerService {
   public readonly duration = this.engine.duration;
 
   public readonly isMuted = this.engine.isMuted;
+
+  public readonly playMode = signal<PlayMode>('default');
 
   public readonly current = computed<TrackUI | null>(() => {
     const i = this.index();
@@ -27,8 +31,10 @@ export class PpfPlayerService {
 
   public readonly volume = this.engine.volume;
 
+  public readonly isRepeatOneEnabled = computed(() => this.playMode() === 'repeatOne');
+
   constructor() {
-    this.engine.onEnded(() => this.next());
+    this.engine.onEnded(() => this.handleTrackEnded());
   }
 
   public playTracks(tracks: TrackUI[], startIndex = 0): void {
@@ -168,6 +174,10 @@ export class PpfPlayerService {
     this.playTrackAtIndex(index);
   }
 
+  public toggleRepeatOne(): void {
+    this.playMode.update(mode => (mode === 'repeatOne' ? 'default' : 'repeatOne'));
+  }
+
   private playTrackAtIndex(index: number): void {
     const track = this.queue()[index];
 
@@ -208,5 +218,16 @@ export class PpfPlayerService {
     }
 
     return currentIndex;
+  }
+
+  private handleTrackEnded(): void {
+    if (this.isRepeatOneEnabled()) {
+      this.engine.seek(0);
+      this.engine.play();
+
+      return;
+    }
+
+    this.next();
   }
 }
