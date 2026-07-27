@@ -3,8 +3,38 @@ import { initialState } from '~/core/stores/user/user.state';
 import { AccountApiService } from '~/core/services/account-api.service';
 import { inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { map, pipe, switchMap, tap } from 'rxjs';
+import { map, mergeMap, pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
+import type { TrackUI } from '~/shared/models/track-ui.model';
+import {
+  mapRecentlyPlayedTrackResponseToTrackUI,
+  mapTrackUIToRecordRecentlyPlayedRequest,
+} from '~/shared/utils/mappers/track.mappers';
+
+interface RecordRecentlyPlayedCommand {
+  track: TrackUI;
+  positionSec: number | null;
+}
+
+const upsertRecentlyPlayedTrack = (tracks: TrackUI[], track: TrackUI): TrackUI[] => {
+  const nextTracks = tracks.filter(
+    item => item.id !== track.id || (item.sourse ?? 'jamendo') !== (track.sourse ?? 'jamendo'),
+  );
+
+  return [track, ...nextTracks].sort(
+    (first, second) => getPlayedAtTime(second) - getPlayedAtTime(first),
+  );
+};
+
+const getPlayedAtTime = (track: TrackUI): number => {
+  if (track.lastPlayedAt === undefined || track.lastPlayedAt.length === 0) {
+    return 0;
+  }
+
+  const parsedDate = Date.parse(track.lastPlayedAt);
+
+  return Number.isNaN(parsedDate) ? 0 : parsedDate;
+};
 
 export const UserStore = signalStore(
   { providedIn: 'root' },
@@ -46,6 +76,75 @@ export const UserStore = signalStore(
               },
             }),
           ),
+        ),
+      ),
+    ),
+
+    loadRecentlyPlayed: rxMethod<void>(
+      pipe(
+        tap(() => {
+          patchState(store, {
+            isLoadingRecentlyPlayed: true,
+          });
+        }),
+
+        switchMap(() =>
+          accountService.recentlyPlayed().pipe(
+            map(response => response.tracks.map(mapRecentlyPlayedTrackResponseToTrackUI)),
+
+            tapResponse({
+              next: recentlyPlayed => {
+                patchState(store, {
+                  recentlyPlayed,
+                  isLoadingRecentlyPlayed: false,
+                  error: null,
+                });
+              },
+
+              error: error => {
+                patchState(store, {
+                  isLoadingRecentlyPlayed: false,
+                  error:
+                    error instanceof Error
+                      ? error.message
+                      : 'Failed to load recently played tracks.',
+                });
+              },
+            }),
+          ),
+        ),
+      ),
+    ),
+
+    recordRecentlyPlayed: rxMethod<RecordRecentlyPlayedCommand>(
+      pipe(
+        mergeMap(({ track, positionSec }) =>
+          accountService
+            .recordRecentlyPlayed(mapTrackUIToRecordRecentlyPlayedRequest(track, positionSec))
+            .pipe(
+              map(mapRecentlyPlayedTrackResponseToTrackUI),
+
+              tapResponse({
+                next: recentlyPlayedTrack => {
+                  patchState(store, {
+                    recentlyPlayed: upsertRecentlyPlayedTrack(
+                      store.recentlyPlayed(),
+                      recentlyPlayedTrack,
+                    ),
+                    error: null,
+                  });
+                },
+
+                error: error => {
+                  patchState(store, {
+                    error:
+                      error instanceof Error
+                        ? error.message
+                        : 'Failed to save recently played track.',
+                  });
+                },
+              }),
+            ),
         ),
       ),
     ),
