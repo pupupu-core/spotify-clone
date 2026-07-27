@@ -17,9 +17,21 @@ export class PpfAudioEngine {
 
   public readonly isMuted = signal(false);
 
+  private wasPlayingBeforeSeek = false;
+
+  public readonly isSeeking = signal<boolean>(false);
+
   constructor() {
     this.preloadMetadata();
     this.constructEvents();
+
+    this.audio.addEventListener('seeking', () => {
+      this.isSeeking.set(true);
+    });
+
+    this.audio.addEventListener('seeked', () => {
+      this.isSeeking.set(false);
+    });
   }
 
   public load(src: string): void {
@@ -81,6 +93,20 @@ export class PpfAudioEngine {
 
     this.audio.muted = muted;
     this.isMuted.set(muted);
+  }
+
+  public startSeeking(): void {
+    this.wasPlayingBeforeSeek = !this.audio.paused;
+
+    if (this.wasPlayingBeforeSeek) {
+      this.audio.pause();
+    }
+  }
+
+  public finishSeeking(seconds: number): void {
+    if (Number.isFinite(seconds)) {
+      this.audio.currentTime = seconds;
+    }
   }
 
   private preloadMetadata(): void {
