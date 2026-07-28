@@ -1,0 +1,17 @@
+<div class="waveform">
+  <canvas #canvas class="seekbar"></canvas>
+
+  <input
+    #seekSlider
+    class="seek-input"
+    type="range"
+    min="0"
+    [max]="duration() || 0"
+    [value]="isDragging() ? dragPosition() : position()"
+    [disabled]="duration() <= 0"
+    (pointerdown)="onSeekStart()"
+    (keydown)="onSeekStart()"
+    (input)="onInput(seekSlider.valueAsNumber)"
+    (change)="onChange(seekSlider.valueAsNumber)"
+  />
+</div>
