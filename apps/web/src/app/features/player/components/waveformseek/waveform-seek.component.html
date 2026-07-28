@@ -9,9 +9,11 @@
     [max]="duration() || 0"
     [value]="isDragging() ? dragPosition() : position()"
     [disabled]="duration() <= 0"
-    (pointerdown)="onSeekStart()"
-    (keydown)="onSeekStart()"
+    (pointerdown)="onPointerDown($event, seekSlider)"
+    (pointerup)="onPointerUp($event, seekSlider.valueAsNumber)"
+    (pointercancel)="onPointerCancel($event)"
+    (lostpointercapture)="onPointerUp($event, seekSlider.valueAsNumber)"
     (input)="onInput(seekSlider.valueAsNumber)"
-    (change)="onChange(seekSlider.valueAsNumber)"
+    (keyup)="onKeyUp(seekSlider.valueAsNumber)"
   />
 </div>

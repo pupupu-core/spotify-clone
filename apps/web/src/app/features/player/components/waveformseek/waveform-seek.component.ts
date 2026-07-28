@@ -42,6 +42,8 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
       this.peaks();
       this.position();
       this.duration();
+      this.isDragging();
+      this.dragPosition();
 
       this.scheduleDraw();
     });
@@ -72,27 +74,72 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
     this.resizeObserver.observe(canvasEl);
   }
 
-  protected onSeekStart(): void {
-    if (!this.isDragging()) {
-      this.isDragging.set(true);
-      this.seekStart.emit();
+  private activePointerId: number | null = null;
+  private keyboardSeeking = false;
+
+  protected onPointerDown(event: PointerEvent, input: HTMLInputElement): void {
+    if (event.pointerType === 'mouse' && event.button !== 0) {
+      return;
     }
+
+    this.activePointerId = event.pointerId;
+    input.setPointerCapture(event.pointerId);
+    this.beginSeek(input.valueAsNumber);
   }
 
   protected onInput(seconds: number): void {
-    if (!this.isDragging()) {
-      this.onSeekStart();
+    if (this.activePointerId === null && !this.keyboardSeeking) {
+      this.keyboardSeeking = true;
+      this.beginSeek(seconds);
     }
+
     this.dragPosition.set(seconds);
+    this.scheduleDraw();
   }
 
-  protected onChange(seconds: number): void {
+  protected onPointerUp(event: PointerEvent, seconds: number): void {
+    if (event.pointerId !== this.activePointerId) {
+      return;
+    }
+
+    this.activePointerId = null;
+    this.completeSeek(seconds);
+  }
+
+  protected onPointerCancel(event: PointerEvent): void {
+    if (event.pointerId !== this.activePointerId) {
+      return;
+    }
+
+    this.activePointerId = null;
+    this.completeSeek(this.dragPosition());
+  }
+
+  protected onKeyUp(seconds: number): void {
+    if (!this.keyboardSeeking) {
+      return;
+    }
+
+    this.keyboardSeeking = false;
+    this.completeSeek(seconds);
+  }
+
+  private beginSeek(seconds: number): void {
+    if (this.isDragging()) {
+      return;
+    }
+
+    this.dragPosition.set(seconds);
+    this.isDragging.set(true);
+    this.seekStart.emit();
+    this.scheduleDraw();
+  }
+
+  private completeSeek(seconds: number): void {
+    this.dragPosition.set(seconds);
     this.isDragging.set(false);
     this.seekChange.emit(seconds);
-  }
-
-  protected seekTo(seconds: number): void {
-    this.seekChange.emit(seconds);
+    this.scheduleDraw();
   }
 
   private scheduleDraw(): void {
@@ -145,7 +192,8 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
       return;
     }
 
-    const playedX = this.duration() > 0 ? (this.position() / this.duration()) * width : 0;
+    const shownPosition = this.isDragging() ? this.dragPosition() : this.position();
+    const playedX = this.duration() > 0 ? (shownPosition / this.duration()) * width : 0;
     const gap = 2;
     const barWidth = width / peaks.length;
 

@@ -127,15 +127,13 @@
         <span class="time time-duration">{{ player.duration() | duration }}</span>
       </div>
       <div class="input-wrapper">
-        <mat-slider [disabled]="!track" min="0" [max]="player.duration() || 0">
-          <input
-            matSliderThumb
-            #seekSlider
-            type="range"
-            [value]="player.position()"
-            (input)="player.seek(seekSlider.valueAsNumber)"
-          />
-        </mat-slider>
+        <ppf-waveform-seek
+          [waveformData]="track?.waveformData"
+          [position]="player.position()"
+          [duration]="player.duration()"
+          (seekStart)="player.startSeeking()"
+          (seekChange)="player.finishSeeking($event)"
+        />
       </div>
     </div>
   </div>

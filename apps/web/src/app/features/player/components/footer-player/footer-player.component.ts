@@ -8,10 +8,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { PpfPlayerQueueComponent } from '../queue/player-queue.component';
+import { PpfWaveformSeekComponent } from '../waveformseek/waveform-seek.component';
 
 @Component({
   selector: 'ppf-footer-player',
-  imports: [DurationPipe, MatIcon, MatSlider, MatSliderThumb, MatButtonModule, RouterLink],
+  imports: [
+    DurationPipe,
+    MatIcon,
+    MatSlider,
+    MatSliderThumb,
+    MatButtonModule,
+    RouterLink,
+    PpfWaveformSeekComponent,
+  ],
   templateUrl: './footer-player.component.html',
   styleUrl: './footer-player.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

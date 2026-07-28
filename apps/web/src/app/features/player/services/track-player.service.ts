@@ -178,6 +178,15 @@ export class PpfPlayerService {
     this.playMode.update(mode => (mode === 'repeatOne' ? 'default' : 'repeatOne'));
   }
 
+  public startSeeking(): void {
+    this.engine.startSeeking();
+  }
+
+  public finishSeeking(seconds: number): void {
+    this.engine.finishSeeking(seconds);
+    this.engine.toggle();
+  }
+
   private playTrackAtIndex(index: number): void {
     const track = this.queue()[index];
 
