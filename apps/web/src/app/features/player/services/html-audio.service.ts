@@ -17,24 +17,16 @@ export class PpfAudioEngine {
 
   public readonly isMuted = signal(false);
 
-  private wasPlayingBeforeSeek = false;
-
-  public readonly isSeeking = signal<boolean>(false);
+  private isUserSeeking = false;
+  private resumeAfterSeeking = false;
 
   constructor() {
     this.preloadMetadata();
     this.constructEvents();
-
-    this.audio.addEventListener('seeking', () => {
-      this.isSeeking.set(true);
-    });
-
-    this.audio.addEventListener('seeked', () => {
-      this.isSeeking.set(false);
-    });
   }
 
   public load(src: string): void {
+    this.resetSeekingState();
     this.audio.src = src;
     this.position.set(0);
     this.duration.set(0);
@@ -79,6 +71,7 @@ export class PpfAudioEngine {
   }
 
   public clearAudioElement(): void {
+    this.resetSeekingState();
     this.audio.pause();
     this.audio.removeAttribute('src');
     this.audio.load();
@@ -96,16 +89,39 @@ export class PpfAudioEngine {
   }
 
   public startSeeking(): void {
-    this.wasPlayingBeforeSeek = !this.audio.paused;
+    if (this.isUserSeeking) {
+      return;
+    }
 
-    if (this.wasPlayingBeforeSeek) {
+    this.isUserSeeking = true;
+    this.resumeAfterSeeking = !this.audio.paused;
+
+    if (this.resumeAfterSeeking) {
       this.audio.pause();
     }
   }
 
   public finishSeeking(seconds: number): void {
+    if (!this.isUserSeeking) {
+      return;
+    }
+
+    const shouldResume = this.resumeAfterSeeking;
+
+    this.resetSeekingState();
+
     if (Number.isFinite(seconds)) {
-      this.audio.currentTime = seconds;
+      const maximum = Number.isFinite(this.audio.duration)
+        ? Math.max(0, this.audio.duration)
+        : Math.max(0, seconds);
+      const position = Math.min(maximum, Math.max(0, seconds));
+
+      this.audio.currentTime = position;
+      this.position.set(position);
+    }
+
+    if (shouldResume) {
+      this.play();
     }
   }
 
@@ -132,5 +148,10 @@ export class PpfAudioEngine {
     if (buffered.length > 0) {
       this.buffered.set(buffered.end(buffered.length - 1));
     }
+  }
+
+  private resetSeekingState(): void {
+    this.isUserSeeking = false;
+    this.resumeAfterSeeking = false;
   }
 }

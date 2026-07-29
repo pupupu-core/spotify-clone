@@ -88,10 +88,6 @@ export class PpfPlayerService {
     this.playTrackAtIndex(idx - 1);
   }
 
-  public seek(seconds: number): void {
-    this.engine.seek(seconds);
-  }
-
   public setVolume(value: number): void {
     this.engine.setVolume(value);
   }
@@ -184,7 +180,6 @@ export class PpfPlayerService {
 
   public finishSeeking(seconds: number): void {
     this.engine.finishSeeking(seconds);
-    this.engine.toggle();
   }
 
   private playTrackAtIndex(index: number): void {
