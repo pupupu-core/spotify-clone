@@ -30,6 +30,12 @@
     </div>
   </div>
   <div class="track-info">
+    @if (track().lastPlayedAt) {
+      <p>
+        <mat-icon inline fontSet="material-icons-outlined"> history </mat-icon>
+        {{ track().lastPlayedAt | date: 'short' }}
+      </p>
+    }
     <p>
       <mat-icon
         inline

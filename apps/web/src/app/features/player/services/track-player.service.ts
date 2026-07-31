@@ -1,10 +1,12 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { PpfAudioEngine } from './html-audio.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import { UserStore } from '~/core/stores/user/user.store';
 
 @Injectable({ providedIn: 'root' })
 export class PpfPlayerService {
   private readonly engine = inject(PpfAudioEngine);
+  private readonly userStore = inject(UserStore);
 
   public readonly queue = signal<TrackUI[]>([]);
   public readonly index = signal<number | null>(null);
@@ -174,6 +176,7 @@ export class PpfPlayerService {
     this.index.set(index);
     this.engine.load(track.audioUrl);
     this.engine.play();
+    this.userStore.recordRecentlyPlayed({ track, positionSec: this.position() });
   }
 
   private isValidIndex(index: number): boolean {

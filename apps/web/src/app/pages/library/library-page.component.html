@@ -29,9 +29,10 @@
     <ppf-tracks-list
       headerControl="sort"
       ulMode="unnumbered"
-      [trackList]="[]"
+      [trackList]="recentlyPlayedTracks()"
       mode="list"
       title="Recently played"
+      (sortChange)="sortRecentlyPlayed($event)"
     />
   </div>
 </div>
