@@ -27,7 +27,7 @@ export class TrackCardComponent {
   public readonly isPlaying = input.required<boolean>();
   public readonly track = input.required<TrackUI>();
   public readonly playClick = output<void>();
-  public readonly addClick = output<void>();
+  public readonly addClick = output<TrackUI>();
   protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
   protected readonly routes = ROUTES;
 }

@@ -24,6 +24,7 @@
               [track]="track"
               [view]="trackView()"
               (playClick)="playTrackClick(track)"
+              (addClick)="addClick.emit($event)"
             />
           </li>
         }
@@ -46,6 +47,7 @@
               [playlistCreateMode]="playlistCreateMode()"
               [playlistEditMode]="playlistEditMode()"
               (playClick)="playTrackClick(track)"
+              (addClick)="addClick.emit($event)"
             />
           </li>
         }

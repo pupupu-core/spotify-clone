@@ -15,6 +15,8 @@ import { SearchApiService } from '~/core/services/search-api.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
+import type { PlaylistTrackRequest } from '~/features/playlist/playlists.models';
+import { mapTrackToPlaylistTrackRequest } from '~/features/playlist/mappers/playlist-track-request.mapper';
 
 const MAX_SIZE_COVER_MB = 3;
 const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/avif', 'image/webp', 'image/jpeg'];
@@ -90,6 +92,7 @@ export class CreatePlaylistDialogComponent {
     query: '',
   });
 
+  protected readonly selectedTracks = signal<PlaylistTrackRequest[]>([]);
   public readonly playlistCreateForm = new FormGroup(
     {
       coverFile: new FormControl<null | File>(null, [
@@ -220,5 +223,35 @@ export class CreatePlaylistDialogComponent {
         status: 'loading',
       }),
     );
+  }
+
+  protected toggleTrackSelection(selectedTrack: TrackUI): void {
+    const playlistTrack = mapTrackToPlaylistTrackRequest(selectedTrack);
+
+    this.selectedTracks.update(selected => {
+      const isSelected = selected.some(track => this.isSameTrack(playlistTrack, track));
+
+      if (isSelected) {
+        return selected.filter(track => !this.isSameTrack(playlistTrack, track));
+      }
+
+      return [...selected, playlistTrack];
+    });
+  }
+
+  private isSameTrack(a: PlaylistTrackRequest, b: PlaylistTrackRequest): boolean {
+    if (a.source !== b.source) {
+      return false;
+    }
+
+    if (a.source === 'jamendo' && b.source === 'jamendo') {
+      return a.externalId === b.externalId;
+    }
+
+    if (a.source === 'userUpload' && b.source === 'userUpload') {
+      return a.trackId === b.trackId;
+    }
+
+    return false;
   }
 }

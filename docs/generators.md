@@ -20,7 +20,7 @@ pnpm exec nx g @nx/nest:services apps/api/src/app/infrastructure/storage/audio-s
 ## Shared TypeScript Library
 
 ```bash
-pnpm exec nx g @nx/js:lib packages/shared/models
+pnpm exec nx g @nx/js:lib packages/shared/playlists.models.ts
 ```
 
 ## Dry Run

@@ -37,6 +37,7 @@ export class TrackListComponent {
   protected readonly sortChange = output<'asc' | 'desc'>();
   protected readonly direction = signal<'asc' | 'desc'>('desc');
   public readonly reorder = output<TrackUI[]>();
+  public readonly addClick = output<TrackUI>();
 
   protected playAllClick(): void {
     this.player.playTracks(this.trackList());

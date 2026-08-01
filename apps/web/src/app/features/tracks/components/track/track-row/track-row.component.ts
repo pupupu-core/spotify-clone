@@ -31,7 +31,7 @@ export class TrackRowComponent {
   public readonly playlistCreateMode = input(false);
   public readonly playlistEditMode = input(false);
   public readonly playClick = output<void>();
-  public readonly addClick = output<void>();
+  public readonly addClick = output<TrackUI>();
   public readonly removeClick = output<void>();
 
   protected readonly highlighted = computed(() => this.isPlaying() || this.selectedForPlaylist());

@@ -72,6 +72,7 @@
         mode="list"
         headerControl="noControl"
         [title]="searchResultTitle()"
+        (addClick)="toggleTrackSelection($event)"
       />
     }
   </div>
