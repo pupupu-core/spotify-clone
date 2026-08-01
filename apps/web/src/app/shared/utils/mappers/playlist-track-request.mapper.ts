@@ -1,5 +1,5 @@
 import type { TrackUI } from '~/shared/models/track-ui.model';
-import type { PlaylistTrackRequest } from '~/features/playlist/playlists.models';
+import type { PlaylistTrackRequest } from '~/shared/models/playlist-track-request.model';
 
 export function mapTrackToPlaylistTrackRequest(track: TrackUI): PlaylistTrackRequest {
   if (track.sourse === 'jamendo') {

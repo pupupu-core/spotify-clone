@@ -15,8 +15,9 @@ import { SearchApiService } from '~/core/services/search-api.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
-import type { PlaylistTrackRequest } from '~/features/playlist/playlists.models';
-import { mapTrackToPlaylistTrackRequest } from '~/features/playlist/mappers/playlist-track-request.mapper';
+import { mapTrackToPlaylistTrackRequest } from '~/shared/utils/mappers/playlist-track-request.mapper';
+import { isSamePlaylistTrack } from '~/shared/utils/playlist-track.utils';
+import type { PlaylistTrackRequest } from '~/shared/models/playlist-track-request.model';
 
 const MAX_SIZE_COVER_MB = 3;
 const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/avif', 'image/webp', 'image/jpeg'];
@@ -229,29 +230,27 @@ export class CreatePlaylistDialogComponent {
     const playlistTrack = mapTrackToPlaylistTrackRequest(selectedTrack);
 
     this.selectedTracks.update(selected => {
-      const isSelected = selected.some(track => this.isSameTrack(playlistTrack, track));
+      const isSelected = selected.some(track => isSamePlaylistTrack(playlistTrack, track));
 
       if (isSelected) {
-        return selected.filter(track => !this.isSameTrack(playlistTrack, track));
+        return selected.filter(track => !isSamePlaylistTrack(playlistTrack, track));
       }
 
       return [...selected, playlistTrack];
     });
   }
 
-  private isSameTrack(a: PlaylistTrackRequest, b: PlaylistTrackRequest): boolean {
-    if (a.source !== b.source) {
-      return false;
-    }
+  protected getSelectedId(): Set<string> {
+    const setIds = new Set<string>();
 
-    if (a.source === 'jamendo' && b.source === 'jamendo') {
-      return a.externalId === b.externalId;
-    }
+    this.selectedTracks().map(track => {
+      if (track.source === 'jamendo') {
+        setIds.add(track.externalId);
+      } else if (track.source === 'userUpload') {
+        setIds.add(track.trackId);
+      }
+    });
 
-    if (a.source === 'userUpload' && b.source === 'userUpload') {
-      return a.trackId === b.trackId;
-    }
-
-    return false;
+    return setIds;
   }
 }

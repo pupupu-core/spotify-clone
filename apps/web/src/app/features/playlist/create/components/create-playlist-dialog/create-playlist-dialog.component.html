@@ -73,6 +73,7 @@
         headerControl="noControl"
         [title]="searchResultTitle()"
         (addClick)="toggleTrackSelection($event)"
+        [selectedIds]="getSelectedId()"
       />
     }
   </div>

@@ -25,6 +25,7 @@
               [view]="trackView()"
               (playClick)="playTrackClick(track)"
               (addClick)="addClick.emit($event)"
+              [selectedForPlaylist]="selectedIds().has(track.id)"
             />
           </li>
         }
@@ -46,6 +47,7 @@
               [view]="trackView()"
               [playlistCreateMode]="playlistCreateMode()"
               [playlistEditMode]="playlistEditMode()"
+              [selectedForPlaylist]="selectedIds().has(track.id)"
               (playClick)="playTrackClick(track)"
               (addClick)="addClick.emit($event)"
             />
