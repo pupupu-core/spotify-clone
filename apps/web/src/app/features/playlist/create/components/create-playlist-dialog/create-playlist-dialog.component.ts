@@ -7,8 +7,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { fileSizeValidator } from '~/shared/validators/file-size.validator';
 import { fileTypeValidator } from '~/shared/validators/file-type.validator';
-import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import type { Observable } from 'rxjs';
+import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SearchBarComponent } from '~/features/search-bar/search-bar.component';
 import { SearchApiService } from '~/core/services/search-api.service';
@@ -82,7 +82,6 @@ const EMPTY_TRACK_SEARCH_STATE: TrackSearchState = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePlaylistDialogComponent {
-  // TODO: добавить логику создания при появление бэка
   private readonly searchApi = inject(SearchApiService);
 
   protected readonly VALID_FILE_TYPE = VALID_FILE_TYPE;

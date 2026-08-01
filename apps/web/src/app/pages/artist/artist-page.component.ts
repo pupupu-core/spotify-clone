@@ -30,6 +30,8 @@ export class ArtistPageComponent {
     this.activatedRoute.paramMap.pipe(map(param => param.get('artistId'))),
   );
 
+  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
+
   constructor() {
     effect(() => {
       const id = this.artistId();
@@ -39,8 +41,6 @@ export class ArtistPageComponent {
       }
     });
   }
-
-  protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
 
   public redirectToAlbumPage(id: string): void {
     void this.router.navigateByUrl(this.routes.ARTIST_ALBUM.to(id));
