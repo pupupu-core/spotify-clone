@@ -11,6 +11,6 @@ export class CreatePlaylistService {
   private readonly http = inject(HttpClient);
 
   public createPlaylist(request: CreatePlaylistRequest): Observable<PlaylistResponse> {
-    return this.http.post<PlaylistResponse>(APP_ENDPOINTS.PLAYLISTS.CREATE, request);
+    return this.http.post<PlaylistResponse>(APP_ENDPOINTS.PLAYLIST.CREATE, request);
   }
 }
