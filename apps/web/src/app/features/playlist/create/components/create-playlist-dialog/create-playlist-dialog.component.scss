@@ -120,7 +120,7 @@
   flex-direction: column;
   gap: 30px;
 
-  max-height: 600px;
+  height: 450px;
   margin-bottom: 10px;
 
   @include mixins.scrollbar-thin(var(--mat-sys-surface));
@@ -143,7 +143,7 @@ ppf-tracks-list {
   display: grid;
 
   min-width: 630px;
-  min-height: 250px;
+  height: 350px;
   border: none;
 
   color: var(--mat-sys-surface);

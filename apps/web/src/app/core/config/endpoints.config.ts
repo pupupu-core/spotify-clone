@@ -116,5 +116,11 @@ export const APP_ENDPOINTS = {
       version: API_VERSION,
       path: API_ENDPOINTS.PLAYLIST.LIST.clientUrl,
     }),
+    CREATE: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.PLAYLIST.CREATE.clientUrl,
+    }),
   },
 } as const;

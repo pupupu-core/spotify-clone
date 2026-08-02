@@ -4,10 +4,7 @@
   --mat-form-field-outlined-container-shape: #{variables.$radius-2xl};
 
   width: clamp(150px, 40vw, 600px);
-  padding-right: max(
-    16px,
-    var(--mat-form-field-outlined-container-shape, var(--mat-sys-corner-extra-small))
-  );
+  padding-right: 0;
 
   .search-input {
     &:placeholder-shown {
@@ -30,4 +27,9 @@
   display: flex;
   justify-content: center;
   opacity: 0.5;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
 }

@@ -61,13 +61,13 @@ pnpm exec nx g remove booking-some-project
   [link](https://nx.dev/docs/technologies/typescript/generators#examples)
 
 ```bash
-pnpm exec nx g @nx/js:lib packages/shared/models
+pnpm exec nx g @nx/js:lib packages/shared/playlists.models.ts
 ```
 
 - remove library
 
 ```bash
-pnpm exec nx g @nx/workspace:remove models
+pnpm exec nx g @nx/workspace:remove playlists.models.ts
 ```
 
 - angular generators

@@ -1,4 +1,5 @@
 @let coverControl = playlistCreateForm.controls['coverFile'];
+@let playlistNameControl = playlistCreateForm.controls['playlistName'];
 
 <mat-dialog-content class="create-playlist-dialog">
   <mat-dialog-actions class="close-container" [mat-dialog-close]="true">
@@ -36,6 +37,9 @@
       <mat-form-field appearance="outline">
         <mat-label>Playlist Name</mat-label>
         <input matInput formControlName="playlistName" />
+        @if (playlistNameControl.invalid) {
+          <mat-error>This field is required</mat-error>
+        }
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Playlist description</mat-label>
@@ -54,8 +58,13 @@
         </p>
       }
       @if (coverControl.hasError('fileTypes')) {
-        Invalid file type, expected:
-        {{ coverError().fileTypeError.validTypes }}.
+        <p>
+          Invalid file type, expected:
+          {{ coverError().fileTypeError.validTypes }}.
+        </p>
+      }
+      @if (selectedTracks().length === 0 && this.submitAttempted()) {
+        <p>Please select at least one track.</p>
       }
     </div>
   </form>
@@ -72,11 +81,20 @@
         mode="list"
         headerControl="noControl"
         [title]="searchResultTitle()"
+        (addClick)="toggleTrackSelection($event)"
+        [selectedIds]="selectedIds()"
       />
     }
   </div>
   <mat-dialog-actions class="actions-buttons">
     <button matButton="text" [mat-dialog-close]="true" class="cancel">Cancel</button>
-    <button matButton="tonal" class="create" [disabled]="playlistCreateForm.invalid">Create</button>
+    <button
+      matButton="tonal"
+      class="create"
+      [disabled]="playlistCreateForm.invalid"
+      (click)="createPlaylist()"
+    >
+      Create
+    </button>
   </mat-dialog-actions>
 </mat-dialog-content>

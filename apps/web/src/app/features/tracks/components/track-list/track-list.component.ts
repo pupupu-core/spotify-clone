@@ -37,6 +37,8 @@ export class TrackListComponent {
   protected readonly sortChange = output<'asc' | 'desc'>();
   protected readonly direction = signal<'asc' | 'desc'>('desc');
   public readonly reorder = output<TrackUI[]>();
+  public readonly addClick = output<TrackUI>();
+  public readonly selectedIds = input<Set<string>>(new Set());
 
   protected playAllClick(): void {
     this.player.playTracks(this.trackList());

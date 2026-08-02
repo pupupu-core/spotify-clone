@@ -7,10 +7,10 @@
           aria-label="Track playback control button"
           (click)="removeClick.emit()"
         >
-          <mat-icon fontSet="material-icons-outlined"> close </mat-icon>
+          <mat-icon fontSet="material-icons-outlined"> close</mat-icon>
         </button>
         <button matIconButton aria-label="Track add control button">
-          <mat-icon fontSet="material-icons-outlined"> drag_handle </mat-icon>
+          <mat-icon fontSet="material-icons-outlined"> drag_handle</mat-icon>
         </button>
       </div>
     }
@@ -76,7 +76,7 @@
           {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
         </mat-icon>
       </button>
-      <button matIconButton aria-label="Track add control button" (click)="addClick.emit()">
+      <button matIconButton aria-label="Track add control button" (click)="addClick.emit(track())">
         <mat-icon fontSet="material-icons-outlined">
           {{ selectedForPlaylist() ? 'check_small' : 'add' }}
         </mat-icon>
