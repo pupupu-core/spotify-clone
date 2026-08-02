@@ -15,6 +15,7 @@ import { SearchApiService } from '~/core/services/search-api.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
+import { SearchPreferencesService } from '~/core/services/search-preferences.service';
 
 const MAX_SIZE_COVER_MB = 3;
 const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/avif', 'image/webp', 'image/jpeg'];
@@ -45,6 +46,7 @@ interface FileTypeValidationError {
 // я потом вынесу в модели
 
 interface TrackSearchRequest {
+  includeUploads: boolean;
   query: string;
 }
 
@@ -84,12 +86,15 @@ const EMPTY_TRACK_SEARCH_STATE: TrackSearchState = {
 export class CreatePlaylistDialogComponent {
   // TODO: добавить логику создания при появление бэка
   private readonly searchApi = inject(SearchApiService);
+  private readonly searchPreferences = inject(SearchPreferencesService);
 
   protected readonly VALID_FILE_TYPE = VALID_FILE_TYPE;
   protected readonly coverPreview = signal<string>('');
-  private readonly trackSearchRequest = signal<TrackSearchRequest>({
-    query: '',
-  });
+  private readonly trackSearchQuery = signal('');
+  private readonly trackSearchRequest = computed<TrackSearchRequest>(() => ({
+    includeUploads: this.searchPreferences.includeUploads(),
+    query: this.trackSearchQuery(),
+  }));
 
   public readonly playlistCreateForm = new FormGroup(
     {
@@ -110,7 +115,7 @@ export class CreatePlaylistDialogComponent {
 
   protected readonly trackSearchState = toSignal(
     toObservable(this.trackSearchRequest).pipe(
-      switchMap(({ query }) => this.loadTracksByQuery$(query)),
+      switchMap(({ includeUploads, query }) => this.loadTracksByQuery$(query, includeUploads)),
     ),
     { initialValue: EMPTY_TRACK_SEARCH_STATE },
   );
@@ -168,11 +173,7 @@ export class CreatePlaylistDialogComponent {
   });
 
   protected searchTracks(query: string): void {
-    const normalizedQuery = query.trim();
-
-    this.trackSearchRequest.update(() => ({
-      query: normalizedQuery,
-    }));
+    this.trackSearchQuery.set(query.trim());
   }
 
   public setCover(event: Event): void {
@@ -193,7 +194,10 @@ export class CreatePlaylistDialogComponent {
     this.coverPreview.set(URL.createObjectURL(file));
   }
 
-  private loadTracksByQuery$(rawQuery: string): Observable<TrackSearchState> {
+  private loadTracksByQuery$(
+    rawQuery: string,
+    includeUploads: boolean,
+  ): Observable<TrackSearchState> {
     const query = rawQuery.trim();
 
     if (query.length === 0) {
@@ -202,7 +206,7 @@ export class CreatePlaylistDialogComponent {
 
     const baseState = { query, tracks: [] };
 
-    return this.searchApi.tracks(query).pipe(
+    return this.searchApi.tracks(query, { includeUploads }).pipe(
       map(
         (tracks): TrackSearchState => ({
           status: 'success',
