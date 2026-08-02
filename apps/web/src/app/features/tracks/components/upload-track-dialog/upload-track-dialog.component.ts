@@ -43,7 +43,6 @@ export class UploadTrackDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<UploadTrackDialogComponent>);
 
   protected readonly isLoading = signal(false);
-  protected readonly error = signal<string | null>(null);
 
   protected readonly uploadTrackForm = this.formBuilder.group({
     file: this.formBuilder.control<File | null>(null, [
@@ -62,7 +61,6 @@ export class UploadTrackDialogComponent {
       Validators.maxLength(UPLOAD_TRACK_CONSTRAINTS.artistName.maxLength),
     ]),
     albumName: this.formBuilder.nonNullable.control('', [
-      Validators.minLength(UPLOAD_TRACK_CONSTRAINTS.albumName.minLength),
       Validators.maxLength(UPLOAD_TRACK_CONSTRAINTS.albumName.maxLength),
     ]),
     genres: this.formBuilder.nonNullable.control<string[]>([], [genresValidator()]),
@@ -111,6 +109,8 @@ export class UploadTrackDialogComponent {
       return;
     }
 
+    this.isLoading.set(true);
+
     this.trackService
       .uploadTrack({
         file: values.file,
@@ -120,13 +120,9 @@ export class UploadTrackDialogComponent {
         genres: values.genres,
       })
       .pipe(
-        catchError(error => {
-          this.error.set(error.message);
-
-          return EMPTY;
-        }),
+        catchError(() => EMPTY),
         finalize(() => this.isLoading.set(false)),
       )
-      .subscribe(() => this.dialogRef.close());
+      .subscribe(() => this.dialogRef.close(true));
   }
 }
