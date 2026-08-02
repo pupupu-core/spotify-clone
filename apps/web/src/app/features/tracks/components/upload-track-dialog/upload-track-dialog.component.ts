@@ -20,7 +20,7 @@ export class UploadTrackDialogComponent {
   public readonly isLoading = signal(false);
   public readonly error = signal<string | null>(null);
 
-  protected readonly uploadTrackForm = this.formBuilder.group({
+  protected readonly uploadTrackForm = this.formBuilder.nonNullable.group({
     file: [
       Validators.required,
       fileSizeValidator(UPLOAD_TRACK_CONSTRAINTS.limits.maxFileSizeMb),
@@ -50,5 +50,23 @@ export class UploadTrackDialogComponent {
     if (this.isLoading()) {
       return;
     }
+
+    if (this.uploadTrackForm.invalid) {
+      return;
+    }
+
+    const { albumName, artistName, file, genres, title } = this.uploadTrackForm.getRawValue();
+
+    if (!file) {
+      return;
+    }
+
+    this.trackService.uploadTrack({
+      file,
+      title,
+      artistName,
+      albumName,
+      genres,
+    });
   }
 }
