@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import type {
+  AccountTracksResponse,
   TrackDiscoveryResponse,
   UploadTrackRequest,
   UploadTrackResponse,
@@ -40,5 +41,9 @@ export class TrackService {
     }
 
     return this.http.post<UploadTrackResponse>(APP_ENDPOINTS.TRACK.UPLOAD, formData);
+  }
+
+  public fetchMyUploads(): Observable<AccountTracksResponse> {
+    return this.http.get<AccountTracksResponse>(APP_ENDPOINTS.ACCOUNT.TRACKS);
   }
 }
