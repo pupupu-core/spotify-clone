@@ -95,4 +95,12 @@ export const APP_ENDPOINTS = {
       path: API_ENDPOINTS.TRACK.DISCOVERY.clientUrl,
     }),
   },
+  PLAYLISTS: {
+    CREATE: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.PLAYLIST.CREATE.clientUrl,
+    }),
+  },
 } as const;

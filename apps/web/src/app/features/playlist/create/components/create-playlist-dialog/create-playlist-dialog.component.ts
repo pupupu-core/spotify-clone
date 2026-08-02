@@ -1,9 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { fileSizeValidator } from '~/shared/validators/file-size.validator';
 import { fileTypeValidator } from '~/shared/validators/file-type.validator';
@@ -17,7 +22,10 @@ import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers'
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 import { mapTrackToPlaylistTrackRequest } from '~/shared/utils/mappers/playlist-track-request.mapper';
 import { isSamePlaylistTrack } from '~/shared/utils/playlist-track.utils';
-import type { PlaylistTrackRequest } from '~/shared/models/playlist-track-request.model';
+import type { PlaylistTrackRequest } from '~/shared/models/user-playlists.model';
+import { CreatePlaylistService } from '~/features/playlist/create/services/create-playlist.service';
+import type { CreatePlaylistRequest } from '@streaming-service/model';
+import { PpfToasterService } from '~/core/services/ppf-toaster.service';
 
 const MAX_SIZE_COVER_MB = 3;
 const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/avif', 'image/webp', 'image/jpeg'];
@@ -79,6 +87,7 @@ const EMPTY_TRACK_SEARCH_STATE: TrackSearchState = {
     MatButton,
     MatDialogClose,
     LoaderComponent,
+    MatError,
   ],
   templateUrl: './create-playlist-dialog.component.html',
   styleUrl: './create-playlist-dialog.component.scss',
@@ -86,6 +95,9 @@ const EMPTY_TRACK_SEARCH_STATE: TrackSearchState = {
 })
 export class CreatePlaylistDialogComponent {
   private readonly searchApi = inject(SearchApiService);
+  private readonly createPlaylistService = inject(CreatePlaylistService);
+  private readonly dialogRef = inject(MatDialogRef<CreatePlaylistDialogComponent>);
+  private readonly toaster = inject(PpfToasterService);
 
   protected readonly VALID_FILE_TYPE = VALID_FILE_TYPE;
   protected readonly coverPreview = signal<string>('');
@@ -93,14 +105,16 @@ export class CreatePlaylistDialogComponent {
     query: '',
   });
 
+  protected readonly submitAttempted = signal(false);
   protected readonly selectedTracks = signal<PlaylistTrackRequest[]>([]);
+  protected readonly isCreating = signal(false);
   public readonly playlistCreateForm = new FormGroup(
     {
       coverFile: new FormControl<null | File>(null, [
         fileSizeValidator(MAX_SIZE_COVER_MB),
         fileTypeValidator(VALID_FILE_TYPE),
       ]),
-      playlistName: new FormControl(''),
+      playlistName: new FormControl('', Validators.required),
       playlistDescription: new FormControl(''),
     },
     { updateOn: 'blur' },
@@ -252,5 +266,38 @@ export class CreatePlaylistDialogComponent {
     });
 
     return setIds;
+  }
+
+  protected createPlaylist(): void {
+    if (this.isCreating()) {
+      return;
+    }
+
+    const formValue = this.playlistCreateForm.getRawValue();
+
+    this.submitAttempted.set(true);
+    this.isCreating.set(true);
+
+    if (this.playlistCreateForm.invalid || this.selectedTracks().length === 0) {
+      return;
+    }
+
+    const request: CreatePlaylistRequest = {
+      name: formValue.playlistName ?? '',
+      description: formValue.playlistDescription ?? '',
+      visibility: 'private',
+      tracks: this.selectedTracks(),
+    };
+
+    this.createPlaylistService.createPlaylist(request).subscribe({
+      next: () => {
+        this.toaster.success('Playlist created', 'Your playlist has been created successfully.');
+        this.dialogRef.close();
+      },
+      error: () => {
+        this.toaster.error('Failed to create playlist', 'Please try again later.');
+        this.isCreating.set(false);
+      },
+    });
   }
 }

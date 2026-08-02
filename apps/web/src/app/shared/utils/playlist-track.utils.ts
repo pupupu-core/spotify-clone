@@ -1,4 +1,4 @@
-import type { PlaylistTrackRequest } from '../models/playlist-track-request.model';
+import type { PlaylistTrackRequest } from '../models/user-playlists.model';
 
 export function isSamePlaylistTrack(a: PlaylistTrackRequest, b: PlaylistTrackRequest): boolean {
   if (a.source !== b.source) {
