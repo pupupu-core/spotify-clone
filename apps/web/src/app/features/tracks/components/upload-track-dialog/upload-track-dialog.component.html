@@ -1,5 +1,58 @@
-<p>upload-track-dialog works!</p>
+<form [formGroup]="uploadTrackForm" (ngSubmit)="submit()">
+  <mat-dialog-content class="upload-track-dialog">
+    <div class="track-info">
+      <div class="file-field">
+        <label for="track-file">Audio file</label>
+        <input
+          id="track-file"
+          type="file"
+          [accept]="'.mp3,.wav,.ogg,.flac,.aac,.m4a,.mp4'"
+          (change)="setFile($event)"
+        />
+        @if (uploadTrackForm.controls.file.touched && uploadTrackForm.controls.file.invalid) {
+          <p class="file-error">Please select a valid audio file.</p>
+        }
+      </div>
 
-<form (ngSubmit)="submit()">
-  <button type="submit">Upload</button>
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" />
+        @if (uploadTrackForm.controls.title.hasError('required')) {
+          <mat-error>Title is required.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Artist name</mat-label>
+        <input matInput formControlName="artistName" />
+        @if (uploadTrackForm.controls.artistName.hasError('required')) {
+          <mat-error>Artist name is required.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Album name</mat-label>
+        <input matInput formControlName="albumName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Genres</mat-label>
+        <input
+          matInput
+          #genresInput
+          placeholder="rock, pop"
+          (input)="setGenres(genresInput.value)"
+        />
+        @if (uploadTrackForm.controls.genres.invalid) {
+          <mat-error>Enter up to 5 comma-separated genres.</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <mat-dialog-actions class="actions-buttons">
+      <button matButton="filled" type="submit" [disabled]="isLoading()">
+        {{ isLoading() ? 'Uploading...' : 'Upload' }}
+      </button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
 </form>
