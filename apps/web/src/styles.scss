@@ -2,8 +2,8 @@
 @use 'styles/variables';
 @use 'styles/mixins';
 
-@import './styles/themes/dark.css';
-@import './styles/angular-material';
+@use './styles/themes/dark.css';
+@use './styles/angular-material';
 
 html {
   color-scheme: dark;
