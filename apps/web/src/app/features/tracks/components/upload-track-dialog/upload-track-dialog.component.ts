@@ -127,6 +127,6 @@ export class UploadTrackDialogComponent {
         }),
         finalize(() => this.isLoading.set(false)),
       )
-      .subscribe(response => this.dialogRef.close(response));
+      .subscribe(() => this.dialogRef.close());
   }
 }
