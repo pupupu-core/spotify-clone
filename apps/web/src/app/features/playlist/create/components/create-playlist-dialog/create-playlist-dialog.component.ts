@@ -108,6 +108,13 @@ export class CreatePlaylistDialogComponent {
   protected readonly submitAttempted = signal(false);
   protected readonly selectedTracks = signal<PlaylistTrackRequest[]>([]);
   protected readonly isCreating = signal(false);
+  protected readonly selectedIds = computed(() => {
+    return new Set(
+      this.selectedTracks().map(track => {
+        return track.source === 'jamendo' ? track.externalId : track.trackId;
+      }),
+    );
+  });
   public readonly playlistCreateForm = new FormGroup(
     {
       coverFile: new FormControl<null | File>(null, [
@@ -254,19 +261,19 @@ export class CreatePlaylistDialogComponent {
     });
   }
 
-  protected getSelectedId(): Set<string> {
-    const setIds = new Set<string>();
-
-    this.selectedTracks().map(track => {
-      if (track.source === 'jamendo') {
-        setIds.add(track.externalId);
-      } else if (track.source === 'userUpload') {
-        setIds.add(track.trackId);
-      }
-    });
-
-    return setIds;
-  }
+  // protected getSelectedId(): Set<string> {
+  //   const setIds = new Set<string>();
+  //
+  //   this.selectedTracks().map(track => {
+  //     if (track.source === 'jamendo') {
+  //       setIds.add(track.externalId);
+  //     } else if (track.source === 'userUpload') {
+  //       setIds.add(track.trackId);
+  //     }
+  //   });
+  //
+  //   return setIds;
+  // }
 
   protected createPlaylist(): void {
     if (this.isCreating()) {
@@ -276,11 +283,11 @@ export class CreatePlaylistDialogComponent {
     const formValue = this.playlistCreateForm.getRawValue();
 
     this.submitAttempted.set(true);
-    this.isCreating.set(true);
 
     if (this.playlistCreateForm.invalid || this.selectedTracks().length === 0) {
       return;
     }
+    this.isCreating.set(true);
 
     const request: CreatePlaylistRequest = {
       name: formValue.playlistName ?? '',
@@ -292,7 +299,7 @@ export class CreatePlaylistDialogComponent {
     this.createPlaylistService.createPlaylist(request).subscribe({
       next: () => {
         this.toaster.success('Playlist created', 'Your playlist has been created successfully.');
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       },
       error: () => {
         this.toaster.error('Failed to create playlist', 'Please try again later.');

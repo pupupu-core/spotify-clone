@@ -12,10 +12,7 @@ module.exports = {
 
       '@streaming-service/utils': join(__dirname, '../../packages/shared/utils/src/index.ts'),
       '@streaming-service/config': join(__dirname, '../../packages/shared/config/src/index.ts'),
-      '@streaming-service/model': join(
-        __dirname,
-        '../../packages/shared/playlists.models.ts/src/index.ts',
-      ),
+      '@streaming-service/model': join(__dirname, '../../packages/shared/models/src/index.ts'),
     },
     extensions: ['.ts', '.js'],
   },

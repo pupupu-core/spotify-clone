@@ -46,9 +46,15 @@ export class LibraryPageComponent implements OnInit {
   }));
 
   public openPlaylistForm(): void {
-    this.dialog.open(CreatePlaylistDialogComponent, {
+    const dialogRef = this.dialog.open(CreatePlaylistDialogComponent, {
       minWidth: 670,
       minHeight: 'min-content',
+    });
+
+    dialogRef.afterClosed().subscribe(created => {
+      if (created === true) {
+        this.loadPlaylists();
+      }
     });
   }
 
