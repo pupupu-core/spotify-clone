@@ -122,7 +122,7 @@
 
     <div class="progress">
       <div class="time-wrapper">
-        <span class="time time-position">{{ player.position() | duration }}</span>
+        <span class="time time-position">{{ displayedPosition() | duration }}</span>
         <span class="time-slash"> / </span>
         <span class="time time-duration">{{ player.duration() | duration }}</span>
       </div>
@@ -132,7 +132,8 @@
           [position]="player.position()"
           [duration]="player.duration()"
           (seekStart)="player.startSeeking()"
-          (seekChange)="player.finishSeeking($event)"
+          (seekPreview)="previewSeek($event)"
+          (seekChange)="finishSeek($event)"
         />
       </div>
     </div>

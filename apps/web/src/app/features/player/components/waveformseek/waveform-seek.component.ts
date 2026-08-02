@@ -11,7 +11,11 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { parseWaveformPeaks } from './waveform';
+import { downsampleWaveformPeaks, parseWaveformPeaks } from './waveform';
+
+const WAVEFORM_BAR_GAP = 2;
+const WAVEFORM_MIN_BAR_WIDTH = 2;
+const FALLBACK_TRACK_HEIGHT = 2;
 
 @Component({
   selector: 'ppf-waveform-seek',
@@ -23,13 +27,17 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private animFrameId?: number;
   private resizeObserver?: ResizeObserver;
+  private activePointerId: number | null = null;
+  private keyboardSeeking = false;
 
-  public readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
+  private readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
+
   public readonly waveformData = input<string | null>();
   public readonly position = input.required<number>();
   public readonly duration = input.required<number>();
 
   public readonly seekStart = output<void>();
+  public readonly seekPreview = output<number>();
   public readonly seekChange = output<number>();
 
   protected readonly isDragging = signal<boolean>(false);
@@ -67,15 +75,16 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
     this.resizeCanvas();
     this.draw();
 
+    if (typeof ResizeObserver === 'undefined') {
+      return;
+    }
+
     this.resizeObserver = new ResizeObserver(() => {
       this.resizeCanvas();
       this.scheduleDraw();
     });
     this.resizeObserver.observe(canvasEl);
   }
-
-  private activePointerId: number | null = null;
-  private keyboardSeeking = false;
 
   protected onPointerDown(event: PointerEvent, input: HTMLInputElement): void {
     if (event.pointerType === 'mouse' && event.button !== 0) {
@@ -88,13 +97,15 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
   }
 
   protected onInput(seconds: number): void {
+    const nextPosition = this.clampPosition(seconds);
+
     if (this.activePointerId === null && !this.keyboardSeeking) {
       this.keyboardSeeking = true;
-      this.beginSeek(seconds);
+      this.beginSeek(nextPosition);
     }
 
-    this.dragPosition.set(seconds);
-    this.scheduleDraw();
+    this.dragPosition.set(nextPosition);
+    this.seekPreview.emit(nextPosition);
   }
 
   protected onPointerUp(event: PointerEvent, seconds: number): void {
@@ -124,22 +135,47 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
     this.completeSeek(seconds);
   }
 
+  protected onChange(seconds: number): void {
+    if (this.activePointerId !== null || !this.isDragging()) {
+      return;
+    }
+
+    this.keyboardSeeking = false;
+    this.completeSeek(seconds);
+  }
+
+  protected onBlur(seconds: number): void {
+    if (!this.keyboardSeeking) {
+      return;
+    }
+
+    this.keyboardSeeking = false;
+    this.completeSeek(seconds);
+  }
+
   private beginSeek(seconds: number): void {
     if (this.isDragging()) {
       return;
     }
 
-    this.dragPosition.set(seconds);
+    const nextPosition = this.clampPosition(seconds);
+
+    this.dragPosition.set(nextPosition);
     this.isDragging.set(true);
     this.seekStart.emit();
-    this.scheduleDraw();
+    this.seekPreview.emit(nextPosition);
   }
 
   private completeSeek(seconds: number): void {
-    this.dragPosition.set(seconds);
+    if (!this.isDragging()) {
+      return;
+    }
+
+    const nextPosition = this.clampPosition(seconds);
+
+    this.dragPosition.set(nextPosition);
     this.isDragging.set(false);
-    this.seekChange.emit(seconds);
-    this.scheduleDraw();
+    this.seekChange.emit(nextPosition);
   }
 
   private scheduleDraw(): void {
@@ -147,7 +183,10 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
       cancelAnimationFrame(this.animFrameId);
     }
 
-    this.animFrameId = requestAnimationFrame(() => this.draw());
+    this.animFrameId = requestAnimationFrame(() => {
+      this.animFrameId = undefined;
+      this.draw();
+    });
   }
 
   private resizeCanvas(): void {
@@ -159,8 +198,8 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
 
     const ratio = window.devicePixelRatio || 1;
 
-    canvas.width = canvas.clientWidth * ratio;
-    canvas.height = canvas.clientHeight * ratio;
+    canvas.width = Math.round(canvas.clientWidth * ratio);
+    canvas.height = Math.round(canvas.clientHeight * ratio);
     canvas.getContext('2d')?.setTransform(ratio, 0, 0, ratio, 0, 0);
   }
 
@@ -186,27 +225,56 @@ export class PpfWaveformSeekComponent implements AfterViewInit {
 
     ctx.clearRect(0, 0, width, height);
 
+    const shownPosition = this.isDragging() ? this.dragPosition() : this.position();
+    const playedX = this.duration() > 0 ? (shownPosition / this.duration()) * width : 0;
+    const clampedPlayedX = Math.min(width, Math.max(0, playedX));
     const peaks = this.peaks();
 
     if (!peaks.length) {
+      this.drawFallback(ctx, width, height, clampedPlayedX);
+
       return;
     }
 
-    const shownPosition = this.isDragging() ? this.dragPosition() : this.position();
-    const playedX = this.duration() > 0 ? (shownPosition / this.duration()) * width : 0;
-    const gap = 2;
-    const barWidth = width / peaks.length;
+    const maximumBars = Math.max(
+      1,
+      Math.floor(width / (WAVEFORM_MIN_BAR_WIDTH + WAVEFORM_BAR_GAP)),
+    );
+    const visiblePeaks = downsampleWaveformPeaks(peaks, maximumBars);
+    const barWidth = width / visiblePeaks.length;
 
-    for (let i = 0; i < peaks.length; i++) {
+    for (let i = 0; i < visiblePeaks.length; i++) {
       const x = i * barWidth;
-      const h = (peaks[i] / 100) * height;
+      const h = (visiblePeaks[i] / 100) * height;
       const y = (height - h) / 2;
-      const drawWidth = Math.max(1, barWidth - gap);
+      const drawWidth = Math.max(1, barWidth - WAVEFORM_BAR_GAP);
 
-      ctx.fillStyle = x + drawWidth <= playedX ? '#fff' : '#777';
+      ctx.fillStyle = x + drawWidth <= clampedPlayedX ? '#fff' : '#777';
       ctx.beginPath();
       ctx.roundRect(x, y, drawWidth, h, drawWidth / 2);
       ctx.fill();
     }
+  }
+
+  private clampPosition(seconds: number): number {
+    if (!Number.isFinite(seconds)) {
+      return 0;
+    }
+
+    return Math.min(Math.max(0, this.duration()), Math.max(0, seconds));
+  }
+
+  private drawFallback(
+    ctx: CanvasRenderingContext2D,
+    width: number,
+    height: number,
+    playedX: number,
+  ): void {
+    const y = (height - FALLBACK_TRACK_HEIGHT) / 2;
+
+    ctx.fillStyle = '#777';
+    ctx.fillRect(0, y, width, FALLBACK_TRACK_HEIGHT);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, y, playedX, FALLBACK_TRACK_HEIGHT);
   }
 }

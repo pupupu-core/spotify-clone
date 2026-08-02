@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { PpfPlayerService } from '../../services/track-player.service';
 import { DurationPipe } from '../../../../shared/pipes/duration.pipe';
 import { MatIcon } from '@angular/material/icon';
@@ -27,8 +27,21 @@ import { PpfWaveformSeekComponent } from '../waveformseek/waveform-seek.componen
 })
 export class PpfFooterPlayerComponent {
   protected readonly player = inject(PpfPlayerService);
+  protected readonly seekPreviewPosition = signal<number | null>(null);
+  protected readonly displayedPosition = computed(
+    () => this.seekPreviewPosition() ?? this.player.position(),
+  );
 
   private readonly dialog = inject(MatDialog);
+
+  protected previewSeek(seconds: number): void {
+    this.seekPreviewPosition.set(seconds);
+  }
+
+  protected finishSeek(seconds: number): void {
+    this.player.finishSeeking(seconds);
+    this.seekPreviewPosition.set(null);
+  }
 
   protected openQueue(event: Event): void {
     const target = event.target;
