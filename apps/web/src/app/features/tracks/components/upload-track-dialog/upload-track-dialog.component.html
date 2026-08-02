@@ -1,12 +1,29 @@
 <form [formGroup]="uploadTrackForm" (ngSubmit)="submit()">
   <mat-dialog-content class="upload-track-dialog">
+    <mat-dialog-actions class="close-container">
+      <button
+        matIconButton
+        type="button"
+        aria-label="Close upload track dialog"
+        [mat-dialog-close]="true"
+        [disabled]="isLoading()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-dialog-actions>
+
     <div class="track-info">
       <div class="file-field">
-        <label for="track-file">Audio file</label>
+        <label for="track-file" class="file-input">
+          <mat-icon fontSet="material-icons-outlined">audio_file</mat-icon>
+          <span>{{ uploadTrackForm.controls.file.value?.name ?? 'Choose audio file' }}</span>
+        </label>
         <input
           id="track-file"
           type="file"
+          class="hidden"
           [accept]="'.mp3,.wav,.ogg,.flac,.aac,.m4a,.mp4'"
+          [disabled]="isLoading()"
           (change)="setFile($event)"
         />
         @if (uploadTrackForm.controls.file.touched && uploadTrackForm.controls.file.invalid) {
@@ -50,7 +67,16 @@
     </div>
 
     <mat-dialog-actions class="actions-buttons">
-      <button matButton="filled" type="submit" [disabled]="isLoading()">
+      <button
+        matButton="text"
+        type="button"
+        class="cancel"
+        [mat-dialog-close]="true"
+        [disabled]="isLoading()"
+      >
+        Cancel
+      </button>
+      <button matButton="tonal" type="submit" [disabled]="isLoading()">
         {{ isLoading() ? 'Uploading...' : 'Upload' }}
       </button>
     </mat-dialog-actions>
