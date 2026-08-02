@@ -6,9 +6,16 @@ import { genresValidator } from '../track/validators/upload-track-genres.validat
 import { fileSizeValidator } from '~/shared/validators/file-size.validator';
 import { fileTypeValidator } from '~/shared/validators/file-type.validator';
 import { MatButton } from '@angular/material/button';
-import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatIconButton } from '@angular/material/button';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
 import { catchError, EMPTY, finalize } from 'rxjs';
 
 @Component({
@@ -16,9 +23,12 @@ import { catchError, EMPTY, finalize } from 'rxjs';
   imports: [
     MatButton,
     MatDialogActions,
+    MatDialogClose,
     MatDialogContent,
     MatError,
     MatFormField,
+    MatIcon,
+    MatIconButton,
     MatInput,
     MatLabel,
     ReactiveFormsModule,
@@ -81,25 +91,33 @@ export class UploadTrackDialogComponent {
       return;
     }
 
+    const { albumName, artistName, title } = this.uploadTrackForm.getRawValue();
+
+    this.uploadTrackForm.patchValue({
+      title: title.trim(),
+      artistName: artistName.trim(),
+      albumName: albumName.trim(),
+    });
+
     if (this.uploadTrackForm.invalid) {
       this.uploadTrackForm.markAllAsTouched();
 
       return;
     }
 
-    const { albumName, artistName, file, genres, title } = this.uploadTrackForm.getRawValue();
+    const values = this.uploadTrackForm.getRawValue();
 
-    if (!file) {
+    if (!values.file) {
       return;
     }
 
     this.trackService
       .uploadTrack({
-        file,
-        title,
-        artistName,
-        albumName,
-        genres,
+        file: values.file,
+        title: values.title,
+        artistName: values.artistName,
+        albumName: values.albumName,
+        genres: values.genres,
       })
       .pipe(
         catchError(error => {
