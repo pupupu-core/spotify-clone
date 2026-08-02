@@ -33,7 +33,18 @@ export const UPLOAD_TRACK_CONSTRAINTS = {
   },
   limits: {
     maxFileSizeBytes: 10 * 1024 * 1024, // 10MB
+    maxFileSizeMb: 10, // 10MB
     typeRegex: /^audio\/(mpeg|mp3|wav|ogg|flac|aac|x-m4a|mp4)$/,
+    types: [
+      'audio/mpeg',
+      'audio/mp3',
+      'audio/wav',
+      'audio/ogg',
+      'audio/flac',
+      'audio/aac',
+      'audio/x-m4a',
+      'audio/mp4',
+    ],
   },
 };
 

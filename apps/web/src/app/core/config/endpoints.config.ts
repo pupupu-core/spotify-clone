@@ -36,6 +36,12 @@ export const APP_ENDPOINTS = {
       version: API_VERSION,
       path: API_ENDPOINTS.ACCOUNT.ME.clientUrl,
     }),
+    TRACKS: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.ACCOUNT.TRACKS.clientUrl,
+    }),
   },
   ARTIST: {
     MUSIC_INFO: (artistId: string) =>
@@ -93,6 +99,22 @@ export const APP_ENDPOINTS = {
       prefix: null,
       version: API_VERSION,
       path: API_ENDPOINTS.TRACK.DISCOVERY.clientUrl,
+    }),
+  },
+  TRACK: {
+    UPLOAD: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.TRACK.UPLOAD.clientUrl,
+    }),
+  },
+  PLAYLIST: {
+    LIST: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.PLAYLIST.LIST.clientUrl,
     }),
   },
 } as const;

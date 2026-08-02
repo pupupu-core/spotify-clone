@@ -5,7 +5,7 @@
       <span>We tuned the sound just for you,</span><br />
       {{ store.displayName() || 'Listener' }}.
     </div>
-    <button class="upload-button" matFab extended>
+    <button class="upload-button" matFab extended (click)="openUploadTrackForm()">
       <div>
         <mat-icon
           aria-hidden="false"
@@ -21,7 +21,7 @@
       class="playlist"
       title="My Playlist"
       mode="library"
-      [albumsList]="[]"
+      [albumsList]="[myUploadsVirtualPlaylist(), ...playlists()]"
       (createNew)="openPlaylistForm()"
     />
   </div>
@@ -29,9 +29,9 @@
     <ppf-tracks-list
       headerControl="sort"
       ulMode="unnumbered"
-      [trackList]="[]"
+      [trackList]="uploadedTracks()"
       mode="list"
-      title="Recently played"
+      title="My uploads"
     />
   </div>
 </div>
