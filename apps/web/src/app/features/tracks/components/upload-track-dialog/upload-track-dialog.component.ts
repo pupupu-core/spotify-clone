@@ -40,7 +40,8 @@ import { catchError, EMPTY, finalize } from 'rxjs';
 export class UploadTrackDialogComponent {
   private readonly trackService = inject(TrackService);
   private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject(MatDialogRef<UploadTrackDialogComponent>);
+  private readonly dialogRef =
+    inject<MatDialogRef<UploadTrackDialogComponent, boolean>>(MatDialogRef);
 
   protected readonly isLoading = signal(false);
 
