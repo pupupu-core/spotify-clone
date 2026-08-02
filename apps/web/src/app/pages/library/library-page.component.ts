@@ -7,6 +7,7 @@ import { PlaylistShelfComponent } from '~/shared/ui/playlist/components/playlist
 import { MatDialog } from '@angular/material/dialog';
 import { CreatePlaylistDialogComponent } from '~/features/playlist/create/components/create-playlist-dialog/create-playlist-dialog.component';
 import { UserStore } from '~/core/stores/user/user.store';
+import { UploadTrackDialogComponent } from '~/features/tracks/components/upload-track-dialog/upload-track-dialog.component';
 
 @Component({
   selector: 'ppf-library-page',
@@ -21,6 +22,13 @@ export class LibraryPageComponent implements OnInit {
 
   public openPlaylistForm(): void {
     this.dialog.open(CreatePlaylistDialogComponent, {
+      minWidth: 670,
+      minHeight: 'min-content',
+    });
+  }
+
+  public openUploadTrackForm(): void {
+    this.dialog.open(UploadTrackDialogComponent, {
       minWidth: 670,
       minHeight: 'min-content',
     });

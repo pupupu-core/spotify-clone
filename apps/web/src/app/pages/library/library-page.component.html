@@ -5,7 +5,7 @@
       <span>We tuned the sound just for you,</span><br />
       {{ store.displayName() || 'Listener' }}.
     </div>
-    <button class="upload-button" matFab extended>
+    <button class="upload-button" matFab extended (click)="openUploadTrackForm()">
       <div>
         <mat-icon
           aria-hidden="false"
