@@ -11,6 +11,8 @@ import { ArtistApiService } from '~/features/artist/services/artist-api.service'
 import { APP_ROUTES } from '~/core/tokens/app-routes.token';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 import { NgOptimizedImage } from '@angular/common';
+import type { TrackUI } from '~/shared/models/track-ui.model';
+import { PlaylistsDialogService } from '~/core/services/playlists-dialog.service';
 
 @Component({
   selector: 'ppf-artist-page',
@@ -24,6 +26,7 @@ export class ArtistPageComponent {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly routes = inject(APP_ROUTES);
+  private readonly playlistDialog = inject(PlaylistsDialogService);
 
   public readonly store = inject(ArtistPageStore);
   public readonly artistId = toSignal(
@@ -44,5 +47,9 @@ export class ArtistPageComponent {
 
   public redirectToAlbumPage(id: string): void {
     void this.router.navigateByUrl(this.routes.ARTIST_ALBUM.to(id));
+  }
+
+  protected openAddToPlaylist(track: TrackUI): void {
+    this.playlistDialog.openAddToPlaylist(track);
   }
 }

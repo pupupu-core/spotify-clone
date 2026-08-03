@@ -10,6 +10,7 @@
         [trackList]="popularTracks()"
         class="tile-content popular-tracks"
         ulMode="unnumbered"
+        (addClick)="openAddToPlaylist($event)"
       />
     </mat-grid-tile>
 
@@ -20,6 +21,7 @@
         class="tile-content new-releases"
         mode="grid"
         ulMode="unnumbered"
+        (addClick)="openAddToPlaylist($event)"
       />
     </mat-grid-tile>
 

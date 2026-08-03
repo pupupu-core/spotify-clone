@@ -1,4 +1,3 @@
-<!--TODO: добавить данные после добавления интерфейса-->
 @if (store.isLoading()) {
   <ppf-loader>
     <p>Loading artist...</p>
@@ -35,6 +34,7 @@
         title="Popular tracks"
         [trackList]="store.popularTracks()"
         ulMode="unnumbered"
+        (addClick)="openAddToPlaylist($event)"
       />
       <ppf-playlist-shelf
         mode="artist"

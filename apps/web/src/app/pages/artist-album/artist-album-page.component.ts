@@ -9,6 +9,8 @@ import { PLACEHOLDER_URL_XL } from '~/core/constants/common.constants';
 import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
+import type { TrackUI } from '~/shared/models/track-ui.model';
+import { PlaylistsDialogService } from '~/core/services/playlists-dialog.service';
 
 @Component({
   selector: 'ppf-artist-album',
@@ -20,6 +22,7 @@ import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 })
 export class ArtistAlbumPageComponent {
   private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly playlistDialog = inject(PlaylistsDialogService);
 
   public readonly store = inject(ArtistAlbumPageStore);
   public readonly albumId = toSignal(
@@ -37,4 +40,7 @@ export class ArtistAlbumPageComponent {
   }
 
   protected readonly PLACEHOLDER_URL_XL = PLACEHOLDER_URL_XL;
+  protected openAddToPlaylist(track: TrackUI): void {
+    this.playlistDialog.openAddToPlaylist(track);
+  }
 }
