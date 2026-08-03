@@ -37,8 +37,13 @@
 }
 
 ppf-tracks-list {
+  @include mixins.scrollbar-thin(var(--mat-sys-on-surface-variant));
+
+  overflow-y: scroll;
+
   width: 100%;
   min-height: 350px;
   border: none;
+
   box-shadow: none;
 }
