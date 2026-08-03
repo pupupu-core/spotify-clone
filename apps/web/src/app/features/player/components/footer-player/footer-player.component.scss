@@ -141,8 +141,12 @@
 }
 
 .section-wrapper {
+  padding-top: variables.$space-8;
+  padding-bottom: variables.$space-16;
+
   > div {
-    padding: variables.$space-16;
+    padding-right: variables.$space-16;
+    padding-left: variables.$space-16;
   }
 }
 
@@ -221,6 +225,7 @@
 }
 
 .time-position {
+  justify-self: center;
   text-align: right;
 }
 
