@@ -198,8 +198,6 @@ export class CreatePlaylistDialogComponent implements OnInit {
   public ngOnInit(): void {
     const track = this.dialogData?.track;
 
-    console.log('nennenene>>>>', track);
-
     if (track) {
       this.selectedTracks.set([track]);
     }

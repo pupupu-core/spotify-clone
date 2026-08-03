@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import type { PlaylistsPreviewResponse } from '@streaming-service/model';
+import type { PlaylistResponse, PlaylistsPreviewResponse } from '@streaming-service/model';
 import type { Observable } from 'rxjs';
 import { APP_ENDPOINTS } from '~/core/config/endpoints.config';
 
@@ -12,5 +12,9 @@ export class PlaylistService {
 
   public fetchMyPlaylists(): Observable<PlaylistsPreviewResponse> {
     return this.http.get<PlaylistsPreviewResponse>(APP_ENDPOINTS.PLAYLIST.LIST);
+  }
+
+  public fetchPlaylist(playlistId: string): Observable<PlaylistResponse> {
+    return this.http.get<PlaylistResponse>(APP_ENDPOINTS.PLAYLIST.DETAIL(playlistId));
   }
 }

@@ -23,6 +23,7 @@
       mode="library"
       [albumsList]="[myUploadsVirtualPlaylist(), ...store.userPlaylists()]"
       (createNew)="openPlaylistForm()"
+      (playlistClick)="openEditPlaylist($event)"
     />
   </div>
   <div class="recently-played">
