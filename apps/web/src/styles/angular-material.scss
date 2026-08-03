@@ -54,6 +54,16 @@
   }
 }
 
+.search-page-sort-button {
+  .mat-sort-header-arrow {
+    opacity: 1;
+  }
+
+  .mat-sort-header-container {
+    min-height: 40px;
+  }
+}
+
 .mat-mdc-snack-bar-container.ppf-toaster-panel {
   --mat-snack-bar-container-color: transparent;
   --ppf-toaster-width: 450px;
