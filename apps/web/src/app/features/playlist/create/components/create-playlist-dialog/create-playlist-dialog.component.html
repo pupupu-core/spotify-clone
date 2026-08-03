@@ -70,7 +70,7 @@
   </form>
   <div class="search-track">
     <ppf-search-bar (querySubmit)="searchTracks($event)" />
-    <div class="tracks-list" [class.tracks-list--selected]="!showSelected()">
+    <div class="tracks-list" [class.tracks-list--selected]="showSelected()">
       <div class="selected-list-container">
         <button matButton="filled" class="selected-button" (click)="showSelected.update(v => !v)">
           Selected Tracks ({{ selectedTracks().length }})
