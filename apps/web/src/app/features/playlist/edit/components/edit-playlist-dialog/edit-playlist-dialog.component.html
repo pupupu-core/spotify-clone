@@ -39,7 +39,8 @@
     </div>
 
     <ppf-tracks-list
-      [trackList]="playlistDetail()?.tracks || []"
+      [trackList]="tracks()"
+      (reorder)="tracks.set($event)"
       mode="list"
       headerControl="noControl"
       [playlistEditMode]="true"

@@ -16,6 +16,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import type { TrackUI } from '~/shared/models/track-ui.model';
 
 @Component({
   selector: 'ppf-edit-playlist-dialog',
@@ -39,13 +40,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class EditPlaylistDialogComponent implements OnInit {
   private readonly playlistId = inject<string>(MAT_DIALOG_DATA);
   private readonly playlistService = inject(PlaylistService);
+  protected readonly tracks = signal<TrackUI[]>([]);
 
   protected readonly playlistDetail = signal<AlbumUI | undefined>(undefined);
 
   public ngOnInit(): void {
     if (this.playlistId) {
       this.playlistService.fetchPlaylist(this.playlistId).subscribe(response => {
-        this.playlistDetail.set(mapPlaylistResponseToAlbumUI(response));
+        const playlist = mapPlaylistResponseToAlbumUI(response);
+
+        this.playlistDetail.set(playlist);
+        this.tracks.set(playlist.tracks ?? []);
       });
     }
   }
