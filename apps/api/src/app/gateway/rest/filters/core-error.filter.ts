@@ -2,6 +2,7 @@ import { CoreError } from '$/core/errors/core.error';
 import { InvalidCredentialsError } from '$/core/errors/invalid-credentials.error';
 import { InvalidPlaylistTrackReferenceError } from '$/core/errors/invalid-playlist-track-reference.error';
 import { LocalEmailAlreadyTakenError } from '$/core/errors/local-email-already-taken.error';
+import { TrackProviderUnavailableError } from '$/core/errors/track-provider-unavailable.error';
 import {
   ArgumentsHost,
   BadRequestException,
@@ -9,6 +10,7 @@ import {
   ConflictException,
   ExceptionFilter,
   HttpStatus,
+  ServiceUnavailableException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
@@ -46,6 +48,19 @@ export class CoreErrorFilter extends BaseExceptionFilter implements ExceptionFil
       super.catch(
         new BadRequestException({
           statusCode: HttpStatus.BAD_REQUEST,
+          code: error.code,
+          message: error.message,
+        }),
+        host,
+      );
+
+      return;
+    }
+
+    if (error instanceof TrackProviderUnavailableError) {
+      super.catch(
+        new ServiceUnavailableException({
+          statusCode: HttpStatus.SERVICE_UNAVAILABLE,
           code: error.code,
           message: error.message,
         }),
