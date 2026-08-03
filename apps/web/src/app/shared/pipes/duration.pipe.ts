@@ -6,7 +6,11 @@ import { SECONDS_PER_HOURS, SECONDS_PER_MINUTE } from '../../core/constants/numb
   name: 'duration',
 })
 export class DurationPipe implements PipeTransform {
-  transform(time: string | number, format: 'fullTime' | undefined = undefined): string {
+  transform(time: string | number | undefined, format: 'fullTime' | undefined = undefined): string {
+    if (time === undefined) {
+      return '';
+    }
+
     const timeNumber = Number(time);
     const hours = Math.trunc(timeNumber / SECONDS_PER_HOURS).toString();
     const minutes = Math.trunc(timeNumber / SECONDS_PER_MINUTE)
