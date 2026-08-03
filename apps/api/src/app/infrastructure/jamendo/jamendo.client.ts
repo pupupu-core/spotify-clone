@@ -100,11 +100,7 @@ export class JamendoClient {
       }
 
       if (missingIds.size === 0) {
-        return uniqueIds.reduce<JamendoTrack[]>((resolvedTracks, id) => {
-          const track = tracksById.get(String(id));
-
-          return track ? [...resolvedTracks, track] : resolvedTracks;
-        }, []);
+        break;
       }
 
       if (attempt < this.RETRIEVE_TRACKS_MAX_ATTEMPTS) {
@@ -112,9 +108,11 @@ export class JamendoClient {
       }
     }
 
-    throw new JamendoUnavailableError(
-      `Jamendo did not return requested tracks: ${[...missingIds].join(', ')}`,
-    );
+    return uniqueIds.reduce<JamendoTrack[]>((resolvedTracks, id) => {
+      const track = tracksById.get(String(id));
+
+      return track ? [...resolvedTracks, track] : resolvedTracks;
+    }, []);
   }
 
   // Public methods
