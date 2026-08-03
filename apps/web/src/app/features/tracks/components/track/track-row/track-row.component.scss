@@ -105,7 +105,6 @@
   }
 
   &--normal-mode {
-    grid-column: -2 / -1;
     margin-left: 20px;
   }
 }
@@ -129,4 +128,8 @@
     height: 18px;
     font-size: 18px;
   }
+}
+
+.track-stat--hidden {
+  visibility: hidden;
 }
