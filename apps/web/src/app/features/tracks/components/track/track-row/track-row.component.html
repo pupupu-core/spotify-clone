@@ -53,41 +53,40 @@
     [class.track-info--recently-played]="isRecentlyPlayed()"
     [class.track-info--create-mode]="playlistCreateMode()"
   >
-    
-@if (!playlistCreateMode()) {
-  @if (isRecentlyPlayed()) {
-    <p>
-      <mat-icon inline fontSet="material-icons-outlined">history</mat-icon>
-      {{ track().lastPlayedAt | date: 'shortDate' }}
-    </p>
-  } @else {
-    <p [class.track-stat--hidden]="track().source === 'userUpload'">
-      <mat-icon
-        inline
-        aria-hidden="false"
-        aria-label="Headphones statistic"
-        fontSet="material-icons-outlined"
-      >
-        headphones
-      </mat-icon>
+    @if (!playlistCreateMode()) {
+      @if (isRecentlyPlayed()) {
+        <p>
+          <mat-icon inline fontSet="material-icons-outlined">history</mat-icon>
+          {{ track().lastPlayedAt | date: 'shortDate' }}
+        </p>
+      } @else {
+        <p [class.track-stat--hidden]="track().source === 'userUpload'">
+          <mat-icon
+            inline
+            aria-hidden="false"
+            aria-label="Headphones statistic"
+            fontSet="material-icons-outlined"
+          >
+            headphones
+          </mat-icon>
 
-      {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
-    </p>
-  }
+          {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
+        </p>
+      }
 
-  <p [class.track-stat--hidden]="track().source === 'userUpload'">
-    <mat-icon
-      inline
-      aria-hidden="false"
-      aria-label="Track duration"
-      fontSet="material-icons-outlined"
-    >
-      timer
-    </mat-icon>
+      <p [class.track-stat--hidden]="track().source === 'userUpload'">
+        <mat-icon
+          inline
+          aria-hidden="false"
+          aria-label="Track duration"
+          fontSet="material-icons-outlined"
+        >
+          timer
+        </mat-icon>
 
-    {{ (track().duration | duration) || '00:00' }}
-  </p>
-}
+        {{ (track().duration | duration) || '00:00' }}
+      </p>
+    }
 
     <div class="actions actions--normal-mode">
       <button matIconButton aria-label="Track playback control button" (click)="playClick.emit()">
