@@ -36,6 +36,12 @@ export const APP_ENDPOINTS = {
       version: API_VERSION,
       path: API_ENDPOINTS.ACCOUNT.ME.clientUrl,
     }),
+    RECENTLY_PLAYED: buildApiPath({
+      origin: environment.apiOrigin,
+      prefix: null,
+      version: API_VERSION,
+      path: API_ENDPOINTS.ACCOUNT.RECENTLY_PLAYED.clientUrl,
+    }),
     TRACKS: buildApiPath({
       origin: environment.apiOrigin,
       prefix: null,

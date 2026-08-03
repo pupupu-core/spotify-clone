@@ -1,19 +1,21 @@
-<div class="track-container" [class.track-container--playing]="highlighted()">
+<div
+  class="track-container"
+  [class.track-container--playing]="highlighted()"
+  [class.track-container--recently-played]="isRecentlyPlayed()"
+>
   <div class="track-content">
     @if (playlistEditMode()) {
       <div class="actions actions--edit-mode">
-        <button
-          matIconButton
-          aria-label="Track playback control button"
-          (click)="removeClick.emit()"
-        >
-          <mat-icon fontSet="material-icons-outlined"> close</mat-icon>
+        <button matIconButton aria-label="Remove track from playlist" (click)="removeClick.emit()">
+          <mat-icon fontSet="material-icons-outlined">close</mat-icon>
         </button>
-        <button matIconButton aria-label="Track add control button">
-          <mat-icon fontSet="material-icons-outlined"> drag_handle</mat-icon>
+
+        <button matIconButton aria-label="Reorder track">
+          <mat-icon fontSet="material-icons-outlined">drag_handle</mat-icon>
         </button>
       </div>
     }
+
     <div class="album-cover">
       <img
         [ngSrc]="track().imageUrl || track().albumImageUrl || PLACEHOLDER_URL"
@@ -23,60 +25,81 @@
         loading="lazy"
       />
     </div>
+
     <div class="track-text">
       <div class="author-name">
         @if (track().sourse !== 'userUpload') {
-          <a [routerLink]="['/artist', track().artistId]">{{
-            track().artistName || 'Artist name'
-          }}</a>
+          <a [routerLink]="['/artist', track().artistId]">
+            {{ track().artistName || 'Artist name' }}
+          </a>
         } @else {
           <span>{{ track().artistName || 'Artist name' }}</span>
         }
       </div>
+
       <div class="track-title">
-        <h4 class="track-name">{{ track().name || 'Track name' }}</h4>
+        <h4 class="track-name">
+          {{ track().name || 'Track name' }}
+        </h4>
+
         @if (track().sourse === 'userUpload') {
           <span class="uploaded-badge" tabindex="0" matTooltip="Uploaded">
-            <mat-icon aria-hidden="true" fontSet="material-icons-outlined">cloud_upload</mat-icon>
+            <mat-icon aria-hidden="true" fontSet="material-icons-outlined"> cloud_upload </mat-icon>
           </span>
         }
       </div>
     </div>
   </div>
-  <div class="track-info" [class.track-info--create-mode]="playlistCreateMode()">
+
+  <div
+    class="track-info"
+    [class.track-info--recently-played]="isRecentlyPlayed()"
+    [class.track-info--create-mode]="playlistCreateMode()"
+  >
     @if (!playlistCreateMode()) {
-      <ng-container>
+      @if (isRecentlyPlayed()) {
+        <p>
+          <mat-icon inline fontSet="material-icons-outlined"> history </mat-icon>
+
+          {{ track().lastPlayedAt | date: 'shortDate' }}
+        </p>
+      } @else {
         <p>
           <mat-icon
             inline
             aria-hidden="false"
-            aria-label="headphones icon"
+            aria-label="Headphones statistic"
             fontSet="material-icons-outlined"
           >
             headphones
           </mat-icon>
+
           {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
         </p>
-        <p>
-          <mat-icon
-            inline
-            aria-hidden="false"
-            aria-label="timer icon"
-            fontSet="material-icons-outlined"
-          >
-            timer
-          </mat-icon>
-          {{ (track().duration | duration) || '00:00' }}
-        </p>
-      </ng-container>
+      }
+
+      <p>
+        <mat-icon
+          inline
+          aria-hidden="false"
+          aria-label="Track duration"
+          fontSet="material-icons-outlined"
+        >
+          timer
+        </mat-icon>
+
+        {{ (track().duration | duration) || '00:00' }}
+      </p>
     }
+
     <div class="actions actions--normal-mode">
       <button matIconButton aria-label="Track playback control button" (click)="playClick.emit()">
         <mat-icon fontSet="material-icons-outlined">
           {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
         </mat-icon>
       </button>
-      <button matIconButton aria-label="Track add control button" (click)="addClick.emit(track())">
+
+      <button matIconButton aria-label="Add track to playlist" (click)="addClick.emit(track())">
         <mat-icon fontSet="material-icons-outlined">
           {{ selectedForPlaylist() ? 'check_small' : 'add' }}
         </mat-icon>
