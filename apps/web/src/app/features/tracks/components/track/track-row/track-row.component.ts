@@ -29,9 +29,15 @@ export class TrackRowComponent {
   public readonly isPlaying = input.required<boolean>();
   public readonly isActive = input<boolean | undefined>(undefined);
   protected readonly isRecentlyPlayed = computed(() => Boolean(this.track().lastPlayedAt));
-  public readonly track = input.required<TrackUI>();
-  public readonly playClick = output<void>();
 
-  protected readonly highlighted = computed(() => this.isActive() ?? this.isPlaying());
+  public readonly track = input.required<TrackUI>();
+  public readonly selectedForPlaylist = input(false);
+  public readonly playlistCreateMode = input(false);
+  public readonly playlistEditMode = input(false);
+  public readonly playClick = output<void>();
+  public readonly addClick = output<TrackUI>();
+  public readonly removeClick = output<void>();
+
+  protected readonly highlighted = computed(() => this.isPlaying() || this.selectedForPlaylist());
   protected readonly PLACEHOLDER_URL = PLACEHOLDER_URL_MD;
 }

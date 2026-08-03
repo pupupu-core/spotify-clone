@@ -39,17 +39,26 @@
 
       object-fit: cover;
     }
+  }
+
+  .controls {
+    position: absolute;
+    right: variables.$space-8;
+    bottom: variables.$space-8;
+
+    display: flex;
+    flex-direction: column;
+
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
 
     .control-button {
       --mat-icon-button-container-shape: #{variables.$radius-md};
 
-      position: absolute;
-      right: variables.$space-8;
-      bottom: variables.$space-8;
-
+      will-change: backdrop-filter;
       color: var(--mat-sys-on-surface);
-
-      backdrop-filter: blur(4px);
+      background: rgb(255 255 255 / 15%);
     }
   }
 
@@ -119,6 +128,10 @@
       }
     }
   }
+}
+
+.track-container:hover .controls {
+  opacity: 1;
 }
 
 button {

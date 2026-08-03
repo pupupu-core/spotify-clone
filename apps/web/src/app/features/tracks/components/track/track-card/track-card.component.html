@@ -7,16 +7,26 @@
       height="120"
       loading="lazy"
     />
-    <button
-      matIconButton
-      aria-label="control button"
-      class="control-button"
-      (click)="playClick.emit()"
-    >
-      <mat-icon fontSet="material-icons-outlined">
-        {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
-      </mat-icon>
-    </button>
+    <div class="controls">
+      <button
+        matIconButton
+        aria-label="control button"
+        class="control-button"
+        (click)="addClick.emit(track())"
+      >
+        <mat-icon fontSet="material-icons-outlined"> add</mat-icon>
+      </button>
+      <button
+        matIconButton
+        aria-label="control button"
+        class="control-button"
+        (click)="playClick.emit()"
+      >
+        <mat-icon fontSet="material-icons-outlined">
+          {{ isPlaying() ? 'pause_circle' : 'play_circle' }}
+        </mat-icon>
+      </button>
+    </div>
   </div>
   <div class="description">
     <div class="author-track-name">

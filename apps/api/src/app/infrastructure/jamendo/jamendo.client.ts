@@ -61,6 +61,7 @@ export class JamendoClient {
         type: input.type ?? 'single+albumtrack',
         id: input.id,
         artist_id: input.artistId,
+        album_id: input.albumId,
       },
       schema: JamendoListTracksResponseSchema,
     }).then(mapToListTracks);
@@ -115,6 +116,7 @@ export class JamendoClient {
         order: input.order,
         id: input.albumsId,
         imagesize: input.imagesize,
+        limit: input.limit,
       },
       schema: JamendoAlbumsResponseSchema,
     }).then(mapToAlbumsResponse);

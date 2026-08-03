@@ -1,5 +1,19 @@
 @if (view() === 'row') {
-  <ppf-tracks-row [isPlaying]="isPlaying()" [track]="track()" (playClick)="playClick.emit()" />
+  <ppf-tracks-row
+    [isPlaying]="isPlaying()"
+    [track]="track()"
+    [playlistCreateMode]="playlistCreateMode()"
+    [playlistEditMode]="playlistEditMode()"
+    [selectedForPlaylist]="selectedForPlaylist()"
+    (playClick)="playClick.emit()"
+    (addClick)="addClick.emit(track())"
+    (removeClick)="removeClick.emit()"
+  />
 } @else if (view() === 'card') {
-  <ppf-tracks-card [isPlaying]="isPlaying()" [track]="track()" (playClick)="playClick.emit()" />
+  <ppf-tracks-card
+    [isPlaying]="isPlaying()"
+    [track]="track()"
+    (playClick)="playClick.emit()"
+    (addClick)="addClick.emit(track())"
+  />
 }

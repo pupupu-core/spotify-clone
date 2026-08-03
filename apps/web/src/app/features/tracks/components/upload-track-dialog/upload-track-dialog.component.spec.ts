@@ -1,26 +1,26 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
-import { CreatePlaylistDialogComponent } from './create-playlist-dialog.component';
+import { provideHttpClient } from '@angular/common/http';
 import { MatDialogRef } from '@angular/material/dialog';
+import { UploadTrackDialogComponent } from './upload-track-dialog.component';
 
-describe('CreatePlaylistDialogComponent', () => {
-  let component: CreatePlaylistDialogComponent;
-  let fixture: ComponentFixture<CreatePlaylistDialogComponent>;
+describe('UploadTrackDialogComponent', () => {
+  let component: UploadTrackDialogComponent;
+  let fixture: ComponentFixture<UploadTrackDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreatePlaylistDialogComponent],
+      imports: [UploadTrackDialogComponent],
       providers: [
+        provideHttpClient(),
         {
           provide: MatDialogRef,
-          useValue: {
-            close: vi.fn(),
-          },
+          useValue: { close: (): void => undefined },
         },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CreatePlaylistDialogComponent);
+    fixture = TestBed.createComponent(UploadTrackDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
