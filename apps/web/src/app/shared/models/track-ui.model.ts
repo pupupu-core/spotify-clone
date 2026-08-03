@@ -13,7 +13,7 @@ export interface TrackUI {
   albumName?: string;
   genres?: string[];
   albumId?: string;
-  sourse?: TrackSource;
+  source: TrackSource;
   listenedTotal?: number;
   waveformData?: string;
 }

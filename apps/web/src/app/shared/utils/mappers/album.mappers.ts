@@ -34,6 +34,7 @@ export function mapAlbumResponseToAlbumUI(album: AlbumResponse): AlbumUI {
 export function mapAlbumTrackResponseToTrackUI(track: AlbumTrack, album: AlbumResponse): TrackUI {
   return {
     id: track.trackId,
+    source: 'jamendo',
     name: track.name,
     duration: Number(track.duration),
     artistId: track.artistId ?? album.artistId,

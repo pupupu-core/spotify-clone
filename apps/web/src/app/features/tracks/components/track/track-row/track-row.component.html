@@ -25,7 +25,7 @@
     </div>
     <div class="track-text">
       <div class="author-name">
-        @if (track().sourse !== 'userUpload') {
+        @if (track().source !== 'userUpload') {
           <a [routerLink]="['/artist', track().artistId]">{{
             track().artistName || 'Artist name'
           }}</a>
@@ -35,7 +35,7 @@
       </div>
       <div class="track-title">
         <h4 class="track-name">{{ track().name || 'Track name' }}</h4>
-        @if (track().sourse === 'userUpload') {
+        @if (track().source === 'userUpload') {
           <span class="uploaded-badge" tabindex="0" matTooltip="Uploaded">
             <mat-icon aria-hidden="true" fontSet="material-icons-outlined">cloud_upload</mat-icon>
           </span>
