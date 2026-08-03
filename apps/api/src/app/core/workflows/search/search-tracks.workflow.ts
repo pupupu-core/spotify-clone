@@ -29,10 +29,16 @@ export class SearchTracksWorkflow {
       return await this.fetchSearchTracksStep.execute(normalizedQuery, limit);
     }
 
-    const [uploadedTracks, jamendoTracks] = await Promise.all([
-      this.searchUploadedTracksStep.execute({ accountId, query: normalizedQuery, limit }),
-      this.fetchSearchTracksStep.execute(normalizedQuery, limit),
-    ]);
+    const uploadedTracks = await this.searchUploadedTracksStep.execute({
+      accountId,
+      query: normalizedQuery,
+      limit,
+    });
+    const jamendoTracks = await this.fetchSearchTracksStep.execute(
+      normalizedQuery,
+      limit,
+      uploadedTracks.length === 0,
+    );
 
     return [...uploadedTracks, ...jamendoTracks].slice(0, limit);
   }

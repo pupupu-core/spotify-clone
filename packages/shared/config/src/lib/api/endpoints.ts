@@ -28,6 +28,10 @@ export const API_ENDPOINTS = {
       serverPath: 'tracks',
       clientUrl: '/account/tracks',
     },
+    RECENTLY_PLAYED: {
+      serverPath: 'recently-played',
+      clientUrl: '/account/recently-played',
+    },
   },
   TRACK: {
     basePath: 'tracks',

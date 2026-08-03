@@ -103,9 +103,7 @@ export class CreatePlaylistDialogComponent implements OnInit {
 
   protected readonly VALID_FILE_TYPE = VALID_FILE_TYPE;
   protected readonly coverPreview = signal<string>('');
-  private readonly trackSearchRequest = signal<TrackSearchRequest>({
-    query: '',
-  });
+  private readonly trackSearchRequest = signal<TrackSearchRequest>({ query: '' });
 
   protected readonly submitAttempted = signal(false);
   protected readonly showSelected = signal<boolean>(false);
@@ -204,11 +202,7 @@ export class CreatePlaylistDialogComponent implements OnInit {
   }
 
   protected searchTracks(query: string): void {
-    const normalizedQuery = query.trim();
-
-    this.trackSearchRequest.update(() => ({
-      query: normalizedQuery,
-    }));
+    this.trackSearchRequest.set({ query: query.trim() });
   }
 
   public setCover(event: Event): void {
@@ -238,7 +232,7 @@ export class CreatePlaylistDialogComponent implements OnInit {
 
     const baseState = { query, tracks: [] };
 
-    return this.searchApi.tracks(query).pipe(
+    return this.searchApi.tracks(query, { includeUploads: true }).pipe(
       map(
         (tracks): TrackSearchState => ({
           status: 'success',

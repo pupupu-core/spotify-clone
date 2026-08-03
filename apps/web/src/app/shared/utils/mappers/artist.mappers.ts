@@ -9,6 +9,7 @@ export function mapArtistTrackToTrackUI(
 ): TrackUI {
   return {
     id: track.id,
+    source: 'jamendo',
     name: track.name,
     duration: Number(track.duration),
     artistId,

@@ -201,9 +201,8 @@ export class PpfSearchPageComponent {
         case 'artist_meta':
           return `${track.artistName} ${track.name}`.toLowerCase();
 
-        //todo - get real, not hard-coded, playcount
         case 'play_count':
-          return 100000;
+          return track.listenedTotal ?? 0;
 
         case 'duration':
           return track.duration;

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PlaylistController } from './playlist.controller';
 import { CreatePlaylistWorkflow } from '$/core/workflows/playlist/create-playlist.workflow';
-import { ResolvePlaylistTrackReferencesStep } from '$/core/steps/resolve-playlist-track-references.step';
+import { ResolvePlaylistTrackReferencesStep } from '$/core/steps/resolve-playlist-track-references.step/resolve-playlist-track-references.step';
 import { CreateAccountPlaylistStep } from '$/core/steps/create-account-playlist.step';
 import { RetrieveOwnedPlaylistStep } from '$/core/steps/retrieve-owned-playlist.step';
 import { RetrieveAccessiblePlaylistStep } from '$/core/steps/retrieve-accessible-playlist.step';

@@ -54,6 +54,16 @@
   }
 }
 
+.search-page-sort-button {
+  .mat-sort-header-arrow {
+    opacity: 1;
+  }
+
+  .mat-sort-header-container {
+    min-height: 40px;
+  }
+}
+
 .mat-mdc-snack-bar-container.ppf-toaster-panel {
   --mat-snack-bar-container-color: transparent;
   --ppf-toaster-width: 450px;
@@ -74,5 +84,11 @@
   .mdc-snackbar__label {
     padding-top: variables.$space-10;
     padding-bottom: 0;
+  }
+}
+
+.input-wrapper {
+  .mat-mdc-slider {
+    width: 1200px;
   }
 }

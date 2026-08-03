@@ -3,7 +3,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import type { TrackUI } from '~/shared/models/track-ui.model';
-import { NgOptimizedImage } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { PLACEHOLDER_URL_MD } from '~/core/constants/common.constants';
 import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { AbbreviatedNumberPipe } from '~/shared/pipes/abbreviated-number.pipe';
@@ -16,6 +16,7 @@ import { MatTooltip } from '@angular/material/tooltip';
     MatIconButton,
     RouterLink,
     NgOptimizedImage,
+    DatePipe,
     DurationPipe,
     AbbreviatedNumberPipe,
     MatTooltip,
@@ -26,6 +27,9 @@ import { MatTooltip } from '@angular/material/tooltip';
 })
 export class TrackRowComponent {
   public readonly isPlaying = input.required<boolean>();
+  public readonly isActive = input<boolean | undefined>(undefined);
+  protected readonly isRecentlyPlayed = computed(() => Boolean(this.track().lastPlayedAt));
+
   public readonly track = input.required<TrackUI>();
   public readonly selectedForPlaylist = input(false);
   public readonly playlistCreateMode = input(false);

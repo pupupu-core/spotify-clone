@@ -77,6 +77,11 @@
     place-items: center start;
     justify-content: space-between;
 
+    &--recently-played {
+      grid-template-columns: repeat(3, max-content);
+      column-gap: variables.$space-8;
+    }
+
     &--create-mode {
       grid-template-columns: auto;
       justify-content: end;
@@ -128,4 +133,8 @@
     height: 18px;
     font-size: 18px;
   }
+}
+
+.track-stat--hidden {
+  visibility: hidden;
 }

@@ -27,7 +27,7 @@
             }}</a>
           </span>
           <span
-            ><a class="track-name">{{ track.name }}</a>
+            ><a class="track-name" [title]="track.name">{{ track.name }}</a>
           </span>
         </div>
       } @else {
@@ -79,6 +79,20 @@
       </button>
     </div>
 
+    <div class="playback-modes">
+      <button
+        matIconButton
+        type="button"
+        title="repeat"
+        [disabled]="!track"
+        (click)="player.toggleRepeatOne()"
+      >
+        <mat-icon fontSet="material-icons-outlined">
+          {{ player.isRepeatOneEnabled() ? 'repeat_one' : 'repeat' }}
+        </mat-icon>
+      </button>
+    </div>
+
     <div class="volume">
       <button matButton type="button" (click)="player.toggleMute()">
         @if (player.isMuted()) {
@@ -92,7 +106,7 @@
         }
       </button>
 
-      <mat-slider>
+      <mat-slider [disabled]="!track">
         <input
           matSliderThumb
           #volumeSlider
@@ -101,31 +115,23 @@
           [max]="100"
           [value]="player.volume()"
           (input)="player.setVolume(volumeSlider.valueAsNumber)"
-          [disabled]="!track"
         />
       </mat-slider>
     </div>
 
     <div class="progress">
-      <div class="time-wrapper">
-        <span class="time time-position">{{ player.position() | duration }}</span>
-        <span class="time-slash"> / </span>
-        <span class="time time-duration">{{ player.duration() | duration }}</span>
-      </div>
+      <span class="time time-position">{{ displayedPosition() | duration }}</span>
       <div class="input-wrapper">
-        <mat-slider>
-          <input
-            matSliderThumb
-            #seekSlider
-            type="range"
-            min="0"
-            [max]="player.duration() || 0"
-            [value]="player.position()"
-            (input)="player.seek(seekSlider.valueAsNumber)"
-            [disabled]="!track"
-          />
-        </mat-slider>
+        <ppf-waveform-seek
+          [waveformData]="track?.waveformData"
+          [position]="player.position()"
+          [duration]="player.duration()"
+          (seekStart)="player.startSeeking()"
+          (seekPreview)="previewSeek($event)"
+          (seekChange)="finishSeek($event)"
+        />
       </div>
+      <span class="time time-duration">{{ player.duration() | duration }}</span>
     </div>
   </div>
 </section>

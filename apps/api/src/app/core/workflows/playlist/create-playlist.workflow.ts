@@ -1,5 +1,5 @@
 import { CreateAccountPlaylistStep } from '$/core/steps/create-account-playlist.step';
-import { ResolvePlaylistTrackReferencesStep } from '$/core/steps/resolve-playlist-track-references.step';
+import { ResolvePlaylistTrackReferencesStep } from '$/core/steps/resolve-playlist-track-references.step/resolve-playlist-track-references.step';
 import { RetrieveOwnedPlaylistStep } from '$/core/steps/retrieve-owned-playlist.step';
 import { Injectable } from '@nestjs/common';
 import {
