@@ -15,5 +15,8 @@ export interface TrackUI {
   albumId?: string;
   source: TrackSource;
   listenedTotal?: number;
+  lastPlayedAt?: string;
+  lastPlayedPositionSec?: number | null;
+  playCount?: number;
   waveformData?: string;
 }

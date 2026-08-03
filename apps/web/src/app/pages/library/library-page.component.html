@@ -5,18 +5,17 @@
       <span>We tuned the sound just for you,</span><br />
       {{ store.displayName() || 'Listener' }}.
     </div>
+
     <button class="upload-button" matFab extended (click)="openUploadTrackForm()">
       <div>
-        <mat-icon
-          aria-hidden="false"
-          aria-label="upload track icon"
-          fontSet="material-icons-outlined"
-        >
+        <mat-icon aria-hidden="false" aria-label="Upload track" fontSet="material-icons-outlined">
           cloud_upload
         </mat-icon>
+
         <span>upload new track</span>
       </div>
     </button>
+
     <ppf-playlist-shelf
       class="playlist"
       title="My Playlist"
@@ -25,14 +24,16 @@
       (createNew)="openPlaylistForm()"
     />
   </div>
+
   <div class="recently-played">
     <ppf-tracks-list
       headerControl="sort"
       ulMode="unnumbered"
-      [trackList]="uploadedTracks()"
+      [trackList]="recentlyPlayedTracks()"
       mode="list"
-      title="My uploads"
+      title="Recently played"
       (addClick)="openAddToPlaylist($event)"
+      (sortChange)="sortRecentlyPlayed($event)"
     />
   </div>
 </div>

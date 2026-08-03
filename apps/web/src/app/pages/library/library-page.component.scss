@@ -81,3 +81,19 @@
   grid-area: playlist;
   color: var(--mat-sys-surface);
 }
+
+.recently-played {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  height: 600px;
+  min-height: 0;
+
+  ppf-tracks-list {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+  }
+}

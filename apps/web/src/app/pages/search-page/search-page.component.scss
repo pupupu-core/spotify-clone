@@ -103,14 +103,40 @@ th.mat-sort-header-sorted {
   );
 }
 
+.panel-genres {
+  display: contents;
+}
+
+.genre-field {
+  width: 192px;
+  border-radius: variables.$radius-2xl;
+  background: var(--mat-sys-tertiary);
+
+  @include mat.form-field-overrides(
+    (
+      outlined-container-shape: variables.$radius-2xl,
+      outlined-outline-color: transparent,
+      outlined-hover-outline-color: transparent,
+      outlined-focus-outline-color: var(--mat-sys-secondary-container),
+      outlined-input-text-color: var(--mat-sys-surface),
+      outlined-input-text-placeholder-color: var(--mat-sys-surface),
+      trailing-icon-color: var(--mat-sys-surface),
+    )
+  );
+}
+
 .chip-grid-container {
   overflow-y: auto;
-  display: block;
+  align-self: start;
 
-  width: 500px;
-  height: 60px;
-  max-height: 88px;
-  padding: 4px;
+  width: 160px;
+  min-width: 100px;
+  height: 86px;
+  padding: variables.$space-4 0;
+
+  mat-chip {
+    text-transform: capitalize;
+  }
 
   @include mixins.scrollbar-thin(var(--mat-sys-on-surface-variant));
 }
