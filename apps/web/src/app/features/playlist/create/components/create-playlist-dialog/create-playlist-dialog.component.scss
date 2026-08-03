@@ -179,7 +179,7 @@ ppf-tracks-list {
 }
 
 .selected-list {
-  overflow-y: scroll;
+  overflow-y: auto;
   min-width: 630px;
   max-height: 300px;
 }
