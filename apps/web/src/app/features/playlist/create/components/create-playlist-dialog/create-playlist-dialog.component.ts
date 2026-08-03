@@ -1,5 +1,7 @@
+import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
+  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
@@ -26,6 +28,7 @@ import type { PlaylistTrackRequest } from '~/shared/models/user-playlists.model'
 import { CreatePlaylistService } from '~/features/playlist/create/services/create-playlist.service';
 import type { CreatePlaylistRequest } from '@streaming-service/model';
 import { PpfToasterService } from '~/core/services/ppf-toaster.service';
+import type { CreatePlaylistDialogData } from '~/features/playlist/models/playlists.models';
 
 const MAX_SIZE_COVER_MB = 3;
 const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/avif', 'image/webp', 'image/jpeg'];
@@ -93,7 +96,7 @@ const EMPTY_TRACK_SEARCH_STATE: TrackSearchState = {
   styleUrl: './create-playlist-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlaylistDialogComponent {
+export class CreatePlaylistDialogComponent implements OnInit {
   private readonly searchApi = inject(SearchApiService);
   private readonly createPlaylistService = inject(CreatePlaylistService);
   private readonly dialogRef = inject(MatDialogRef<CreatePlaylistDialogComponent>);
@@ -107,6 +110,7 @@ export class CreatePlaylistDialogComponent {
 
   protected readonly submitAttempted = signal(false);
   protected readonly selectedTracks = signal<PlaylistTrackRequest[]>([]);
+  protected readonly dialogData = inject<CreatePlaylistDialogData | null>(MAT_DIALOG_DATA);
   protected readonly isCreating = signal(false);
   protected readonly selectedIds = computed(() => {
     return new Set(
@@ -191,6 +195,14 @@ export class CreatePlaylistDialogComponent {
     return coverErrors;
   });
 
+  public ngOnInit(): void {
+    const track = this.dialogData?.track;
+
+    if (track) {
+      this.selectedTracks.set([mapTrackToPlaylistTrackRequest(track)]);
+    }
+  }
+
   protected searchTracks(query: string): void {
     const normalizedQuery = query.trim();
 
@@ -260,20 +272,6 @@ export class CreatePlaylistDialogComponent {
       return [...selected, playlistTrack];
     });
   }
-
-  // protected getSelectedId(): Set<string> {
-  //   const setIds = new Set<string>();
-  //
-  //   this.selectedTracks().map(track => {
-  //     if (track.source === 'jamendo') {
-  //       setIds.add(track.externalId);
-  //     } else if (track.source === 'userUpload') {
-  //       setIds.add(track.trackId);
-  //     }
-  //   });
-  //
-  //   return setIds;
-  // }
 
   protected createPlaylist(): void {
     if (this.isCreating()) {
