@@ -19,9 +19,7 @@ interface RecordRecentlyPlayedCommand {
 }
 
 const upsertRecentlyPlayedTrack = (tracks: TrackUI[], track: TrackUI): TrackUI[] => {
-  const nextTracks = tracks.filter(
-    item => item.id !== track.id || (item.sourse ?? 'jamendo') !== (track.sourse ?? 'jamendo'),
-  );
+  const nextTracks = tracks.filter(item => item.id !== track.id || item.source !== track.source);
 
   return [track, ...nextTracks].sort(
     (first, second) => getPlayedAtTime(second) - getPlayedAtTime(first),
