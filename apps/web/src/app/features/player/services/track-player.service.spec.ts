@@ -124,12 +124,10 @@ describe('PpfPlayerService', () => {
     expect(service.current()).toEqual(TRACKS[1]);
   });
 
-  it('delegates seeking, volume, and mute controls', () => {
-    service.seek(15);
+  it('delegates volume and mute controls', () => {
     service.setVolume(40);
     service.toggleMute();
 
-    expect(engine.seek).toHaveBeenCalledWith(15);
     expect(engine.setVolume).toHaveBeenCalledWith(40);
     expect(engine.toggleMute).toHaveBeenCalledTimes(1);
   });
