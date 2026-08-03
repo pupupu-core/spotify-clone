@@ -106,7 +106,7 @@
         }
       </button>
 
-      <mat-slider>
+      <mat-slider [disabled]="!track">
         <input
           matSliderThumb
           #volumeSlider
@@ -115,7 +115,6 @@
           [max]="100"
           [value]="player.volume()"
           (input)="player.setVolume(volumeSlider.valueAsNumber)"
-          [disabled]="!track"
         />
       </mat-slider>
     </div>
