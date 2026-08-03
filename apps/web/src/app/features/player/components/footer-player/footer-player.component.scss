@@ -80,15 +80,15 @@
 }
 
 .progress {
-  display: flex;
+  display: grid;
+  grid-template-columns: 5ch minmax(0, 1fr) 5ch;
   flex-basis: 100%;
-  flex-direction: column;
-  align-items: center;
-}
-
-.time-wrapper {
-  display: flex;
   gap: 10px;
+  align-items: center;
+  align-self: center;
+
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .section-wrapper {
@@ -98,7 +98,6 @@
 }
 
 .controls,
-.progress,
 .volume,
 .playback-modes {
   display: flex;
@@ -118,7 +117,6 @@
   z-index: 2;
 }
 
-.input-wrapper,
 .volume {
   @include mat.slider-overrides(
     (
@@ -126,4 +124,21 @@
       inactive-track-height: 2px,
     )
   );
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.time-position {
+  text-align: right;
+}
+
+.time-duration {
+  text-align: left;
 }

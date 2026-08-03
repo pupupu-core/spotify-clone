@@ -121,11 +121,7 @@
     </div>
 
     <div class="progress">
-      <div class="time-wrapper">
-        <span class="time time-position">{{ displayedPosition() | duration }}</span>
-        <span class="time-slash"> / </span>
-        <span class="time time-duration">{{ player.duration() | duration }}</span>
-      </div>
+      <span class="time time-position">{{ displayedPosition() | duration }}</span>
       <div class="input-wrapper">
         <ppf-waveform-seek
           [waveformData]="track?.waveformData"
@@ -136,6 +132,7 @@
           (seekChange)="finishSeek($event)"
         />
       </div>
+      <span class="time time-duration">{{ player.duration() | duration }}</span>
     </div>
   </div>
 </section>
