@@ -1,4 +1,4 @@
-import type { AccountRole } from '@streaming-service/model';
+import type { AccountRole, PlaylistPreview } from '@streaming-service/model';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 
 export interface UserState {
@@ -6,8 +6,7 @@ export interface UserState {
   email: string | null;
   displayName: string | null;
   role: AccountRole | null;
-  // TODO: обновить userPlaylist при появлении бэка
-  userPlaylist: [];
+  userPlaylists: PlaylistPreview[];
   recentlyPlayed: TrackUI[];
   isLoadingProfile: boolean;
   isLoadingPlaylists: boolean;
@@ -20,7 +19,7 @@ export const initialState: UserState = {
   email: null,
   displayName: null,
   role: null,
-  userPlaylist: [],
+  userPlaylists: [],
   recentlyPlayed: [],
   isLoadingProfile: false,
   isLoadingPlaylists: false,
