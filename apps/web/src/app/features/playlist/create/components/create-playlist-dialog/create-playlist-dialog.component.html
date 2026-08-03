@@ -70,21 +70,43 @@
   </form>
   <div class="search-track">
     <ppf-search-bar (querySubmit)="searchTracks($event)" />
-
-    @if (trackSearchState().status === 'loading') {
-      <ppf-loader />
-    } @else if (trackSearchState().status === 'error') {
-      <p>Please try again</p>
-    } @else {
-      <ppf-tracks-list
-        [trackList]="trackSearchState().tracks"
-        mode="list"
-        headerControl="noControl"
-        [title]="searchResultTitle()"
-        (addClick)="toggleTrackSelection($event)"
-        [selectedIds]="selectedIds()"
-      />
-    }
+    <div class="tracks-list" [class.tracks-list--selected]="!showSelected()">
+      <div class="selected-list-container">
+        <button matButton="filled" class="selected-button" (click)="showSelected.update(v => !v)">
+          Selected Tracks ({{ selectedTracks().length }})
+          <mat-icon fontSet="material-icons-outlined"
+            >{{ showSelected() ? 'arrow_drop_up' : 'arrow_drop_down' }}
+          </mat-icon>
+        </button>
+        <ppf-tracks-list
+          class="selected-list"
+          [trackList]="selectedTracks()"
+          mode="list"
+          title=""
+          headerControl="noControl"
+          [playlistCreateMode]="true"
+          (addClick)="toggleTrackSelection($event)"
+          [selectedIds]="selectedIds()"
+          [class.hidden]="!showSelected()"
+        />
+      </div>
+      @if (trackSearchState().status === 'loading') {
+        <ppf-loader />
+      } @else if (trackSearchState().status === 'error') {
+        <p>Please try again</p>
+      } @else {
+        <ppf-tracks-list
+          class="search-list"
+          [trackList]="trackSearchState().tracks"
+          mode="list"
+          headerControl="noControl"
+          [playlistCreateMode]="true"
+          [title]="searchResultTitle()"
+          (addClick)="toggleTrackSelection($event)"
+          [selectedIds]="selectedIds()"
+        />
+      }
+    </div>
   </div>
   <mat-dialog-actions class="actions-buttons">
     <button matButton="text" [mat-dialog-close]="true" class="cancel">Cancel</button>

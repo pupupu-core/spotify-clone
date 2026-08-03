@@ -24,7 +24,6 @@ import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers'
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 import { mapTrackToPlaylistTrackRequest } from '~/shared/utils/mappers/playlists.mapper';
 import { isSamePlaylistTrack } from '~/shared/utils/playlist-track.utils';
-import type { PlaylistTrackRequest } from '~/shared/models/user-playlists.model';
 import { CreatePlaylistService } from '~/features/playlist/create/services/create-playlist.service';
 import type { CreatePlaylistRequest } from '@streaming-service/model';
 import { PpfToasterService } from '~/core/services/ppf-toaster.service';
@@ -109,13 +108,14 @@ export class CreatePlaylistDialogComponent implements OnInit {
   });
 
   protected readonly submitAttempted = signal(false);
-  protected readonly selectedTracks = signal<PlaylistTrackRequest[]>([]);
+  protected readonly showSelected = signal<boolean>(false);
+  protected readonly selectedTracks = signal<TrackUI[]>([]);
   protected readonly dialogData = inject<CreatePlaylistDialogData | null>(MAT_DIALOG_DATA);
   protected readonly isCreating = signal(false);
   protected readonly selectedIds = computed(() => {
     return new Set(
       this.selectedTracks().map(track => {
-        return track.source === 'jamendo' ? track.externalId : track.trackId;
+        return track.id;
       }),
     );
   });
@@ -199,7 +199,7 @@ export class CreatePlaylistDialogComponent implements OnInit {
     const track = this.dialogData?.track;
 
     if (track) {
-      this.selectedTracks.set([mapTrackToPlaylistTrackRequest(track)]);
+      this.selectedTracks.set([track]);
     }
   }
 
@@ -260,16 +260,16 @@ export class CreatePlaylistDialogComponent implements OnInit {
   }
 
   protected toggleTrackSelection(selectedTrack: TrackUI): void {
-    const playlistTrack = mapTrackToPlaylistTrackRequest(selectedTrack);
+    // const playlistTrack = mapTrackToPlaylistTrackRequest(selectedTrack);
 
     this.selectedTracks.update(selected => {
-      const isSelected = selected.some(track => isSamePlaylistTrack(playlistTrack, track));
+      const isSelected = selected.some(track => isSamePlaylistTrack(selectedTrack, track));
 
       if (isSelected) {
-        return selected.filter(track => !isSamePlaylistTrack(playlistTrack, track));
+        return selected.filter(track => !isSamePlaylistTrack(selectedTrack, track));
       }
 
-      return [...selected, playlistTrack];
+      return [...selected, selectedTrack];
     });
   }
 
@@ -291,7 +291,7 @@ export class CreatePlaylistDialogComponent implements OnInit {
       name: formValue.playlistName ?? '',
       description: formValue.playlistDescription ?? '',
       visibility: 'private',
-      tracks: this.selectedTracks(),
+      tracks: this.selectedTracks().map(track => mapTrackToPlaylistTrackRequest(track)),
     };
 
     this.createPlaylistService.createPlaylist(request).subscribe({

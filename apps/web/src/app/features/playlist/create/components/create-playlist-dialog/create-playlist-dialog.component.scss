@@ -94,10 +94,6 @@
       border-radius: variables.$radius-lg;
       object-fit: cover;
     }
-
-    .hidden {
-      display: none;
-    }
   }
 
   .playlist-fields {
@@ -116,14 +112,14 @@
 }
 
 .search-track {
+  @include mixins.scrollbar-thin(var(--mat-sys-tertiary));
+
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 10px;
 
   height: 450px;
   margin-bottom: 10px;
-
-  @include mixins.scrollbar-thin(var(--mat-sys-surface));
 }
 
 .search-bar {
@@ -140,15 +136,29 @@
 }
 
 ppf-tracks-list {
+  padding: 5px;
+  border: none;
+  color: var(--mat-sys-surface);
+  box-shadow: none;
+}
+
+.search-list {
+  overflow-y: hidden;
   display: grid;
 
   min-width: 630px;
-  height: 350px;
+  max-height: 340px;
   border: none;
 
   color: var(--mat-sys-surface);
 
   box-shadow: none;
+}
+
+.tracks-list--selected {
+  .search-list {
+    max-height: 230px;
+  }
 }
 
 .actions-buttons {
@@ -161,4 +171,23 @@ ppf-tracks-list {
   grid-column: -1 / 1;
   color: var(--mat-sys-error);
   overflow-wrap: anywhere;
+}
+
+.tracks-list {
+  overflow: hidden auto;
+  height: 500px;
+}
+
+.selected-list {
+  overflow-y: scroll;
+  min-width: 630px;
+  max-height: 300px;
+}
+
+.selected-button {
+  --mat-button-filled-container-color: transparent;
+}
+
+.hidden {
+  display: none;
 }
