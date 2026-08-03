@@ -197,7 +197,11 @@
 
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-      <tr class="mat-row" *matNoDataRow>
+      <tr
+        class="mat-row"
+        *matNoDataRow
+        [style.display]="searchStatus() === 'loading' ? 'none' : null"
+      >
         <td class="mat-cell empty" colspan="6">
           @if (searchStatus() === 'idle') {
             Enter a track, artist, album, or tag in the search bar to get started.

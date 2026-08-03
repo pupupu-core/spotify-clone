@@ -72,6 +72,7 @@ export class HeaderComponent {
 
     void this.router.navigate([ROUTES.SEARCH.to], {
       queryParams: { q: normalizedQuery },
+      queryParamsHandling: 'merge',
     });
   }
 

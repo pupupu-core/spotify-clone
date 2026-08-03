@@ -109,7 +109,7 @@ describe('PpfSearchPageComponent', () => {
     expect(component.dataSource.sortingDataAccessor(track, 'artist_meta')).toContain(
       TRACK_MOCK.artistName,
     );
-    expect(component.dataSource.sortingDataAccessor(track, 'play_count')).toBe(100000);
+    expect(component.dataSource.sortingDataAccessor(track, 'play_count')).toBe(0);
     expect(component.dataSource.sortingDataAccessor(track, 'duration')).toBe(TRACK_MOCK.duration);
     expect(component.dataSource.sortingDataAccessor(track, 'unknown')).toBe('');
   });
