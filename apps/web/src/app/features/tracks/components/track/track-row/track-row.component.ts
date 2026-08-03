@@ -28,6 +28,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 export class TrackRowComponent {
   public readonly isPlaying = input.required<boolean>();
   public readonly isActive = input<boolean | undefined>(undefined);
+  protected readonly isRecentlyPlayed = computed(() => Boolean(this.track().lastPlayedAt));
   public readonly track = input.required<TrackUI>();
   public readonly playClick = output<void>();
 

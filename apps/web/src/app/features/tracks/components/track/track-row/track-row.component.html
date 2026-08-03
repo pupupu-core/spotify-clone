@@ -1,4 +1,8 @@
-<div class="track-container" [class.track-container--playing]="highlighted()">
+<div
+  class="track-container"
+  [class.track-container--playing]="highlighted()"
+  [class.track-container--recently-played]="isRecentlyPlayed()"
+>
   <div class="track-content">
     <div class="album-cover">
       <img
@@ -29,24 +33,28 @@
       </div>
     </div>
   </div>
-  <div class="track-info">
-    @if (track().lastPlayedAt) {
+  <div class="track-info" [class.track-info--recently-played]="isRecentlyPlayed()">
+    @if (isRecentlyPlayed()) {
       <p>
         <mat-icon inline fontSet="material-icons-outlined"> history </mat-icon>
+
         {{ track().lastPlayedAt | date: 'short' }}
       </p>
     }
-    <p>
-      <mat-icon
-        inline
-        aria-hidden="false"
-        aria-label="headphones icon"
-        fontSet="material-icons-outlined"
-      >
-        headphones
-      </mat-icon>
-      {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
-    </p>
+    @if (!isRecentlyPlayed()) {
+      <p>
+        <mat-icon
+          inline
+          aria-hidden="false"
+          aria-label="headphones icon"
+          fontSet="material-icons-outlined"
+        >
+          headphones
+        </mat-icon>
+
+        {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
+      </p>
+    }
     <p>
       <mat-icon
         inline

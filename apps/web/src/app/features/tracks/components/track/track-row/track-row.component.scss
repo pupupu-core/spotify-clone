@@ -81,6 +81,11 @@
     place-items: center start;
     justify-content: space-between;
 
+    &--recently-played {
+      grid-template-columns: repeat(3, max-content);
+      column-gap: variables.$space-8;
+    }
+
     p {
       display: flex;
       gap: 5px;
