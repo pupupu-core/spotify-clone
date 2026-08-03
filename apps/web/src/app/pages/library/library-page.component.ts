@@ -94,6 +94,7 @@ export class LibraryPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.store.loadUserProfile();
+    this.loadUploadedTracks();
     this.store.loadUserPlaylists();
     this.store.loadRecentlyPlayed();
   }
@@ -106,6 +107,31 @@ export class LibraryPageComponent implements OnInit {
     const parsedDate = Date.parse(track.lastPlayedAt);
 
     return Number.isNaN(parsedDate) ? 0 : parsedDate;
+  }
+
+  private loadUploadedTracks(): void {
+    this.trackService
+      .fetchMyUploads()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(response => {
+        this.uploadedTracks.set(
+          response.tracks
+            .filter(track => track.audioUrl !== null)
+            .map(track => ({
+              id: track.id,
+              name: track.title,
+              artistName: track.artistName ?? 'Unknown artist',
+              albumName: track.albumName ?? undefined,
+              genres: track.genres,
+              audioUrl: track.audioUrl ?? '',
+              duration: 0,
+              artistId: '',
+              imageUrl: '',
+              albumImageUrl: '',
+              source: 'userUpload' as const,
+            })),
+        );
+      });
   }
 
   protected openAddToPlaylist(track: TrackUI): void {
