@@ -88,6 +88,7 @@ export const UserStore = signalStore(
           tap(() => {
             patchState(store, {
               isLoadingRecentlyPlayed: true,
+              error: null,
             });
           }),
           switchMap(() =>
