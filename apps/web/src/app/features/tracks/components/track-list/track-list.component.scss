@@ -21,11 +21,14 @@
   overflow: hidden;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  gap: variables.$space-18;
   align-items: start;
 
   height: 100%;
   min-height: 0;
+}
+
+.title:not(:empty) {
+  margin-bottom: variables.$space-18;
 }
 
 .title {

@@ -8,18 +8,18 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { MatFabButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { PlaylistShelfComponent } from '~/shared/ui/playlist/components/playlist-shelf/playlist-shelf.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CreatePlaylistDialogComponent } from '~/features/playlist/create/components/create-playlist-dialog/create-playlist-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { PlaylistsAddDialogService } from '~/core/services/playlists-add-dialog.service';
 import { UserStore } from '~/core/stores/user/user.store';
+import { CreatePlaylistDialogComponent } from '~/features/playlist/create/components/create-playlist-dialog/create-playlist-dialog.component';
+import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { UploadTrackDialogComponent } from '~/features/tracks/components/upload-track-dialog/upload-track-dialog.component';
-import type { TrackUI } from '~/shared/models/track-ui.model';
 import { TrackService } from '~/features/tracks/services/track.service';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
-import { PlaylistService } from '~/features/playlist/services/playlist.service';
+import type { TrackUI } from '~/shared/models/track-ui.model';
+import { PlaylistShelfComponent } from '~/shared/ui/playlist/components/playlist-shelf/playlist-shelf.component';
 
 @Component({
   selector: 'ppf-library-page',
@@ -31,12 +31,11 @@ import { PlaylistService } from '~/features/playlist/services/playlist.service';
 export class LibraryPageComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
   private readonly trackService = inject(TrackService);
-  private readonly playlistService = inject(PlaylistService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly playlistDialog = inject(PlaylistsAddDialogService);
 
   protected readonly store = inject(UserStore);
   protected readonly uploadedTracks = signal<TrackUI[]>([]);
-  protected readonly playlists = signal<AlbumUI[]>([]);
 
   protected readonly myUploadsVirtualPlaylist = computed<AlbumUI>(() => ({
     id: 'my-uploads',
@@ -67,7 +66,7 @@ export class LibraryPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(created => {
       if (created === true) {
-        this.loadPlaylists();
+        this.store.loadUserPlaylists();
       }
     });
   }
@@ -94,7 +93,7 @@ export class LibraryPageComponent implements OnInit {
   public ngOnInit(): void {
     this.store.loadUserProfile();
     this.loadUploadedTracks();
-    this.loadPlaylists();
+    this.store.loadUserPlaylists();
     this.store.loadRecentlyPlayed();
   }
 
@@ -133,19 +132,7 @@ export class LibraryPageComponent implements OnInit {
       });
   }
 
-  private loadPlaylists(): void {
-    this.playlistService
-      .fetchMyPlaylists()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(response => {
-        this.playlists.set(
-          response.playlists.map(playlist => ({
-            id: playlist.id,
-            name: playlist.name,
-            imageUrl: playlist.coverUrl ?? undefined,
-            tracksCount: playlist.trackCount,
-          })),
-        );
-      });
+  protected openAddToPlaylist(track: TrackUI): void {
+    this.playlistDialog.openAddToPlaylist(track);
   }
 }

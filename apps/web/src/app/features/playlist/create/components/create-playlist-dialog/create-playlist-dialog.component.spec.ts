@@ -1,7 +1,7 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 import { CreatePlaylistDialogComponent } from './create-playlist-dialog.component';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 describe('CreatePlaylistDialogComponent', () => {
   let component: CreatePlaylistDialogComponent;
@@ -16,6 +16,10 @@ describe('CreatePlaylistDialogComponent', () => {
           useValue: {
             close: vi.fn(),
           },
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: null,
         },
       ],
     }).compileComponents();

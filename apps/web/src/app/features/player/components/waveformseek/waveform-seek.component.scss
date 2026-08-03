@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  width: 80%;
+  max-width: 100%;
+}
+
+.waveform {
+  position: relative;
+  width: 100%;
+  height: 36px;
+  border-radius: 4px;
+
+  &:has(.seek-input:focus-visible) {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+}
+
+.seek-input {
+  cursor: pointer;
+
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  margin: 0;
+
+  opacity: 0;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.seekbar {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

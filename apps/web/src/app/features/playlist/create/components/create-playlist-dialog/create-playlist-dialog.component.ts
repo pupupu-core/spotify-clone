@@ -1,5 +1,7 @@
+import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
+  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
@@ -20,12 +22,12 @@ import { SearchApiService } from '~/core/services/search-api.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
-import { mapTrackToPlaylistTrackRequest } from '~/shared/utils/mappers/playlist-track-request.mapper';
+import { mapTrackToPlaylistTrackRequest } from '~/shared/utils/mappers/playlists.mapper';
 import { isSamePlaylistTrack } from '~/shared/utils/playlist-track.utils';
-import type { PlaylistTrackRequest } from '~/shared/models/user-playlists.model';
 import { CreatePlaylistService } from '~/features/playlist/create/services/create-playlist.service';
 import type { CreatePlaylistRequest } from '@streaming-service/model';
 import { PpfToasterService } from '~/core/services/ppf-toaster.service';
+import type { CreatePlaylistDialogData } from '~/features/playlist/models/playlists.models';
 
 const MAX_SIZE_COVER_MB = 3;
 const VALID_FILE_TYPE = ['image/jpg', 'image/png', 'image/avif', 'image/webp', 'image/jpeg'];
@@ -93,7 +95,7 @@ const EMPTY_TRACK_SEARCH_STATE: TrackSearchState = {
   styleUrl: './create-playlist-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlaylistDialogComponent {
+export class CreatePlaylistDialogComponent implements OnInit {
   private readonly searchApi = inject(SearchApiService);
   private readonly createPlaylistService = inject(CreatePlaylistService);
   private readonly dialogRef = inject(MatDialogRef<CreatePlaylistDialogComponent>);
@@ -101,17 +103,17 @@ export class CreatePlaylistDialogComponent {
 
   protected readonly VALID_FILE_TYPE = VALID_FILE_TYPE;
   protected readonly coverPreview = signal<string>('');
-  private readonly trackSearchRequest = signal<TrackSearchRequest>({
-    query: '',
-  });
+  private readonly trackSearchRequest = signal<TrackSearchRequest>({ query: '' });
 
   protected readonly submitAttempted = signal(false);
-  protected readonly selectedTracks = signal<PlaylistTrackRequest[]>([]);
+  protected readonly showSelected = signal<boolean>(false);
+  protected readonly selectedTracks = signal<TrackUI[]>([]);
+  protected readonly dialogData = inject<CreatePlaylistDialogData | null>(MAT_DIALOG_DATA);
   protected readonly isCreating = signal(false);
   protected readonly selectedIds = computed(() => {
     return new Set(
       this.selectedTracks().map(track => {
-        return track.source === 'jamendo' ? track.externalId : track.trackId;
+        return track.id;
       }),
     );
   });
@@ -191,12 +193,16 @@ export class CreatePlaylistDialogComponent {
     return coverErrors;
   });
 
-  protected searchTracks(query: string): void {
-    const normalizedQuery = query.trim();
+  public ngOnInit(): void {
+    const track = this.dialogData?.track;
 
-    this.trackSearchRequest.update(() => ({
-      query: normalizedQuery,
-    }));
+    if (track) {
+      this.selectedTracks.set([track]);
+    }
+  }
+
+  protected searchTracks(query: string): void {
+    this.trackSearchRequest.set({ query: query.trim() });
   }
 
   public setCover(event: Event): void {
@@ -226,7 +232,7 @@ export class CreatePlaylistDialogComponent {
 
     const baseState = { query, tracks: [] };
 
-    return this.searchApi.tracks(query).pipe(
+    return this.searchApi.tracks(query, { includeUploads: true }).pipe(
       map(
         (tracks): TrackSearchState => ({
           status: 'success',
@@ -248,32 +254,16 @@ export class CreatePlaylistDialogComponent {
   }
 
   protected toggleTrackSelection(selectedTrack: TrackUI): void {
-    const playlistTrack = mapTrackToPlaylistTrackRequest(selectedTrack);
-
     this.selectedTracks.update(selected => {
-      const isSelected = selected.some(track => isSamePlaylistTrack(playlistTrack, track));
+      const isSelected = selected.some(track => isSamePlaylistTrack(selectedTrack, track));
 
       if (isSelected) {
-        return selected.filter(track => !isSamePlaylistTrack(playlistTrack, track));
+        return selected.filter(track => !isSamePlaylistTrack(selectedTrack, track));
       }
 
-      return [...selected, playlistTrack];
+      return [...selected, selectedTrack];
     });
   }
-
-  // protected getSelectedId(): Set<string> {
-  //   const setIds = new Set<string>();
-  //
-  //   this.selectedTracks().map(track => {
-  //     if (track.source === 'jamendo') {
-  //       setIds.add(track.externalId);
-  //     } else if (track.source === 'userUpload') {
-  //       setIds.add(track.trackId);
-  //     }
-  //   });
-  //
-  //   return setIds;
-  // }
 
   protected createPlaylist(): void {
     if (this.isCreating()) {
@@ -293,7 +283,7 @@ export class CreatePlaylistDialogComponent {
       name: formValue.playlistName ?? '',
       description: formValue.playlistDescription ?? '',
       visibility: 'private',
-      tracks: this.selectedTracks(),
+      tracks: this.selectedTracks().map(track => mapTrackToPlaylistTrackRequest(track)),
     };
 
     this.createPlaylistService.createPlaylist(request).subscribe({

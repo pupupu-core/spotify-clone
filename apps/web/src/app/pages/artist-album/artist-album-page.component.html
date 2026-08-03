@@ -33,6 +33,7 @@
       [title]="(store.name() ?? 'Album Name') + ':'"
       [trackList]="store.tracks()"
       ulMode="numbered"
+      (addClick)="openAddToPlaylist($event)"
     />
   </div>
 }

@@ -1,1 +1,1 @@
-export type AlbumCardMode = 'artist' | 'library';
+export type AlbumCardMode = 'artist' | 'library' | 'dialog';

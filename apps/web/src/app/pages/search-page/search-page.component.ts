@@ -42,6 +42,7 @@ import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers'
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { SearchPreferencesService } from '~/core/services/search-preferences.service';
+import { PlaylistsAddDialogService } from '~/core/services/playlists-add-dialog.service';
 
 const ALL_GENRES = ['funk', 'rock', 'pop', 'jazz', 'classical', 'electronic', 'hiphop', 'ambient'];
 const PAGE_SIZE = 4;
@@ -113,6 +114,7 @@ export class PpfSearchPageComponent {
   protected readonly player = inject(PpfPlayerService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly playlistDialog = inject(PlaylistsAddDialogService);
 
   private readonly destroyRef = inject(DestroyRef);
 
@@ -199,9 +201,8 @@ export class PpfSearchPageComponent {
         case 'artist_meta':
           return `${track.artistName} ${track.name}`.toLowerCase();
 
-        //todo - get real, not hard-coded, playcount
         case 'play_count':
-          return 100000;
+          return track.listenedTotal ?? 0;
 
         case 'duration':
           return track.duration;
@@ -449,5 +450,9 @@ export class PpfSearchPageComponent {
       .subscribe(state => {
         this.applySearchState(state);
       });
+  }
+
+  protected openAddToPlaylist(track: TrackUI): void {
+    this.playlistDialog.openAddToPlaylist(track);
   }
 }

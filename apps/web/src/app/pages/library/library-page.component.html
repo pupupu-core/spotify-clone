@@ -20,7 +20,7 @@
       class="playlist"
       title="My Playlist"
       mode="library"
-      [albumsList]="[myUploadsVirtualPlaylist(), ...playlists()]"
+      [albumsList]="[myUploadsVirtualPlaylist(), ...store.userPlaylists()]"
       (createNew)="openPlaylistForm()"
     />
   </div>
@@ -32,6 +32,7 @@
       [trackList]="recentlyPlayedTracks()"
       mode="list"
       title="Recently played"
+      (addClick)="openAddToPlaylist($event)"
       (sortChange)="sortRecentlyPlayed($event)"
     />
   </div>

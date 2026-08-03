@@ -17,12 +17,16 @@ export class PpfAudioEngine {
 
   public readonly isMuted = signal(false);
 
+  private isUserSeeking = false;
+  private resumeAfterSeeking = false;
+
   constructor() {
     this.preloadMetadata();
     this.constructEvents();
   }
 
   public load(src: string): void {
+    this.resetSeekingState();
     this.audio.src = src;
     this.position.set(0);
     this.duration.set(0);
@@ -67,6 +71,7 @@ export class PpfAudioEngine {
   }
 
   public clearAudioElement(): void {
+    this.resetSeekingState();
     this.audio.pause();
     this.audio.removeAttribute('src');
     this.audio.load();
@@ -81,6 +86,43 @@ export class PpfAudioEngine {
 
     this.audio.muted = muted;
     this.isMuted.set(muted);
+  }
+
+  public startSeeking(): void {
+    if (this.isUserSeeking) {
+      return;
+    }
+
+    this.isUserSeeking = true;
+    this.resumeAfterSeeking = !this.audio.paused;
+
+    if (this.resumeAfterSeeking) {
+      this.audio.pause();
+    }
+  }
+
+  public finishSeeking(seconds: number): void {
+    if (!this.isUserSeeking) {
+      return;
+    }
+
+    const shouldResume = this.resumeAfterSeeking;
+
+    this.resetSeekingState();
+
+    if (Number.isFinite(seconds)) {
+      const maximum = Number.isFinite(this.audio.duration)
+        ? Math.max(0, this.audio.duration)
+        : Math.max(0, seconds);
+      const position = Math.min(maximum, Math.max(0, seconds));
+
+      this.audio.currentTime = position;
+      this.position.set(position);
+    }
+
+    if (shouldResume) {
+      this.play();
+    }
   }
 
   private preloadMetadata(): void {
@@ -106,5 +148,10 @@ export class PpfAudioEngine {
     if (buffered.length > 0) {
       this.buffered.set(buffered.end(buffered.length - 1));
     }
+  }
+
+  private resetSeekingState(): void {
+    this.isUserSeeking = false;
+    this.resumeAfterSeeking = false;
   }
 }

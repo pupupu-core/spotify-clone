@@ -9,4 +9,6 @@ export interface AlbumUI {
   imageUrl?: string;
   tracksCount: number;
   tracks?: TrackUI[];
+  description?: string | null;
+  totalDurationSec?: number;
 }

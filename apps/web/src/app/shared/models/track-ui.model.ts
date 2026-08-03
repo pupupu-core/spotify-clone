@@ -18,4 +18,5 @@ export interface TrackUI {
   lastPlayedAt?: string;
   lastPlayedPositionSec?: number | null;
   playCount?: number;
+  waveformData?: string;
 }

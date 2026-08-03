@@ -4,4 +4,9 @@ export const TRACKS_CONFIG = {
     REQUEST_MAX_ATTEMPTS: 5,
     RETRY_REQUEST_DELAY_MS: 200,
   },
+  SEARCH: {
+    //
+    REQUEST_MAX_ATTEMPTS: 3,
+    RETRY_REQUEST_DELAY_MS: 200,
+  },
 };
