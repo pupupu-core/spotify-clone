@@ -1,5 +1,4 @@
 @use 'src/styles/variables';
-@use 'src/styles/mixins';
 
 :host {
   --mat-form-field-outlined-disabled-input-text-color: var(--mat-sys-surface);
@@ -7,14 +6,14 @@
   --mat-form-field-outlined-disabled-label-text-color: var(--mat-sys-surface);
 }
 
-.edit-playlist-dialog {
+.my-upload-playlist-dialog {
   overflow-y: auto;
   max-height: 100%;
   border-radius: variables.$radius-xl;
   background: var(--mat-sys-secondary);
 }
 
-.edit-content {
+.my-upload-content {
   display: flex;
   flex-direction: column;
   align-items: center;
