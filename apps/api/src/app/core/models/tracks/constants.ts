@@ -6,7 +6,7 @@ export const TRACKS_CONFIG = {
   },
   SEARCH: {
     //
-    REQUEST_MAX_ATTEMPTS: 5,
+    REQUEST_MAX_ATTEMPTS: 3,
     RETRY_REQUEST_DELAY_MS: 200,
   },
 };

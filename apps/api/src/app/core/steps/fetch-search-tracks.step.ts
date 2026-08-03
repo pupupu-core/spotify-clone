@@ -8,8 +8,14 @@ import { sleep } from '$/shared/lib/sleep';
 export class FetchSearchTracksStep {
   public constructor(private readonly jamendoClient: JamendoClient) {}
 
-  public async execute(query: string, limit: number): Promise<TrackResponse[]> {
-    for (let attempt = 1; attempt <= TRACKS_CONFIG.SEARCH.REQUEST_MAX_ATTEMPTS; attempt += 1) {
+  public async execute(
+    query: string,
+    limit: number,
+    retryEmptyResult = true,
+  ): Promise<TrackResponse[]> {
+    const maxAttempts = retryEmptyResult ? TRACKS_CONFIG.SEARCH.REQUEST_MAX_ATTEMPTS : 1;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
       const tracks = await this.jamendoClient.listTracks({
         order: 'relevance',
         search: query,
@@ -21,8 +27,8 @@ export class FetchSearchTracksStep {
         return tracks;
       }
 
-      if (attempt < TRACKS_CONFIG.SEARCH.REQUEST_MAX_ATTEMPTS) {
-        await sleep(TRACKS_CONFIG.SEARCH.RETRY_REQUEST_DELAY_MS * attempt);
+      if (attempt < maxAttempts) {
+        await sleep(TRACKS_CONFIG.SEARCH.RETRY_REQUEST_DELAY_MS);
       }
     }
 
