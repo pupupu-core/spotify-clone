@@ -1,0 +1,15 @@
+<mat-dialog-content class="create-playlist-dialog">
+  <mat-dialog-actions class="close-container" [mat-dialog-close]="true">
+    <button matIconButton aria-label="Close create playlist button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
+
+  <ppf-tracks-list
+    [trackList]="[]"
+    mode="list"
+    headerControl="noControl"
+    [playlistEditMode]="true"
+    title=""
+  />
+</mat-dialog-content>

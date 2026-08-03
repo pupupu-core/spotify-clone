@@ -40,6 +40,7 @@ export class HomePageComponent implements OnInit {
           this.popularTracks.set(discovery.popularTracks.map(mapTrackResponseToTrackUI));
           this.newReleaseTracks.set(discovery.newReleases.map(mapTrackResponseToTrackUI));
           this.discoverStatus.set('success');
+          console.log(this.popularTracks());
         }),
         catchError(error => {
           console.error(error);
