@@ -17,7 +17,9 @@
 
 .cover {
   align-items: center;
-  width: 30px;
+  width: 64px;
+  height: 64px;
+  border-radius: variables.$radius-md;
 }
 
 .section {
@@ -85,6 +87,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: row;
+  gap: 1rem;
   align-items: center;
 
   min-width: 0;
@@ -113,6 +116,16 @@
   display: block;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.artist-name {
+  font-size: variables.$font-size-md;
+  font-weight: 800;
+}
+
+.track-name {
+  font-size: variables.$font-size-md;
+  font-weight: 500;
 }
 
 .progress {
