@@ -41,6 +41,11 @@
     position: absolute;
     z-index: 1;
     inset: 0;
+
+    background:
+      radial-gradient(circle, rgb(101 199 255 / 16%) 0 1px, transparent 1.5px) 0 0 / 4px 4px,
+      linear-gradient(120deg, rgb(57 172 207 / 68%), rgb(255 255 255 / 52%));
+    backdrop-filter: blur(6px) saturate(80%);
   }
 }
 
@@ -48,9 +53,17 @@
   position: relative;
   z-index: 10;
 
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr);
+  align-items: center;
+
+  button {
+    color: #000;
+
+    &:disabled {
+      color: #777;
+    }
+  }
 }
 
 .background-cover {
@@ -69,20 +82,43 @@
 }
 
 .track-info {
+  overflow: hidden;
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  min-width: 0;
+}
+
+.cover-wrapper {
+  flex: 0 0 auto;
 }
 
 .names {
+  overflow: hidden;
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
+
+  min-width: 0;
+
+  > span {
+    overflow: hidden;
+  }
+}
+
+.artist-name,
+.track-name {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .progress {
   display: grid;
+  grid-column: 1 / -1;
   grid-template-columns: 5ch minmax(0, 1fr) 5ch;
-  flex-basis: 100%;
   gap: 10px;
   align-items: center;
   align-self: center;
@@ -104,6 +140,40 @@
   align-self: center;
 }
 
+.controls {
+  align-items: center;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 56px;
+    padding: 0;
+  }
+
+  mat-icon {
+    overflow: visible;
+    display: block;
+
+    width: 1em;
+    height: 1em;
+
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .play {
+    width: 76px;
+    height: 68px;
+
+    mat-icon {
+      font-size: 44px;
+    }
+  }
+}
+
 .playback-modes {
   align-items: center;
 }
@@ -118,6 +188,8 @@
 }
 
 .volume {
+  justify-self: end;
+
   @include mat.slider-overrides(
     (
       active-track-height: 2px,
