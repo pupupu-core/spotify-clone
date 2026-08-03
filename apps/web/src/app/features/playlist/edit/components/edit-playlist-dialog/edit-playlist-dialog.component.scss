@@ -1,0 +1,49 @@
+@use 'src/styles/variables';
+@use 'src/styles/mixins';
+
+:host {
+  --mat-form-field-outlined-disabled-input-text-color: var(--mat-sys-surface);
+  --mat-form-field-outlined-disabled-outline-color: var(--mat-sys-surface);
+  --mat-form-field-outlined-disabled-label-text-color: var(--mat-sys-surface);
+}
+
+.edit-playlist-dialog {
+  overflow-y: auto;
+  max-height: 100%;
+  border-radius: variables.$radius-xl;
+  background: var(--mat-sys-secondary);
+}
+
+.edit-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playlist-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  justify-items: center;
+
+  max-width: 420px;
+  margin: 0 auto 30px;
+}
+
+.cover {
+  img {
+    border-radius: variables.$radius-md;
+  }
+}
+
+ppf-tracks-list {
+  @include mixins.scrollbar-thin(var(--mat-sys-on-surface-variant));
+
+  overflow-y: scroll;
+
+  width: 100%;
+  min-height: 350px;
+  border: none;
+
+  box-shadow: none;
+}

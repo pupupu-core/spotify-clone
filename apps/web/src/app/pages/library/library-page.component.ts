@@ -20,6 +20,7 @@ import { TrackService } from '~/features/tracks/services/track.service';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { PlaylistShelfComponent } from '~/shared/ui/playlist/components/playlist-shelf/playlist-shelf.component';
+import { PlaylistEditDialogService } from '~/core/services/playlist-edit-dialog.service';
 
 @Component({
   selector: 'ppf-library-page',
@@ -33,6 +34,7 @@ export class LibraryPageComponent implements OnInit {
   private readonly trackService = inject(TrackService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly playlistDialog = inject(PlaylistsAddDialogService);
+  private readonly editDialog = inject(PlaylistEditDialogService);
 
   protected readonly store = inject(UserStore);
   protected readonly uploadedTracks = signal<TrackUI[]>([]);
@@ -134,5 +136,9 @@ export class LibraryPageComponent implements OnInit {
 
   protected openAddToPlaylist(track: TrackUI): void {
     this.playlistDialog.openAddToPlaylist(track);
+  }
+
+  protected openEditPlaylist(id: string): void {
+    this.editDialog.openEditPlaylist(id);
   }
 }

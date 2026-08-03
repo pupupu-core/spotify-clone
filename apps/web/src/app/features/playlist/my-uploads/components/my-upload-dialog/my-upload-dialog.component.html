@@ -1,0 +1,31 @@
+<div class="my-upload-playlist-dialog">
+  <mat-dialog-actions align="end" class="close-container" [mat-dialog-close]="true">
+    <button matIconButton aria-label="Close my upload playlist button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
+  <mat-dialog-content class="my-upload-content">
+    <form class="playlist-info">
+      <div class="cover">
+        <img [ngSrc]="PLACEHOLDER_URL_MD" alt="playlist cover" width="170" height="170" priority />
+      </div>
+      <div class="text">
+        <mat-form-field appearance="outline">
+          <mat-label>Playlist Name</mat-label>
+          <input matInput value="My uploads" disabled="true" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Playlist description</mat-label>
+          <textarea matInput value="Tracks you have uploaded to Pupufy." disabled="true"></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+
+    <ppf-tracks-list
+      [trackList]="uploadedTracks()"
+      mode="list"
+      headerControl="noControl"
+      title="Uploaded Tracks"
+    />
+  </mat-dialog-content>
+</div>

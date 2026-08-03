@@ -1,0 +1,50 @@
+<div class="edit-playlist-dialog">
+  <mat-dialog-actions align="end" class="close-container" [mat-dialog-close]="true">
+    <button matIconButton aria-label="Close edit playlist button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
+  <mat-dialog-content class="edit-content">
+    <form class="playlist-info">
+      <div class="cover">
+        <img
+          [ngSrc]="playlistDetail()?.imageUrl || PLACEHOLDER_URL_MD"
+          alt="playlist cover"
+          width="170"
+          height="170"
+          priority
+        />
+      </div>
+      <div class="text">
+        <mat-form-field appearance="outline">
+          <mat-label>Playlist Name</mat-label>
+          <input matInput [value]="playlistDetail()?.name || '...'" disabled="true" />
+        </mat-form-field>
+        @if (playlistDetail()?.description) {
+          <mat-form-field appearance="outline">
+            <mat-label>Playlist description</mat-label>
+            <textarea matInput [value]="playlistDetail()?.description" disabled="true"></textarea>
+          </mat-form-field>
+        }
+      </div>
+    </form>
+
+    <div class="actions-button">
+      <button matIconButton>
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button matIconButton>
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+
+    <ppf-tracks-list
+      [trackList]="tracks()"
+      (reorder)="tracks.set($event)"
+      mode="list"
+      headerControl="noControl"
+      [playlistEditMode]="true"
+      title=""
+    />
+  </mat-dialog-content>
+</div>

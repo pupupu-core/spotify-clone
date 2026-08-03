@@ -25,10 +25,10 @@
   --mat-sys-on-background: rgb(228 226 230);
 
   --mat-sys-surface: rgb(19 19 19);
-  --mat-sys-on-surface: rgb(226 226 226);
+  --mat-sys-on-surface: rgb(255 255 255);
 
   --mat-sys-surface-variant: rgb(69 70 78);
-  --mat-sys-on-surface-variant: rgb(198 198 207);
+  --mat-sys-on-surface-variant: rgb(255 255 255);
 
   --mat-sys-outline: rgb(143 144 152);
   --mat-sys-outline-variant: rgb(69 70 78);
