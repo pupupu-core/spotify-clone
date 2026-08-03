@@ -204,26 +204,6 @@ export class PpfPlayerService {
     return this.queue().filter((_, queueIndex) => queueIndex !== index);
   }
 
-  private getIndexAfterRemoval(
-    currentIndex: number | null,
-    removedIndex: number,
-    queueLength: number,
-  ): number | null {
-    if (currentIndex === null) {
-      return null;
-    }
-
-    if (removedIndex < currentIndex) {
-      return currentIndex - 1;
-    }
-
-    if (removedIndex === currentIndex) {
-      return Math.min(currentIndex, queueLength - 1);
-    }
-
-    return currentIndex;
-  }
-
   private handleTrackEnded(): void {
     if (this.isRepeatOneEnabled()) {
       this.engine.seek(0);
