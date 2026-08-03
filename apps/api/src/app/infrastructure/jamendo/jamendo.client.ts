@@ -39,10 +39,13 @@ import { JamendoAlbum } from '$/infrastructure/jamendo/types/albums';
 import { JamendoAlbumsResponseSchema } from '$/infrastructure/jamendo/dtos/albums.dto';
 import { mapToAlbumsResponse } from '$/infrastructure/jamendo/mappers/albums';
 import { JamendoAlbumsInput } from '$/infrastructure/jamendo/types/albums-input';
+import { sleep } from '$/shared/lib/sleep';
 
 @Injectable()
 export class JamendoClient {
   private readonly JAMENDO_API_BASE_URL = 'https://api.jamendo.com/v3.0/';
+  private readonly RETRIEVE_TRACKS_MAX_ATTEMPTS = 3;
+  private readonly RETRIEVE_TRACKS_RETRY_DELAY_MS = 200;
 
   public constructor(private readonly http: BaseHttpClient) {}
 
@@ -65,6 +68,53 @@ export class JamendoClient {
       },
       schema: JamendoListTracksResponseSchema,
     }).then(mapToListTracks);
+  }
+
+  // REFACTOR later
+  // Add a sahred private method for retry
+  // private async retryOptions(operation,
+  //   shouldRetry,
+  //   maxAttempts,
+  //   delayMs,
+  // }: RetryOptions<T>): Promise<T>
+  public async retrieveTracksByIds(ids: number[]): Promise<JamendoTrack[]> {
+    const uniqueIds = [...new Set(ids)];
+    const tracksById = new Map<string, JamendoTrack>();
+    const missingIds = new Set(uniqueIds.map(String));
+
+    if (uniqueIds.length === 0) {
+      return [];
+    }
+
+    for (let attempt = 1; attempt <= this.RETRIEVE_TRACKS_MAX_ATTEMPTS; attempt += 1) {
+      const tracks = await this.listTracks({
+        id: [...missingIds].map(Number),
+        order: 'id',
+        limit: missingIds.size,
+      });
+
+      for (const track of tracks) {
+        if (missingIds.delete(track.id)) {
+          tracksById.set(track.id, track);
+        }
+      }
+
+      if (missingIds.size === 0) {
+        return uniqueIds.reduce<JamendoTrack[]>((resolvedTracks, id) => {
+          const track = tracksById.get(String(id));
+
+          return track ? [...resolvedTracks, track] : resolvedTracks;
+        }, []);
+      }
+
+      if (attempt < this.RETRIEVE_TRACKS_MAX_ATTEMPTS) {
+        await sleep(this.RETRIEVE_TRACKS_RETRY_DELAY_MS * attempt);
+      }
+    }
+
+    throw new JamendoUnavailableError(
+      `Jamendo did not return requested tracks: ${[...missingIds].join(', ')}`,
+    );
   }
 
   // Public methods

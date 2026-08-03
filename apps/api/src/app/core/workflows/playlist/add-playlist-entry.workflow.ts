@@ -1,5 +1,5 @@
 import { AddPlaylistEntryStep } from '$/core/steps/add-playlist-entry.step';
-import { ResolvePlaylistTrackReferencesStep } from '$/core/steps/resolve-playlist-track-references.step';
+import { ResolvePlaylistTrackReferencesStep } from '$/core/steps/resolve-playlist-track-references.step/resolve-playlist-track-references.step';
 import { RetrieveOwnedPlaylistStep } from '$/core/steps/retrieve-owned-playlist.step';
 import { Injectable } from '@nestjs/common';
 import { PlaylistResponse, PlaylistTrackReference } from '@streaming-service/model';
