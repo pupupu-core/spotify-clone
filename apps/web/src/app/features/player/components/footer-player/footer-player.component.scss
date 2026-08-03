@@ -155,6 +155,7 @@
 .playback-modes {
   display: flex;
   align-self: center;
+  color: #000;
 }
 
 .controls {
@@ -211,6 +212,12 @@
     (
       active-track-height: 2px,
       inactive-track-height: 2px,
+      active-track-color: #000,
+      inactive-track-color: rgb(0 0 0 / 35%),
+      focus-handle-color: #000,
+      hover-handle-color: #000,
+      handle-color: #000,
+      ripple-color: #000,
     )
   );
 }
