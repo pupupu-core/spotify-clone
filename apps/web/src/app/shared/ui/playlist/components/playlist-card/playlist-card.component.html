@@ -41,8 +41,12 @@
 
 <ng-template #libraryHeader>
   <p>
-    <mat-icon inline>timer</mat-icon>
-    <span>{{ (album().totalDurationSec | duration) || '00:00' }}</span>
+    @if (album().id === 'my-uploads') {
+      <mat-icon inline>cloud_upload</mat-icon>
+    } @else {
+      <mat-icon inline>timer</mat-icon>
+      <span>{{ (album().totalDurationSec | duration) || '00:00' }}</span>
+    }
   </p>
   <p>
     <mat-icon inline>music_note</mat-icon>

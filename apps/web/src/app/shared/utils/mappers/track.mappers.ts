@@ -8,7 +8,7 @@ import type {
 export function mapTrackResponseToTrackUI(track: TrackResponse): TrackUI {
   return {
     id: track.id,
-    sourse: track.source ?? 'jamendo',
+    source: track.source ?? 'jamendo',
     name: track.name,
     duration: track.duration,
     artistId: track.artistId,
@@ -42,7 +42,7 @@ export function mapRecentlyPlayedTrackResponseToTrackUI(
     genres: track.genres,
     albumId: track.albumId,
     listenedTotal: track.listenedTotal,
-    sourse: track.source,
+    source: track.source,
     lastPlayedAt: track.lastPlayedAt,
     lastPlayedPositionSec: track.lastPlayedPositionSec,
     playCount: track.playCount,
@@ -64,7 +64,7 @@ export function mapTrackUIToRecordRecentlyPlayedRequest(
     imageUrl: track.imageUrl || null,
     albumImageUrl: track.albumImageUrl || null,
     audioUrl: track.audioUrl,
-    source: track.sourse ?? 'jamendo',
+    source: track.source ?? 'jamendo',
     positionSec,
   };
 }

@@ -126,7 +126,7 @@ export class LibraryPageComponent implements OnInit {
               artistId: '',
               imageUrl: '',
               albumImageUrl: '',
-              sourse: 'userUpload' as const,
+              source: 'userUpload' as const,
             })),
         );
       });

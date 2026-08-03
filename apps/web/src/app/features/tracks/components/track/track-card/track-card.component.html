@@ -31,7 +31,7 @@
   <div class="description">
     <div class="author-track-name">
       <h3 class="author-name">
-        @if (track().sourse !== 'userUpload') {
+        @if (track().source !== 'userUpload') {
           <a [routerLink]="routes.ARTIST.to(track().artistId)">{{ track().artistName }}</a>
         } @else {
           <span>{{ track().artistName }}</span>
