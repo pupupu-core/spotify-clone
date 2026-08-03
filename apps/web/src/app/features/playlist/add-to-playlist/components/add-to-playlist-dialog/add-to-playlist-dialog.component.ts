@@ -1,19 +1,42 @@
+import type { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { MatFabButton, MatIconButton } from '@angular/material/button';
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { PlaylistCreateDialogService } from '~/core/services/playlist-create-dialog.service';
+import { MatIcon } from '@angular/material/icon';
+import { UserStore } from '~/core/stores/user/user.store';
+import { PlaylistShelfComponent } from '~/shared/ui/playlist/components/playlist-shelf/playlist-shelf.component';
 
 @Component({
   selector: 'ppf-add-to-playlist-dialog',
-  imports: [MatButton, MatDialogActions, MatDialogClose],
+  imports: [
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogTitle,
+    MatIconButton,
+    MatIcon,
+    MatDialogContent,
+    PlaylistShelfComponent,
+    MatFabButton,
+  ],
   templateUrl: './add-to-playlist-dialog.component.html',
   styleUrl: './add-to-playlist-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddToPlaylistDialogComponent {
+export class AddToPlaylistDialogComponent implements OnInit {
   private readonly playlistDialog = inject(PlaylistCreateDialogService);
+  protected readonly store = inject(UserStore);
 
   protected openCreatePlaylistDialog(): void {
     this.playlistDialog.openCreatePlaylist();
+  }
+
+  public ngOnInit(): void {
+    this.store.loadUserPlaylists();
   }
 }

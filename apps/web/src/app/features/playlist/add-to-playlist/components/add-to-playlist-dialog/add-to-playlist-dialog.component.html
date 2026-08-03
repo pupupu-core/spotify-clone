@@ -1,18 +1,28 @@
-<h2>Add track to playlist</h2>
+<div class="playlists-dialog">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>Add track to playlist</h2>
 
-<div class="playlist-list">
-  <!--  @for (playlist of data.playlists; track playlist.id) {-->
-  <!--    <button-->
-  <!--      matButton-->
-  <!--      (click)="selectPlaylist(playlist.id)"-->
-  <!--    >-->
-  <!--      {{ playlist.name }}-->
-  <!--    </button>-->
-  <!--  }-->
+    <mat-dialog-actions align="end">
+      <button matIconButton mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-dialog-actions>
+  </div>
+
+  <mat-dialog-content>
+    <div class="new-btn-container">
+      <button
+        matFab
+        extended
+        mat-dialog-close
+        (click)="openCreatePlaylistDialog()"
+        class="new-playlist-btn"
+      >
+        <mat-icon>playlist_add</mat-icon>
+        Create new playlist
+      </button>
+    </div>
+
+    <ppf-playlist-shelf mode="dialog" [albumsList]="store.userPlaylists()" />
+  </mat-dialog-content>
 </div>
-
-<mat-dialog-actions>
-  <button matButton (click)="openCreatePlaylistDialog()">Create new playlist</button>
-
-  <button matButton mat-dialog-close>Cancel</button>
-</mat-dialog-actions>
