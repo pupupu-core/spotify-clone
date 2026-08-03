@@ -22,7 +22,7 @@ import { MatIcon } from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaylistShelfComponent implements AfterViewInit, OnDestroy {
-  public readonly title = input.required<string>();
+  public readonly title = input<string>('');
   public readonly albumsList = input.required<AlbumUI[]>();
   public readonly mode = input.required<AlbumCardMode>();
   protected readonly playlistClick = output<string>();

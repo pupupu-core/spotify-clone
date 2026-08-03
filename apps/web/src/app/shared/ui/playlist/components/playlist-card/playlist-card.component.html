@@ -1,4 +1,3 @@
-<!--TODO: заменить данные на input сигнал, после добавление интерфейсов-->
 <div class="playlist-card-container">
   <div class="header">
     @if (mode() === 'artist') {
@@ -17,7 +16,7 @@
     />
   </div>
   <div class="footer">
-    <p>{{ album().name || 'Album name' }}</p>
+    <p class="album-name">{{ album().name || 'Album name' }}</p>
     <button
       matIconButton
       aria-label="View playlist details"
@@ -43,8 +42,7 @@
 <ng-template #libraryHeader>
   <p>
     <mat-icon inline>timer</mat-icon>
-    <!--    TODO: исправить на реальные данные-->
-    <span>{{ '0' | duration }}</span>
+    <span>{{ (album().totalDurationSec | duration) || '00:00' }}</span>
   </p>
   <p>
     <mat-icon inline>music_note</mat-icon>

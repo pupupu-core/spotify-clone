@@ -1,0 +1,30 @@
+@use 'src/styles/variables';
+
+:host {
+  --mat-fab-container-color: transparent;
+  --mat-fab-foreground-color: var(--mat-sys-tertiary);
+  --mat-fab-extended-container-elevation-shadow: none;
+  --mat-fab-extended-hover-container-elevation-shadow: none;
+}
+
+.playlists-dialog {
+  padding: 16px;
+  color: black;
+  background: var(--mat-sys-primary-container);
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  color: black;
+}
+
+.new-btn-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+ppf-playlist-shelf {
+  color: var(--mat-sys-on-surface);
+}

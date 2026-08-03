@@ -42,8 +42,8 @@
             @if (filterForm.controls.minDuration.invalid) {
               <mat-error
                 >Please, enter a value from {{ this.inputMinValue }} to
-                {{ this.inputMaxValue }} seconds</mat-error
-              >
+                {{ this.inputMaxValue }} seconds
+              </mat-error>
             }
           </mat-form-field>
         </div>
@@ -81,8 +81,8 @@
             @if (filterForm.controls.maxDuration.invalid) {
               <mat-error
                 >Please, enter a value from {{ this.inputMinValue }} to
-                {{ this.inputMaxValue }} seconds</mat-error
-              >
+                {{ this.inputMaxValue }} seconds
+              </mat-error>
             }
           </mat-form-field>
         </div>
@@ -190,6 +190,7 @@
             [track]="track"
             [isPlaying]="player.current()?.id === track.id && player.isPlaying()"
             (playClick)="playTrack(track)"
+            (addClick)="openAddToPlaylist($event)"
           />
         </td>
       </ng-container>

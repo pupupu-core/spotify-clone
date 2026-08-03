@@ -1,19 +1,21 @@
 <div class="playlist-shelf">
-  <div class="title">
-    <h2>{{ title() }}</h2>
-    @if (mode() === 'library') {
-      <button class="new-playlist-btn" matFab extended (click)="createNew.emit()">
-        <mat-icon
-          aria-hidden="false"
-          aria-label="upload track icon"
-          fontSet="material-icons-outlined"
-        >
-          add
-        </mat-icon>
-        <span>create new</span>
-      </button>
-    }
-  </div>
+  @if (mode() !== 'dialog') {
+    <div class="title">
+      <h2>{{ title() }}</h2>
+      @if (mode() === 'library') {
+        <button class="new-playlist-btn" matFab extended (click)="createNew.emit()">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="upload track icon"
+            fontSet="material-icons-outlined"
+          >
+            add
+          </mat-icon>
+          <span>create new</span>
+        </button>
+      }
+    </div>
+  }
   <div class="playlist-shelf-inner" #playlistShelfInner (wheel)="wheelHandler($event)">
     @if (albumsList().length > 0) {
       @for (album of albumsList(); track album.id) {

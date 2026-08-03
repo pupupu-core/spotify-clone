@@ -21,7 +21,7 @@
       class="playlist"
       title="My Playlist"
       mode="library"
-      [albumsList]="[myUploadsVirtualPlaylist(), ...playlists()]"
+      [albumsList]="[myUploadsVirtualPlaylist(), ...store.userPlaylists()]"
       (createNew)="openPlaylistForm()"
     />
   </div>
@@ -32,6 +32,7 @@
       [trackList]="uploadedTracks()"
       mode="list"
       title="My uploads"
+      (addClick)="openAddToPlaylist($event)"
     />
   </div>
 </div>
