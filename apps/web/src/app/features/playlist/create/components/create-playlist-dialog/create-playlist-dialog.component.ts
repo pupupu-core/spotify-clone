@@ -260,8 +260,6 @@ export class CreatePlaylistDialogComponent implements OnInit {
   }
 
   protected toggleTrackSelection(selectedTrack: TrackUI): void {
-    // const playlistTrack = mapTrackToPlaylistTrackRequest(selectedTrack);
-
     this.selectedTracks.update(selected => {
       const isSelected = selected.some(track => isSamePlaylistTrack(selectedTrack, track));
 
