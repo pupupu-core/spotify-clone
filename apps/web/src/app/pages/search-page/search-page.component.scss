@@ -4,11 +4,13 @@
 @use '@angular/material' as mat;
 
 :host {
+  --surface-track-list-bg: rgb(from var(--mat-sys-on-primary) r g b / 50%);
   --mat-table-background-color: none;
   --mat-paginator-container-background-color: none;
   --mat-mdc-form-field-infix: 0;
   --row-item-outline-width: 0px;
   --track-row-height: 110px;
+  --visible-track-count: 4;
 
   @include mat.chips-overrides(
     (
@@ -161,12 +163,21 @@ th.mat-sort-header-sorted {
 
 .wrapper {
   @include mixins.glass-transparent;
+
+  padding: variables.$space-16 variables.$space-14 variables.$space-12;
+  border: 1px solid rgb(from var(--mat-sys-surface) r g b / 50%);
+  border-radius: variables.$radius-xl;
+
+  background: var(--surface-track-list-bg);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
 }
 
 .table-wrap {
   @include mixins.scrollbar-thin(var(--mat-sys-on-surface));
 
   overflow-x: auto;
+  height: calc(var(--track-row-height) * var(--visible-track-count));
 }
 
 .status {
