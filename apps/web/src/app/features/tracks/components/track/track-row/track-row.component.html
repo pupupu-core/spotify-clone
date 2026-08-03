@@ -46,28 +46,30 @@
   <div class="track-info" [class.track-info--create-mode]="playlistCreateMode()">
     @if (!playlistCreateMode()) {
       <ng-container>
-        <p>
-          <mat-icon
-            inline
-            aria-hidden="false"
-            aria-label="headphones icon"
-            fontSet="material-icons-outlined"
-          >
-            headphones
-          </mat-icon>
-          {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
-        </p>
-        <p>
-          <mat-icon
-            inline
-            aria-hidden="false"
-            aria-label="timer icon"
-            fontSet="material-icons-outlined"
-          >
-            timer
-          </mat-icon>
-          {{ (track().duration | duration) || '00:00' }}
-        </p>
+        @if (track().source !== 'userUpload') {
+          <p>
+            <mat-icon
+              inline
+              aria-hidden="false"
+              aria-label="headphones icon"
+              fontSet="material-icons-outlined"
+            >
+              headphones
+            </mat-icon>
+            {{ (track().listenedTotal | abbreviatedNumber) || 0 }}
+          </p>
+          <p>
+            <mat-icon
+              inline
+              aria-hidden="false"
+              aria-label="timer icon"
+              fontSet="material-icons-outlined"
+            >
+              timer
+            </mat-icon>
+            {{ (track().duration | duration) || '00:00' }}
+          </p>
+        }
       </ng-container>
     }
     <div class="actions actions--normal-mode">
