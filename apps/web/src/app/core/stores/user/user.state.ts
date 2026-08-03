@@ -1,12 +1,13 @@
-import type { AccountRole, PlaylistPreview } from '@streaming-service/model';
+import type { AccountRole } from '@streaming-service/model';
 import type { TrackUI } from '~/shared/models/track-ui.model';
+import type { AlbumUI } from '~/shared/models/album-ui.model';
 
 export interface UserState {
   id: string | null;
   email: string | null;
   displayName: string | null;
   role: AccountRole | null;
-  userPlaylists: PlaylistPreview[];
+  userPlaylists: AlbumUI[];
   recentlyPlayed: TrackUI[];
   isLoadingProfile: boolean;
   isLoadingPlaylists: boolean;

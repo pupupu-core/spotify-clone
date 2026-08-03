@@ -19,7 +19,6 @@ import { UploadTrackDialogComponent } from '~/features/tracks/components/upload-
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { TrackService } from '~/features/tracks/services/track.service';
 import type { AlbumUI } from '~/shared/models/album-ui.model';
-import { PlaylistService } from '~/features/playlist/services/playlist.service';
 
 @Component({
   selector: 'ppf-library-page',
@@ -31,12 +30,10 @@ import { PlaylistService } from '~/features/playlist/services/playlist.service';
 export class LibraryPageComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
   private readonly trackService = inject(TrackService);
-  private readonly playlistService = inject(PlaylistService);
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly store = inject(UserStore);
   protected readonly uploadedTracks = signal<TrackUI[]>([]);
-  protected readonly playlists = signal<AlbumUI[]>([]);
 
   protected readonly myUploadsVirtualPlaylist = computed<AlbumUI>(() => ({
     id: 'my-uploads',
@@ -53,7 +50,8 @@ export class LibraryPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(created => {
       if (created === true) {
-        this.loadPlaylists();
+        // TODO добавить в стор метод для создания
+        this.store.loadUserPlaylists();
       }
     });
   }
@@ -80,7 +78,7 @@ export class LibraryPageComponent implements OnInit {
   public ngOnInit(): void {
     this.store.loadUserProfile();
     this.loadUploadedTracks();
-    this.loadPlaylists();
+    this.store.loadUserPlaylists();
   }
 
   private loadUploadedTracks(): void {
@@ -104,22 +102,6 @@ export class LibraryPageComponent implements OnInit {
               albumImageUrl: '',
               sourse: 'userUpload' as const,
             })),
-        );
-      });
-  }
-
-  private loadPlaylists(): void {
-    this.playlistService
-      .fetchMyPlaylists()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(response => {
-        this.playlists.set(
-          response.playlists.map(playlist => ({
-            id: playlist.id,
-            name: playlist.name,
-            imageUrl: playlist.coverUrl ?? undefined,
-            tracksCount: playlist.trackCount,
-          })),
         );
       });
   }

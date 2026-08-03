@@ -20,7 +20,7 @@ import { SearchApiService } from '~/core/services/search-api.service';
 import type { TrackUI } from '~/shared/models/track-ui.model';
 import { mapTrackResponseToTrackUI } from '~/shared/utils/mappers/track.mappers';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
-import { mapTrackToPlaylistTrackRequest } from '~/shared/utils/mappers/playlist-track-request.mapper';
+import { mapTrackToPlaylistTrackRequest } from '~/shared/utils/mappers/playlists.mapper';
 import { isSamePlaylistTrack } from '~/shared/utils/playlist-track.utils';
 import type { PlaylistTrackRequest } from '~/shared/models/user-playlists.model';
 import { CreatePlaylistService } from '~/features/playlist/create/services/create-playlist.service';

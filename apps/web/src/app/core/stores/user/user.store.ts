@@ -6,6 +6,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { PlaylistService } from '~/features/playlist/services/playlist.service';
+import { mapPlaylistsPreviewResponseToAlbumUI } from '~/shared/utils/mappers/playlists.mapper';
 
 export const UserStore = signalStore(
   { providedIn: 'root' },
@@ -67,14 +68,14 @@ export const UserStore = signalStore(
 
           switchMap(() =>
             playlistService.fetchMyPlaylists().pipe(
+              map(mapPlaylistsPreviewResponseToAlbumUI),
               tapResponse({
-                next: response => {
+                next: playlists => {
                   patchState(store, {
-                    userPlaylists: response.playlists,
+                    userPlaylists: playlists,
                     isLoadingPlaylists: false,
                   });
                 },
-
                 error: error => {
                   patchState(store, {
                     isLoadingPlaylists: false,
