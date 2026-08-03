@@ -72,6 +72,6 @@ function mapPlaylistEntryToTrackUI(entry: PlaylistEntry): TrackUI {
     albumImageUrl: track.coverUrl ?? '',
     artistId: '',
     genres: [],
-    sourse: track.source,
+    source: track.source,
   };
 }
