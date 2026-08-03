@@ -10,7 +10,7 @@ import { DurationPipe } from '~/shared/pipes/duration.pipe';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 import type { TrackUI } from '~/shared/models/track-ui.model';
-import { PlaylistsDialogService } from '~/core/services/playlists-dialog.service';
+import { PlaylistsAddDialogService } from '~/core/services/playlists-add-dialog.service';
 
 @Component({
   selector: 'ppf-artist-album',
@@ -22,7 +22,7 @@ import { PlaylistsDialogService } from '~/core/services/playlists-dialog.service
 })
 export class ArtistAlbumPageComponent {
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly playlistDialog = inject(PlaylistsDialogService);
+  private readonly playlistDialog = inject(PlaylistsAddDialogService);
 
   public readonly store = inject(ArtistAlbumPageStore);
   public readonly albumId = toSignal(

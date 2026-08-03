@@ -12,7 +12,7 @@ import { APP_ROUTES } from '~/core/tokens/app-routes.token';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
 import { NgOptimizedImage } from '@angular/common';
 import type { TrackUI } from '~/shared/models/track-ui.model';
-import { PlaylistsDialogService } from '~/core/services/playlists-dialog.service';
+import { PlaylistsAddDialogService } from '~/core/services/playlists-add-dialog.service';
 
 @Component({
   selector: 'ppf-artist-page',
@@ -26,7 +26,7 @@ export class ArtistPageComponent {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly routes = inject(APP_ROUTES);
-  private readonly playlistDialog = inject(PlaylistsDialogService);
+  private readonly playlistDialog = inject(PlaylistsAddDialogService);
 
   public readonly store = inject(ArtistPageStore);
   public readonly artistId = toSignal(

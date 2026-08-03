@@ -10,7 +10,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { TrackListComponent } from '~/features/tracks/components/track-list/track-list.component';
 import { TrackService } from '~/features/tracks/services/track.service';
 import { LoaderComponent } from '~/shared/ui/loader/loader.component';
-import { PlaylistsDialogService } from '~/core/services/playlists-dialog.service';
+import { PlaylistsAddDialogService } from '~/core/services/playlists-add-dialog.service';
 
 @Component({
   selector: 'ppf-home-page',
@@ -23,7 +23,7 @@ export class HomePageComponent implements OnInit {
   private readonly trackService = inject(TrackService);
   private readonly genresService = inject(GenresService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly playlistDialog = inject(PlaylistsDialogService);
+  private readonly playlistDialog = inject(PlaylistsAddDialogService);
 
   public readonly discoverStatus = signal<'idle' | 'loading' | 'success' | 'error'>('idle');
   public readonly popularTracks = signal<TrackUI[]>([]);

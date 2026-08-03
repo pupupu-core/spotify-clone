@@ -6,7 +6,7 @@ import { AddToPlaylistDialogComponent } from '~/features/playlist/add-to-playlis
 @Injectable({
   providedIn: 'root',
 })
-export class PlaylistsDialogService {
+export class PlaylistsAddDialogService {
   private readonly dialog = inject(MatDialog);
 
   public openAddToPlaylist(track: TrackUI): void {
