@@ -82,7 +82,6 @@ export class LibraryPageComponent implements OnInit {
     this.store.loadUserProfile();
     this.loadUploadedTracks();
     this.store.loadUserPlaylists();
-    this.playlistDialog.openAddToPlaylist(this.uploadedTracks()[0]);
   }
 
   private loadUploadedTracks(): void {
